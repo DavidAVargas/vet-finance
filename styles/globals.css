@@ -1,0 +1,84 @@
+@import "tailwindcss";
+@import "./theme.css";
+
+@import "tw-animate-css";
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:is(.dark *));
+
+@layer base {
+  * {
+    @apply outline-ring/50;
+  }
+  body {
+    @apply font-body bg-background text-foreground antialiased;
+  }
+
+  button {
+    @apply cursor-pointer;
+  }
+}
+
+@utility scrollbar-hide {
+  /* For Webkit-based browsers (Chrome, Safari and Opera) */
+  &::-webkit-scrollbar {
+    display: none;
+    -webkit-appearance: none;
+  }
+
+  /* For IE, Edge and Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+@utility transition-inherit-all {
+  transition-property: inherit;
+  transition-duration: inherit;
+  transition-timing-function: inherit;
+}
+
+@utility transition-smooth {
+  @apply transition-all duration-300 ease-in-out;
+}
+
+/* Hide default arrows from number inputs. */
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* Hide the default clear button (X) from search inputs. */
+input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+}
+
+@layer components {
+  /* Hide the default expand arrow on Safari.  */
+
+  details {
+    overflow: hidden;
+    &::details-content {
+      block-size: 0;
+      transition:
+        block-size 0.3s ease-in-out,
+        content-visibility 0.3s ease-in-out;
+      transition-behavior: allow-discrete;
+    }
+
+    &[open] {
+      &::details-content {
+        block-size: auto;
+      }
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+  }
+}

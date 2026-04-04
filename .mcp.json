@@ -1,0 +1,20 @@
+{
+  "mcpServers": {
+    "unicorn-horn": {
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "https://unicornhorn.app/mcp"]
+    },
+    "storybook-mcp": {
+      "type": "http",
+      "url": "http://localhost:6006/mcp"
+    },
+    "agentation": {
+      "command": "npx",
+      "args": ["-y", "agentation-mcp", "server"]
+    },
+    "context7": {
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp"]
+    }
+  }
+}
