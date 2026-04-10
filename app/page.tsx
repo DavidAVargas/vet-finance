@@ -13,8 +13,8 @@ export default function Home() {
 
       {/* Headline */}
       <h1 className="max-w-3xl text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
-        Financial freedom starts here —{" "}
-        <span className="text-foreground/50">for those who earned it.</span>
+        Financial freedom,{" "}
+        <span className="text-foreground/50">earned and free.</span>
       </h1>
 
       {/* Subheadline */}
