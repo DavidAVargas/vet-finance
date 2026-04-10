@@ -36,7 +36,7 @@ export function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                className="text-sm text-foreground/60 transition-colors hover:text-foreground"
               >
                 {link.label}
               </Link>
@@ -70,7 +70,7 @@ export function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="px-1 text-sm text-muted-foreground transition-colors hover:text-foreground"
+                className="px-1 text-sm text-foreground/60 transition-colors hover:text-foreground"
                 onClick={() => setOpen(false)}
               >
                 {link.label}
