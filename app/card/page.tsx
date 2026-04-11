@@ -179,10 +179,10 @@ export default function CardPage() {
         <h2 className="text-xl font-bold text-foreground">Banking Partnership</h2>
         <p className="max-w-lg text-sm text-muted-foreground">
           We are actively looking to partner with Bank of America to bring
-          this card to life. Their existing commitment to military families
-          and veterans makes them the natural fit for what we are trying to
-          build. If you have a connection or want to help make this happen,
-          reach out.
+          this card to life. The name says it all — a card for veterans
+          deserves a bank that carries America in its name. If they carry
+          the flag on their cards, even better. If you have a connection
+          or want to help make this happen, reach out.
         </p>
       </div>
 
