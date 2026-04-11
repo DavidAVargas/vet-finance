@@ -4,9 +4,9 @@ import { Shield } from "lucide-react";
 export function Footer() {
   return (
     <footer className="border-t border-border bg-muted/40 px-4 py-12">
-      <div className="mx-auto max-w-6xl grid grid-cols-1 gap-10 sm:grid-cols-3">
-        {/* Brand */}
-        <div className="flex flex-col gap-3">
+      <div className="mx-auto max-w-6xl grid grid-cols-2 gap-8 sm:grid-cols-3">
+        {/* Brand — full width on mobile */}
+        <div className="col-span-2 flex flex-col gap-3 sm:col-span-1">
           <div className="flex items-center gap-2 font-semibold text-foreground">
             <Shield className="size-4" />
             <span>Vet Finance</span>
@@ -38,7 +38,7 @@ export function Footer() {
       </div>
 
       {/* Bottom bar */}
-      <div className="mx-auto max-w-6xl mt-10 pt-6 border-t border-border flex flex-col items-center justify-between gap-2 sm:flex-row">
+      <div className="mx-auto max-w-6xl mt-10 pt-6 border-t border-border flex flex-col items-center gap-2 text-center sm:flex-row sm:justify-between sm:text-left">
         <p className="text-xs text-muted-foreground">
           © {new Date().getFullYear()} Vet Finance. All rights reserved.
         </p>
