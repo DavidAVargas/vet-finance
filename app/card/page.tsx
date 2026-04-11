@@ -1,4 +1,4 @@
-import { Shield, Star, Heart, Check, Clock } from "lucide-react";
+import { Shield, Star, Heart, Check, Target, Handshake } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const tiers = [
@@ -7,13 +7,14 @@ const tiers = [
     icon: <Star className="size-5" />,
     who: "Combat Veterans Only",
     description:
-      "The elite tier. Reserved exclusively for those who saw combat. The highest level of benefits and recognition we offer.",
+      "The elite tier. Reserved exclusively for those who faced combat — who stood toe to toe with danger so the rest of us never had to.",
     perks: [
       "Highest rewards rate",
       "Elite travel benefits",
       "Priority concierge support",
       "Exclusive Combat Black events",
       "Zero annual fee — earned in full",
+      '"Thank you for your service" on every receipt',
     ],
     badge: "Most Exclusive",
     badgeColor: "bg-foreground text-background",
@@ -24,13 +25,14 @@ const tiers = [
     icon: <Shield className="size-5" />,
     who: "All Active Duty & Veterans",
     description:
-      "Built for every service member — active duty, reserves, and veterans. Strong benefits, zero cost, full access.",
+      "Built for every service member — active duty, reserves, and veterans. Every role makes the military work, and this card honors that.",
     perks: [
       "Competitive rewards rate",
       "SCRA interest protections",
       "Annual fee waived",
       "Military travel perks",
       "Access to all Vet Finance content",
+      '"Thank you for your service" on every receipt',
     ],
     badge: "Most Popular",
     badgeColor: "bg-primary text-primary-foreground",
@@ -62,20 +64,21 @@ export default function CardPage() {
       {/* Header */}
       <div className="mb-16 text-center">
         <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-border bg-muted px-4 py-1.5 text-sm text-muted-foreground">
-          <Clock className="size-3.5" />
-          <span>Coming Soon</span>
+          <Target className="size-3.5" />
+          <span>Our Goal</span>
         </div>
         <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
           The card built for those who served.
         </h1>
         <p className="mx-auto mt-4 max-w-xl text-lg text-muted-foreground">
-          A military credit card line designed from the ground up for veterans
-          and active duty — with a way for civilians to support the mission too.
+          Our goal is to not just help veterans learn — but to help them earn.
+          A military credit card line designed from the ground up, with a way
+          for civilians to support the mission too.
         </p>
       </div>
 
       {/* Tiers */}
-      <div className="mb-20 grid gap-6 sm:grid-cols-3">
+      <div className="mb-12 grid gap-6 sm:grid-cols-3">
         {tiers.map((tier) => (
           <div
             key={tier.name}
@@ -107,6 +110,28 @@ export default function CardPage() {
             </ul>
           </div>
         ))}
+      </div>
+
+      {/* Why Combat Black is the top tier */}
+      <div className="mb-20 rounded-xl border border-border bg-muted/40 px-6 py-8">
+        <h3 className="mb-3 font-semibold text-foreground">A note on Combat Black</h3>
+        <p className="text-sm text-muted-foreground">
+          We want to be clear — every single role in the military matters.
+          From the cooks to the medics to the logistics teams, the military
+          only works because every person shows up and does their part. That
+          service is honorable and we respect it fully.
+        </p>
+        <p className="mt-3 text-sm text-muted-foreground">
+          Combat Black exists because we also believe that those who were sent
+          directly into harm&apos;s way — who stood face to face with danger,
+          who risked everything in the most extreme conditions — deserve a
+          specific acknowledgment of that bravery. It is not about rank or
+          status. It is about recognizing the sacrifice of those who were
+          closest to the fight, and making sure they know we see that.
+        </p>
+        <p className="mt-3 text-sm font-medium text-foreground">
+          No hard feelings between tiers — just honor where honor is due.
+        </p>
       </div>
 
       {/* How it works */}
@@ -146,14 +171,30 @@ export default function CardPage() {
         </div>
       </div>
 
+      {/* Banking partner */}
+      <div className="mb-20 flex flex-col items-center gap-3 text-center">
+        <div className="flex size-10 items-center justify-center rounded-full border border-border bg-muted">
+          <Handshake className="size-4 text-foreground" />
+        </div>
+        <h2 className="text-xl font-bold text-foreground">Banking Partnership</h2>
+        <p className="max-w-lg text-sm text-muted-foreground">
+          We are actively looking to partner with Bank of America to bring
+          this card to life. Their existing commitment to military families
+          and veterans makes them the natural fit for what we are trying to
+          build. If you have a connection or want to help make this happen,
+          reach out.
+        </p>
+      </div>
+
       {/* Waitlist */}
       <div className="text-center">
         <h2 className="mb-2 text-2xl font-bold tracking-tight text-foreground">
-          Be first in line.
+          Help us make this real.
         </h2>
         <p className="mx-auto mb-8 max-w-md text-muted-foreground">
-          The card isn&apos;t live yet — but the mission is. Join the founding
-          member waitlist and be notified the moment we launch.
+          The more people who sign up, the stronger the case we can make to
+          banking partners and investors. Join the founding member list and
+          be first in line when we launch.
         </p>
         <form className="mx-auto flex max-w-md flex-col gap-3 sm:flex-row">
           <input
@@ -162,7 +203,7 @@ export default function CardPage() {
             className="h-10 w-full rounded-md border border-input bg-background px-4 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
           />
           <Button type="submit" className="shrink-0">
-            Join Waitlist
+            Join the Mission
           </Button>
         </form>
         <p className="mt-4 text-xs text-muted-foreground">
