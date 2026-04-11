@@ -43,6 +43,22 @@ export default function Home() {
       <p className="mt-12 text-sm text-muted-foreground">
         Veteran-founded · Free for military · No credit card required
       </p>
+
+      {/* Stats row */}
+      <div className="mt-16 grid grid-cols-1 gap-8 border-t border-border pt-16 sm:grid-cols-3 sm:gap-12">
+        <div className="flex flex-col items-center gap-1">
+          <span className="text-3xl font-bold text-foreground">18M+</span>
+          <span className="text-sm text-muted-foreground">Veterans in the U.S.</span>
+        </div>
+        <div className="flex flex-col items-center gap-1">
+          <span className="text-3xl font-bold text-foreground">100%</span>
+          <span className="text-sm text-muted-foreground">Free for military members</span>
+        </div>
+        <div className="flex flex-col items-center gap-1">
+          <span className="text-3xl font-bold text-foreground">$0</span>
+          <span className="text-sm text-muted-foreground">Cost to get started</span>
+        </div>
+      </div>
     </div>
   );
 }
