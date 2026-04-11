@@ -1,4 +1,4 @@
-import { Shield, BookOpen, CreditCard, Star } from "lucide-react";
+import { Shield, BookOpen, CreditCard, Star, Zap } from "lucide-react";
 
 export default function MissionPage() {
   return (
@@ -30,13 +30,16 @@ export default function MissionPage() {
           figure it out on their own.
         </p>
         <p>
-          That gap is one of the leading reasons veterans struggle financially
-          after service — and too often, it leads to homelessness. We believe
-          that is unacceptable for the people who gave everything for this country.
+          According to HUD&apos;s Annual Homeless Assessment Report, on any
+          given night roughly <span className="font-semibold text-foreground">37,000 veterans are homeless</span> in
+          the United States. The financial transition out of service — from a
+          structured environment where everything is provided to suddenly
+          managing rent, credit, and bills alone — is one of the documented
+          contributing factors.
         </p>
         <p className="font-medium text-foreground">
-          Vet Finance was built to close that gap. Free financial education,
-          built specifically for those who served.
+          That is unacceptable for the people who gave everything for this
+          country. Vet Finance was built to close that gap.
         </p>
       </div>
 
@@ -45,9 +48,15 @@ export default function MissionPage() {
 
       {/* What we do */}
       <div className="mb-16">
-        <h2 className="mb-8 text-2xl font-bold tracking-tight text-foreground">
+        <h2 className="mb-2 text-2xl font-bold tracking-tight text-foreground">
           What we do
         </h2>
+        <p className="mb-8 text-muted-foreground">
+          No bureaucracy. No overwhelming courses. Just straight-to-the-point
+          knowledge designed to get you building credit and making smart
+          financial decisions as fast as possible.
+        </p>
+
         <div className="flex flex-col gap-8">
           <div className="flex gap-4">
             <div className="mt-1 flex size-10 shrink-0 items-center justify-center rounded-full border border-border bg-muted">
@@ -56,10 +65,9 @@ export default function MissionPage() {
             <div>
               <h3 className="font-semibold text-foreground">Credit Education</h3>
               <p className="mt-1 text-muted-foreground">
-                We break down how credit works from the ground up — credit
-                scores, credit history, what hurts you and what helps you.
-                No jargon, no fluff. Just what you need to know to start
-                building a strong financial foundation.
+                How credit works, what builds your score, what tanks it, and
+                how to go from zero to a strong credit profile — explained
+                clearly, without the fluff.
               </p>
             </div>
           </div>
@@ -71,12 +79,25 @@ export default function MissionPage() {
             <div>
               <h3 className="font-semibold text-foreground">Credit Card Education</h3>
               <p className="mt-1 text-muted-foreground">
-                Credit cards are one of the most powerful financial tools
-                available — when used right. We teach veterans how to use
-                them strategically, understand APR, avoid debt traps, and
-                take advantage of military-specific benefits like SCRA
-                protections and annual fee waivers that most banks don&apos;t
-                advertise loudly enough.
+                How to use credit cards as a tool, not a trap. We also cover
+                military-specific benefits most veterans don&apos;t know they
+                have — SCRA interest rate protections, annual fee waivers on
+                premium cards for active duty, and more.
+              </p>
+            </div>
+          </div>
+
+          <div className="flex gap-4">
+            <div className="mt-1 flex size-10 shrink-0 items-center justify-center rounded-full border border-border bg-muted">
+              <Zap className="size-4 text-foreground" />
+            </div>
+            <div>
+              <h3 className="font-semibold text-foreground">Built different from VA programs</h3>
+              <p className="mt-1 text-muted-foreground">
+                The VA and DoD have financial programs, but they&apos;re slow,
+                bureaucratic, and hard to navigate. We cut through all of that.
+                Our goal is simple: give you the right knowledge fast so you
+                can take action today, not after a 12-week course.
               </p>
             </div>
           </div>
@@ -107,8 +128,9 @@ export default function MissionPage() {
               line with three tiers — Combat Black for combat veterans,
               Platinum for all active duty and veterans, and a Supporter card
               for civilians who want to give back. Revenue from the Supporter
-              card funds real perks for military cardholders: travel benefits,
-              gear discounts, and more.
+              card — along with partnerships, sponsors, and impact investors
+              who believe in this mission — funds real perks for military
+              cardholders: travel benefits, gear discounts, and more.
             </p>
           </div>
 
