@@ -336,6 +336,266 @@ function LessonContent({ lessonId }: { lessonId: string }) {
         </div>
       );
 
+    case "wcm-1":
+      return (
+        <div>
+          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+            Why Credit Matters · Lesson 1
+          </p>
+          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+            What Credit Unlocks
+          </h1>
+
+          {/* AI IMAGE PLACEHOLDER
+              Prompt: "Split image, left side a person happily receiving apartment keys, car keys, and house keys on a clean minimal background, right side the same person facing closed doors with a red denied stamp, flat modern illustration style, no text" */}
+          <div className="mb-8 flex h-48 items-center justify-center rounded-xl border border-dashed border-border bg-muted/30">
+            <p className="text-sm text-muted-foreground">[ Visual: What credit unlocks vs. what bad credit closes ]</p>
+          </div>
+
+          <div
+            className="mb-8 rounded-r-lg bg-muted/40 p-5"
+            style={{ borderLeft: "2px solid var(--brand-600)" }}
+          >
+            <p className="text-base font-medium leading-relaxed text-foreground">
+              &ldquo;It&apos;s better to be broke and have good credit than to have
+              $1 million in cash and bad credit.&rdquo;
+            </p>
+          </div>
+
+          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+            That might sound extreme, but think about it. Cash runs out. A
+            credit score stays with you and gives you access to other
+            people&apos;s money at low rates. Good credit is a tool that keeps
+            working. Bad credit is a wall that follows you everywhere you go.
+          </p>
+
+          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+            Most people think of credit as something you only need when you
+            want a credit card. That&apos;s not even close to the full picture.
+            Your credit score shows up in almost every major financial decision
+            you&apos;ll ever make.
+          </p>
+
+          <p className="mb-3 text-base font-semibold text-foreground">Here&apos;s what credit actually unlocks:</p>
+
+          <div className="mb-6 flex flex-col gap-4">
+            {[
+              { title: "Renting an apartment", body: "This is the first wall most people hit. Landlords pull your credit before they even consider your application. Most markets require a score of 620 or higher. Below that and you get denied outright, or they ask for a larger security deposit just to trust you." },
+              { title: "Buying a car", body: "Almost everyone finances a car. Your credit score determines your interest rate, and that rate changes your monthly payment by hundreds of dollars. Same car, two different people, two completely different deals." },
+              { title: "Buying a house", body: "The biggest one. Your mortgage rate is almost entirely based on your credit score. The difference between a good score and a bad score on a $300K home can cost you over $200,000 more over 30 years. We'll show you the exact numbers in lesson 3." },
+              { title: "Phone plans", body: "Carriers check your credit when you finance a device. Bad credit can mean higher deposits or getting locked out of certain plans." },
+              { title: "Some jobs", body: "Employers in finance, government, and security sometimes run credit checks as part of their hiring process. It doesn't happen everywhere, but it happens." },
+              { title: "The best credit cards", body: "The cards with the best rewards, travel benefits, and perks require good credit to get approved. Building your credit is literally the price of admission." },
+            ].map(({ title, body }) => (
+              <div key={title} className="rounded-lg border border-border bg-muted/20 p-4">
+                <p className="mb-1 font-semibold text-foreground">{title}</p>
+                <p className="text-sm leading-relaxed text-muted-foreground">{body}</p>
+              </div>
+            ))}
+          </div>
+
+          <p className="text-base leading-relaxed text-muted-foreground">
+            The pattern is always the same. Good credit opens doors. Bad credit
+            either closes them or makes you pay more to get through them. The
+            sooner you take this seriously, the better every single one of these
+            situations goes for you.
+          </p>
+        </div>
+      );
+
+    case "wcm-2":
+      return (
+        <div>
+          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+            Why Credit Matters · Lesson 2
+          </p>
+          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+            The Cost of Bad Credit
+          </h1>
+
+          {/* AI IMAGE PLACEHOLDER
+              Prompt: "Two people at a car dealership, both looking at the same car, one holding a paper showing a low monthly payment with a happy expression, the other holding a paper showing a much higher monthly payment looking stressed, clean flat illustration style, no text" */}
+          <div className="mb-8 flex h-48 items-center justify-center rounded-xl border border-dashed border-border bg-muted/30">
+            <p className="text-sm text-muted-foreground">[ Visual: Same car, two completely different payments ]</p>
+          </div>
+
+          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+            Bad credit doesn&apos;t just mean you get denied sometimes. It means
+            you pay more for everything, usually for years. Most people don&apos;t
+            realize how much it&apos;s actually costing them because the extra
+            money comes out slowly in monthly payments, not all at once.
+          </p>
+
+          <p className="mb-3 text-base font-semibold text-foreground">Higher interest rates on everything</p>
+          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+            Every loan you take out, car, home, personal, comes with an
+            interest rate. That rate is determined almost entirely by your
+            credit score. A lower score means a higher rate. A higher rate
+            means more money out of your pocket every single month, for the
+            entire life of the loan.
+          </p>
+
+          <p className="mb-3 text-base font-semibold text-foreground">Bigger security deposits</p>
+          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+            Landlords who accept applicants with lower credit scores usually
+            require two to three months of rent upfront as a deposit. If
+            rent is $1,500 a month, that&apos;s $3,000 to $4,500 you need in
+            cash before you can even move in, on top of first month&apos;s rent.
+            That&apos;s money most people don&apos;t have sitting around.
+          </p>
+
+          <p className="mb-3 text-base font-semibold text-foreground">Predatory lending</p>
+          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+            This is the dangerous one. When people with bad credit get
+            desperate and can&apos;t get approved for a normal loan, they turn to
+            payday loans and title loans. These come with interest rates of
+            200% to 400%. You borrow $500 and you can end up owing $1,500.
+            People get trapped in these cycles and can&apos;t get out. This is not
+            a solution. It makes everything worse.
+          </p>
+
+          <p className="mb-3 text-base font-semibold text-foreground">The real trap</p>
+          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+            Here&apos;s what makes bad credit so hard to escape. People with bad
+            credit pay more for the same things. That extra money is gone
+            every month before they can save anything. Because they can&apos;t
+            save, they can&apos;t build a cushion. Because they have no cushion,
+            the next unexpected expense goes right back on high-interest debt.
+            It&apos;s a cycle, and it&apos;s designed to be hard to break out of.
+          </p>
+
+          <p className="text-base leading-relaxed text-muted-foreground">
+            Understanding this is why the work is worth it. Every point you
+            add to your credit score is money back in your pocket, not just
+            once, but every month for years. That adds up to a number that
+            will genuinely surprise you in the next lesson.
+          </p>
+        </div>
+      );
+
+    case "wcm-3":
+      return (
+        <div>
+          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+            Why Credit Matters · Lesson 3
+          </p>
+          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+            How Much Good Credit Saves You
+          </h1>
+
+          {/* AI IMAGE PLACEHOLDER
+              Prompt: "Two identical houses side by side, one with a price tag showing $682,000 total paid and a green checkmark, one with a price tag showing $908,000 total paid and a red marker, clean minimal infographic style illustration, no people, no text besides the numbers" */}
+          <div className="mb-8 flex h-48 items-center justify-center rounded-xl border border-dashed border-border bg-muted/30">
+            <p className="text-sm text-muted-foreground">[ Visual: Same house, $226,000 difference in lifetime cost ]</p>
+          </div>
+
+          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+            Let&apos;s talk real numbers. This is where it stops being abstract
+            and starts being the kind of thing you can&apos;t unsee.
+          </p>
+
+          <p className="mb-4 text-base font-semibold text-foreground">Buying a home — $300,000 mortgage, 30 years</p>
+          <div className="mb-6 overflow-x-auto rounded-xl border border-border">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b border-border bg-muted/50">
+                  <th className="px-4 py-3 text-left font-semibold text-foreground">Credit Score</th>
+                  <th className="px-4 py-3 text-left font-semibold text-foreground">Rate</th>
+                  <th className="px-4 py-3 text-left font-semibold text-foreground">Monthly Payment</th>
+                  <th className="px-4 py-3 text-left font-semibold text-foreground">Total Paid</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="border-b border-border">
+                  <td className="px-4 py-3 font-medium text-green-600">750+</td>
+                  <td className="px-4 py-3 text-muted-foreground">~6.5%</td>
+                  <td className="px-4 py-3 text-muted-foreground">~$1,896</td>
+                  <td className="px-4 py-3 font-medium text-foreground">~$682,000</td>
+                </tr>
+                <tr>
+                  <td className="px-4 py-3 font-medium text-red-500">580</td>
+                  <td className="px-4 py-3 text-muted-foreground">~9.5%</td>
+                  <td className="px-4 py-3 text-muted-foreground">~$2,522</td>
+                  <td className="px-4 py-3 font-medium text-foreground">~$908,000</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p className="mb-8 rounded-lg bg-muted/40 px-4 py-3 text-sm font-medium text-foreground">
+            That&apos;s a $226,000 difference on the exact same house. Not a bigger house. Not a better neighborhood. The same house.
+          </p>
+
+          <p className="mb-4 text-base font-semibold text-foreground">Buying a car — $30,000 loan, 5 years</p>
+          <div className="mb-6 overflow-x-auto rounded-xl border border-border">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b border-border bg-muted/50">
+                  <th className="px-4 py-3 text-left font-semibold text-foreground">Credit Score</th>
+                  <th className="px-4 py-3 text-left font-semibold text-foreground">Rate</th>
+                  <th className="px-4 py-3 text-left font-semibold text-foreground">Monthly Payment</th>
+                  <th className="px-4 py-3 text-left font-semibold text-foreground">Total Interest</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="border-b border-border">
+                  <td className="px-4 py-3 font-medium text-green-600">750+</td>
+                  <td className="px-4 py-3 text-muted-foreground">~5%</td>
+                  <td className="px-4 py-3 text-muted-foreground">~$566</td>
+                  <td className="px-4 py-3 font-medium text-foreground">~$3,968</td>
+                </tr>
+                <tr>
+                  <td className="px-4 py-3 font-medium text-red-500">580</td>
+                  <td className="px-4 py-3 text-muted-foreground">~15%</td>
+                  <td className="px-4 py-3 text-muted-foreground">~$714</td>
+                  <td className="px-4 py-3 font-medium text-foreground">~$12,848</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p className="mb-8 rounded-lg bg-muted/40 px-4 py-3 text-sm font-medium text-foreground">
+            About $9,000 more in interest on the same car. That&apos;s a vacation. That&apos;s an emergency fund. That&apos;s money gone.
+          </p>
+
+          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+            Add those up across a lifetime and good credit saves you well into
+            the hundreds of thousands of dollars. That&apos;s not an exaggeration.
+            That&apos;s just math.
+          </p>
+
+          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+            And this doesn&apos;t even count the credit card rewards, the travel
+            benefits, the annual fee waivers for military members, or the
+            simple fact that having good credit means you never have to take a
+            bad deal because you had no other option. You always have leverage.
+          </p>
+
+          <p className="text-base leading-relaxed text-muted-foreground">
+            Now you know why this matters. In the next section we&apos;re going to
+            get into exactly how credit works so you understand what actually
+            moves your score and what doesn&apos;t.
+          </p>
+        </div>
+      );
+
+    case "wcm-quiz":
+      return (
+        <div>
+          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+            Why Credit Matters · Quiz
+          </p>
+          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+            Knowledge Check
+          </h1>
+          <p className="mb-8 text-base leading-relaxed text-muted-foreground">
+            Quiz coming soon. This will test what you learned in Why Credit
+            Matters before unlocking the next section.
+          </p>
+          <div className="rounded-xl border border-dashed border-border p-10 text-center">
+            <p className="text-sm text-muted-foreground">Quiz questions will appear here.</p>
+          </div>
+        </div>
+      );
+
     default:
       return (
         <div>
