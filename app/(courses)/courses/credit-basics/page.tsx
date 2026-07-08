@@ -71,9 +71,9 @@ const SECTIONS = [
     title: "Protecting Your Credit",
     noQuiz: false,
     lessons: [
-      { id: "pyc-1", title: "Credit Freezes" },
-      { id: "pyc-2", title: "Fraud Alerts" },
-      { id: "pyc-3", title: "Disputing Errors on Your Report" },
+      { id: "pyc-1", title: "Freeze Your Credit — Do This Now" },
+      { id: "pyc-2", title: "Why Good Credit Makes You a Target" },
+      { id: "pyc-3", title: "If It Happens to You" },
       { id: "pyc-quiz", title: "Quiz", isQuiz: true },
     ],
   },
@@ -1421,6 +1421,289 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
               ],
               correct: 2,
               explanation: "annualcreditreport.com is the only federally authorized source for free reports from all three bureaus. You can pull them weekly at no cost.",
+            },
+          ]}
+        />
+      );
+
+    case "pyc-1":
+      return (
+        <div>
+          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+            Protecting Your Credit · Lesson 1
+          </p>
+          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+            Freeze Your Credit — Do This Now
+          </h1>
+
+          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+            A credit freeze is the single most effective thing you can do to
+            protect yourself. It locks your credit file so that no lender can
+            pull your credit and no new account can be opened in your name —
+            even if someone has your Social Security number. It&apos;s completely
+            free, it doesn&apos;t affect your score at all, and it takes about 10
+            minutes to set up.
+          </p>
+
+          <p className="mb-8 text-base leading-relaxed text-muted-foreground">
+            If you haven&apos;t done this yet, stop here and do it before you finish
+            this lesson.
+          </p>
+
+          <div className="mb-8 flex flex-col gap-3">
+            {[
+              {
+                bureau: "Equifax",
+                url: "equifax.com/personal/credit-report-services/credit-freeze",
+                note: "Create an account, go to Security Freeze, and activate it.",
+              },
+              {
+                bureau: "TransUnion",
+                url: "transunion.com/credit-freeze",
+                note: "Create an account or log in, then add a freeze under your security settings.",
+              },
+              {
+                bureau: "Experian",
+                url: "experian.com/freeze/center.html",
+                note: "Create an account, go to Freeze Center, and select Add a Security Freeze.",
+              },
+            ].map(({ bureau, url, note }) => (
+              <div key={bureau} className="rounded-xl border border-border p-4">
+                <div className="mb-1 flex items-center gap-2">
+                  <div
+                    className="flex size-7 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white"
+                    style={{ background: "var(--brand-600)" }}
+                  >
+                    {bureau[0]}
+                  </div>
+                  <p className="font-semibold text-foreground">{bureau}</p>
+                </div>
+                <p className="mb-1 font-mono text-xs text-muted-foreground/70">{url}</p>
+                <p className="text-sm leading-relaxed text-muted-foreground">{note}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="mb-8 rounded-xl border border-border p-5">
+            <p className="mb-2 font-semibold text-foreground">When you want to apply for something, unfreeze first</p>
+            <p className="text-sm leading-relaxed text-muted-foreground">
+              A freeze doesn&apos;t mean your credit is locked forever. When you
+              actually want to apply for a card, loan, or apartment, you just
+              log in to each bureau and temporarily lift the freeze. Takes a
+              few minutes. Once the application is done, freeze it again. It&apos;s
+              a minor inconvenience that&apos;s completely worth it.
+            </p>
+          </div>
+
+          <div className="mb-8 rounded-xl border border-border p-5">
+            <p className="mb-2 font-semibold text-foreground">Fraud alert — the lighter version</p>
+            <p className="text-sm leading-relaxed text-muted-foreground">
+              If you&apos;re not ready to fully freeze, a fraud alert is a step down.
+              It doesn&apos;t block lenders — it just tells them to take extra steps
+              to verify your identity before opening anything. Easier to manage
+              but not as airtight. You can place one at any bureau and they&apos;re
+              required to notify the other two. Lasts 1 year. A freeze is
+              still better.
+            </p>
+          </div>
+
+          {/* AI IMAGE PLACEHOLDER
+              Prompt: "Three clean minimal cards showing Equifax, TransUnion, and Experian each with a green lock icon and the word 'Frozen' underneath, flat UI design, muted olive green color scheme, no real logos" */}
+          <div className="flex h-36 items-center justify-center rounded-xl border border-dashed border-border bg-muted/30">
+            <p className="text-sm text-muted-foreground">[ Visual: All 3 bureaus frozen ]</p>
+          </div>
+        </div>
+      );
+
+    case "pyc-2":
+      return (
+        <div>
+          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+            Protecting Your Credit · Lesson 2
+          </p>
+          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+            Why Good Credit Makes You a Target
+          </h1>
+
+          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+            Here&apos;s the irony nobody tells you — the better your credit gets,
+            the more valuable your identity becomes to steal. A scammer with a
+            750-score identity can open $15,000 to $20,000 in credit in a
+            single afternoon. They&apos;re not going after people with 500 scores.
+            They want yours.
+          </p>
+
+          <p className="mb-8 text-base leading-relaxed text-muted-foreground">
+            This is especially true for military members and veterans. Steady
+            income, VA benefits, and the fact that you move frequently and
+            sometimes deploy for months at a time makes you a specific target.
+            Fraud can go undetected for a long time when you&apos;re in a different
+            country and not checking your accounts.
+          </p>
+
+          <p className="mb-4 text-base font-semibold text-foreground">How they get to you:</p>
+          <div className="mb-8 flex flex-col gap-3">
+            {[
+              {
+                title: "Phishing emails and texts",
+                body: "Fake emails that look exactly like they're from your bank, the VA, or a credit card company. They get you to click a link and enter your info. Real institutions will never ask for your password or full SSN in an email.",
+              },
+              {
+                title: "Fake credit card offers",
+                body: "You get an offer that looks too good — 0% APR, no annual fee, huge limit. You fill out the application and you just handed someone your name, address, date of birth, and SSN.",
+              },
+              {
+                title: "Data breaches",
+                body: "Your info gets exposed when a company you've done business with gets hacked. You didn't do anything wrong — your name, email, and sometimes SSN just ended up in a database that got sold on the dark web.",
+              },
+              {
+                title: "Fraud while deployed",
+                body: "You're overseas for 6 months and someone back home opens 3 cards in your name. By the time you get back, they've maxed them out and disappeared. Freezing your credit before you deploy eliminates this.",
+              },
+            ].map(({ title, body }) => (
+              <div key={title} className="rounded-xl border border-border p-4">
+                <p className="mb-1 text-sm font-semibold text-foreground">{title}</p>
+                <p className="text-sm leading-relaxed text-muted-foreground">{body}</p>
+              </div>
+            ))}
+          </div>
+
+          <p className="mb-4 text-base font-semibold text-foreground">Red flags to watch for on Credit Karma:</p>
+          <div className="mb-8 flex flex-col gap-2">
+            {[
+              "A hard inquiry from a lender you've never heard of",
+              "A new account you don't recognize",
+              "Your score drops suddenly with no explanation",
+              "Bills or collection notices for accounts you never opened",
+              "Credit Karma sends you an alert about a new account",
+            ].map((flag) => (
+              <div key={flag} className="flex items-start gap-3 rounded-lg border border-border px-4 py-3">
+                <span className="mt-0.5 text-red-500">●</span>
+                <p className="text-sm text-muted-foreground">{flag}</p>
+              </div>
+            ))}
+          </div>
+
+          <p className="text-base leading-relaxed text-muted-foreground">
+            Any one of these is worth investigating immediately. Don&apos;t assume
+            it&apos;s a glitch or wait to see what happens. The next lesson covers
+            exactly what to do if you think something is wrong.
+          </p>
+        </div>
+      );
+
+    case "pyc-3":
+      return (
+        <div>
+          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+            Protecting Your Credit · Lesson 3
+          </p>
+          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+            If It Happens to You
+          </h1>
+
+          <p className="mb-8 text-base leading-relaxed text-muted-foreground">
+            Identity theft feels overwhelming when it hits. The most important
+            thing is to move fast and stay organized. Here&apos;s the exact order
+            of what to do.
+          </p>
+
+          <div className="mb-8 flex flex-col gap-4">
+            {[
+              {
+                step: "1",
+                title: "Freeze all 3 bureaus immediately",
+                body: "Don't wait to confirm anything. The moment something looks wrong — an inquiry you don't recognize, an account you didn't open — freeze all three bureaus right now. It stops anything else from being opened while you figure out what happened.",
+              },
+              {
+                step: "2",
+                title: "Go to IdentityTheft.gov",
+                body: "This is the FTC's official identity theft recovery site. You report what happened and it builds a personalized recovery plan for you — including pre-filled dispute letters you can send to the bureaus and creditors. It's free and it's the fastest way to get organized.",
+              },
+              {
+                step: "3",
+                title: "Dispute the fraudulent account with the bureau",
+                body: "Each bureau has an online dispute process. You flag the account as fraudulent, provide a brief explanation, and they're required to investigate within 30 days. If they can't verify it's legitimate, it gets removed. Do this on every bureau that's showing the account.",
+              },
+              {
+                step: "4",
+                title: "Contact the creditor directly",
+                body: "Call the company that issued the fraudulent account — not just the bureau. Tell them you're a victim of identity theft and the account was not opened by you. Ask them to close it and remove it from your report. Most companies have a fraud department for exactly this.",
+              },
+              {
+                step: "5",
+                title: "Keep records of everything",
+                body: "Save every confirmation number, every email, every letter. If this goes to a dispute process, documentation is everything. Take screenshots, write down the date and time of every call, and get names when you talk to someone.",
+              },
+            ].map(({ step, title, body }) => (
+              <div key={step} className="flex gap-4 rounded-xl border border-border p-5">
+                <div
+                  className="flex size-8 shrink-0 items-center justify-center rounded-full text-sm font-bold text-white"
+                  style={{ background: "var(--brand-600)" }}
+                >
+                  {step}
+                </div>
+                <div>
+                  <p className="mb-1 font-semibold text-foreground">{title}</p>
+                  <p className="text-sm leading-relaxed text-muted-foreground">{body}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="rounded-xl border border-border p-5">
+            <p className="mb-2 font-semibold text-foreground">What about disputing legitimate errors?</p>
+            <p className="text-sm leading-relaxed text-muted-foreground">
+              Not everything wrong on your report is fraud. Sometimes a payment
+              gets marked late by mistake, an old debt that should have fallen
+              off is still showing, or a balance is reported incorrectly. The
+              process is the same — dispute it through the bureau online,
+              explain the error, and they investigate. If it&apos;s wrong, it gets
+              fixed. A single corrected error can move your score 20 to 50
+              points. Always worth doing.
+            </p>
+          </div>
+        </div>
+      );
+
+    case "pyc-quiz":
+      return (
+        <QuizBlock
+          sectionLabel="Protecting Your Credit"
+          onPass={onQuizPass}
+          questions={[
+            {
+              question: "A credit freeze costs money and will lower your credit score — true or false?",
+              options: [
+                "True — there's usually a small fee",
+                "False — it's free and has zero impact on your score",
+                "True — it shows up as a derogatory mark",
+                "False — but it does temporarily lower your score",
+              ],
+              correct: 1,
+              explanation: "Credit freezes are completely free on all 3 bureaus and have absolutely no impact on your credit score. There's no downside to doing it right now.",
+            },
+            {
+              question: "You're about to deploy for 6 months. What's the best thing to do for your credit before you leave?",
+              options: [
+                "Close all your credit cards so they can't be used",
+                "Do nothing — you can deal with anything when you get back",
+                "Freeze your credit on all 3 bureaus before you leave",
+                "Ask a family member to monitor your accounts",
+              ],
+              correct: 2,
+              explanation: "Freezing all 3 bureaus before deploying means nobody can open new credit in your name while you're gone. You can unfreeze when you return. Closing cards would hurt your score and asking someone else to monitor is not reliable.",
+            },
+            {
+              question: "You see a hard inquiry on Credit Karma from a company you've never heard of. What do you do first?",
+              options: [
+                "Ignore it — hard inquiries fall off after 2 years anyway",
+                "Wait a month to see if anything else shows up",
+                "Freeze your credit and check for any new accounts you didn't open",
+                "Call your bank",
+              ],
+              correct: 2,
+              explanation: "An inquiry you don't recognize is a red flag. Freeze first to stop anything else from opening, then investigate. Don't wait — fraud moves fast.",
             },
           ]}
         />
