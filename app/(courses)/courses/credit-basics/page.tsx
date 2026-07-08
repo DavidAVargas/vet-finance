@@ -79,9 +79,143 @@ const SECTIONS = [
   },
 ];
 
+// ─── Quiz component ──────────────────────────────────────────────────────────
+
+interface QuizQuestion {
+  question: string;
+  options: string[];
+  correct: number;
+  explanation: string;
+}
+
+function QuizBlock({ sectionLabel, questions, onPass }: {
+  sectionLabel: string;
+  questions: QuizQuestion[];
+  onPass?: () => void;
+}) {
+  const [selected, setSelected] = useState<Record<number, number>>({});
+  const [submitted, setSubmitted] = useState(false);
+  const [passed, setPassed] = useState(false);
+
+  const allAnswered = questions.every((_, i) => selected[i] !== undefined);
+  const score = questions.filter((q, i) => selected[i] === q.correct).length;
+
+  const handleSubmit = () => {
+    const didPass = score >= Math.ceil(questions.length * 0.67);
+    setSubmitted(true);
+    setPassed(didPass);
+    if (didPass) onPass?.();
+  };
+
+  const handleRetry = () => {
+    setSelected({});
+    setSubmitted(false);
+    setPassed(false);
+  };
+
+  return (
+    <div>
+      <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+        {sectionLabel} · Quiz
+      </p>
+      <h1 className="mb-2 text-3xl font-bold tracking-tight text-foreground">
+        Knowledge Check
+      </h1>
+      <p className="mb-8 text-base text-muted-foreground">
+        Answer all questions to unlock the next section. You need 2 out of 3 to pass.
+      </p>
+
+      <div className="flex flex-col gap-8">
+        {questions.map((q, qi) => {
+          const isAnswered = selected[qi] !== undefined;
+          const isCorrect = submitted && selected[qi] === q.correct;
+          const isWrong = submitted && isAnswered && selected[qi] !== q.correct;
+
+          return (
+            <div key={qi}>
+              <p className="mb-3 font-semibold text-foreground">
+                <span className="mr-2 font-mono text-xs text-muted-foreground/60">{qi + 1}.</span>
+                {q.question}
+              </p>
+              <div className="flex flex-col gap-2">
+                {q.options.map((opt, oi) => {
+                  const isSelected = selected[qi] === oi;
+                  const isCorrectOption = submitted && oi === q.correct;
+                  const isWrongSelected = submitted && isSelected && oi !== q.correct;
+
+                  return (
+                    <button
+                      key={oi}
+                      disabled={submitted}
+                      onClick={() => !submitted && setSelected((prev) => ({ ...prev, [qi]: oi }))}
+                      className={`flex items-center gap-3 rounded-lg border px-4 py-3 text-left text-sm transition-colors ${
+                        isCorrectOption
+                          ? "border-green-500 bg-green-500/10 text-foreground"
+                          : isWrongSelected
+                          ? "border-red-400 bg-red-400/10 text-foreground"
+                          : isSelected
+                          ? "border-foreground bg-muted text-foreground"
+                          : "border-border text-muted-foreground hover:border-foreground/40 hover:text-foreground"
+                      } ${submitted ? "cursor-default" : "cursor-pointer"}`}
+                    >
+                      <span className={`flex size-5 shrink-0 items-center justify-center rounded-full border text-xs font-medium ${
+                        isCorrectOption
+                          ? "border-green-500 bg-green-500 text-white"
+                          : isWrongSelected
+                          ? "border-red-400 bg-red-400 text-white"
+                          : isSelected
+                          ? "border-foreground bg-foreground text-background"
+                          : "border-border"
+                      }`}>
+                        {isCorrectOption ? "✓" : isWrongSelected ? "✗" : String.fromCharCode(65 + oi)}
+                      </span>
+                      {opt}
+                    </button>
+                  );
+                })}
+              </div>
+              {submitted && (
+                <p className={`mt-3 rounded-lg px-3 py-2 text-sm ${isCorrect ? "bg-green-500/10 text-green-700 dark:text-green-400" : "bg-muted text-muted-foreground"}`}>
+                  {q.explanation}
+                </p>
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Result */}
+      {submitted ? (
+        <div className={`mt-8 rounded-xl border p-5 text-center ${passed ? "border-green-500 bg-green-500/10" : "border-border bg-muted/30"}`}>
+          {passed ? (
+            <>
+              <p className="text-lg font-bold text-foreground">You passed! {score}/{questions.length} correct.</p>
+              <p className="mt-1 text-sm text-muted-foreground">The next section is now unlocked.</p>
+            </>
+          ) : (
+            <>
+              <p className="text-lg font-bold text-foreground">{score}/{questions.length} correct — not quite.</p>
+              <p className="mt-1 mb-4 text-sm text-muted-foreground">Review the lessons above and try again.</p>
+              <Button size="sm" variant="outline" onClick={handleRetry}>Try Again</Button>
+            </>
+          )}
+        </div>
+      ) : (
+        <Button
+          className="mt-8"
+          disabled={!allAnswered}
+          onClick={handleSubmit}
+        >
+          Submit Answers
+        </Button>
+      )}
+    </div>
+  );
+}
+
 // ─── Lesson content ──────────────────────────────────────────────────────────
 
-function LessonContent({ lessonId }: { lessonId: string }) {
+function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?: () => void }) {
   switch (lessonId) {
     case "my-story-1":
       return (
@@ -579,21 +713,45 @@ function LessonContent({ lessonId }: { lessonId: string }) {
 
     case "wcm-quiz":
       return (
-        <div>
-          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-            Why Credit Matters · Quiz
-          </p>
-          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
-            Knowledge Check
-          </h1>
-          <p className="mb-8 text-base leading-relaxed text-muted-foreground">
-            Quiz coming soon. This will test what you learned in Why Credit
-            Matters before unlocking the next section.
-          </p>
-          <div className="rounded-xl border border-dashed border-border p-10 text-center">
-            <p className="text-sm text-muted-foreground">Quiz questions will appear here.</p>
-          </div>
-        </div>
+        <QuizBlock
+          sectionLabel="Why Credit Matters"
+          onPass={onQuizPass}
+          questions={[
+            {
+              question: "Which of the following does your credit score affect?",
+              options: [
+                "Renting an apartment",
+                "Getting a car loan",
+                "Your mortgage rate",
+                "All of the above",
+              ],
+              correct: 3,
+              explanation: "Your credit score affects all of these. Landlords, lenders, and banks all use it to decide if they'll work with you and at what rate.",
+            },
+            {
+              question: "Two people buy the same $300,000 home. One has a 750 credit score, the other has a 580. Over 30 years, roughly how much more does the person with the lower score pay?",
+              options: [
+                "About $10,000 more",
+                "About $50,000 more",
+                "Over $200,000 more",
+                "They pay the same — the house price is the same",
+              ],
+              correct: 2,
+              explanation: "The difference in interest rates between a 750 and 580 score adds up to over $226,000 on a $300K mortgage over 30 years. Same house, completely different total cost.",
+            },
+            {
+              question: "What is the main danger of payday loans for people with bad credit?",
+              options: [
+                "They require a credit score above 700 to qualify",
+                "They have extremely high interest rates that trap borrowers in debt",
+                "They only work for purchases over $5,000",
+                "They have no impact on your credit score",
+              ],
+              correct: 1,
+              explanation: "Payday and title loans can carry 200–400% APR. Borrow $500 and you can end up owing $1,500. They're designed to be hard to escape.",
+            },
+          ]}
+        />
       );
 
     default:
@@ -668,6 +826,21 @@ export default function CreditBasicsPage() {
     window.scrollTo({ top: 0 });
   };
 
+  const unlockNextSection = (currentSectionId: string) => {
+    const idx = SECTIONS.findIndex((s) => s.id === currentSectionId);
+    const next = idx >= 0 && idx + 1 < SECTIONS.length ? SECTIONS[idx + 1] : null;
+    if (!next) return;
+    setUnlockedSectionIds((prev) => prev.includes(next.id) ? prev : [...prev, next.id]);
+    setExpandedSections((prev) => prev.includes(next.id) ? prev : [...prev, next.id]);
+  };
+
+  const handleQuizPass = () => {
+    if (!completedLessons.includes(activeLessonId)) {
+      setCompletedLessons((prev) => [...prev, activeLessonId]);
+    }
+    if (activeSection) unlockNextSection(activeSection.id);
+  };
+
   const markComplete = () => {
     const updated = completedLessons.includes(activeLessonId)
       ? completedLessons
@@ -682,15 +855,11 @@ export default function CreditBasicsPage() {
       setExpandedSections((prev) =>
         prev.includes(nextSection.id) ? prev : [...prev, nextSection.id]
       );
-      // Navigate to first lesson of next section
       goToLesson(nextSection.lessons[0].id);
       return;
     }
 
-    // Otherwise go to next navigable lesson
-    if (nextLesson) {
-      goToLesson(nextLesson.id);
-    }
+    if (nextLesson) goToLesson(nextLesson.id);
   };
 
   const isCompleted = completedLessons.includes(activeLessonId);
@@ -861,7 +1030,7 @@ export default function CreditBasicsPage() {
         <main className="flex flex-1 flex-col overflow-hidden">
           <div className="flex-1 overflow-y-auto">
             <div className="mx-auto max-w-2xl px-6 py-10 sm:px-10 sm:py-14">
-              <LessonContent lessonId={activeLessonId} />
+              <LessonContent lessonId={activeLessonId} onQuizPass={handleQuizPass} />
             </div>
           </div>
 
