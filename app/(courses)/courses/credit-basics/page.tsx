@@ -49,8 +49,8 @@ const SECTIONS = [
     noQuiz: false,
     lessons: [
       { id: "hcw-1", title: "What Is Credit?" },
-      { id: "hcw-2", title: "How Your Score Is Calculated" },
-      { id: "hcw-3", title: "Good Score vs. Bad Score" },
+      { id: "hcw-2", title: "The 5 Factors of Your Score" },
+      { id: "hcw-3", title: "What Hurts Your Score" },
       { id: "hcw-quiz", title: "Quiz", isQuiz: true },
     ],
   },
@@ -749,6 +749,266 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
               ],
               correct: 1,
               explanation: "Payday and title loans can carry 200–400% APR. Borrow $500 and you can end up owing $1,500. They're designed to be hard to escape.",
+            },
+          ]}
+        />
+      );
+
+    case "hcw-1":
+      return (
+        <div>
+          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+            How Credit Works · Lesson 1
+          </p>
+          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+            What Is Credit?
+          </h1>
+
+          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+            At its core, credit is a trust system. When you borrow money —
+            whether it&apos;s on a credit card, a car loan, or a mortgage — the
+            lender is betting that you&apos;ll pay them back. Your credit score is
+            just a number that summarizes how trustworthy you&apos;ve been with
+            borrowed money so far. The higher the number, the more lenders
+            trust you, and the better the deals they offer you.
+          </p>
+
+          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+            The scale runs from 300 to 850. Nobody starts with a perfect score
+            and nobody starts at zero. Most people with no credit history at
+            all simply don&apos;t have a score yet, which is its own challenge but
+            a different one than having bad credit.
+          </p>
+
+          {/* AI IMAGE PLACEHOLDER
+              Prompt: "A clean horizontal gauge or meter showing credit score range from 300 to 850, divided into color zones from red (300-579 Poor) to orange (580-669 Fair) to yellow (670-739 Good) to light green (740-799 Very Good) to dark green (800-850 Exceptional), minimal flat design, no people" */}
+          <div className="mb-8 flex h-40 items-center justify-center rounded-xl border border-dashed border-border bg-muted/30">
+            <p className="text-sm text-muted-foreground">[ Visual: Credit score scale 300–850 with tiers ]</p>
+          </div>
+
+          <p className="mb-4 text-base font-semibold text-foreground">Here&apos;s how the tiers break down:</p>
+          <div className="mb-8 overflow-hidden rounded-xl border border-border">
+            {[
+              { range: "800 – 850", label: "Exceptional", color: "text-green-600", desc: "Best rates on everything. Lenders compete for you." },
+              { range: "740 – 799", label: "Very Good", color: "text-green-500", desc: "Close to the best rates. This is the real target." },
+              { range: "670 – 739", label: "Good", color: "text-yellow-500", desc: "Approved for most things, not always the best rate." },
+              { range: "580 – 669", label: "Fair", color: "text-orange-500", desc: "Getting approved is harder. Rates start climbing." },
+              { range: "300 – 579", label: "Poor", color: "text-red-500", desc: "Most lenders will decline or require a co-signer." },
+            ].map(({ range, label, color, desc }) => (
+              <div key={label} className="flex items-center gap-4 border-b border-border px-4 py-3 last:border-0">
+                <div className="w-24 shrink-0 font-mono text-sm text-muted-foreground">{range}</div>
+                <div className={`w-24 shrink-0 font-semibold ${color}`}>{label}</div>
+                <div className="text-sm text-muted-foreground">{desc}</div>
+              </div>
+            ))}
+          </div>
+
+          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+            One thing worth knowing: there are two main scoring models. FICO
+            is the one most lenders actually use when you apply for a loan or
+            credit card. VantageScore is what Credit Karma shows you. They&apos;re
+            calculated differently, which is why your Credit Karma score and
+            your actual score with a bank can be different. We&apos;ll cover that
+            more in the Tracking Your Credit section.
+          </p>
+
+          <p className="text-base leading-relaxed text-muted-foreground">
+            For now, the target is 740 and above. That&apos;s where the best rates
+            start and where you want to be. Everything in this section explains
+            exactly what gets you there.
+          </p>
+        </div>
+      );
+
+    case "hcw-2":
+      return (
+        <div>
+          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+            How Credit Works · Lesson 2
+          </p>
+          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+            The 5 Factors of Your Score
+          </h1>
+
+          <p className="mb-8 text-base leading-relaxed text-muted-foreground">
+            Your credit score isn&apos;t random. It&apos;s calculated from five specific
+            factors, each with a different weight. Once you know what they are
+            and how much each one counts, you can make decisions that actually
+            move the number instead of guessing.
+          </p>
+
+          {/* AI IMAGE PLACEHOLDER
+              Prompt: "A clean pie chart showing 5 segments: Payment History 35%, Amounts Owed 30%, Length of History 15%, New Credit 10%, Credit Mix 10%, each segment a different muted color, minimal flat style, labeled clearly, no people, white background" */}
+          <div className="mb-8 flex h-40 items-center justify-center rounded-xl border border-dashed border-border bg-muted/30">
+            <p className="text-sm text-muted-foreground">[ Visual: Pie chart — 5 factors and their weights ]</p>
+          </div>
+
+          <div className="mb-6 flex flex-col gap-5">
+            {[
+              {
+                number: "01",
+                factor: "Payment History",
+                weight: "35%",
+                body: "The single biggest factor. Do you pay on time? Even one payment that's 30 days late can drop a good score by 50 to 100 points. This is the most important habit you can build — pay on time, every time, no exceptions. Set up autopay if you have to.",
+              },
+              {
+                number: "02",
+                factor: "Amounts Owed (Utilization)",
+                weight: "30%",
+                body: "How much of your available credit are you using? If you have $10,000 in available credit and you're carrying a $3,000 balance, that's 30% utilization. The rule is stay under 30%, but ideally under 10% for the best impact. This is the one people mess up the most without realizing it.",
+              },
+              {
+                number: "03",
+                factor: "Length of Credit History",
+                weight: "15%",
+                body: "How long your accounts have been open. Older accounts help your score. This is why you should never close a credit card just because you don't use it — that card's age is working for you. Closing it removes that history and can drop your score.",
+              },
+              {
+                number: "04",
+                factor: "New Credit",
+                weight: "10%",
+                body: "Every time you apply for a new card or loan, the lender does a hard inquiry on your credit. That temporarily dips your score a few points. Opening several new accounts in a short window looks risky to lenders. Space out applications and don't apply for things you don't need.",
+              },
+              {
+                number: "05",
+                factor: "Credit Mix",
+                weight: "10%",
+                body: "Having different types of credit — credit cards, a car loan, a student loan — shows lenders you can handle various kinds of debt. It's the least impactful factor so don't go taking out loans just to improve your mix. But it does matter when everything else is equal.",
+              },
+            ].map(({ number, factor, weight, body }) => (
+              <div key={number} className="rounded-xl border border-border p-5">
+                <div className="mb-3 flex items-center gap-3">
+                  <span className="font-mono text-xs text-muted-foreground/50">{number}</span>
+                  <span className="font-semibold text-foreground">{factor}</span>
+                  <span className="ml-auto rounded-full px-2.5 py-0.5 text-xs font-semibold text-white" style={{ background: "var(--brand-600)" }}>
+                    {weight}
+                  </span>
+                </div>
+                <p className="text-sm leading-relaxed text-muted-foreground">{body}</p>
+              </div>
+            ))}
+          </div>
+
+          <p className="text-base leading-relaxed text-muted-foreground">
+            Payment history and utilization together make up 65% of your
+            score. If you do nothing else, pay on time and keep your balances
+            low. Those two habits alone will take you a long way.
+          </p>
+        </div>
+      );
+
+    case "hcw-3":
+      return (
+        <div>
+          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+            How Credit Works · Lesson 3
+          </p>
+          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+            What Hurts Your Score
+          </h1>
+
+          <p className="mb-8 text-base leading-relaxed text-muted-foreground">
+            Most credit damage is avoidable once you know what causes it. Some
+            of these are obvious, some are counterintuitive. All of them are
+            worth knowing before you make a move.
+          </p>
+
+          <div className="mb-8 flex flex-col gap-4">
+            {[
+              {
+                title: "Late or missed payments",
+                severity: "High impact",
+                body: "One missed payment — even one — can drop your score significantly and stays on your report for seven years. It doesn't matter if it's $20 or $2,000. The late payment itself is what damages you. Set up autopay for at least the minimum payment on every card so this never happens accidentally.",
+              },
+              {
+                title: "High credit utilization",
+                severity: "High impact",
+                body: "Maxing out your cards, even if you pay them off every month, can hurt your score if the balance is reported before you pay. The bureaus get a snapshot of your balance at a specific point in the month. Keep balances low or pay them down before your statement closes.",
+              },
+              {
+                title: "Closing old accounts",
+                severity: "Medium impact",
+                body: "This one surprises people. Closing a card you don't use feels like the responsible thing to do, but it removes that card's age from your history and reduces your total available credit — which raises your utilization. Keep old accounts open, even if you just use them once a year to keep them active.",
+              },
+              {
+                title: "Too many hard inquiries",
+                severity: "Medium impact",
+                body: "Every credit application triggers a hard pull. One or two a year is fine. Five in three months looks desperate to lenders and each one shaves points off your score. Be intentional about when and why you apply for new credit.",
+              },
+              {
+                title: "Collections and derogatory marks",
+                severity: "High impact",
+                body: "If a debt goes unpaid long enough, it gets sent to a collection agency. That shows up on your report as a collection account and can drop your score by 100 points or more. Always better to negotiate a payment plan, even a small one, than to let something hit collections.",
+              },
+              {
+                title: "No credit history at all",
+                severity: "Medium impact",
+                body: "Not having any credit isn't the same as bad credit but lenders see a blank file and have nothing to work with. You can't get approved for much without any history. The solution is starting with a secured card or a credit-builder loan — we'll cover that in a later section.",
+              },
+            ].map(({ title, severity, body }) => (
+              <div key={title} className="rounded-xl border border-border p-5">
+                <div className="mb-2 flex items-center justify-between gap-3">
+                  <p className="font-semibold text-foreground">{title}</p>
+                  <span className={`shrink-0 rounded-full px-2.5 py-0.5 text-[11px] font-medium ${
+                    severity === "High impact"
+                      ? "bg-red-500/10 text-red-500"
+                      : "bg-orange-500/10 text-orange-500"
+                  }`}>
+                    {severity}
+                  </span>
+                </div>
+                <p className="text-sm leading-relaxed text-muted-foreground">{body}</p>
+              </div>
+            ))}
+          </div>
+
+          <p className="text-base leading-relaxed text-muted-foreground">
+            The good news is none of this is permanent. Every negative mark
+            fades over time and your habits going forward matter more than
+            what happened in the past. A 530 can become a 750. It just takes
+            time and consistency. You already know that from my story.
+          </p>
+        </div>
+      );
+
+    case "hcw-quiz":
+      return (
+        <QuizBlock
+          sectionLabel="How Credit Works"
+          onPass={onQuizPass}
+          questions={[
+            {
+              question: "What is the single biggest factor in your credit score?",
+              options: [
+                "Credit mix",
+                "Length of credit history",
+                "Payment history",
+                "New credit",
+              ],
+              correct: 2,
+              explanation: "Payment history makes up 35% of your score — the largest single factor. Paying on time, every time, is the most important habit you can build.",
+            },
+            {
+              question: "You have $10,000 in available credit. To keep a healthy score, what's the most you should carry as a balance?",
+              options: [
+                "$5,000 (50%) — you're still under the limit",
+                "$4,000 (40%) — close enough",
+                "$3,000 (30%) — the standard guideline",
+                "It doesn't matter as long as you pay on time",
+              ],
+              correct: 2,
+              explanation: "Keep utilization under 30%, ideally under 10%. High balances relative to your limit signal risk to lenders, even if you always pay on time.",
+            },
+            {
+              question: "You have a credit card you've had for 5 years but never use anymore. What should you do?",
+              options: [
+                "Close it — no point keeping a card you don't use",
+                "Keep it open — closing it can hurt your score",
+                "Max it out and pay it off to boost your score",
+                "Transfer the balance to a newer card",
+              ],
+              correct: 1,
+              explanation: "That card's 5 years of age is working for you. Closing it removes that history and reduces your available credit, which raises your utilization — both hurt your score.",
             },
           ]}
         />
