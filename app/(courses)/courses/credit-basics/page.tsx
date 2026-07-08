@@ -61,8 +61,8 @@ const SECTIONS = [
     lessons: [
       { id: "tyc-1", title: "Credit Karma — Useful but Not Perfect" },
       { id: "tyc-2", title: "The 3 Bureaus: Equifax, TransUnion, Experian" },
-      { id: "tyc-3", title: "Credit Report vs. Credit Score" },
-      { id: "tyc-4", title: "How to Pull Your Free Reports" },
+      { id: "tyc-3", title: "The Two Rules That Move Your Score" },
+      { id: "tyc-4", title: "Your Credit Report — Pull It Free" },
       { id: "tyc-quiz", title: "Quiz", isQuiz: true },
     ],
   },
@@ -838,7 +838,7 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
           </p>
 
           {/* AI IMAGE PLACEHOLDER
-              Prompt: "A clean pie chart showing 5 segments: Payment History 35%, Amounts Owed 30%, Length of History 15%, New Credit 10%, Credit Mix 10%, each segment a different muted color, minimal flat style, labeled clearly, no people, white background" */}
+              Prompt: "A clean pie chart showing 5 segments: Payment History 35%, Credit Utilization 30%, Credit Age 15%, Hard Inquiries 10%, Total Accounts 10%, each segment a different muted color, minimal flat style, labeled clearly, no people, white background" */}
           <div className="mb-8 flex h-40 items-center justify-center rounded-xl border border-dashed border-border bg-muted/30">
             <p className="text-sm text-muted-foreground">[ Visual: Pie chart — 5 factors and their weights ]</p>
           </div>
@@ -853,25 +853,25 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
               },
               {
                 number: "02",
-                factor: "Amounts Owed (Utilization)",
+                factor: "Credit Utilization",
                 weight: "30%",
                 body: "How much of your available credit are you using? If you have $10,000 in available credit and you're carrying a $3,000 balance, that's 30% utilization. The rule is stay under 30%, but ideally under 10% for the best impact. This is the one people mess up the most without realizing it.",
               },
               {
                 number: "03",
-                factor: "Length of Credit History",
+                factor: "Credit Age",
                 weight: "15%",
                 body: "How long your accounts have been open. Older accounts help your score. This is why you should never close a credit card just because you don't use it — that card's age is working for you. Closing it removes that history and can drop your score.",
               },
               {
                 number: "04",
-                factor: "New Credit",
+                factor: "Hard Inquiries",
                 weight: "10%",
-                body: "Every time you apply for a new card or loan, the lender does a hard inquiry on your credit. That temporarily dips your score a few points. Opening several new accounts in a short window looks risky to lenders. Space out applications and don't apply for things you don't need.",
+                body: "Every time you apply for a new card or loan, the lender does a hard inquiry on your credit. That temporarily dips your score a few points. Hard inquiries stay on your report for 2 years and then get removed automatically. Opening several in a short window looks risky to lenders, so space out applications and don't apply for things you don't need.",
               },
               {
                 number: "05",
-                factor: "Credit Mix",
+                factor: "Total Accounts",
                 weight: "10%",
                 body: "Having different types of credit — credit cards, a car loan, a student loan — shows lenders you can handle various kinds of debt. It's the least impactful factor so don't go taking out loans just to improve your mix. But it does matter when everything else is equal.",
               },
@@ -889,11 +889,40 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             ))}
           </div>
 
-          <p className="text-base leading-relaxed text-muted-foreground">
-            Payment history and utilization together make up 65% of your
-            score. If you do nothing else, pay on time and keep your balances
-            low. Those two habits alone will take you a long way.
-          </p>
+          <div className="mt-2 flex flex-col gap-4">
+            <div className="rounded-xl border-2 border-border p-5" style={{ borderColor: "var(--brand-600)" }}>
+              <p className="mb-2 font-bold text-foreground">Rule #1 — Use your credit card like a debit card</p>
+              <p className="text-sm leading-relaxed text-muted-foreground">
+                Never spend money you don&apos;t already have. If you were going to
+                buy it anyway and the money is sitting in your account, put it
+                on the card — then pay it off. That&apos;s it. You&apos;ll never miss a
+                payment because you already had the money. This one habit alone
+                will keep your score clean.
+              </p>
+            </div>
+
+            <div className="rounded-xl border border-border p-5">
+              <p className="mb-2 font-bold text-foreground">Always pay on time — at minimum, the minimum</p>
+              <p className="text-sm leading-relaxed text-muted-foreground">
+                Pay the full balance every month if you can. If you can&apos;t, pay
+                the statement minimum without fail. That keeps your payment
+                history clean and avoids late fees. Never let a due date pass
+                without at least the minimum going through — set up autopay so
+                it happens automatically no matter what.
+              </p>
+            </div>
+
+            <div className="rounded-xl border border-border p-5">
+              <p className="mb-2 font-bold text-foreground">Most people start with a $1,000 limit — $300 is already 30%</p>
+              <p className="text-sm leading-relaxed text-muted-foreground">
+                When you&apos;re starting out, your limit is probably $1,000. That
+                means $300 in charges puts you right at 30% utilization. Pay it
+                in full every month, or keep your balance under $300 at all
+                times. Even better — keep it under $100 if you can. The lower
+                your utilization, the faster your score climbs.
+              </p>
+            </div>
+          </div>
         </div>
       );
 
@@ -1009,6 +1038,389 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
               ],
               correct: 1,
               explanation: "That card's 5 years of age is working for you. Closing it removes that history and reduces your available credit, which raises your utilization — both hurt your score.",
+            },
+          ]}
+        />
+      );
+
+    case "tyc-1":
+      return (
+        <div>
+          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+            Tracking Your Credit · Lesson 1
+          </p>
+          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+            Credit Karma — Useful but Not Perfect
+          </h1>
+
+          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+            Credit Karma is the tool I use and the one I recommend starting
+            with. It&apos;s free, it doesn&apos;t hurt your credit to check it, and it
+            gives you a real-time look at where you stand. If you don&apos;t have an
+            account, go create one right now. It takes five minutes.
+          </p>
+
+          <p className="mb-8 text-base leading-relaxed text-muted-foreground">
+            Once you&apos;re in, you&apos;ll see your score — but there&apos;s one important
+            thing to understand before you put too much weight on that number.
+          </p>
+
+          <div className="mb-8 rounded-xl border border-border p-5">
+            <p className="mb-2 font-semibold text-foreground">Credit Karma shows VantageScore — not FICO</p>
+            <p className="text-sm leading-relaxed text-muted-foreground">
+              Most lenders use FICO when you actually apply for credit. Credit
+              Karma uses VantageScore, which is a different model calculated
+              differently. Your Credit Karma score and your bank&apos;s FICO score
+              can be 10 to 30 points apart. Don&apos;t panic if you see a gap —
+              that&apos;s normal. Use Credit Karma as a direction tracker, not the
+              exact number you&apos;ll see on every application.
+            </p>
+          </div>
+
+          <p className="mb-4 text-base font-semibold text-foreground">The 6 factors Credit Karma breaks down for you:</p>
+          <div className="mb-8 flex flex-col gap-3">
+            {[
+              {
+                label: "Payment History",
+                body: "Do you pay on time? This is the biggest factor — 35% of your score. Credit Karma will show you if you have any missed or late payments on record.",
+              },
+              {
+                label: "Credit Utilization",
+                body: "How much of your available credit you're using across all your cards. The rule: stay under 30%. Under 10% is ideal. This updates every month as your balances change.",
+              },
+              {
+                label: "Credit Age",
+                body: "The average age of all your open accounts. Older is better. This is why you don't close cards you no longer use — their age is still helping you.",
+              },
+              {
+                label: "Hard Inquiries",
+                body: "Every time you applied for a new card or loan. Hard inquiries stay on your report for 2 years, but they only impact your score for about 12 months. Too many in a short window looks risky to lenders.",
+              },
+              {
+                label: "Derogatory Marks",
+                body: "Late payments, collections, bankruptcies — anything negative on your file. These do the most damage and can stay on your report for 7 years. If you see one you don't recognize, that needs to be disputed.",
+              },
+              {
+                label: "Total Accounts",
+                body: "The number of credit accounts you have open and your overall credit mix — cards, loans, auto, etc. Having a variety of account types over time helps, but this is the least impactful of the six.",
+              },
+            ].map(({ label, body }) => (
+              <div key={label} className="rounded-xl border border-border p-4">
+                <p className="mb-1 text-sm font-semibold text-foreground">{label}</p>
+                <p className="text-sm leading-relaxed text-muted-foreground">{body}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="mb-8 rounded-xl p-5" style={{ background: "var(--brand-600)", opacity: 0.92 }}>
+            <p className="mb-1 font-semibold text-white">The habit: check it once a month</p>
+            <p className="text-sm leading-relaxed text-white/80">
+              Checking your own credit is a soft pull — it never hurts your
+              score. Set a reminder to check Credit Karma once a month. You&apos;re
+              not obsessing over the number; you&apos;re making sure nothing changed
+              that you didn&apos;t expect. Fraud and errors happen, and catching them
+              early matters.
+            </p>
+          </div>
+
+          {/* AI IMAGE PLACEHOLDER
+              Prompt: "Clean minimal screenshot mockup of a credit score app dashboard showing a circular score gauge at 712, with 6 factor bars below labeled Payment History, Credit Utilization, Credit Age, Hard Inquiries, Derogatory Marks, Total Accounts, flat UI design, muted green and white color scheme, no real logos" */}
+          <div className="flex h-40 items-center justify-center rounded-xl border border-dashed border-border bg-muted/30">
+            <p className="text-sm text-muted-foreground">[ Visual: Credit Karma dashboard mockup ]</p>
+          </div>
+        </div>
+      );
+
+    case "tyc-2":
+      return (
+        <div>
+          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+            Tracking Your Credit · Lesson 2
+          </p>
+          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+            The 3 Bureaus: Equifax, TransUnion & Experian
+          </h1>
+
+          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+            There are three major credit bureaus in the US — Equifax,
+            TransUnion, and Experian. They&apos;re separate companies that each
+            collect and maintain their own credit files on you. Think of them
+            as three independent scorekeepers tracking the same game.
+          </p>
+
+          <p className="mb-8 text-base leading-relaxed text-muted-foreground">
+            Your score can be slightly different across all three. That&apos;s
+            normal, and here&apos;s why.
+          </p>
+
+          {/* AI IMAGE PLACEHOLDER
+              Prompt: "Three clean minimal cards side by side labeled Equifax, TransUnion, and Experian, each with a different credit score number (e.g. 718, 724, 711), flat minimal design, muted colors, no real logos" */}
+          <div className="mb-8 flex h-36 items-center justify-center rounded-xl border border-dashed border-border bg-muted/30">
+            <p className="text-sm text-muted-foreground">[ Visual: Three bureau score cards ]</p>
+          </div>
+
+          <div className="mb-8 rounded-xl border border-border p-5">
+            <p className="mb-2 font-semibold text-foreground">Not every lender reports to all three</p>
+            <p className="text-sm leading-relaxed text-muted-foreground">
+              When you open a credit card or take out a loan, that creditor
+              chooses which bureau(s) they report your activity to. Some report
+              to all three. Some only report to one or two. That means one
+              bureau might have an account on file that another doesn&apos;t — which
+              is exactly why your scores can differ between them.
+            </p>
+          </div>
+
+          <div className="mb-8 flex flex-col gap-3">
+            {[
+              {
+                bureau: "Equifax",
+                note: "One of the two bureaus Credit Karma shows you.",
+              },
+              {
+                bureau: "TransUnion",
+                note: "The other bureau Credit Karma shows. Often the one with the most up-to-date account data.",
+              },
+              {
+                bureau: "Experian",
+                note: "Not shown on Credit Karma. Often the bureau mortgage lenders pull when you apply for a home loan. Worth checking separately.",
+              },
+            ].map(({ bureau, note }) => (
+              <div key={bureau} className="flex items-start gap-4 rounded-xl border border-border p-4">
+                <div
+                  className="flex size-9 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white"
+                  style={{ background: "var(--brand-600)" }}
+                >
+                  {bureau[0]}
+                </div>
+                <div>
+                  <p className="mb-0.5 font-semibold text-foreground">{bureau}</p>
+                  <p className="text-sm leading-relaxed text-muted-foreground">{note}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="rounded-xl border border-border p-5">
+            <p className="mb-2 font-semibold text-foreground">Applying for a mortgage? They pull all three.</p>
+            <p className="text-sm leading-relaxed text-muted-foreground">
+              Mortgage lenders typically pull your score from all three bureaus
+              and use your middle score — not the highest, not the lowest. So
+              if your scores are 710, 725, and 740, they use 725. That&apos;s
+              another reason to make sure all three reports are clean and
+              accurate before you apply for anything big.
+            </p>
+          </div>
+        </div>
+      );
+
+    case "tyc-3":
+      return (
+        <div>
+          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+            Tracking Your Credit · Lesson 3
+          </p>
+          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+            The Two Rules That Move Your Score
+          </h1>
+
+          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+            We covered the 5 factors in How Credit Works. This is where we
+            slow down on the two that matter most — the ones you can actually
+            control right now — and make sure they&apos;re clear before moving on.
+          </p>
+
+          <p className="mb-8 text-base leading-relaxed text-muted-foreground">
+            65% of your score comes down to just two things: whether you pay
+            on time, and how much of your credit limit you&apos;re using.
+            Everything else is important, but these two will either build your
+            score or destroy it.
+          </p>
+
+          {/* AI IMAGE PLACEHOLDER
+              Prompt: "Two large stat cards side by side: left card shows '35%' with label 'Payment History', right card shows '30%' with label 'Credit Utilization', clean flat design, muted olive green accent color, minimal white background" */}
+          <div className="mb-8 flex h-36 items-center justify-center rounded-xl border border-dashed border-border bg-muted/30">
+            <p className="text-sm text-muted-foreground">[ Visual: 35% payment history + 30% utilization cards ]</p>
+          </div>
+
+          <div className="mb-5 rounded-xl border border-border p-6">
+            <div className="mb-4 flex items-center gap-3">
+              <span className="rounded-full px-3 py-1 text-sm font-bold text-white" style={{ background: "var(--brand-600)" }}>35%</span>
+              <p className="text-lg font-bold text-foreground">Rule #1 — Pay on time, every time</p>
+            </div>
+            <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
+              Payment history is the single biggest factor in your score. One
+              missed payment — even one — can drop a good score by 50 to 100
+              points and stays on your report for seven years. It doesn&apos;t
+              matter if the balance was $20 or $2,000. The late payment itself
+              is what does the damage.
+            </p>
+            <p className="text-sm leading-relaxed text-muted-foreground">
+              The simplest fix: set up autopay for at least the minimum payment
+              on every card and loan you have. Not the full balance if you
+              can&apos;t swing it — just the minimum. That&apos;s all it takes to keep
+              your payment history clean while you work on the rest.
+            </p>
+          </div>
+
+          <div className="mb-8 rounded-xl border border-border p-6">
+            <div className="mb-4 flex items-center gap-3">
+              <span className="rounded-full px-3 py-1 text-sm font-bold text-white" style={{ background: "var(--brand-600)" }}>30%</span>
+              <p className="text-lg font-bold text-foreground">Rule #2 — Stay under 30%</p>
+            </div>
+            <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
+              Credit utilization is how much of your available credit you&apos;re
+              using. If your total credit limit across all your cards is
+              $10,000 and you have $3,000 in balances, you&apos;re at 30%. That&apos;s
+              the maximum you want to be carrying if you care about your score.
+              Ideally you want to be under 10%.
+            </p>
+            <p className="mb-5 text-sm leading-relaxed text-muted-foreground">
+              This is the one that trips people up most. You can pay on time
+              every single month and still tank your score if your cards are
+              maxed out. The balance matters just as much as the payment.
+            </p>
+
+            <div className="rounded-lg border border-border bg-muted/30 p-4">
+              <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Quick example</p>
+              <div className="flex flex-col gap-2">
+                {[
+                  { limit: "$10,000", balance: "$1,000", util: "10%", status: "Excellent", color: "text-green-500" },
+                  { limit: "$10,000", balance: "$3,000", util: "30%", status: "OK — don't go higher", color: "text-yellow-500" },
+                  { limit: "$10,000", balance: "$5,000", util: "50%", status: "Hurting your score", color: "text-orange-500" },
+                  { limit: "$10,000", balance: "$9,000", util: "90%", status: "Serious damage", color: "text-red-500" },
+                ].map(({ limit, balance, util, status, color }) => (
+                  <div key={util} className="flex items-center justify-between gap-2 text-sm">
+                    <span className="text-muted-foreground">{limit} limit · {balance} balance</span>
+                    <span className="font-mono font-semibold text-foreground">{util}</span>
+                    <span className={`text-right text-xs ${color}`}>{status}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <p className="text-base leading-relaxed text-muted-foreground">
+            When you open Credit Karma and look at your score breakdown, these
+            are the two numbers to watch first. If payment history is marked
+            poor or utilization is above 30%, that&apos;s your starting point.
+            Fix those two and everything else gets easier.
+          </p>
+        </div>
+      );
+
+    case "tyc-4":
+      return (
+        <div>
+          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+            Tracking Your Credit · Lesson 4
+          </p>
+          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+            Your Credit Report — and How to Pull It Free
+          </h1>
+
+          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+            Your credit score is the number. Your credit report is the full
+            story behind that number — every account you&apos;ve ever opened, every
+            payment you&apos;ve made or missed, every time someone pulled your
+            credit, and any negative marks that are on file.
+          </p>
+
+          <p className="mb-8 text-base leading-relaxed text-muted-foreground">
+            Think of it this way: the report is your entire credit history
+            written out. The score is just a number that summarizes it. Credit
+            Karma gives you your score and a view of your accounts, but pulling
+            your actual report gives you the full picture — and you need to
+            look at it at least a few times a year.
+          </p>
+
+          <div className="mb-8 rounded-xl border-2 p-6 text-center" style={{ borderColor: "var(--brand-600)" }}>
+            <p className="mb-1 text-xs font-semibold uppercase tracking-widest" style={{ color: "var(--brand-600)" }}>The only official free report site</p>
+            <p className="mb-3 text-xl font-bold text-foreground">annualcreditreport.com</p>
+            <p className="mx-auto max-w-sm text-sm leading-relaxed text-muted-foreground">
+              Federally authorized. Free reports from all three bureaus —
+              Equifax, TransUnion, and Experian. You can pull them weekly at
+              no cost. Not monthly, not annually — weekly. Use it.
+            </p>
+          </div>
+
+          <p className="mb-4 text-base font-semibold text-foreground">When you pull your report, look for these:</p>
+          <div className="mb-8 flex flex-col gap-3">
+            {[
+              {
+                item: "Accounts you don't recognize",
+                why: "If there's a credit card or loan in your name that you never opened, someone may have used your identity. Dispute it immediately.",
+              },
+              {
+                item: "Late payments marked incorrectly",
+                why: "Sometimes a payment that went through on time gets reported late by mistake. This is more common than you'd think and it's disputable.",
+              },
+              {
+                item: "Old debts that should be gone",
+                why: "Most negative items fall off your report after 7 years. If something older than that is still showing up, it shouldn't be there.",
+              },
+              {
+                item: "Correct personal information",
+                why: "Wrong addresses or misspelled names can indicate mixed files — where another person's credit history got attached to yours.",
+              },
+            ].map(({ item, why }) => (
+              <div key={item} className="rounded-xl border border-border p-4">
+                <p className="mb-1 text-sm font-semibold text-foreground">{item}</p>
+                <p className="text-sm leading-relaxed text-muted-foreground">{why}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="rounded-xl border border-border p-5">
+            <p className="mb-2 font-semibold text-foreground">Found an error? You can dispute it for free.</p>
+            <p className="text-sm leading-relaxed text-muted-foreground">
+              Each bureau has an online dispute process. You submit the error,
+              they investigate, and if it&apos;s wrong it gets removed. Removing one
+              incorrect late payment or a collection that isn&apos;t yours can push
+              your score up significantly — sometimes 20 to 50 points. We cover
+              this in more detail in Protecting Your Credit.
+            </p>
+          </div>
+        </div>
+      );
+
+    case "tyc-quiz":
+      return (
+        <QuizBlock
+          sectionLabel="Tracking Your Credit"
+          onPass={onQuizPass}
+          questions={[
+            {
+              question: "Credit Karma shows your VantageScore. What scoring model do most lenders actually use when you apply for credit?",
+              options: [
+                "VantageScore — same thing",
+                "FICO",
+                "Experian Score",
+                "TransUnion Score",
+              ],
+              correct: 1,
+              explanation: "Most lenders use FICO when evaluating applications. Credit Karma's VantageScore is a useful tracker but can differ from your FICO score by 10–30 points — that gap is normal.",
+            },
+            {
+              question: "You have $8,000 in total available credit across your cards. What's the most you should carry as a balance to stay in the healthy range?",
+              options: [
+                "$4,000 (50%)",
+                "$3,200 (40%)",
+                "$2,400 (30%)",
+                "$800 (10%)",
+              ],
+              correct: 2,
+              explanation: "Stay under 30% utilization — that's $2,400 on an $8,000 limit. Under 10% ($800) is even better, but 30% is the line you don't want to cross.",
+            },
+            {
+              question: "Where can you pull your free official credit reports from all three bureaus?",
+              options: [
+                "creditkarma.com",
+                "experian.com",
+                "annualcreditreport.com",
+                "myfico.com",
+              ],
+              correct: 2,
+              explanation: "annualcreditreport.com is the only federally authorized source for free reports from all three bureaus. You can pull them weekly at no cost.",
             },
           ]}
         />
