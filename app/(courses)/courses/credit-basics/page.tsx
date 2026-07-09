@@ -74,6 +74,7 @@ const SECTIONS = [
       { id: "pyc-1", title: "Freeze Your Credit — Do This Now" },
       { id: "pyc-2", title: "Why Good Credit Makes You a Target" },
       { id: "pyc-3", title: "If It Happens to You" },
+      { id: "pyc-4", title: "Services & Habits That Keep You Safe" },
       { id: "pyc-quiz", title: "Quiz", isQuiz: true },
     ],
   },
@@ -1663,6 +1664,101 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
               points. Always worth doing.
             </p>
           </div>
+        </div>
+      );
+
+    case "pyc-4":
+      return (
+        <div>
+          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+            Protecting Your Credit · Lesson 4
+          </p>
+          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+            Services & Habits That Keep You Safe
+          </h1>
+
+          <p className="mb-8 text-base leading-relaxed text-muted-foreground">
+            Freezing your credit is the foundation. These are the extra layers
+            — tools and habits that make it significantly harder for anyone to
+            get to you in the first place.
+          </p>
+
+          <p className="mb-4 text-base font-semibold text-foreground">Services worth knowing about</p>
+          <div className="mb-8 flex flex-col gap-4">
+            {[
+              {
+                name: "DeleteMe",
+                cost: "~$129/yr",
+                what: "Data broker sites like Spokeo, Whitepages, and BeenVerified buy and sell your personal info — your name, address, phone number, relatives. Scammers use these to build a profile on you before they strike. DeleteMe submits removal requests to all of them on your behalf and keeps doing it since they re-add you over time. You can do it manually for free but it's extremely tedious.",
+              },
+              {
+                name: "Privacy.com",
+                cost: "Free",
+                what: "Generates a virtual card number for online purchases so your real card number is never exposed to a website. If that site gets breached, the virtual number is useless to anyone. A must-have for online shopping.",
+              },
+              {
+                name: "Have I Been Pwned",
+                cost: "Free",
+                what: "Go to haveibeenpwned.com and enter your email. It tells you if your email appeared in any known data breaches. If it has, change the password for that account immediately and anywhere you used the same password.",
+              },
+              {
+                name: "Aura / LifeLock",
+                cost: "Paid",
+                what: "All-in-one identity protection services that monitor your SSN, bank accounts, credit, and the dark web — and come with identity theft insurance up to $1 million if something happens. Worth it if you want everything in one place and peace of mind.",
+              },
+            ].map(({ name, cost, what }) => (
+              <div key={name} className="rounded-xl border border-border p-5">
+                <div className="mb-2 flex items-center justify-between">
+                  <p className="font-semibold text-foreground">{name}</p>
+                  <span className="rounded-full border border-border px-2.5 py-0.5 text-xs text-muted-foreground">{cost}</span>
+                </div>
+                <p className="text-sm leading-relaxed text-muted-foreground">{what}</p>
+              </div>
+            ))}
+          </div>
+
+          <p className="mb-4 text-base font-semibold text-foreground">The habits that actually matter</p>
+          <div className="mb-8 flex flex-col gap-3">
+            {[
+              {
+                habit: "Never carry your Social Security card",
+                detail: "Leave it home. If your wallet gets stolen, your SSN should not be in it.",
+              },
+              {
+                habit: "Set up transaction alerts on every account",
+                detail: "Every credit card and bank account should text or email you for every charge. You'll know within seconds if something hits that wasn't you.",
+              },
+              {
+                habit: "Use a different password for every account",
+                detail: "One breach shouldn't unlock everything. Use a password manager like Bitwarden (free) or 1Password so you only have to remember one master password.",
+              },
+              {
+                habit: "Set a PIN with your phone carrier",
+                detail: "SIM swap fraud is when a scammer calls your carrier, pretends to be you, and gets your phone number transferred to their SIM. Then they use 'forgot password' to take over your email and bank accounts. A carrier PIN blocks this. Call your carrier and set one today.",
+              },
+              {
+                habit: "Don't use public WiFi for financial accounts",
+                detail: "Coffee shop, airport, hotel — don't check your bank or credit cards on public networks. Use your phone's hotspot instead.",
+              },
+              {
+                habit: "Shred financial mail before throwing it away",
+                detail: "Anything with your name, account number, or address gets shredded — not just tossed. Dumpster diving is a real thing.",
+              },
+            ].map(({ habit, detail }) => (
+              <div key={habit} className="rounded-xl border border-border p-4">
+                <p className="mb-1 text-sm font-semibold text-foreground">{habit}</p>
+                <p className="text-sm leading-relaxed text-muted-foreground">{detail}</p>
+              </div>
+            ))}
+          </div>
+
+          <p className="text-base leading-relaxed text-muted-foreground">
+            You don&apos;t have to do all of this at once. Start with the freeze if
+            you haven&apos;t, set up transaction alerts today, and add the rest over
+            time. Each layer you add makes you a harder target. The goal isn&apos;t
+            perfection — it&apos;s making it not worth the effort for anyone to
+            come after you.
+          </p>
         </div>
       );
 
