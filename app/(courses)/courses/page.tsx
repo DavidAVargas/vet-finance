@@ -99,11 +99,7 @@ export default function CoursesPage() {
               return (
                 <div
                   key={course.id}
-                  className={`relative rounded-xl border p-6 transition-colors ${
-                    unlocked
-                      ? "border-border bg-background hover:bg-muted/30"
-                      : "border-border bg-muted/20 opacity-60"
-                  }`}
+                  className="relative rounded-xl border border-border bg-background p-6 transition-colors hover:bg-muted/30"
                 >
                   {/* Recommended badge */}
                   {course.recommended && (
@@ -116,23 +112,6 @@ export default function CoursesPage() {
                     </div>
                   )}
 
-                  {/* Unlocked next course badge */}
-                  {isCC101 && creditBasicsComplete && (
-                    <div
-                      className="absolute right-5 top-5 inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-medium text-white"
-                      style={{ background: "var(--brand-600)" }}
-                    >
-                      Up Next
-                    </div>
-                  )}
-
-                  {/* Locked badge */}
-                  {isCC101 && !creditBasicsComplete && (
-                    <div className="absolute right-5 top-5 inline-flex items-center gap-1.5 rounded-full bg-muted px-2.5 py-1 text-[11px] text-muted-foreground">
-                      <Lock className="size-3" />
-                      Complete Credit Basics to unlock
-                    </div>
-                  )}
 
                   <div className="flex items-start gap-4">
                     {/* Icon */}
@@ -173,22 +152,13 @@ export default function CoursesPage() {
                           </span>
                         </div>
 
-                        {course.id === "credit-basics" ? (
-                          <Link
-                            href={course.href}
-                            className="group flex items-center gap-1.5 text-sm font-medium text-foreground transition-colors hover:text-muted-foreground"
-                          >
-                            Start course
-                            <ChevronRight className="size-4 transition-transform group-hover:translate-x-0.5" />
-                          </Link>
-                        ) : creditBasicsComplete ? (
-                          <span className="text-sm text-muted-foreground">Coming soon</span>
-                        ) : (
-                          <span className="flex items-center gap-1.5 text-sm text-muted-foreground">
-                            <Lock className="size-3.5" />
-                            Locked
-                          </span>
-                        )}
+                        <Link
+                          href={course.href}
+                          className="group flex items-center gap-1.5 text-sm font-medium text-foreground transition-colors hover:text-muted-foreground"
+                        >
+                          Start course
+                          <ChevronRight className="size-4 transition-transform group-hover:translate-x-0.5" />
+                        </Link>
                       </div>
                     </div>
                   </div>
