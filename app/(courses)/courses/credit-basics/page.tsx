@@ -1876,6 +1876,11 @@ export default function CreditBasicsPage() {
     activeSection?.noQuiz &&
     activeSection.lessons[activeSection.lessons.length - 1].id === activeLessonId;
 
+  // True only when on the very last lesson of the entire course
+  const lastSection = SECTIONS[SECTIONS.length - 1];
+  const lastLesson = lastSection.lessons[lastSection.lessons.length - 1];
+  const isFinalLesson = activeLessonId === lastLesson.id;
+
   const nextSectionIndex = activeSection
     ? SECTIONS.findIndex((s) => s.id === activeSection.id) + 1
     : -1;
@@ -2153,6 +2158,17 @@ export default function CreditBasicsPage() {
                         <span className="sm:hidden">Next</span>
                         <ChevronRight className="size-4" />
                       </button>
+                    )}
+                    {/* Last lesson of the entire course */}
+                    {isFinalLesson && (
+                      <Link
+                        href="/courses"
+                        className="flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+                        style={{ background: "var(--brand-600)" }}
+                      >
+                        Start Credit Cards 101
+                        <ChevronRight className="size-4" />
+                      </Link>
                     )}
                   </>
                 ) : (
