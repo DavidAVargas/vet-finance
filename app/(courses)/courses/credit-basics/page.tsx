@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   ChevronDown,
   ChevronLeft,
@@ -1824,8 +1824,30 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
 export default function CreditBasicsPage() {
   const [activeLessonId, setActiveLessonId] = useState("my-story-1");
   const [expandedSections, setExpandedSections] = useState<string[]>(["my-story"]);
-  const [completedLessons, setCompletedLessons] = useState<string[]>([]);
-  const [unlockedSectionIds, setUnlockedSectionIds] = useState<string[]>(["my-story"]);
+  const [completedLessons, setCompletedLessons] = useState<string[]>(() => {
+    if (typeof window === "undefined") return [];
+    try {
+      return JSON.parse(localStorage.getItem("cb-completed") ?? "[]");
+    } catch {
+      return [];
+    }
+  });
+  const [unlockedSectionIds, setUnlockedSectionIds] = useState<string[]>(() => {
+    if (typeof window === "undefined") return ["my-story"];
+    try {
+      return JSON.parse(localStorage.getItem("cb-unlocked") ?? '["my-story"]');
+    } catch {
+      return ["my-story"];
+    }
+  });
+
+  useEffect(() => {
+    localStorage.setItem("cb-completed", JSON.stringify(completedLessons));
+  }, [completedLessons]);
+
+  useEffect(() => {
+    localStorage.setItem("cb-unlocked", JSON.stringify(unlockedSectionIds));
+  }, [unlockedSectionIds]);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
   // Compute sections with dynamic lock state
