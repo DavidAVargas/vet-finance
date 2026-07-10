@@ -13,6 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/DarkLightMode/theme-toggle";
 import Link from "next/link";
+import Image from "next/image";
 
 // ─── Mock user ───────────────────────────────────────────────────────────────
 
@@ -482,11 +483,7 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             What Credit Unlocks
           </h1>
 
-          {/* AI IMAGE PLACEHOLDER
-              Prompt: "Split image, left side a person happily receiving apartment keys, car keys, and house keys on a clean minimal background, right side the same person facing closed doors with a red denied stamp, flat modern illustration style, no text" */}
-          <div className="mb-8 flex h-48 items-center justify-center rounded-xl border border-dashed border-border bg-muted/30">
-            <p className="text-sm text-muted-foreground">[ Visual: What credit unlocks vs. what bad credit closes ]</p>
-          </div>
+          <Image src="/Imgs/ai-pic-1.png" alt="Good credit opens doors, bad credit closes them" width={0} height={0} sizes="100vw" className="mb-8 h-auto w-full rounded-xl" quality={100} />
 
           <div
             className="mb-8 rounded-r-lg bg-muted/40 p-5"
@@ -549,11 +546,7 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             The Cost of Bad Credit
           </h1>
 
-          {/* AI IMAGE PLACEHOLDER
-              Prompt: "Two people at a car dealership, both looking at the same car, one holding a paper showing a low monthly payment with a happy expression, the other holding a paper showing a much higher monthly payment looking stressed, clean flat illustration style, no text" */}
-          <div className="mb-8 flex h-48 items-center justify-center rounded-xl border border-dashed border-border bg-muted/30">
-            <p className="text-sm text-muted-foreground">[ Visual: Same car, two completely different payments ]</p>
-          </div>
+          <Image src="/Imgs/ai-pic-2.png" alt="Same car, two very different monthly payments based on credit score" width={0} height={0} sizes="100vw" className="mb-8 h-auto w-full rounded-xl" quality={100} />
 
           <p className="mb-5 text-base leading-relaxed text-muted-foreground">
             Bad credit doesn&apos;t just mean you get denied sometimes. It means
@@ -619,11 +612,7 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             How Much Good Credit Saves You
           </h1>
 
-          {/* AI IMAGE PLACEHOLDER
-              Prompt: "Two identical houses side by side, one with a price tag showing $682,000 total paid and a green checkmark, one with a price tag showing $908,000 total paid and a red marker, clean minimal infographic style illustration, no people, no text besides the numbers" */}
-          <div className="mb-8 flex h-48 items-center justify-center rounded-xl border border-dashed border-border bg-muted/30">
-            <p className="text-sm text-muted-foreground">[ Visual: Same house, $226,000 difference in lifetime cost ]</p>
-          </div>
+          <Image src="/Imgs/ai-pic-3.png" alt="Same house, $226,000 difference in total cost based on credit score" width={0} height={0} sizes="100vw" className="mb-8 h-auto w-full rounded-xl" quality={100} />
 
           <p className="mb-5 text-base leading-relaxed text-muted-foreground">
             Let&apos;s talk real numbers. This is where it stops being abstract
@@ -804,11 +793,7 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             a different one than having bad credit.
           </p>
 
-          {/* AI IMAGE PLACEHOLDER
-              Prompt: "A clean horizontal gauge or meter showing credit score range from 300 to 850, divided into color zones from red (300-579 Poor) to orange (580-669 Fair) to yellow (670-739 Good) to light green (740-799 Very Good) to dark green (800-850 Exceptional), minimal flat design, no people" */}
-          <div className="mb-8 flex h-40 items-center justify-center rounded-xl border border-dashed border-border bg-muted/30">
-            <p className="text-sm text-muted-foreground">[ Visual: Credit score scale 300–850 with tiers ]</p>
-          </div>
+          <Image src="/Imgs/ai-pic-4.png" alt="Credit score scale from 300 to 850 with tier zones" width={0} height={0} sizes="100vw" className="mb-8 h-auto w-full rounded-xl" quality={100} />
 
           <p className="mb-4 text-base font-semibold text-foreground">Here&apos;s how the tiers break down:</p>
           <div className="mb-8 overflow-hidden rounded-xl border border-border">
@@ -861,11 +846,7 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             move the number instead of guessing.
           </p>
 
-          {/* AI IMAGE PLACEHOLDER
-              Prompt: "A clean pie chart showing 5 segments: Payment History 35%, Credit Utilization 30%, Credit Age 15%, Hard Inquiries 10%, Total Accounts 10%, each segment a different muted color, minimal flat style, labeled clearly, no people, white background" */}
-          <div className="mb-8 flex h-40 items-center justify-center rounded-xl border border-dashed border-border bg-muted/30">
-            <p className="text-sm text-muted-foreground">[ Visual: Pie chart — 5 factors and their weights ]</p>
-          </div>
+          <Image src="/Imgs/ai-pic-5.png" alt="Pie chart showing the 5 credit score factors and their weights" width={0} height={0} sizes="100vw" className="mb-8 h-auto w-full rounded-xl" quality={100} />
 
           <div className="mb-6 flex flex-col gap-5">
             {[
@@ -1075,15 +1056,15 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
               explanation: "590 lands in the Fair range (580–669). You can get approved for some things but rates will be higher. The real target is 740+ where the best rates start.",
             },
             {
-              question: "You missed one payment 3 years ago. How much longer will it stay on your credit report?",
+              question: "You have $1,000 in your checking account and want to buy something for $1,500 using your credit card. Your credit limit is $2,000. Should you buy it?",
               options: [
-                "It's already gone — negative marks only last 2 years",
-                "1 more year",
-                "4 more years",
-                "It depends on the type of account",
+                "Yes — you're under your credit limit so it's fine",
+                "Yes — as long as you make the minimum payment on time",
+                "No — you only have $1,000. Spending $1,500 means spending money you don't have",
+                "Yes — using more of your credit limit helps build your score faster",
               ],
               correct: 2,
-              explanation: "Most negative marks, including late payments, stay on your report for 7 years from the date of the missed payment. 3 years have passed, so 4 more to go. That's why one missed payment does real lasting damage.",
+              explanation: "Rule #1: use your credit card like a debit card — only spend what's already in your account. You have $1,000, the item costs $1,500. That $500 gap is money you don't have. If you can't pay it off in full, don't charge it.",
             },
           ]}
         />
@@ -1169,11 +1150,7 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             </p>
           </div>
 
-          {/* AI IMAGE PLACEHOLDER
-              Prompt: "Clean minimal screenshot mockup of a credit score app dashboard showing a circular score gauge at 712, with 6 factor bars below labeled Payment History, Credit Utilization, Credit Age, Hard Inquiries, Derogatory Marks, Total Accounts, flat UI design, muted green and white color scheme, no real logos" */}
-          <div className="flex h-40 items-center justify-center rounded-xl border border-dashed border-border bg-muted/30">
-            <p className="text-sm text-muted-foreground">[ Visual: Credit Karma dashboard mockup ]</p>
-          </div>
+          <Image src="/Imgs/ai-pic-6.png" alt="Credit score app dashboard showing score and factor breakdown" width={0} height={0} sizes="100vw" className="h-auto w-full rounded-xl" quality={100} />
         </div>
       );
 
@@ -1199,11 +1176,7 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             normal, and here&apos;s why.
           </p>
 
-          {/* AI IMAGE PLACEHOLDER
-              Prompt: "Three clean minimal cards side by side labeled Equifax, TransUnion, and Experian, each with a different credit score number (e.g. 718, 724, 711), flat minimal design, muted colors, no real logos" */}
-          <div className="mb-8 flex h-36 items-center justify-center rounded-xl border border-dashed border-border bg-muted/30">
-            <p className="text-sm text-muted-foreground">[ Visual: Three bureau score cards ]</p>
-          </div>
+          <Image src="/Imgs/ai-pic-7.png" alt="Three credit bureau score cards showing slightly different scores" width={0} height={0} sizes="100vw" className="mb-8 h-auto w-full rounded-xl" quality={100} />
 
           <div className="mb-8 rounded-xl border border-border p-5">
             <p className="mb-2 font-semibold text-foreground">Not every lender reports to all three</p>
@@ -1282,11 +1255,7 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             score or destroy it.
           </p>
 
-          {/* AI IMAGE PLACEHOLDER
-              Prompt: "Two large stat cards side by side: left card shows '35%' with label 'Payment History', right card shows '30%' with label 'Credit Utilization', clean flat design, muted olive green accent color, minimal white background" */}
-          <div className="mb-8 flex h-36 items-center justify-center rounded-xl border border-dashed border-border bg-muted/30">
-            <p className="text-sm text-muted-foreground">[ Visual: 35% payment history + 30% utilization cards ]</p>
-          </div>
+          <Image src="/Imgs/ai-pic-8.png" alt="Payment history 35% and credit utilization 30% stat cards" width={0} height={0} sizes="100vw" className="mb-8 h-auto w-full rounded-xl" quality={100} />
 
           <div className="mb-5 rounded-xl border border-border p-6">
             <div className="mb-4 flex items-center gap-3">
@@ -1575,11 +1544,7 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             </p>
           </div>
 
-          {/* AI IMAGE PLACEHOLDER
-              Prompt: "Three clean minimal cards showing Equifax, TransUnion, and Experian each with a green lock icon and the word 'Frozen' underneath, flat UI design, muted olive green color scheme, no real logos" */}
-          <div className="flex h-36 items-center justify-center rounded-xl border border-dashed border-border bg-muted/30">
-            <p className="text-sm text-muted-foreground">[ Visual: All 3 bureaus frozen ]</p>
-          </div>
+          <Image src="/Imgs/ai-pic-9.png" alt="All three credit bureaus frozen with lock icons" width={0} height={0} sizes="100vw" className="h-auto w-full rounded-xl" quality={100} />
         </div>
       );
 
