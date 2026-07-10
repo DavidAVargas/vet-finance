@@ -100,9 +100,10 @@ function QuizBlock({ sectionLabel, questions, onPass }: {
 
   const allAnswered = questions.every((_, i) => selected[i] !== undefined);
   const score = questions.filter((q, i) => selected[i] === q.correct).length;
+  const passThreshold = Math.ceil(questions.length * (2 / 3));
 
   const handleSubmit = () => {
-    const didPass = score >= Math.ceil(questions.length * 0.67);
+    const didPass = score >= passThreshold;
     setSubmitted(true);
     setPassed(didPass);
     if (didPass) onPass?.();
@@ -123,7 +124,7 @@ function QuizBlock({ sectionLabel, questions, onPass }: {
         Knowledge Check
       </h1>
       <p className="mb-8 text-base text-muted-foreground">
-        Answer all questions to unlock the next section. You need 2 out of 3 to pass.
+        Answer all questions to unlock the next section. You need {passThreshold} out of {questions.length} to pass.
       </p>
 
       <div className="flex flex-col gap-8">
@@ -751,6 +752,28 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
               correct: 1,
               explanation: "Payday and title loans can carry 200–400% APR. Borrow $500 and you can end up owing $1,500. They're designed to be hard to escape.",
             },
+            {
+              question: "A landlord is reviewing two applicants. One has a 700 credit score and $2,000/month income. The other has a 520 credit score and $5,000/month income. Who is more likely to get approved?",
+              options: [
+                "The $5,000/month applicant — income matters more than credit",
+                "The 700 credit score applicant — landlords filter on credit first",
+                "Both have equal chances",
+                "Neither — both scores are too low",
+              ],
+              correct: 1,
+              explanation: "Most landlords require a minimum score of 620+. The higher-income applicant with a 520 will likely be denied outright regardless of what they earn. Credit score is the first filter.",
+            },
+            {
+              question: "You have $1,000 in cash and a 750 credit score. Your friend has $50,000 in cash and a 480 credit score. Who gets the better deal on a car loan?",
+              options: [
+                "Your friend — more cash means better terms",
+                "You — a 750 score gets you a much lower interest rate",
+                "Both get the same rate — lenders only look at income",
+                "Neither can get a loan without at least $10,000 down",
+              ],
+              correct: 1,
+              explanation: "Lenders price loans based on credit score, not cash in the bank. A 750 score can get you 4–6% APR while a 480 might mean 18–24% — or a denial. Your score is what opens the door.",
+            },
           ]}
         />
       );
@@ -1039,6 +1062,28 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
               ],
               correct: 1,
               explanation: "That card's 5 years of age is working for you. Closing it removes that history and reduces your available credit, which raises your utilization — both hurt your score.",
+            },
+            {
+              question: "Your credit score is 590. Which tier does that put you in?",
+              options: [
+                "Poor (300–579)",
+                "Fair (580–669)",
+                "Good (670–739)",
+                "Very Good (740–799)",
+              ],
+              correct: 1,
+              explanation: "590 lands in the Fair range (580–669). You can get approved for some things but rates will be higher. The real target is 740+ where the best rates start.",
+            },
+            {
+              question: "You missed one payment 3 years ago. How much longer will it stay on your credit report?",
+              options: [
+                "It's already gone — negative marks only last 2 years",
+                "1 more year",
+                "4 more years",
+                "It depends on the type of account",
+              ],
+              correct: 2,
+              explanation: "Most negative marks, including late payments, stay on your report for 7 years from the date of the missed payment. 3 years have passed, so 4 more to go. That's why one missed payment does real lasting damage.",
             },
           ]}
         />
@@ -1423,6 +1468,28 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
               correct: 2,
               explanation: "annualcreditreport.com is the only federally authorized source for free reports from all three bureaus. You can pull them weekly at no cost.",
             },
+            {
+              question: "You check Credit Karma and your score is 715. You apply for a car loan and the dealer says your score is 688. Why the difference?",
+              options: [
+                "The dealer made a mistake — your score is 715",
+                "Your score dropped the moment you applied",
+                "Credit Karma shows VantageScore, most lenders use FICO — they're calculated differently",
+                "Credit Karma only shows your highest bureau score",
+              ],
+              correct: 2,
+              explanation: "Credit Karma uses VantageScore. Most lenders use FICO. Both are real scores calculated by different models, which is why a gap of 10–30 points is completely normal.",
+            },
+            {
+              question: "Your friend tells you that checking your credit score on Credit Karma will hurt your score. Are they right?",
+              options: [
+                "Yes — any credit check lowers your score",
+                "Yes — but only if you check it more than once a month",
+                "No — checking your own credit is a soft pull and never affects your score",
+                "No — but only if you have a score above 700",
+              ],
+              correct: 2,
+              explanation: "Checking your own credit is always a soft pull — it has zero impact on your score no matter how often you check it. Only hard pulls (when a lender checks your credit for an application) can affect your score.",
+            },
           ]}
         />
       );
@@ -1801,6 +1868,28 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
               correct: 2,
               explanation: "An inquiry you don't recognize is a red flag. Freeze first to stop anything else from opening, then investigate. Don't wait — fraud moves fast.",
             },
+            {
+              question: "You want to apply for a car loan next week but your credit is frozen. What do you do?",
+              options: [
+                "Nothing — lenders can still pull your credit through a freeze",
+                "Permanently unfreeze your credit before applying for anything",
+                "Temporarily lift the freeze at the bureau the lender will pull, then re-freeze after",
+                "Cancel the application — you can't apply with a frozen file",
+              ],
+              correct: 2,
+              explanation: "You can lift a freeze temporarily in minutes through each bureau's website. Lift it, let the lender pull your credit, apply, then re-freeze. Small inconvenience, maximum protection.",
+            },
+            {
+              question: "Which of these is the single best first step if you think your identity has been stolen?",
+              options: [
+                "Call your bank and cancel all your cards",
+                "Wait to see if any fraudulent charges appear first",
+                "File a police report",
+                "Freeze your credit on all 3 bureaus immediately",
+              ],
+              correct: 3,
+              explanation: "Freeze first — it stops anyone from opening new accounts in your name while you figure out what happened. Everything else (police report, disputes, contacting creditors) comes after the freeze is in place.",
+            },
           ]}
         />
       );
@@ -1880,6 +1969,9 @@ export default function CreditBasicsPage() {
   const lastSection = SECTIONS[SECTIONS.length - 1];
   const lastLesson = lastSection.lessons[lastSection.lessons.length - 1];
   const isFinalLesson = activeLessonId === lastLesson.id;
+
+  const activeLesson = activeSection?.lessons.find((l) => l.id === activeLessonId);
+  const isActiveQuiz = "isQuiz" in (activeLesson ?? {}) && (activeLesson as { isQuiz?: boolean }).isQuiz;
 
   const nextSectionIndex = activeSection
     ? SECTIONS.findIndex((s) => s.id === activeSection.id) + 1
@@ -2171,7 +2263,7 @@ export default function CreditBasicsPage() {
                       </Link>
                     )}
                   </>
-                ) : (
+                ) : !isActiveQuiz ? (
                   <Button size="sm" onClick={markComplete}>
                     {isLastLessonOfNoQuizSection && nextSection
                       ? `Complete & Start ${nextSection.title}`
@@ -2179,7 +2271,7 @@ export default function CreditBasicsPage() {
                       ? "Complete & Continue"
                       : "Mark Complete"}
                   </Button>
-                )}
+                ) : null}
               </div>
             </div>
           </div>
