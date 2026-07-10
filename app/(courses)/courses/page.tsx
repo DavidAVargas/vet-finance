@@ -1,4 +1,7 @@
-import { Shield, CreditCard, Clock, BookOpen, ChevronRight, Star } from "lucide-react";
+"use client";
+
+import { useState, useEffect } from "react";
+import { Shield, CreditCard, Clock, BookOpen, ChevronRight, Star, Lock } from "lucide-react";
 import Link from "next/link";
 
 const mockUser = {
@@ -38,6 +41,17 @@ const courses = [
 ];
 
 export default function CoursesPage() {
+  const [creditBasicsComplete, setCreditBasicsComplete] = useState(false);
+
+  useEffect(() => {
+    try {
+      const completed: string[] = JSON.parse(localStorage.getItem("cb-completed") ?? "[]");
+      setCreditBasicsComplete(completed.includes("pyc-quiz"));
+    } catch {
+      setCreditBasicsComplete(false);
+    }
+  }, []);
+
   return (
     <div className="flex min-h-[100dvh] flex-col bg-background">
 
@@ -79,11 +93,14 @@ export default function CoursesPage() {
           <div className="flex flex-col gap-4">
             {courses.map((course) => {
               const Icon = course.icon;
+              const isCC101 = course.id === "credit-cards-101";
+              const unlocked = !isCC101 || creditBasicsComplete;
+
               return (
                 <div
                   key={course.id}
                   className={`relative rounded-xl border p-6 transition-colors ${
-                    course.available
+                    unlocked
                       ? "border-border bg-background hover:bg-muted/30"
                       : "border-border bg-muted/20 opacity-60"
                   }`}
@@ -99,11 +116,21 @@ export default function CoursesPage() {
                     </div>
                   )}
 
-                  {/* Not available badge */}
-                  {!course.available && (
+                  {/* Unlocked next course badge */}
+                  {isCC101 && creditBasicsComplete && (
+                    <div
+                      className="absolute right-5 top-5 inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-medium text-white"
+                      style={{ background: "var(--brand-600)" }}
+                    >
+                      Up Next
+                    </div>
+                  )}
+
+                  {/* Locked badge */}
+                  {isCC101 && !creditBasicsComplete && (
                     <div className="absolute right-5 top-5 inline-flex items-center gap-1.5 rounded-full bg-muted px-2.5 py-1 text-[11px] text-muted-foreground">
-                      <Clock className="size-3" />
-                      Coming soon
+                      <Lock className="size-3" />
+                      Complete Credit Basics to unlock
                     </div>
                   )}
 
@@ -146,7 +173,7 @@ export default function CoursesPage() {
                           </span>
                         </div>
 
-                        {course.available ? (
+                        {course.id === "credit-basics" ? (
                           <Link
                             href={course.href}
                             className="group flex items-center gap-1.5 text-sm font-medium text-foreground transition-colors hover:text-muted-foreground"
@@ -154,8 +181,13 @@ export default function CoursesPage() {
                             Start course
                             <ChevronRight className="size-4 transition-transform group-hover:translate-x-0.5" />
                           </Link>
+                        ) : creditBasicsComplete ? (
+                          <span className="text-sm text-muted-foreground">Coming soon</span>
                         ) : (
-                          <span className="text-sm text-muted-foreground">Locked</span>
+                          <span className="flex items-center gap-1.5 text-sm text-muted-foreground">
+                            <Lock className="size-3.5" />
+                            Locked
+                          </span>
                         )}
                       </div>
                     </div>
