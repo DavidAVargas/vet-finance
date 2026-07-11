@@ -738,6 +738,346 @@ function LessonContent({
         />
       );
 
+    case "pop-1":
+      return (
+        <div>
+          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+            The Power of Points · Lesson 1
+          </p>
+          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+            Why Points Beat Cash
+          </h1>
+
+          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+            Cash back is simple. You spend $100, you get $1.50 back. Every
+            time, no thinking required. And for a lot of people, that&apos;s exactly
+            why they stick with it. But if you&apos;re willing to learn one extra
+            thing, points can be worth 3x, 5x, even 10x more than that same
+            $1.50 — on the exact same purchase.
+          </p>
+
+          <p className="mb-8 text-base leading-relaxed text-muted-foreground">
+            The reason most people don&apos;t know this is because the default way
+            to redeem points is terrible. Banks want you to use points through
+            their travel portal or for gift cards at 1 cent each. That&apos;s the
+            bad deal. The good deal is transferring those points to airline and
+            hotel partners — and that&apos;s where the real value is.
+          </p>
+
+          <div className="mb-8 rounded-xl border border-border p-5">
+            <p className="mb-4 font-semibold text-foreground">What 100,000 points is actually worth</p>
+            <div className="flex flex-col gap-3">
+              {[
+                { method: "Cash back", value: "$1,000", note: "1 cent per point — always", highlight: false },
+                { method: "Travel portal redemption", value: "~$1,500", note: "1.25–1.5 cents per point (Chase, Amex)", highlight: false },
+                { method: "Transfer to airline partner", value: "$3,000–$8,000+", note: "3–8+ cents per point on business/first class flights", highlight: true },
+              ].map(({ method, value, note, highlight }) => (
+                <div key={method} className={`flex items-center justify-between rounded-lg p-3 ${highlight ? "border border-border text-foreground" : "bg-muted/30"}`}
+                  style={highlight ? { background: "var(--brand-600)15" } : {}}>
+                  <div>
+                    <p className="text-sm font-semibold text-foreground">{method}</p>
+                    <p className="text-xs text-muted-foreground">{note}</p>
+                  </div>
+                  <p className={`text-sm font-bold ${highlight ? "" : "text-muted-foreground"}`}
+                    style={highlight ? { color: "var(--brand-600)" } : {}}>
+                    {value}
+                  </p>
+                </div>
+              ))}
+            </div>
+            <p className="mt-3 text-xs text-muted-foreground">Same 100,000 points. Very different outcomes depending on how you use them.</p>
+          </div>
+
+          <p className="mb-6 text-base leading-relaxed text-muted-foreground">
+            The cards that earn transferable points are the ones worth paying
+            attention to. These aren&apos;t points locked to one airline — they&apos;re
+            flexible currencies you can send to dozens of partners depending
+            on what trip you&apos;re booking.
+          </p>
+
+          <div className="mb-8 flex flex-col gap-3">
+            {[
+              { program: "Chase Ultimate Rewards", partners: "United, Hyatt, Southwest, British Airways, and more", cards: "Sapphire Preferred, Sapphire Reserve, Freedom Unlimited" },
+              { program: "Amex Membership Rewards", partners: "Delta, Air France, Hilton, Marriott, and more", cards: "Amex Platinum, Amex Gold, Green Card" },
+              { program: "Capital One Miles", partners: "Turkish Airlines, Air Canada, Wyndham, and more", cards: "Venture X, Venture, VentureOne" },
+            ].map(({ program, partners, cards }) => (
+              <div key={program} className="rounded-xl border border-border p-4">
+                <p className="mb-1 font-semibold text-foreground">{program}</p>
+                <p className="mb-1 text-xs text-muted-foreground"><span className="font-medium text-foreground">Partners:</span> {partners}</p>
+                <p className="text-xs text-muted-foreground"><span className="font-medium text-foreground">Earned with:</span> {cards}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="rounded-xl p-5 text-white" style={{ background: "var(--brand-600)" }}>
+            <p className="mb-1 font-bold">The bottom line</p>
+            <p className="text-sm leading-relaxed text-white/85">
+              Cash back is a guaranteed 1–2%. Points are 1–2% if you use them
+              the lazy way, and 5–10%+ if you learn the right redemptions.
+              You don&apos;t need to be an expert. You just need to know two or
+              three sweet spots — and we&apos;ll cover those next.
+            </p>
+          </div>
+        </div>
+      );
+
+    case "pop-2":
+      return (
+        <div>
+          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+            The Power of Points · Lesson 2
+          </p>
+          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+            How to Actually Use Your Points
+          </h1>
+
+          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+            Most people earn points for years and never use them well. Not
+            because they&apos;re not smart — but because nobody ever explained
+            how the system actually works. There are two ways to redeem
+            points, and the difference in value between them is massive.
+          </p>
+
+          <div className="mb-8 flex flex-col gap-4">
+            <div className="rounded-xl border border-border p-5">
+              <div className="mb-3 flex items-center justify-between">
+                <p className="font-bold text-foreground">Way 1 — Travel portal</p>
+                <span className="rounded-full bg-muted px-2.5 py-0.5 text-xs font-medium text-muted-foreground">Easy, lower value</span>
+              </div>
+              <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
+                Every major points program has a travel portal — basically
+                their own version of Expedia. You search for flights or
+                hotels, book directly, and use points to pay. Simple. No
+                transfers, no partners to learn.
+              </p>
+              <p className="text-sm leading-relaxed text-muted-foreground">
+                The catch: you usually get 1 to 1.5 cents per point this way.
+                It&apos;s decent — better than cash or gift cards — but you&apos;re
+                leaving a lot on the table. Think of this as the floor, not
+                the ceiling.
+              </p>
+            </div>
+
+            <div className="rounded-xl border border-border p-5">
+              <div className="mb-3 flex items-center justify-between">
+                <p className="font-bold text-foreground">Way 2 — Transfer to partners</p>
+                <span className="rounded-full bg-green-500/10 px-2.5 py-0.5 text-xs font-medium text-green-600">Where the real value is</span>
+              </div>
+              <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
+                Instead of booking through the portal, you transfer your
+                points to an airline or hotel loyalty program — usually 1:1.
+                Then you use those miles or points to book directly through
+                the airline or hotel. This is where you can get 3 to 10+
+                cents per point.
+              </p>
+              <p className="text-sm leading-relaxed text-muted-foreground">
+                The learning curve is higher, but once you understand even
+                one or two transfer partners, you unlock a completely
+                different level of travel.
+              </p>
+            </div>
+          </div>
+
+          <div className="mb-8 rounded-xl border border-border p-5">
+            <p className="mb-4 font-semibold text-foreground">Real example — Chase to Hyatt</p>
+            <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
+              Hyatt is one of the best transfer partners in the game. A
+              standard room at a high-end Hyatt hotel might cost $400–$600
+              a night in cash. The same room in points? Sometimes 15,000–25,000
+              World of Hyatt points — which you can transfer from Chase
+              Ultimate Rewards at a 1:1 ratio.
+            </p>
+            <div className="flex flex-col gap-2">
+              {[
+                { label: "Hotel room cash price", value: "$500/night" },
+                { label: "Points needed", value: "20,000 Hyatt points" },
+                { label: "Value per point", value: "2.5 cents" },
+                { label: "Through Chase portal instead", value: "~$200 (1 cent/pt)" },
+              ].map(({ label, value }) => (
+                <div key={label} className="flex items-center justify-between border-b border-border pb-2 last:border-0 last:pb-0 text-sm">
+                  <p className="text-muted-foreground">{label}</p>
+                  <p className="font-semibold text-foreground">{value}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="mb-8 rounded-xl border border-border p-5">
+            <p className="mb-3 font-semibold text-foreground">Two sweet spots to start with</p>
+            <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
+              You don&apos;t need to learn every partner. Start with one or two
+              and go from there.
+            </p>
+            <div className="flex flex-col gap-3">
+              {[
+                {
+                  title: "Chase → Hyatt",
+                  why: "Best hotel transfer in the game. High-end hotels at a fraction of the cash price. 1:1 transfer ratio.",
+                },
+                {
+                  title: "Chase or Amex → Airlines",
+                  why: "Business and first class tickets that would cost $3,000–$10,000+ in cash can be booked for 50,000–100,000 points. The value gap is enormous.",
+                },
+              ].map(({ title, why }) => (
+                <div key={title} className="flex gap-3">
+                  <div className="mt-0.5 size-2 shrink-0 rounded-full" style={{ background: "var(--brand-600)", marginTop: "6px" }} />
+                  <div>
+                    <p className="text-sm font-semibold text-foreground">{title}</p>
+                    <p className="text-sm text-muted-foreground">{why}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <p className="text-base leading-relaxed text-muted-foreground">
+            The key is to start simple. Pick one upcoming trip, research
+            what points it would take, and book it that way. Once you do it
+            once, the whole system clicks. You&apos;ll never look at points the
+            same way again.
+          </p>
+        </div>
+      );
+
+    case "pop-3":
+      return (
+        <div>
+          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+            The Power of Points · Lesson 3
+          </p>
+          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+            Keeping Track
+          </h1>
+
+          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+            Once you have more than one card, keeping track of your points
+            becomes important. Points sitting in accounts you forget about
+            can expire. Balances you don&apos;t check don&apos;t earn you anything.
+            And if you&apos;re not paying attention, you might be missing easy
+            rewards on purchases you&apos;re already making.
+          </p>
+
+          <p className="mb-8 text-base leading-relaxed text-muted-foreground">
+            The good news: you don&apos;t need a spreadsheet or a complicated
+            system. There are tools built specifically for this.
+          </p>
+
+          <div className="mb-8 rounded-xl border border-border p-5">
+            <div className="mb-3 flex items-center justify-between">
+              <p className="font-bold text-foreground">Max Rewards</p>
+              <span className="rounded-full bg-green-500/10 px-2.5 py-0.5 text-xs font-medium text-green-600">Recommended</span>
+            </div>
+            <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
+              Max Rewards is a free app that connects to all your credit card
+              accounts and shows you your total points balance across every
+              program in one place. It also tells you which card to use for
+              each purchase to maximize your rewards — so you&apos;re never
+              leaving points on the table.
+            </p>
+            <p className="text-sm leading-relaxed text-muted-foreground">
+              It also tracks your card benefits and reminds you of credits
+              you haven&apos;t used yet. If you have a card with a $300 travel
+              credit and you forget to use it before the year resets, that&apos;s
+              $300 gone. Max Rewards keeps you on top of that.
+            </p>
+          </div>
+
+          <div className="mb-8 flex flex-col gap-3">
+            <p className="font-semibold text-foreground">Other things worth tracking</p>
+            {[
+              {
+                title: "Point expiration",
+                body: "Most transferable points (Chase, Amex, Capital One) don't expire as long as your account is open and active. But airline miles can expire — usually after 12–24 months of no activity. One small purchase through the airline keeps the clock reset.",
+              },
+              {
+                title: "Annual fee renewal dates",
+                body: "Know when your annual fee cards renew. If you're not getting value from a card anymore, you can downgrade or cancel before the fee hits. Never pay a fee for a card you're not using.",
+              },
+              {
+                title: "Bonus category spending",
+                body: "Some cards give 3x–5x points on specific categories like dining, travel, or groceries. Knowing which card earns the most in each category — and actually using that card for those purchases — is the easiest way to earn more without spending more.",
+              },
+            ].map(({ title, body }) => (
+              <div key={title} className="rounded-xl border border-border p-4">
+                <p className="mb-1 text-sm font-semibold text-foreground">{title}</p>
+                <p className="text-sm leading-relaxed text-muted-foreground">{body}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="rounded-xl p-5 text-white" style={{ background: "var(--brand-600)" }}>
+            <p className="mb-1 font-bold">Keep it simple</p>
+            <p className="text-sm leading-relaxed text-white/85">
+              Download Max Rewards, link your cards, and check it once a
+              month. That&apos;s it. You don&apos;t need to obsess over every point —
+              just make sure you&apos;re using the right card for each purchase
+              and not letting credits go to waste. The rewards add up fast
+              when you stay on top of it.
+            </p>
+          </div>
+        </div>
+      );
+
+    case "pop-quiz":
+      return (
+        <QuizBlock
+          sectionLabel="The Power of Points"
+          onPass={onQuizPass}
+          questions={[
+            {
+              question: "Why do points generally beat cash back?",
+              options: [
+                "Banks give you more points than cash back on every purchase",
+                "Points can be redeemed through transfer partners for 3–10x more value than cash",
+                "Points never expire but cash back does",
+                "Points are worth a guaranteed 5 cents each",
+              ],
+              correct: 1,
+              explanation: "Cash back is always 1–2%. Points redeemed through transfer partners — airlines, hotels — can be worth 3 to 10+ cents each. Same purchase, very different outcome depending on how you redeem.",
+            },
+            {
+              question: "What is the main advantage of transferring points to airline or hotel partners instead of using the bank's travel portal?",
+              options: [
+                "Transfers are faster and easier to book",
+                "You get significantly more value per point — often 3–10x more than the portal",
+                "Points transferred to partners can be converted to cash",
+                "Partner bookings always include free checked bags",
+              ],
+              correct: 1,
+              explanation: "The bank's travel portal gives you roughly 1–1.5 cents per point. Transferring to a partner like Hyatt or United can get you 3–10+ cents per point on the right redemption. That's the difference between $1,000 and $5,000 in value from the same 100,000 points.",
+            },
+            {
+              question: "You have 20,000 Chase Ultimate Rewards points. A Hyatt hotel room costs $500/night. If you transfer the points to Hyatt and the room costs 20,000 points — what's the value per point?",
+              options: ["0.5 cents", "1 cent", "2.5 cents", "5 cents"],
+              correct: 2,
+              explanation: "$500 ÷ 20,000 points = 2.5 cents per point. That's 2.5x better than redeeming through the Chase travel portal at 1 cent per point.",
+            },
+            {
+              question: "What does Max Rewards help you do?",
+              options: [
+                "Automatically pay your credit card bills",
+                "Track all your points balances and tell you which card to use for each purchase",
+                "Transfer points between programs automatically",
+                "Negotiate a lower APR with your card issuer",
+              ],
+              correct: 1,
+              explanation: "Max Rewards connects to all your card accounts, shows your total points in one place, and tells you which card earns the most for each spending category. It also tracks benefits and credits so you don't let them go to waste.",
+            },
+            {
+              question: "Your airline miles haven't been used in 18 months and are about to expire. What's the easiest way to reset the clock?",
+              options: [
+                "Call the airline and ask for an extension",
+                "Transfer points from another program into your airline account",
+                "Make any small purchase or earning activity through that airline to keep the account active",
+                "There's nothing you can do — expired miles are gone",
+              ],
+              correct: 2,
+              explanation: "Most airline programs expire miles after 12–24 months of no activity. One small purchase — a flight, a partner transaction, sometimes even a shopping portal purchase — resets the timer. Stay active and you'll never lose miles.",
+            },
+          ]}
+        />
+      );
+
     default:
       return (
         <div>
