@@ -66,16 +66,6 @@ const SECTIONS = [
       { id: "bcs-quiz", title: "Quiz", isQuiz: true },
     ],
   },
-  {
-    id: "find-your-start",
-    title: "Find Your Starting Point",
-    noQuiz: true,
-    lessons: [
-      { id: "fysp-1", title: "No Credit History? Start Here" },
-      { id: "fysp-2", title: "Already Have Cards? Level Up" },
-      { id: "fysp-rec", title: "Find Your Card" },
-    ],
-  },
 ];
 
 // ─── Quiz component ──────────────────────────────────────────────────────────
@@ -1073,6 +1063,350 @@ function LessonContent({
               ],
               correct: 2,
               explanation: "Most airline programs expire miles after 12–24 months of no activity. One small purchase — a flight, a partner transaction, sometimes even a shopping portal purchase — resets the timer. Stay active and you'll never lose miles.",
+            },
+          ]}
+        />
+      );
+
+    case "bcs-1":
+      return (
+        <div>
+          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+            Building Your Card Stack · Lesson 1
+          </p>
+          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+            Why You Want 5+ Cards Eventually
+          </h1>
+
+          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+            When most people hear "5 credit cards," they think that sounds
+            irresponsible. But the people who understand credit know that
+            having more cards — managed correctly — actually makes your
+            financial profile stronger, not weaker. This isn&apos;t about spending
+            more. It&apos;s about building the right structure over time.
+          </p>
+
+          <p className="mb-8 text-base leading-relaxed text-muted-foreground">
+            The key word is eventually. You don&apos;t open 5 cards at once. You
+            build your stack slowly — one or two cards a year — so each one
+            adds to your history, your available credit, and your rewards
+            without hurting your score.
+          </p>
+
+          <div className="mb-8 flex flex-col gap-4">
+            {[
+              {
+                title: "Utilization drops across the board",
+                body: "Your credit utilization is calculated across all your cards combined. One card with a $5,000 limit and $2,000 in monthly spending = 40% utilization. Five cards with a combined $25,000 limit and the same $2,000 in spending = 8% utilization. Same spending, very different score impact.",
+                icon: "📉",
+              },
+              {
+                title: "More accounts = longer credit history over time",
+                body: "Every card you open starts building its own age the day you open it. The more accounts you have open, the more history you're building in parallel. A 5-year-old card and a 3-year-old card average out to 4 years of history. That's stronger than one card alone.",
+                icon: "📅",
+              },
+              {
+                title: "More earning opportunities",
+                body: "Different cards give bonus points in different categories — dining, travel, groceries, gas. One card can't cover everything at the best rate. The more cards you have, the more you can optimize which card earns the most on each purchase.",
+                icon: "💳",
+              },
+              {
+                title: "Redundancy and backup",
+                body: "If one card is frozen, lost, or compromised, you have others. If a specific card's rewards program changes, you're not dependent on it. A stack gives you flexibility.",
+                icon: "🔒",
+              },
+            ].map(({ title, body, icon }) => (
+              <div key={title} className="flex gap-4 rounded-xl border border-border p-4">
+                <span className="text-xl">{icon}</span>
+                <div>
+                  <p className="mb-1 text-sm font-semibold text-foreground">{title}</p>
+                  <p className="text-sm leading-relaxed text-muted-foreground">{body}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="mb-8 rounded-xl border border-border p-5">
+            <p className="mb-3 font-semibold text-foreground">What about hard inquiries?</p>
+            <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
+              Every time you apply for a new card, it triggers a hard inquiry
+              which can drop your score by a few points temporarily. That&apos;s
+              real — but it&apos;s also short-lived. Hard inquiries fall off after
+              2 years and the score impact fades within a few months.
+            </p>
+            <p className="text-sm leading-relaxed text-muted-foreground">
+              The long-term benefit of lower utilization and more credit
+              history almost always outweighs the short-term dip from a
+              hard pull. The key is spacing out applications — don&apos;t open
+              3 cards in one month.
+            </p>
+          </div>
+
+          <div className="rounded-xl p-5 text-white" style={{ background: "var(--brand-600)" }}>
+            <p className="mb-1 font-bold">The timeline that works</p>
+            <p className="text-sm leading-relaxed text-white/85">
+              Start with 1–2 no-fee cards to build your history. After 6–12
+              months, add a rewards card. Keep going one card at a time, once
+              or twice a year. By year 3–5 you&apos;ll have a solid stack, strong
+              utilization numbers, and years of on-time payments behind you.
+              That&apos;s when the best cards become available to you.
+            </p>
+          </div>
+        </div>
+      );
+
+    case "bcs-2":
+      return (
+        <div>
+          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+            Building Your Card Stack · Lesson 2
+          </p>
+          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+            A Card for Everything
+          </h1>
+
+          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+            Once you have a few cards, the next step is using the right one
+            for the right purchase. Not every card earns the same on every
+            category. Putting your dining spend on a card that earns 4x
+            instead of 1x means you&apos;re getting 4 times the rewards — for
+            the exact same meal.
+          </p>
+
+          <p className="mb-8 text-base leading-relaxed text-muted-foreground">
+            The goal is to build a stack where every dollar you spend is going
+            on the card that earns the most for that category. This is called
+            optimizing your spend — and it&apos;s one of the fastest ways to rack
+            up points without changing how you live.
+          </p>
+
+          <div className="mb-8 flex flex-col gap-3">
+            <p className="font-semibold text-foreground">What a solid stack looks like</p>
+            {[
+              { category: "Dining & Groceries", card: "Amex Gold", rate: "4x points", why: "Best earning rate in these two categories — period." },
+              { category: "Travel & Hotels", card: "Chase Sapphire Reserve", rate: "3x points", why: "Plus $300 travel credit and lounge access. Strong for flights, hotels, rideshare." },
+              { category: "Everything Else", card: "Citi Double Cash / Freedom Unlimited", rate: "2% / 1.5x", why: "A catch-all card so nothing earns at the base 1x rate. Every uncategorized purchase still earns well." },
+              { category: "Gas", card: "Costco Anywhere Visa / Citi Custom Cash", rate: "4–5%", why: "Gas-specific cards earn significantly more than general cards at the pump." },
+              { category: "Hotels (Hyatt)", card: "World of Hyatt Card", rate: "4x at Hyatt", why: "If you stay at Hyatt, earning points directly speeds up free night redemptions." },
+            ].map(({ category, card, rate, why }) => (
+              <div key={category} className="rounded-xl border border-border p-4">
+                <div className="mb-2 flex items-start justify-between gap-2">
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{category}</p>
+                    <p className="mt-0.5 font-semibold text-foreground">{card}</p>
+                  </div>
+                  <span className="shrink-0 rounded-full px-2.5 py-0.5 text-xs font-bold text-white" style={{ background: "var(--brand-600)" }}>{rate}</span>
+                </div>
+                <p className="text-sm text-muted-foreground">{why}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="mb-8 rounded-xl border border-border p-5">
+            <p className="mb-2 font-semibold text-foreground">Let the app do the thinking</p>
+            <p className="text-sm leading-relaxed text-muted-foreground">
+              You don&apos;t need to memorize which card earns what. Max Rewards
+              looks at your card stack and tells you — in real time — which
+              card to pull out for each purchase. Tap the category, it shows
+              you the best card. That&apos;s it.
+            </p>
+          </div>
+
+          <p className="text-base leading-relaxed text-muted-foreground">
+            You don&apos;t need all of these cards right now. The point is to
+            understand the concept — every dollar should work as hard as
+            possible. As you add cards over time, fill in the gaps in your
+            stack. Eventually, there&apos;s no category where you&apos;re leaving
+            points on the table.
+          </p>
+        </div>
+      );
+
+    case "bcs-3":
+      return (
+        <div>
+          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+            Building Your Card Stack · Lesson 3
+          </p>
+          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+            Military Benefits
+          </h1>
+
+          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+            If you&apos;re active duty military, you have access to credit card
+            benefits that most civilians never get. Two federal laws —
+            SCRA and MLA — protect you. And several major card issuers go
+            even further by waiving annual fees entirely for servicemembers.
+            Most people don&apos;t know these benefits exist, which means they&apos;re
+            paying for cards they could have for free.
+          </p>
+
+          <div className="mb-8 flex flex-col gap-4">
+            <div className="rounded-xl border border-border p-5">
+              <div className="mb-1 flex items-center justify-between">
+                <p className="font-bold text-foreground">SCRA — Servicemembers Civil Relief Act</p>
+              </div>
+              <p className="mb-2 text-xs text-muted-foreground">Applies to debt you had before active duty</p>
+              <p className="text-sm leading-relaxed text-muted-foreground">
+                If you had credit card debt before you went on active duty,
+                SCRA caps the interest rate on that debt at 6% — no matter
+                what your original APR was. If your card was charging 24%,
+                that drops to 6% for the duration of your active service.
+                You have to request this benefit — it doesn&apos;t apply automatically.
+              </p>
+            </div>
+
+            <div className="rounded-xl border border-border p-5">
+              <div className="mb-1 flex items-center justify-between">
+                <p className="font-bold text-foreground">MLA — Military Lending Act</p>
+              </div>
+              <p className="mb-2 text-xs text-muted-foreground">Applies to new credit taken out while on active duty</p>
+              <p className="text-sm leading-relaxed text-muted-foreground">
+                The MLA caps the Military Annual Percentage Rate (MAPR) at
+                36% on new consumer credit — including credit cards — for
+                active duty members and their dependents. It also prohibits
+                prepayment penalties and mandatory arbitration clauses.
+                This protects you from predatory lenders targeting military.
+              </p>
+            </div>
+          </div>
+
+          <p className="mb-4 font-semibold text-foreground">Annual fee waivers — the big one</p>
+          <p className="mb-5 text-sm leading-relaxed text-muted-foreground">
+            Several major issuers waive annual fees for active duty
+            servicemembers under SCRA and their own policies. This is
+            massive — it means you can hold premium cards that would cost
+            hundreds a year for completely free.
+          </p>
+
+          <div className="mb-8 flex flex-col gap-3">
+            {[
+              {
+                issuer: "American Express",
+                benefit: "Waives ALL annual fees for active duty military",
+                detail: "This includes the Amex Platinum ($895/yr), Amex Gold ($250/yr), and every other Amex card. Active duty members can hold the most premium card in the game for $0.",
+                highlight: true,
+              },
+              {
+                issuer: "Chase",
+                benefit: "Waives annual fees for active duty under SCRA",
+                detail: "Covers the Sapphire Reserve ($795/yr), Sapphire Preferred ($95/yr), and other Chase cards. Apply while on active duty and the fee is waived.",
+                highlight: true,
+              },
+              {
+                issuer: "Capital One",
+                benefit: "Waives annual fees for active duty",
+                detail: "Applies to the Venture X and other Capital One cards with annual fees.",
+                highlight: false,
+              },
+              {
+                issuer: "Citi & Discover",
+                benefit: "Fee waivers and rate reductions under SCRA",
+                detail: "Varies by product — contact the issuer directly to confirm your benefits.",
+                highlight: false,
+              },
+            ].map(({ issuer, benefit, detail, highlight }) => (
+              <div key={issuer} className={`rounded-xl border p-4 ${highlight ? "border-border" : "border-border"}`}
+                style={highlight ? { borderColor: "var(--brand-600)40" } : {}}>
+                <div className="mb-1 flex items-start justify-between gap-2">
+                  <p className="font-semibold text-foreground">{issuer}</p>
+                  {highlight && (
+                    <span className="shrink-0 rounded-full px-2 py-0.5 text-[10px] font-bold text-white" style={{ background: "var(--brand-600)" }}>
+                      Best benefit
+                    </span>
+                  )}
+                </div>
+                <p className="mb-1 text-sm font-medium text-foreground">{benefit}</p>
+                <p className="text-xs leading-relaxed text-muted-foreground">{detail}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="mb-8 rounded-xl border border-border p-5">
+            <p className="mb-2 font-semibold text-foreground">Navy Federal & USAA</p>
+            <p className="text-sm leading-relaxed text-muted-foreground">
+              Both Navy Federal Credit Union and USAA exist specifically to
+              serve military members and their families. They offer strong
+              cards, competitive rates, and member-friendly policies. If you
+              don&apos;t have accounts with one of them, they&apos;re worth looking into
+              — especially for your first credit card or a no-fee everyday card.
+            </p>
+          </div>
+
+          <div className="rounded-xl p-5 text-white" style={{ background: "var(--brand-600)" }}>
+            <p className="mb-1 font-bold">Don&apos;t leave this on the table</p>
+            <p className="text-sm leading-relaxed text-white/85">
+              If you&apos;re active duty, call your card issuers and ask about
+              SCRA benefits. You usually have to request them — they won&apos;t
+              always apply automatically. This could eliminate hundreds of
+              dollars in annual fees and reduce your interest rate on
+              existing balances. It&apos;s one of the best financial benefits
+              that comes with your service.
+            </p>
+          </div>
+        </div>
+      );
+
+    case "bcs-quiz":
+      return (
+        <QuizBlock
+          sectionLabel="Building Your Card Stack"
+          onPass={onQuizPass}
+          questions={[
+            {
+              question: "You have one credit card with a $5,000 limit and spend $2,000/month. What happens to your utilization when you add four more cards and your combined limit becomes $25,000?",
+              options: [
+                "Utilization goes up because you have more cards",
+                "Utilization stays the same — it's based on spending, not limits",
+                "Utilization drops from 40% to 8% — same spending, much more available credit",
+                "Utilization resets to zero when you open new cards",
+              ],
+              correct: 2,
+              explanation: "$2,000 ÷ $5,000 = 40% utilization. $2,000 ÷ $25,000 = 8%. Same spending, but spreading it across more available credit dramatically lowers your utilization ratio — one of the biggest factors in your credit score.",
+            },
+            {
+              question: "What does 'a card for everything' mean when building your stack?",
+              options: [
+                "Using one card for all purchases to keep things simple",
+                "Having different cards that each earn the most rewards in specific spending categories",
+                "Getting a separate card for every single purchase you make",
+                "Using only cards with no annual fees for every type of spending",
+              ],
+              correct: 1,
+              explanation: "Different cards have bonus categories — 4x on dining, 3x on travel, 2% on everything else. Using the right card for each purchase means every dollar earns the highest possible rate instead of a flat 1x on everything.",
+            },
+            {
+              question: "What does SCRA do for active duty military members with existing credit card debt?",
+              options: [
+                "Automatically forgives all credit card debt after 2 years of service",
+                "Caps the interest rate on pre-service debt at 6% for the duration of active duty",
+                "Removes minimum payment requirements while deployed",
+                "Increases your credit limit on all cards automatically",
+              ],
+              correct: 1,
+              explanation: "The Servicemembers Civil Relief Act caps interest on pre-service debt at 6% — regardless of your original APR. If your card was at 24%, it drops to 6% while you're on active duty. You have to request this benefit; it doesn't apply automatically.",
+            },
+            {
+              question: "Which card issuer waives ALL annual fees for active duty military — including premium cards like the Amex Platinum?",
+              options: [
+                "Chase",
+                "Capital One",
+                "American Express",
+                "Citi",
+              ],
+              correct: 2,
+              explanation: "American Express waives every annual fee for active duty servicemembers — including the $895/yr Platinum and $250/yr Gold. That means active duty military can hold the most premium rewards card in the game for $0.",
+            },
+            {
+              question: "Why is it better to space out credit card applications — one or two per year — instead of opening several at once?",
+              options: [
+                "Banks only allow you to open one card per year",
+                "Each application triggers a hard inquiry; spacing them out limits the temporary score impact and looks better to lenders",
+                "Opening multiple cards at once automatically lowers your credit limits",
+                "You need 12 months of history on each card before applying for another",
+              ],
+              correct: 1,
+              explanation: "Every application creates a hard inquiry that can temporarily lower your score. Opening several cards at once also signals risk to lenders. Spacing applications out lets each inquiry fade, keeps your profile clean, and gives each card time to build positive history.",
             },
           ]}
         />
