@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Shield, CreditCard, Clock, BookOpen, ChevronRight, Star, Lock } from "lucide-react";
+import { Shield, CreditCard, Clock, BookOpen, ChevronRight, Star, Lock, Sparkles } from "lucide-react";
 import Link from "next/link";
 
 const mockUser = {
@@ -42,15 +42,21 @@ const courses = [
 
 export default function CoursesPage() {
   const [creditBasicsComplete, setCreditBasicsComplete] = useState(false);
+  const [cc101Complete, setCc101Complete] = useState(false);
 
   useEffect(() => {
     try {
-      const completed: string[] = JSON.parse(localStorage.getItem("cb-completed") ?? "[]");
-      setCreditBasicsComplete(completed.includes("pyc-quiz"));
+      const cbCompleted: string[] = JSON.parse(localStorage.getItem("cb-completed") ?? "[]");
+      const ccCompleted: string[] = JSON.parse(localStorage.getItem("cc101-completed") ?? "[]");
+      setCreditBasicsComplete(cbCompleted.includes("pyc-quiz"));
+      setCc101Complete(ccCompleted.includes("bcs-quiz"));
     } catch {
       setCreditBasicsComplete(false);
+      setCc101Complete(false);
     }
   }, []);
+
+  const playbookUnlocked = creditBasicsComplete && cc101Complete;
 
   return (
     <div className="flex min-h-[100dvh] flex-col bg-background">
@@ -165,6 +171,52 @@ export default function CoursesPage() {
                 </div>
               );
             })}
+          </div>
+
+          {/* Playbook card */}
+          <div className={`relative mt-4 overflow-hidden rounded-xl border p-6 transition-colors ${playbookUnlocked ? "border-border bg-background hover:bg-muted/30" : "border-border bg-muted/10 opacity-60"}`}>
+            {!playbookUnlocked && (
+              <div className="absolute right-5 top-5 flex items-center gap-1.5 rounded-full bg-muted px-2.5 py-1 text-[11px] text-muted-foreground">
+                <Lock className="size-3" />
+                Finish both courses to unlock
+              </div>
+            )}
+            {playbookUnlocked && (
+              <div className="absolute right-5 top-5 inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-medium text-white" style={{ background: "var(--brand-600)" }}>
+                <Sparkles className="size-3" />
+                Unlocked
+              </div>
+            )}
+
+            <div className="flex items-start gap-4">
+              <div className="mt-0.5 flex size-10 shrink-0 items-center justify-center rounded-full border border-border bg-muted text-lg">
+                🎯
+              </div>
+              <div className="min-w-0 flex-1">
+                <h2 className="mb-0.5 font-bold text-foreground">What I Would Do If I...</h2>
+                <p className="mb-4 text-sm text-muted-foreground">
+                  David&apos;s personal playbook for every situation — zero cards, in collections, building, or optimizing. Real talk, step by step.
+                </p>
+                <div className="mb-5 flex flex-wrap gap-2">
+                  {["Zero Cards", "In Collections", "1–3 Cards", "3–5 Cards"].map((t) => (
+                    <span key={t} className="rounded-full border border-border bg-muted px-2.5 py-0.5 text-xs text-muted-foreground">{t}</span>
+                  ))}
+                </div>
+                <div className="flex items-center justify-end">
+                  {playbookUnlocked ? (
+                    <Link href="/courses/playbook" className="group flex items-center gap-1.5 text-sm font-medium text-foreground transition-colors hover:text-muted-foreground">
+                      Open playbook
+                      <ChevronRight className="size-4 transition-transform group-hover:translate-x-0.5" />
+                    </Link>
+                  ) : (
+                    <span className="flex items-center gap-1.5 text-sm text-muted-foreground">
+                      <Lock className="size-3.5" />
+                      Locked
+                    </span>
+                  )}
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Footer note */}
