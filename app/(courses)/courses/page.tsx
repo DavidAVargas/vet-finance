@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Shield, CreditCard, Clock, BookOpen, ChevronRight, Star, Lock, Sparkles } from "lucide-react";
+import { Shield, CreditCard, AlertTriangle, Clock, BookOpen, ChevronRight, Star, Lock, Sparkles } from "lucide-react";
 import Link from "next/link";
 
 const mockUser = {
@@ -36,6 +36,20 @@ const courses = [
     readTime: "~25 min",
     href: "/courses/credit-cards-101",
     available: false,
+    recommended: false,
+  },
+  {
+    id: "debt-traps",
+    icon: AlertTriangle,
+    title: "Debt Traps",
+    subtitle: "Know what to avoid",
+    description:
+      "The wealth killers most people walk right into — car loans, medical bills, student debt, and how to handle them.",
+    topics: ["72-Month Car Loans", "Medical Debt", "Student Loans", "Wealth Killers"],
+    sections: 3,
+    readTime: "~15 min",
+    href: "/courses/debt-traps",
+    available: true,
     recommended: false,
   },
 ];
@@ -173,8 +187,24 @@ export default function CoursesPage() {
             })}
           </div>
 
+          {/* Bonus divider */}
+          <div className="mt-10 mb-5 flex items-center gap-3">
+            <div className="h-px flex-1 bg-border" />
+            <div className="flex items-center gap-1.5 rounded-full border border-border bg-muted px-3 py-1">
+              <Sparkles className="size-3 text-muted-foreground" />
+              <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Bonus</span>
+            </div>
+            <div className="h-px flex-1 bg-border" />
+          </div>
+
           {/* Playbook card */}
-          <div className={`relative mt-4 overflow-hidden rounded-xl border p-6 transition-colors ${playbookUnlocked ? "border-border bg-background hover:bg-muted/30" : "border-border bg-muted/10 opacity-60"}`}>
+          <div
+            className={`relative overflow-hidden rounded-xl border p-6 transition-colors ${playbookUnlocked ? "hover:bg-muted/20" : "opacity-60"}`}
+            style={{
+              background: playbookUnlocked ? "var(--brand-600)08" : undefined,
+              borderColor: playbookUnlocked ? "var(--brand-600)40" : undefined,
+            }}
+          >
             {!playbookUnlocked && (
               <div className="absolute right-5 top-5 flex items-center gap-1.5 rounded-full bg-muted px-2.5 py-1 text-[11px] text-muted-foreground">
                 <Lock className="size-3" />
@@ -189,22 +219,25 @@ export default function CoursesPage() {
             )}
 
             <div className="flex items-start gap-4">
-              <div className="mt-0.5 flex size-10 shrink-0 items-center justify-center rounded-full border border-border bg-muted text-lg">
+              <div className="mt-0.5 flex size-10 shrink-0 items-center justify-center rounded-full border text-lg"
+                style={{ borderColor: "var(--brand-600)40", background: "var(--brand-600)10" }}>
                 🎯
               </div>
               <div className="min-w-0 flex-1">
-                <h2 className="mb-0.5 font-bold text-foreground">What I Would Do If I...</h2>
+                <p className="mb-0.5 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">David&apos;s Playbook</p>
+                <h2 className="mb-1 font-bold text-foreground">What I Would Do If I...</h2>
                 <p className="mb-4 text-sm text-muted-foreground">
-                  David&apos;s personal playbook for every situation — zero cards, in collections, building, or optimizing. Real talk, step by step.
+                  Personalized step-by-step guide based on exactly where you are — zero cards, in collections, building, or optimizing. Not generic advice. Real talk.
                 </p>
                 <div className="mb-5 flex flex-wrap gap-2">
-                  {["Zero Cards", "In Collections", "1–3 Cards", "3–5 Cards"].map((t) => (
+                  {["Zero Cards", "In Collections", "1–3 Cards", "3–5 Cards", "Active Duty"].map((t) => (
                     <span key={t} className="rounded-full border border-border bg-muted px-2.5 py-0.5 text-xs text-muted-foreground">{t}</span>
                   ))}
                 </div>
-                <div className="flex items-center justify-end">
+                <div className="flex items-center justify-between">
+                  <p className="text-xs text-muted-foreground">Unlocks after completing both courses</p>
                   {playbookUnlocked ? (
-                    <Link href="/courses/playbook" className="group flex items-center gap-1.5 text-sm font-medium text-foreground transition-colors hover:text-muted-foreground">
+                    <Link href="/courses/playbook" className="group flex items-center gap-1.5 text-sm font-medium transition-colors hover:opacity-80" style={{ color: "var(--brand-600)" }}>
                       Open playbook
                       <ChevronRight className="size-4 transition-transform group-hover:translate-x-0.5" />
                     </Link>
