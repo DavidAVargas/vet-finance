@@ -801,6 +801,281 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
         />
       );
 
+    case "sl-1":
+      return (
+        <div>
+          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+            Student Loans · Lesson 1
+          </p>
+          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+            It&apos;s Manageable — If You&apos;re Smart About It
+          </h1>
+
+          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+            Student loans are different from every other debt trap in this
+            course. A car loan is almost always a bad deal. A medical bill
+            is something that happened to you. But student loans — done right
+            — are an investment in your earning potential. The problem isn&apos;t
+            the debt itself. It&apos;s when people borrow without thinking about
+            what comes after.
+          </p>
+
+          <p className="mb-8 text-base leading-relaxed text-muted-foreground">
+            If you have student loans, you&apos;re not alone and you&apos;re not stuck.
+            But managing them well requires understanding what you actually
+            signed up for.
+          </p>
+
+          <div className="mb-8 rounded-xl border border-border p-5">
+            <p className="mb-4 font-semibold text-foreground">Federal vs. private loans — know the difference</p>
+            <div className="flex flex-col gap-3">
+              {[
+                { label: "Interest rates", federal: "Fixed by Congress — predictable", private: "Set by lender — can be variable and higher" },
+                { label: "Income-driven repayment", federal: "Available — payments capped at % of income", private: "Rarely available" },
+                { label: "Forgiveness programs", federal: "PSLF, IDR forgiveness, military benefits", private: "Almost never" },
+                { label: "Deferment / forbearance", federal: "Flexible options available", private: "Limited, varies by lender" },
+                { label: "Military benefits", federal: "0% interest during active combat deployment", private: "SCRA applies (6% cap), but varies" },
+              ].map(({ label, federal, private: priv }) => (
+                <div key={label} className="grid grid-cols-3 gap-3 border-b border-border pb-3 last:border-0 last:pb-0 text-sm">
+                  <p className="font-medium text-foreground">{label}</p>
+                  <p className="text-muted-foreground">{federal}</p>
+                  <p className="text-muted-foreground">{priv}</p>
+                </div>
+              ))}
+            </div>
+            <p className="mt-3 text-xs text-muted-foreground">
+              <span className="font-semibold text-foreground">Rule #1:</span> Never refinance federal loans into private loans. You lose every protection above and can never get them back.
+            </p>
+          </div>
+
+          <div className="mb-8 rounded-xl border border-border p-5">
+            <p className="mb-3 font-semibold text-foreground">Income-driven repayment — your safety net</p>
+            <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
+              If your federal loan payments feel unmanageable, income-driven
+              repayment (IDR) plans cap your monthly payment at 5–10% of your
+              discretionary income. If you&apos;re making $40,000 a year, your
+              payment could be as low as $50–$100/month regardless of how
+              much you owe.
+            </p>
+            <p className="text-sm leading-relaxed text-muted-foreground">
+              After 20–25 years of payments on an IDR plan, any remaining
+              balance is forgiven. It&apos;s not the fastest way out — but it
+              makes sure the debt never breaks you while you&apos;re building
+              your income.
+            </p>
+          </div>
+
+          <div className="mb-8 rounded-xl border border-border p-5">
+            <p className="mb-3 font-semibold text-foreground">Military and veteran benefits on student loans</p>
+            <div className="flex flex-col gap-3">
+              {[
+                {
+                  title: "0% interest during combat deployment",
+                  body: "Active duty servicemembers deployed to a hostile fire or imminent danger area pay 0% interest on federal student loans for the duration of that deployment. Request this through your loan servicer with deployment orders.",
+                },
+                {
+                  title: "Public Service Loan Forgiveness (PSLF)",
+                  body: "Military service counts as qualifying employment for PSLF. After 10 years of qualifying payments while working for the government or a nonprofit — including active duty service — your remaining federal loan balance is forgiven tax-free.",
+                },
+                {
+                  title: "SCRA on private loans",
+                  body: "The Servicemembers Civil Relief Act caps interest on private student loans taken before active duty at 6%. Request this from your private loan servicer with a copy of your orders.",
+                },
+              ].map(({ title, body }) => (
+                <div key={title} className="rounded-xl border border-border p-4">
+                  <p className="mb-1 text-sm font-semibold text-foreground">{title}</p>
+                  <p className="text-sm leading-relaxed text-muted-foreground">{body}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="rounded-xl p-5 text-white" style={{ background: "var(--brand-600)" }}>
+            <p className="mb-1 font-bold">The honest take on student loans</p>
+            <p className="text-sm leading-relaxed text-white/85">
+              Student loans are manageable. They&apos;re not fun, and they&apos;re not
+              free money — but they&apos;re also not the end of the world. The
+              people who struggle most are the ones who ignore them or make
+              uninformed decisions like refinancing federal loans into private
+              ones. Know what you have, know your options, and have a plan.
+              That&apos;s all it takes.
+            </p>
+          </div>
+        </div>
+      );
+
+    case "sl-2":
+      return (
+        <div>
+          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+            Student Loans · Lesson 2
+          </p>
+          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+            Pay It Off As Fast As You Can
+          </h1>
+
+          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+            Income-driven repayment is a safety net — not a strategy.
+            Stretching your loans out for 20 years means paying interest
+            for 20 years. The goal should always be to eliminate student
+            debt as fast as your life realistically allows. Here&apos;s how to
+            think about it.
+          </p>
+
+          <div className="mb-8 rounded-xl border border-border p-5">
+            <p className="mb-3 font-semibold text-foreground">What interest does to your balance over time</p>
+            <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
+              If you borrowed $40,000 at 6.5% interest and only made minimum
+              payments on a standard 10-year plan, here&apos;s what it looks like:
+            </p>
+            <div className="flex flex-col gap-2">
+              {[
+                { label: "Original balance", value: "$40,000" },
+                { label: "Monthly payment (10-yr standard)", value: "$454/mo" },
+                { label: "Total paid over 10 years", value: "$54,480" },
+                { label: "Total interest paid", value: "$14,480" },
+              ].map(({ label, value }) => (
+                <div key={label} className="flex items-center justify-between border-b border-border pb-2 last:border-0 last:pb-0 text-sm">
+                  <p className="text-muted-foreground">{label}</p>
+                  <p className="font-semibold text-foreground">{value}</p>
+                </div>
+              ))}
+            </div>
+            <p className="mt-3 text-xs text-muted-foreground">
+              $14,480 extra just for taking 10 years. Pay it off in 5 and you&apos;d save around $8,000 in interest.
+            </p>
+          </div>
+
+          <div className="mb-8 rounded-xl border border-border p-5">
+            <p className="mb-4 font-semibold text-foreground">How to attack it faster</p>
+            <div className="flex flex-col gap-3">
+              {[
+                {
+                  title: "Live below your means right after graduation",
+                  body: "This is the most important window. Your first job after school is when most people upgrade their lifestyle — new car, nicer apartment, going out more. Resist that. Keep your expenses low for 2–3 years and throw everything extra at the loans. This one move can cut years off your payoff timeline.",
+                },
+                {
+                  title: "Pay more than the minimum — even a little",
+                  body: "An extra $100–$200 a month on a $40,000 loan at 6.5% cuts years off your payoff and saves thousands in interest. Most loan servicers let you specify that extra payments go toward principal — make sure to request that.",
+                },
+                {
+                  title: "Attack the highest interest rate first",
+                  body: "If you have multiple loans at different rates, minimum payments on everything and throw your extra money at the highest rate. That's the one costing you the most every month.",
+                },
+                {
+                  title: "Don't over-focus on loans if you have high-interest debt",
+                  body: "If you have credit card debt at 24% APR and student loans at 6%, pay off the credit cards first. Student loan interest, especially federal, is lower than most other debt. Prioritize by rate.",
+                },
+              ].map(({ title, body }, i) => (
+                <div key={i} className="flex gap-4">
+                  <div className="flex size-7 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white" style={{ background: "var(--brand-600)" }}>
+                    {i + 1}
+                  </div>
+                  <div>
+                    <p className="mb-1 text-sm font-semibold text-foreground">{title}</p>
+                    <p className="text-sm leading-relaxed text-muted-foreground">{body}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="mb-8 rounded-xl border border-border p-5">
+            <p className="mb-2 font-semibold text-foreground">Should you invest or pay off loans first?</p>
+            <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
+              If your employer offers a 401(k) match — contribute enough to
+              get the full match first, always. That&apos;s a 50–100% instant
+              return. Nothing beats it.
+            </p>
+            <p className="text-sm leading-relaxed text-muted-foreground">
+              After that, if your loan interest rate is below 6%, you could
+              make a case for investing the rest since markets average 7–10%
+              long term. Above 6–7%, pay the loans down aggressively. The
+              math gets close but the peace of mind from being debt-free
+              is worth a lot too.
+            </p>
+          </div>
+
+          <div className="rounded-xl p-5 text-white" style={{ background: "var(--brand-600)" }}>
+            <p className="mb-1 font-bold">The mindset that actually works</p>
+            <p className="text-sm leading-relaxed text-white/85">
+              Get the degree, get the job, live like you&apos;re still broke for
+              a few years, and hit those loans hard. The people who pay off
+              $50,000 in student debt in 3–4 years aren&apos;t making six figures
+              — they&apos;re just disciplined about lifestyle creep. You don&apos;t
+              have to live that way forever. Just long enough to get free.
+              Then everything you were throwing at loans goes toward building
+              wealth instead.
+            </p>
+          </div>
+        </div>
+      );
+
+    case "sl-quiz":
+      return (
+        <QuizBlock
+          sectionLabel="Student Loans"
+          onPass={onQuizPass}
+          questions={[
+            {
+              question: "What is the biggest risk of refinancing federal student loans into private loans?",
+              options: [
+                "Your interest rate will always go up",
+                "You permanently lose federal protections like income-driven repayment, forgiveness programs, and military benefits",
+                "You can only refinance once",
+                "Private loans always have shorter repayment terms",
+              ],
+              correct: 1,
+              explanation: "Federal loans come with income-driven repayment, PSLF eligibility, deferment options, and military benefits. Refinancing into a private loan eliminates all of these permanently. Never trade federal loans for private ones.",
+            },
+            {
+              question: "What does an income-driven repayment plan do?",
+              options: [
+                "Forgives your loans after 5 years of payments",
+                "Caps your monthly payment at a percentage of your income, making payments manageable regardless of balance",
+                "Converts federal loans to private loans at a lower rate",
+                "Automatically deducts payments from your paycheck",
+              ],
+              correct: 1,
+              explanation: "IDR plans cap payments at 5–10% of discretionary income. If you're earning $40k/year, your payment could be $50–$100/month even on a large balance. After 20–25 years, the remaining balance is forgiven.",
+            },
+            {
+              question: "As an active duty servicemember deployed to a combat zone, what happens to your federal student loan interest?",
+              options: [
+                "It doubles as a penalty for not making payments",
+                "It drops to 6% under SCRA automatically",
+                "It goes to 0% for the duration of your combat deployment",
+                "Payments are paused but interest still accrues",
+              ],
+              correct: 2,
+              explanation: "Active duty servicemembers deployed to a hostile fire or imminent danger area pay 0% interest on federal student loans during that deployment. You need to request this through your loan servicer with your deployment orders.",
+            },
+            {
+              question: "You have $40,000 in student loans at 6.5% and $5,000 in credit card debt at 24%. Which should you pay off first?",
+              options: [
+                "Student loans — they're the larger balance",
+                "Split payments evenly between both",
+                "Credit card debt — the 24% interest rate costs you far more per dollar owed",
+                "Neither — invest everything in the stock market instead",
+              ],
+              correct: 2,
+              explanation: "Always attack the highest interest rate first. 24% APR on your credit card is costing you far more per dollar than 6.5% on your student loans. Pay minimums on loans, destroy the credit card balance, then redirect that payment to loans.",
+            },
+            {
+              question: "What is the most important financial move right after getting your first job out of school?",
+              options: [
+                "Upgrade your apartment and car to reflect your new income",
+                "Open as many credit cards as possible to build credit fast",
+                "Live below your means and throw extra money at your loans for 2–3 years",
+                "Put all extra income into crypto before paying any debt",
+              ],
+              correct: 2,
+              explanation: "The years right after graduation are the most powerful window for paying down debt. Lifestyle creep — a new car, nicer apartment, going out more — is the #1 reason people stay in debt for 10+ years. Keep expenses low, hit the loans hard, and get free faster.",
+            },
+          ]}
+        />
+      );
+
     default:
       return (
         <div>
