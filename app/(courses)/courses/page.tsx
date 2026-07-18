@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Shield, CreditCard, AlertTriangle, Clock, BookOpen, ChevronRight, Star, Lock, Sparkles } from "lucide-react";
+import { Shield, CreditCard, AlertTriangle, Medal, Clock, BookOpen, ChevronRight, Star, Lock, Sparkles } from "lucide-react";
 import Link from "next/link";
 
 const mockUser = {
@@ -49,6 +49,20 @@ const courses = [
     sections: 3,
     readTime: "~15 min",
     href: "/courses/debt-traps",
+    available: true,
+    recommended: false,
+  },
+  {
+    id: "military-money",
+    icon: Medal,
+    title: "Military Money",
+    subtitle: "Built for service",
+    description:
+      "Every financial benefit you've earned — BAH, TSP, VA Home Loan, GI Bill, disability, and the hidden stuff most vets never claim.",
+    topics: ["BAH & BAS", "VA Home Loan", "GI Bill vs. VR&E", "VA Disability"],
+    sections: 6,
+    readTime: "~30 min",
+    href: "/courses/military-money",
     available: true,
     recommended: false,
   },
