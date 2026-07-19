@@ -10,7 +10,6 @@ import {
   Circle,
   BookOpen,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/DarkLightMode/theme-toggle";
 import Link from "next/link";
 
@@ -24,189 +23,62 @@ const SECTIONS = [
   {
     id: "active-duty-pay",
     title: "Active Duty Pay",
-    noQuiz: false,
+    noQuiz: true,
     lessons: [
       { id: "amp-1", title: "Your LES — What All Those Numbers Mean" },
       { id: "amp-2", title: "BAH, BAS, and the Tax-Free Advantage" },
-      { id: "amp-quiz", title: "Quiz", isQuiz: true },
     ],
   },
   {
     id: "tsp-retirement",
     title: "TSP & Retirement",
-    noQuiz: false,
+    noQuiz: true,
     lessons: [
       { id: "tsp-1", title: "The Blended Retirement System" },
       { id: "tsp-2", title: "The Combat Zone TSP Trick" },
-      { id: "tsp-quiz", title: "Quiz", isQuiz: true },
     ],
   },
   {
     id: "va-home-loan",
     title: "The VA Home Loan",
-    noQuiz: false,
+    noQuiz: true,
     lessons: [
       { id: "va-1", title: "Why This Is Your Biggest Benefit" },
       { id: "va-2", title: "How to Actually Use It" },
-      { id: "va-quiz", title: "Quiz", isQuiz: true },
     ],
   },
   {
     id: "education-benefits",
     title: "Education Benefits",
-    noQuiz: false,
+    noQuiz: true,
     lessons: [
       { id: "ed-1", title: "GI Bill vs. VR&E — Know the Difference" },
       { id: "ed-2", title: "Getting Every Dollar You're Owed" },
-      { id: "ed-quiz", title: "Quiz", isQuiz: true },
     ],
   },
   {
     id: "va-disability",
     title: "VA Disability & Healthcare",
-    noQuiz: false,
+    noQuiz: true,
     lessons: [
       { id: "dis-1", title: "How Ratings Work and Why They Matter" },
       { id: "dis-2", title: "What Each Rating Unlocks" },
-      { id: "dis-quiz", title: "Quiz", isQuiz: true },
     ],
   },
   {
     id: "hidden-benefits",
     title: "The Hidden Stuff",
-    noQuiz: false,
+    noQuiz: true,
     lessons: [
       { id: "hid-1", title: "Benefits Most Vets Never Claim" },
       { id: "hid-2", title: "State Benefits and Federal Hiring" },
-      { id: "hid-quiz", title: "Quiz", isQuiz: true },
     ],
   },
 ];
 
-// ─── Quiz component ───────────────────────────────────────────────────────────
-
-interface QuizQuestion {
-  question: string;
-  options: string[];
-  correct: number;
-  explanation: string;
-}
-
-function QuizBlock({ sectionLabel, questions, onPass }: {
-  sectionLabel: string;
-  questions: QuizQuestion[];
-  onPass?: () => void;
-}) {
-  const [selected, setSelected] = useState<Record<number, number>>({});
-  const [submitted, setSubmitted] = useState(false);
-  const [passed, setPassed] = useState(false);
-
-  const allAnswered = questions.every((_, i) => selected[i] !== undefined);
-  const score = questions.filter((q, i) => selected[i] === q.correct).length;
-  const passThreshold = Math.ceil(questions.length * (2 / 3));
-
-  const handleSubmit = () => {
-    const didPass = score >= passThreshold;
-    setSubmitted(true);
-    setPassed(didPass);
-    if (didPass) onPass?.();
-  };
-
-  const handleRetry = () => {
-    setSelected({});
-    setSubmitted(false);
-    setPassed(false);
-  };
-
-  return (
-    <div>
-      <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-        {sectionLabel} · Quiz
-      </p>
-      <h1 className="mb-2 text-3xl font-bold tracking-tight text-foreground">Knowledge Check</h1>
-      <p className="mb-8 text-base text-muted-foreground">
-        You need {passThreshold} out of {questions.length} to pass.
-      </p>
-      <div className="flex flex-col gap-8">
-        {questions.map((q, qi) => {
-          const isCorrect = submitted && selected[qi] === q.correct;
-          return (
-            <div key={qi}>
-              <p className="mb-3 font-semibold text-foreground">
-                <span className="mr-2 font-mono text-xs text-muted-foreground/60">{qi + 1}.</span>
-                {q.question}
-              </p>
-              <div className="flex flex-col gap-2">
-                {q.options.map((opt, oi) => {
-                  const isSelected = selected[qi] === oi;
-                  const isCorrectOption = submitted && oi === q.correct;
-                  const isWrongSelected = submitted && isSelected && oi !== q.correct;
-                  return (
-                    <button
-                      key={oi}
-                      disabled={submitted}
-                      onClick={() => !submitted && setSelected((prev) => ({ ...prev, [qi]: oi }))}
-                      className={`flex items-center gap-3 rounded-lg border px-4 py-3 text-left text-sm transition-colors ${
-                        isCorrectOption ? "border-green-500 bg-green-500/10 text-foreground"
-                        : isWrongSelected ? "border-red-400 bg-red-400/10 text-foreground"
-                        : isSelected ? "border-foreground bg-muted text-foreground"
-                        : "border-border text-muted-foreground hover:border-foreground/40 hover:text-foreground"
-                      } ${submitted ? "cursor-default" : "cursor-pointer"}`}
-                    >
-                      <span className={`flex size-5 shrink-0 items-center justify-center rounded-full border text-xs font-medium ${
-                        isCorrectOption ? "border-green-500 bg-green-500 text-white"
-                        : isWrongSelected ? "border-red-400 bg-red-400 text-white"
-                        : isSelected ? "border-foreground bg-foreground text-background"
-                        : "border-border"
-                      }`}>
-                        {isCorrectOption ? "✓" : isWrongSelected ? "✗" : String.fromCharCode(65 + oi)}
-                      </span>
-                      {opt}
-                    </button>
-                  );
-                })}
-              </div>
-              {submitted && (
-                <p className={`mt-3 rounded-lg px-3 py-2 text-sm ${isCorrect ? "bg-green-500/10 text-green-700 dark:text-green-400" : "bg-muted text-muted-foreground"}`}>
-                  {q.explanation}
-                </p>
-              )}
-            </div>
-          );
-        })}
-      </div>
-      {submitted ? (
-        <div className={`mt-8 rounded-xl border p-5 text-center ${passed ? "border-green-500 bg-green-500/10" : "border-border bg-muted/30"}`}>
-          {passed ? (
-            <>
-              <p className="text-lg font-bold text-foreground">You passed! {score}/{questions.length} correct.</p>
-              <p className="mt-1 text-sm text-muted-foreground">The next section is now unlocked.</p>
-            </>
-          ) : (
-            <>
-              <p className="text-lg font-bold text-foreground">{score}/{questions.length} correct — not quite.</p>
-              <p className="mt-1 mb-4 text-sm text-muted-foreground">Review the lessons above and try again.</p>
-              <Button size="sm" variant="outline" onClick={handleRetry}>Try Again</Button>
-            </>
-          )}
-        </div>
-      ) : (
-        <Button
-          className="mt-8"
-          disabled={!allAnswered}
-          onClick={handleSubmit}
-          style={allAnswered ? { background: "var(--brand-600)", color: "white" } : {}}
-        >
-          Submit Answers
-        </Button>
-      )}
-    </div>
-  );
-}
-
 // ─── Lesson content ───────────────────────────────────────────────────────────
 
-function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?: () => void }) {
+function LessonContent({ lessonId }: { lessonId: string }) {
   switch (lessonId) {
 
     case "amp-1":
@@ -470,70 +342,255 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
         </div>
       );
 
-    case "amp-quiz":
+
+    case "tsp-1":
       return (
-        <QuizBlock
-          sectionLabel="Active Duty Pay"
-          onPass={onQuizPass}
-          questions={[
-            {
-              question: "Which parts of your military pay are NOT subject to federal income tax?",
-              options: [
-                "Base pay and BAH",
-                "BAH, BAS, and combat zone pay",
-                "Only base pay",
-                "All military pay is tax-free",
-              ],
-              correct: 1,
-              explanation: "BAH and BAS are always tax-free. Base pay is normally taxed but becomes tax-free when you're deployed to a designated combat zone. Base pay by itself is always taxable outside of a combat zone.",
-            },
-            {
-              question: "What three factors determine your BAH rate?",
-              options: [
-                "Years of service, base pay, and branch of service",
-                "Duty station zip code, pay grade (rank), and dependent status",
-                "Base pay, number of children, and housing cost nationwide",
-                "Rank, years of service, and whether you live on or off base",
-              ],
-              correct: 1,
-              explanation: "BAH is based on where you're stationed (zip code), your pay grade, and whether you have dependents. A married E-5 in San Diego gets a very different BAH than a single E-5 in rural Georgia — even at the same rank and years of service.",
-            },
-            {
-              question: "You receive $1,800/month in BAH but find an apartment for $1,400/month. What happens to the $400 difference?",
-              options: [
-                "It goes back to the government",
-                "You must use it on approved housing expenses",
-                "You keep it — tax-free",
-                "It reduces your BAH rate next year",
-              ],
-              correct: 2,
-              explanation: "BAH is yours to keep regardless of what you spend on housing. If you find housing below your BAH rate, the difference is yours — tax-free. This is one of the most powerful savings opportunities in the military. Living frugally on BAH builds real wealth over a career.",
-            },
-            {
-              question: "How many days of leave do you earn per month, and what is the fiscal year-end cap?",
-              options: [
-                "1.5 days/month, capped at 45 days",
-                "2.5 days/month, capped at 60 days (120 during deployment)",
-                "3 days/month, capped at 90 days",
-                "2 days/month, no cap",
-              ],
-              correct: 1,
-              explanation: "You earn 2.5 days of leave per month — 30 days per year. Any days above 60 at the end of the fiscal year (September 30) are forfeited unless you're deployed, in which case the cap rises to 120. Each forfeited day is real money lost.",
-            },
-            {
-              question: "Why is it important to check your LES every month?",
-              options: [
-                "It's required by military regulation",
-                "Finance offices don't make errors so it's purely informational",
-                "To catch errors in BAH rate, TSP contributions, or deductions before they go unnoticed for months",
-                "To verify your credit score",
-              ],
-              correct: 2,
-              explanation: "Finance offices do make errors — wrong BAH rates after a PCS or marriage, missing TSP deductions, incorrect allowances. If you're not checking your LES monthly, those errors can compound for months before you notice. Five minutes a month reviewing your LES is one of the highest-ROI habits in the military.",
-            },
-          ]}
-        />
+        <div>
+          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+            TSP & Retirement · Lesson 1
+          </p>
+          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+            The Blended Retirement System
+          </h1>
+
+          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+            Before 2018, the military ran on a simple deal: serve 20 years and
+            get a pension for life. If you left at 19 years and 11 months, you
+            got nothing. That system is gone for most servicemembers today.
+            The Blended Retirement System — BRS — replaced it, and
+            understanding it is the difference between leaving the military
+            with a head start on retirement or leaving with nothing.
+          </p>
+
+          <div className="mb-8 rounded-xl border border-border p-5">
+            <p className="mb-4 font-semibold text-foreground">Old system vs. BRS — what changed</p>
+            <div className="grid grid-cols-3 gap-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">
+              <p></p>
+              <p>Legacy (pre-2018)</p>
+              <p>BRS (current)</p>
+            </div>
+            <div className="flex flex-col gap-3">
+              {[
+                { label: "Pension after 20 yrs", legacy: "2.5% × years × base pay", brs: "2.0% × years × base pay" },
+                { label: "TSP matching", legacy: "None", brs: "Up to 5% of base pay matched" },
+                { label: "If you leave before 20 yrs", legacy: "No pension, no TSP match", brs: "Keep TSP + matching (vested after 2 yrs)" },
+                { label: "Continuation bonus", legacy: "Not applicable", brs: "Lump sum at 12 yrs if you re-up 4 more" },
+                { label: "Who it benefits most", legacy: "Career servicemembers (20+ yrs)", brs: "Everyone, especially those who serve 4–12 yrs" },
+              ].map(({ label, legacy, brs }) => (
+                <div key={label} className="grid grid-cols-3 gap-3 border-b border-border pb-3 last:border-0 last:pb-0 text-sm">
+                  <p className="font-medium text-foreground">{label}</p>
+                  <p className="text-muted-foreground">{legacy}</p>
+                  <p className="text-muted-foreground">{brs}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="mb-8 rounded-xl border border-border p-5">
+            <p className="mb-3 font-semibold text-foreground">The TSP match — free money you should never leave behind</p>
+            <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
+              Under BRS, the government automatically contributes 1% of your
+              base pay to your TSP whether you contribute or not. Then they
+              match your contributions dollar-for-dollar up to 3%, and 50
+              cents on the dollar for the next 2%. Here&apos;s what that looks like:
+            </p>
+            <div className="flex flex-col gap-2 mb-4">
+              {[
+                { you: "0%", gov: "1%", total: "1%" },
+                { you: "1%", gov: "2%", total: "3%" },
+                { you: "3%", gov: "4%", total: "7%" },
+                { you: "5%", gov: "5%", total: "10%", highlight: true },
+              ].map(({ you, gov, total, highlight }) => (
+                <div
+                  key={you}
+                  className={`grid grid-cols-3 gap-3 rounded-lg px-3 py-2 text-sm ${highlight ? "font-semibold text-foreground" : "text-muted-foreground"}`}
+                  style={highlight ? { background: "var(--brand-600)15", border: "1px solid var(--brand-600)30" } : {}}
+                >
+                  <p>You contribute: {you}</p>
+                  <p>Gov adds: {gov}</p>
+                  <p>Total: {total}</p>
+                </div>
+              ))}
+            </div>
+            <p className="text-sm leading-relaxed text-muted-foreground">
+              Contributing 5% of your base pay gets you the full 5% government
+              match — that&apos;s a 100% instant return on that portion of your
+              money. There is no investment on earth that guarantees that.
+              If you&apos;re not contributing at least 5%, you are leaving free
+              money on the table every single month.
+            </p>
+          </div>
+
+          <div className="mb-8 rounded-xl border border-border p-5">
+            <p className="mb-3 font-semibold text-foreground">Vesting — when the match is actually yours</p>
+            <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
+              The automatic 1% contribution vests after 2 years of service.
+              The matching contributions vest immediately. So after 2 years,
+              everything in your TSP — your contributions, the match, and the
+              automatic 1% — is fully yours even if you leave the military.
+            </p>
+            <p className="text-sm leading-relaxed text-muted-foreground">
+              This is a massive shift from the old system. Under legacy
+              retirement, leaving at 10 years meant walking away with zero.
+              Under BRS, 10 years of 5% contributions with full matching
+              can mean six figures in your TSP before you ever transition out.
+            </p>
+          </div>
+
+          <div className="mb-8 rounded-xl border border-border p-5">
+            <p className="mb-3 font-semibold text-foreground">Traditional TSP vs. Roth TSP — which one?</p>
+            <div className="flex flex-col gap-3">
+              {[
+                {
+                  label: "Traditional TSP",
+                  body: "Contributions reduce your taxable income now. You pay taxes when you withdraw in retirement. Best if you expect to be in a lower tax bracket in retirement than you are today.",
+                },
+                {
+                  label: "Roth TSP",
+                  body: "Contributions come from after-tax dollars. Growth and withdrawals in retirement are completely tax-free. Best if you're early in your career (lower income now = lower tax rate now). Also the right call during combat zone deployments — more on that next lesson.",
+                },
+              ].map(({ label, body }) => (
+                <div key={label} className="rounded-xl border border-border p-4">
+                  <p className="mb-1 text-sm font-semibold text-foreground">{label}</p>
+                  <p className="text-sm leading-relaxed text-muted-foreground">{body}</p>
+                </div>
+              ))}
+            </div>
+            <p className="mt-3 text-xs text-muted-foreground">
+              Note: Government matching always goes into traditional TSP regardless of which you choose.
+            </p>
+          </div>
+
+          <div className="rounded-xl p-5 text-white" style={{ background: "var(--brand-600)" }}>
+            <p className="mb-1 font-bold">The action item</p>
+            <p className="text-sm leading-relaxed text-white/85">
+              Log into myPay and make sure you&apos;re contributing at least 5% of
+              your base pay to TSP. If you&apos;re junior enlisted and money is tight,
+              even 3–4% gets you most of the match. If you can swing 5%, do it —
+              the match is the best guaranteed return you&apos;ll ever get. Early in
+              your career, lean toward Roth TSP. You&apos;re in a lower tax bracket
+              now than you&apos;ll likely be later, and tax-free growth over 20–30
+              years is a powerful thing.
+            </p>
+          </div>
+        </div>
       );
+
+    case "tsp-2":
+      return (
+        <div>
+          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+            TSP & Retirement · Lesson 2
+          </p>
+          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+            The Combat Zone TSP Trick
+          </h1>
+
+          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+            This is one of the most underused financial moves in the military.
+            Most servicemembers know that combat zone pay is tax-free. Fewer
+            know that when you contribute that tax-free pay into a Roth TSP,
+            those dollars go in tax-free AND come out tax-free in retirement.
+            That&apos;s something civilians literally cannot do — no matter how
+            much they earn.
+          </p>
+
+          <div className="mb-8 rounded-xl border border-border p-5">
+            <p className="mb-3 font-semibold text-foreground">How the math works normally</p>
+            <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
+              With a regular Roth IRA or Roth TSP, you contribute money
+              that&apos;s already been taxed. It grows tax-free, and you withdraw
+              it tax-free. You pay tax once — on the way in.
+            </p>
+            <p className="text-sm leading-relaxed text-muted-foreground">
+              In a combat zone, your pay is excluded from federal income tax.
+              When you contribute that tax-excluded pay into a Roth TSP, you
+              never pay tax on it at all — not going in, not coming out.
+              These are called <span className="font-semibold text-foreground">tax-exempt contributions</span>,
+              and they are only available to servicemembers deployed to a
+              combat zone.
+            </p>
+          </div>
+
+          <div className="mb-8 rounded-xl border border-border p-5">
+            <p className="mb-4 font-semibold text-foreground">Regular Roth vs. Combat Zone Roth TSP</p>
+            <div className="grid grid-cols-3 gap-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">
+              <p></p>
+              <p>Regular Roth</p>
+              <p>Combat Zone Roth TSP</p>
+            </div>
+            <div className="flex flex-col gap-3">
+              {[
+                { label: "Taxed going in?", regular: "Yes (after-tax dollars)", combat: "No — pay already excluded" },
+                { label: "Growth taxed?", regular: "No", combat: "No" },
+                { label: "Withdrawals taxed?", regular: "No", combat: "No" },
+                { label: "Tax paid at any point?", regular: "Once (on contribution)", combat: "Never" },
+                { label: "Annual contribution limit", regular: "$7,000 (2025, IRA)", combat: "$70,000 (2025, total TSP)" },
+              ].map(({ label, regular, combat }) => (
+                <div key={label} className="grid grid-cols-3 gap-3 border-b border-border pb-3 last:border-0 last:pb-0 text-sm">
+                  <p className="font-medium text-foreground">{label}</p>
+                  <p className="text-muted-foreground">{regular}</p>
+                  <p className="text-muted-foreground">{combat}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="mb-8 rounded-xl border border-border p-5">
+            <p className="mb-3 font-semibold text-foreground">The contribution limit advantage</p>
+            <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
+              In 2025 a civilian can contribute a maximum of $23,500/year to
+              a 401(k) or $7,000 to an IRA. During a combat zone deployment,
+              the TSP&apos;s annual limit rises to $70,000 — the IRS limit for
+              defined contribution plans. A 6-month deployment with aggressive
+              saving could mean $30,000–$40,000+ in tax-exempt Roth TSP
+              contributions in a single year.
+            </p>
+            <p className="text-sm leading-relaxed text-muted-foreground">
+              At 7% annual growth over 25 years, $35,000 in tax-exempt Roth
+              TSP contributions from one deployment becomes roughly $190,000 —
+              all of it completely tax-free when you pull it out in retirement.
+            </p>
+          </div>
+
+          <div className="mb-8 rounded-xl border border-border p-5">
+            <p className="mb-3 font-semibold text-foreground">How to set this up before deployment</p>
+            <div className="flex flex-col gap-3">
+              {[
+                { num: "1", title: "Switch your TSP election to Roth", body: "Log into myPay or TSP.gov and change your contribution type from Traditional to Roth before you deploy. Do this early — it can take a pay cycle to process." },
+                { num: "2", title: "Increase your contribution percentage", body: "During deployment your expenses drop dramatically — no rent if you're on base, meals often provided, nothing to spend money on. Increase your TSP contribution to capture as much of that tax-free pay as possible." },
+                { num: "3", title: "Watch the annual limit", body: "You can contribute up to $70,000 total to TSP in a year during a combat deployment. The standard $23,500 limit doesn't apply while you're in the zone. Don't over-contribute beyond that though — excess contributions get returned." },
+                { num: "4", title: "Switch back after returning", body: "When you return from deployment, consider your tax situation. If you're back to taxable income, Traditional TSP might make more sense again depending on your bracket." },
+              ].map(({ num, title, body }) => (
+                <div key={num} className="flex gap-4">
+                  <div className="flex size-7 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white" style={{ background: "var(--brand-600)" }}>
+                    {num}
+                  </div>
+                  <div>
+                    <p className="mb-1 text-sm font-semibold text-foreground">{title}</p>
+                    <p className="text-sm leading-relaxed text-muted-foreground">{body}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="rounded-xl p-5 text-white" style={{ background: "var(--brand-600)" }}>
+            <p className="mb-1 font-bold">Why this matters long-term</p>
+            <p className="text-sm leading-relaxed text-white/85">
+              A single 6–9 month combat deployment, managed correctly, can
+              fund a meaningful chunk of your retirement with money that will
+              never be taxed again. Most servicemembers come home and spend
+              the money they saved. The ones who build wealth use that window
+              to stack tax-exempt Roth TSP contributions they can never
+              replicate as civilians. It&apos;s one of the few irreplaceable
+              financial advantages of military service — and most people
+              never use it.
+            </p>
+          </div>
+        </div>
+      );
+
 
     default:
       return (
@@ -598,19 +655,15 @@ export default function MilitaryMoneyPage() {
   const activeLesson = activeSection.lessons[activeLessonIndex];
 
   const allLessonsInSectionComplete = (section: typeof SECTIONS[0]) =>
-    section.lessons
-      .filter((l) => !l.isQuiz)
-      .every((l) => completedLessons.includes(l.id));
+    section.lessons.every((l) => completedLessons.includes(l.id));
 
   const handleNext = () => {
     markComplete(activeLessonId);
 
-    if (!activeLesson.isQuiz) {
-      const nextInSection = activeSection.lessons[activeLessonIndex + 1];
-      if (nextInSection) {
-        setActiveLessonId(nextInSection.id);
-        return;
-      }
+    const nextInSection = activeSection.lessons[activeLessonIndex + 1];
+    if (nextInSection) {
+      setActiveLessonId(nextInSection.id);
+      return;
     }
 
     const currentIdx = SECTIONS.findIndex((s) => s.id === activeSectionId);
@@ -622,24 +675,8 @@ export default function MilitaryMoneyPage() {
     }
   };
 
-  const handleQuizPass = () => {
-    markComplete(activeLessonId);
-    unlockNextSection(activeSectionId);
-  };
-
   const isLastLesson =
     activeLessonId === SECTIONS[SECTIONS.length - 1].lessons[SECTIONS[SECTIONS.length - 1].lessons.length - 1].id;
-
-  const isSectionQuizLesson = activeLesson?.isQuiz;
-
-  const canAdvance = isSectionQuizLesson
-    ? completedLessons.includes(activeLessonId)
-    : true;
-
-  const sectionQuizId = activeSection.lessons.find((l) => l.isQuiz)?.id;
-  const quizSectionUnlocked =
-    activeSection.noQuiz || allLessonsInSectionComplete(activeSection);
-  const isQuizLocked = activeLesson.isQuiz && !quizSectionUnlocked;
 
   return (
     <div className="flex min-h-[100dvh] flex-col bg-background">
@@ -711,7 +748,7 @@ export default function MilitaryMoneyPage() {
                       {section.lessons.map((lesson) => {
                         const isDone = completedLessons.includes(lesson.id);
                         const isLessonActive = lesson.id === activeLessonId;
-                        const isLessonQuizLocked = lesson.isQuiz && !allLessonsInSectionComplete(section);
+                        const isLessonQuizLocked = false;
                         return (
                           <button
                             key={lesson.id}
@@ -749,63 +786,52 @@ export default function MilitaryMoneyPage() {
         {/* Content */}
         <main className="flex-1 overflow-y-auto">
           <div className="mx-auto max-w-2xl px-6 py-10">
-            {isQuizLocked ? (
-              <div className="flex flex-col items-center justify-center py-20 text-center">
-                <Lock className="mb-4 size-8 text-muted-foreground" />
-                <p className="font-semibold text-foreground">Complete all lessons first</p>
-                <p className="mt-1 text-sm text-muted-foreground">Finish the lessons above to unlock this quiz.</p>
-              </div>
-            ) : (
-              <LessonContent lessonId={activeLessonId} onQuizPass={handleQuizPass} />
-            )}
+              <LessonContent lessonId={activeLessonId} />
 
             {/* Navigation */}
-            {!isQuizLocked && (
-              <div className="mt-12 flex items-center justify-between border-t border-border pt-6">
-                <button
-                  onClick={() => {
-                    if (activeLessonIndex > 0) {
-                      setActiveLessonId(activeSection.lessons[activeLessonIndex - 1].id);
-                    } else {
-                      const currentIdx = SECTIONS.findIndex((s) => s.id === activeSectionId);
-                      if (currentIdx > 0) {
-                        const prev = SECTIONS[currentIdx - 1];
-                        setActiveSectionId(prev.id);
-                        setActiveLessonId(prev.lessons[prev.lessons.length - 1].id);
-                      }
+            <div className="mt-12 flex items-center justify-between border-t border-border pt-6">
+              <button
+                onClick={() => {
+                  if (activeLessonIndex > 0) {
+                    setActiveLessonId(activeSection.lessons[activeLessonIndex - 1].id);
+                  } else {
+                    const currentIdx = SECTIONS.findIndex((s) => s.id === activeSectionId);
+                    if (currentIdx > 0) {
+                      const prev = SECTIONS[currentIdx - 1];
+                      setActiveSectionId(prev.id);
+                      setActiveLessonId(prev.lessons[prev.lessons.length - 1].id);
                     }
-                  }}
-                  disabled={activeSectionId === SECTIONS[0].id && activeLessonIndex === 0}
-                  className="flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground disabled:opacity-30 disabled:cursor-not-allowed"
+                  }
+                }}
+                disabled={activeSectionId === SECTIONS[0].id && activeLessonIndex === 0}
+                className="flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground disabled:opacity-30 disabled:cursor-not-allowed"
+              >
+                <ChevronLeft className="size-4" />
+                Previous
+              </button>
+
+              {!isLastLesson && (
+                <button
+                  onClick={handleNext}
+                  className="flex items-center gap-1.5 rounded-lg px-4 py-2 text-sm font-medium text-white transition-opacity hover:opacity-90"
+                  style={{ background: "var(--brand-600)" }}
                 >
-                  <ChevronLeft className="size-4" />
-                  Previous
+                  Next Lesson
+                  <ChevronRight className="size-4" />
                 </button>
+              )}
 
-                {!isLastLesson && (
-                  <button
-                    onClick={handleNext}
-                    disabled={!canAdvance}
-                    className="flex items-center gap-1.5 rounded-lg px-4 py-2 text-sm font-medium text-white transition-opacity hover:opacity-90 disabled:opacity-30 disabled:cursor-not-allowed"
-                    style={{ background: "var(--brand-600)" }}
-                  >
-                    {isSectionQuizLesson ? "Next Section" : "Next Lesson"}
-                    <ChevronRight className="size-4" />
-                  </button>
-                )}
-
-                {isLastLesson && (
-                  <Link
-                    href="/courses"
-                    className="flex items-center gap-1.5 rounded-lg px-4 py-2 text-sm font-medium text-white transition-opacity hover:opacity-90"
-                    style={{ background: "var(--brand-600)" }}
-                  >
-                    Back to Courses
-                    <ChevronRight className="size-4" />
-                  </Link>
-                )}
-              </div>
-            )}
+              {isLastLesson && (
+                <Link
+                  href="/courses"
+                  className="flex items-center gap-1.5 rounded-lg px-4 py-2 text-sm font-medium text-white transition-opacity hover:opacity-90"
+                  style={{ background: "var(--brand-600)" }}
+                >
+                  Back to Courses
+                  <ChevronRight className="size-4" />
+                </Link>
+              )}
+            </div>
           </div>
         </main>
       </div>
