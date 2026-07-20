@@ -592,6 +592,532 @@ function LessonContent({ lessonId }: { lessonId: string }) {
       );
 
 
+    case "va-1":
+      return (
+        <div>
+          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+            The VA Home Loan · Lesson 1
+          </p>
+          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+            Why This Is Your Biggest Benefit
+          </h1>
+
+          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+            The VA Home Loan is the single most powerful financial benefit
+            most veterans never fully use. No down payment. No private
+            mortgage insurance. Competitive interest rates. And you can use
+            it more than once. A civilian buying the same house pays tens of
+            thousands of dollars more over the life of the loan just because
+            they don&apos;t have this benefit. You do.
+          </p>
+
+          <div className="mb-8 rounded-xl border border-border p-5">
+            <p className="mb-4 font-semibold text-foreground">VA loan vs. conventional loan — the real numbers</p>
+            <p className="mb-4 text-sm text-muted-foreground">Buying a $350,000 home:</p>
+            <div className="grid grid-cols-3 gap-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">
+              <p></p>
+              <p>Conventional (5% down)</p>
+              <p>VA Loan</p>
+            </div>
+            <div className="flex flex-col gap-3">
+              {[
+                { label: "Down payment required", conv: "$17,500", va: "$0" },
+                { label: "PMI (private mortgage insurance)", conv: "~$150–$200/mo until 20% equity", va: "None — ever" },
+                { label: "Interest rate (typical)", conv: "7.0–7.5%", va: "6.5–7.0% (often lower)" },
+                { label: "Funding fee (first use)", conv: "N/A", va: "2.15% of loan (one-time, can be financed)" },
+                { label: "10-year PMI cost", conv: "~$18,000–$24,000", va: "$0" },
+                { label: "Cash needed to close", conv: "$17,500+", va: "Funding fee only (or $0 if exempt)" },
+              ].map(({ label, conv, va }) => (
+                <div key={label} className="grid grid-cols-3 gap-3 border-b border-border pb-3 last:border-0 last:pb-0 text-sm">
+                  <p className="font-medium text-foreground">{label}</p>
+                  <p className="text-muted-foreground">{conv}</p>
+                  <p className="font-medium" style={{ color: "var(--brand-600)" }}>{va}</p>
+                </div>
+              ))}
+            </div>
+            <p className="mt-3 text-xs text-muted-foreground">
+              On a $350,000 home, not having PMI alone saves a veteran $18,000–$24,000 over the first 10 years.
+            </p>
+          </div>
+
+          <div className="mb-8 rounded-xl border border-border p-5">
+            <p className="mb-3 font-semibold text-foreground">The benefits most people miss</p>
+            <div className="flex flex-col gap-3">
+              {[
+                {
+                  title: "No PMI — ever",
+                  body: "Conventional loans require PMI until you hit 20% equity. On a $350k home that can be $150–$200/month for 7–10 years. VA loans never charge PMI at any loan-to-value ratio.",
+                },
+                {
+                  title: "It's reusable",
+                  body: "You don't just get one VA loan. You can use it multiple times over your lifetime. Buy a starter home, sell it, restore your entitlement, and buy again. Or in some cases keep the first home and buy a second with remaining entitlement.",
+                },
+                {
+                  title: "Funding fee exemption for disabled vets",
+                  body: "If you have a VA service-connected disability rating of 10% or higher, the funding fee is completely waived. That's a savings of $7,525 on a $350k loan. If you get a disability rating after closing, you can request a refund of the funding fee you paid.",
+                },
+                {
+                  title: "Seller can pay your closing costs",
+                  body: "VA loans allow sellers to pay up to 4% of the loan amount in concessions — including your closing costs, funding fee, and even paying down debt on your behalf. In the right market, you can close with truly $0 out of pocket.",
+                },
+                {
+                  title: "No prepayment penalty",
+                  body: "Pay it off early with no penalty. Extra payments go straight to principal.",
+                },
+              ].map(({ title, body }) => (
+                <div key={title} className="rounded-xl border border-border p-4">
+                  <p className="mb-1 text-sm font-semibold text-foreground">{title}</p>
+                  <p className="text-sm leading-relaxed text-muted-foreground">{body}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="mb-8 rounded-xl border border-border p-5">
+            <p className="mb-3 font-semibold text-foreground">Who qualifies</p>
+            <div className="flex flex-col gap-2 text-sm">
+              {[
+                "90+ days active duty during wartime",
+                "181+ days active duty during peacetime",
+                "6+ years in the National Guard or Reserves",
+                "Surviving spouse of a servicemember who died in service or from a service-connected disability",
+              ].map((item) => (
+                <div key={item} className="flex items-start gap-3 border-b border-border pb-2 last:border-0 last:pb-0">
+                  <span className="mt-0.5 flex size-4 shrink-0 items-center justify-center rounded-full text-[10px] font-bold text-white" style={{ background: "var(--brand-600)" }}>✓</span>
+                  <p className="text-muted-foreground">{item}</p>
+                </div>
+              ))}
+            </div>
+            <p className="mt-3 text-xs text-muted-foreground">Must have been discharged under conditions other than dishonorable. Your Certificate of Eligibility (COE) confirms your entitlement — your lender can pull this for you.</p>
+          </div>
+
+          <div className="rounded-xl p-5 text-white" style={{ background: "var(--brand-600)" }}>
+            <p className="mb-1 font-bold">Why most vets don&apos;t use it</p>
+            <p className="text-sm leading-relaxed text-white/85">
+              Most veterans either don&apos;t know they have it, don&apos;t think they
+              qualify, or are talked out of it by lenders or real estate
+              agents who aren&apos;t familiar with it. Some sellers have historically
+              been skeptical of VA offers — but that bias has faded as VA loans
+              have become more common. Work with a lender who specializes in
+              VA loans and an agent who knows how to write a strong VA offer.
+              Don&apos;t leave this benefit on the table.
+            </p>
+          </div>
+        </div>
+      );
+
+    case "va-2":
+      return (
+        <div>
+          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+            The VA Home Loan · Lesson 2
+          </p>
+          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+            How to Actually Use It — Including House Hacking
+          </h1>
+
+          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+            Using your VA loan to buy a single-family home is good. Using it
+            to buy a duplex, triplex, or fourplex — living in one unit and
+            renting the others — is a level up. This strategy is called house
+            hacking, and the VA loan makes it more accessible than any other
+            loan product available.
+          </p>
+
+          <div className="mb-8 rounded-xl border border-border p-5">
+            <p className="mb-3 font-semibold text-foreground">What is house hacking?</p>
+            <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
+              House hacking means buying a multi-unit property, living in
+              one unit, and renting out the others. The rental income from
+              your tenants covers part or all of your mortgage. In the
+              best cases, you live for free — or close to it — while building
+              equity in a property someone else is paying for.
+            </p>
+            <p className="text-sm leading-relaxed text-muted-foreground">
+              The VA loan allows you to buy properties with up to 4 units
+              as long as you live in one of them as your primary residence.
+              Combined with no down payment and no PMI, this is one of the
+              most powerful wealth-building moves available to any veteran.
+            </p>
+          </div>
+
+          <div className="mb-8 rounded-xl border border-border p-5">
+            <p className="mb-4 font-semibold text-foreground">The house hacking math — real example</p>
+            <p className="mb-4 text-sm text-muted-foreground">Buying a $400,000 triplex with a VA loan:</p>
+            <div className="flex flex-col gap-2 mb-4">
+              {[
+                { label: "Down payment", value: "$0" },
+                { label: "Monthly mortgage (6.75%, 30yr)", value: "~$2,594/mo" },
+                { label: "Unit 2 rent", value: "$1,100/mo" },
+                { label: "Unit 3 rent", value: "$1,100/mo" },
+                { label: "Your effective housing cost", value: "~$394/mo", highlight: true },
+              ].map(({ label, value, highlight }) => (
+                <div
+                  key={label}
+                  className={`flex items-center justify-between border-b border-border pb-2 last:border-0 last:pb-0 text-sm ${highlight ? "font-bold" : ""}`}
+                >
+                  <p className={highlight ? "text-foreground" : "text-muted-foreground"}>{label}</p>
+                  <p className={highlight ? "text-foreground" : "text-foreground font-semibold"}
+                    style={highlight ? { color: "var(--brand-600)" } : {}}>{value}</p>
+                </div>
+              ))}
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Instead of paying $2,594/month in rent or mortgage, you pay ~$394/month — while building equity in a $400k asset. Your tenants are covering the rest. In many markets, rents cover the full mortgage and you live completely free.
+            </p>
+          </div>
+
+          <div className="mb-8 rounded-xl border border-border p-5">
+            <p className="mb-3 font-semibold text-foreground">Why this beats a single-family home</p>
+            <div className="flex flex-col gap-3">
+              {[
+                {
+                  title: "Your housing cost drops dramatically",
+                  body: "The rental income from other units offsets your mortgage. Instead of your full payment coming out of your pocket every month, tenants cover most of it.",
+                },
+                {
+                  title: "You build equity with no money down",
+                  body: "You're not just avoiding rent — you're building ownership in an asset that appreciates over time. Every mortgage payment (mostly paid by tenants) builds your net worth.",
+                },
+                {
+                  title: "You qualify using projected rental income",
+                  body: "VA lenders can count a percentage of the expected rental income from the other units when calculating your debt-to-income ratio. This means you can qualify for a larger loan than you could on your income alone.",
+                },
+                {
+                  title: "You can do it again",
+                  body: "The VA loan is reusable. After you move out — PCS, upgrade, whatever — you can rent your unit too, turning the whole property into a cash-flowing investment. Then use your restored VA entitlement to buy your next home.",
+                },
+              ].map(({ title, body }) => (
+                <div key={title} className="flex gap-4">
+                  <span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full text-[10px] font-bold text-white" style={{ background: "var(--brand-600)" }}>✓</span>
+                  <div>
+                    <p className="mb-1 text-sm font-semibold text-foreground">{title}</p>
+                    <p className="text-sm leading-relaxed text-muted-foreground">{body}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="mb-8 rounded-xl border border-border p-5">
+            <p className="mb-4 font-semibold text-foreground">How to get started — step by step</p>
+            <div className="flex flex-col gap-3">
+              {[
+                { num: "1", title: "Get your Certificate of Eligibility (COE)", body: "Your lender can pull this directly from the VA system — you usually don't need to request it yourself. It confirms your entitlement amount. You can also get it at va.gov." },
+                { num: "2", title: "Find a VA-experienced lender", body: "Not all lenders know VA loans well. Use one that does a high volume of VA loans — they'll know how to handle multi-unit properties, appraisal issues, and seller concession negotiations. Navy Federal, USAA, and Veterans United are good starting points." },
+                { num: "3", title: "Get pre-approved before you search", body: "A pre-approval letter makes your offer competitive. For a multi-unit property, your lender will want to see the expected rental income — have market comps ready." },
+                { num: "4", title: "Look for 2–4 unit properties in your target area", body: "Duplexes, triplexes, and fourplexes. The VA requires one unit to be your primary residence. Stay in it for at least a year — that's the occupancy requirement." },
+                { num: "5", title: "Check if you're exempt from the funding fee", body: "10%+ service-connected disability = no funding fee. If you're not yet rated, consider filing a claim before closing. If you get rated after closing, request a refund from the VA." },
+              ].map(({ num, title, body }) => (
+                <div key={num} className="flex gap-4">
+                  <div className="flex size-7 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white" style={{ background: "var(--brand-600)" }}>
+                    {num}
+                  </div>
+                  <div>
+                    <p className="mb-1 text-sm font-semibold text-foreground">{title}</p>
+                    <p className="text-sm leading-relaxed text-muted-foreground">{body}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="mb-8 rounded-xl border border-border p-5">
+            <p className="mb-3 font-semibold text-foreground">Things to know before you buy multi-unit</p>
+            <div className="flex flex-col gap-2 text-sm">
+              {[
+                { label: "Occupancy requirement", note: "You must move in within 60 days of closing and live there as your primary residence." },
+                { label: "Property condition", note: "VA appraisers check that the property meets Minimum Property Requirements (MPR). Multi-unit fixer-uppers may not pass — look for properties in livable condition." },
+                { label: "Being a landlord", note: "You'll be managing tenants. Screen them carefully. A bad tenant can eliminate the financial advantage entirely. Start with one property and learn before scaling." },
+                { label: "Reserve funds", note: "Set aside 3–6 months of mortgage payments as a reserve in case of vacancies or repairs. Even if the rent covers the mortgage, have a cushion." },
+              ].map(({ label, note }) => (
+                <div key={label} className="flex gap-3 border-b border-border pb-3 last:border-0 last:pb-0">
+                  <span className="mt-0.5 flex size-4 shrink-0 items-center justify-center rounded-full bg-muted text-[10px] font-bold text-muted-foreground">!</span>
+                  <div>
+                    <p className="font-semibold text-foreground">{label}</p>
+                    <p className="text-muted-foreground">{note}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="rounded-xl p-5 text-white" style={{ background: "var(--brand-600)" }}>
+            <p className="mb-1 font-bold">The big picture</p>
+            <p className="text-sm leading-relaxed text-white/85">
+              Most people use their VA loan to buy a single-family home and
+              call it done. That&apos;s fine. But if you use it to buy a duplex
+              or triplex with no money down, live in one unit, and let tenants
+              pay your mortgage — you&apos;re building wealth in a way most people
+              your age can&apos;t touch. A few years later you move out, rent that
+              unit too, and now you own a fully cash-flowing rental property.
+              Use your VA loan again for the next house. This is how military
+              members build real wealth on a servicemember&apos;s income.
+            </p>
+          </div>
+        </div>
+      );
+
+    case "ed-1":
+      return (
+        <div>
+          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+            Education Benefits · Lesson 1
+          </p>
+          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+            GI Bill vs. VR&amp;E — Know the Difference
+          </h1>
+
+          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+            Most veterans know they have education benefits. Fewer know that
+            there are two separate programs — the GI Bill and Vocational
+            Rehabilitation &amp; Employment (VR&amp;E) — and that choosing the wrong
+            one can cost you thousands of dollars and years of flexibility.
+            Here&apos;s how they actually compare.
+          </p>
+
+          <div className="mb-8 rounded-xl border border-border p-5">
+            <p className="mb-3 font-semibold text-foreground">Post-9/11 GI Bill (Chapter 33)</p>
+            <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
+              The most commonly used education benefit. If you served 90+
+              days on active duty after September 10, 2001, you likely qualify.
+              At 36 months of entitlement (the max), it covers:
+            </p>
+            <div className="flex flex-col gap-2 mb-4">
+              {[
+                { label: "Tuition & fees", value: "100% at public in-state schools; capped at ~$28,937/yr at private schools (2024–25)" },
+                { label: "Monthly housing allowance", value: "E-5 with dependents BAH rate for your school's zip code — while attending more than half-time" },
+                { label: "Books & supplies", value: "Up to $1,000/yr" },
+                { label: "Yellow Ribbon Program", value: "For private schools above the cap — school and VA split the difference" },
+                { label: "Time limit", value: "15 years from your last discharge date to use it" },
+                { label: "Who qualifies", value: "Veterans, active duty, and in some cases dependents (transferability)" },
+              ].map(({ label, value }) => (
+                <div key={label} className="flex flex-col gap-0.5 border-b border-border pb-2 last:border-0 last:pb-0 text-sm">
+                  <p className="font-semibold text-foreground">{label}</p>
+                  <p className="text-muted-foreground">{value}</p>
+                </div>
+              ))}
+            </div>
+            <p className="text-xs text-muted-foreground">
+              The housing allowance is paid based on the zip code of your school — not where you live. Online-only students receive half the national average BAH (~$1,050/mo in 2024), not the local rate.
+            </p>
+          </div>
+
+          <div className="mb-8 rounded-xl border border-border p-5">
+            <p className="mb-3 font-semibold text-foreground">VR&amp;E — Vocational Rehabilitation &amp; Employment (Chapter 31)</p>
+            <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
+              VR&amp;E is for veterans with a service-connected disability rating
+              of 10% or higher who have an employment handicap due to that
+              disability. It&apos;s more restrictive to qualify for — but if you do,
+              it&apos;s often significantly better than the GI Bill.
+            </p>
+            <div className="flex flex-col gap-2 mb-4">
+              {[
+                { label: "Tuition & fees", value: "Paid directly — no cap. Covers private schools and grad programs that would exceed GI Bill limits" },
+                { label: "Books & supplies", value: "Covered — no dollar cap" },
+                { label: "Subsistence allowance", value: "Monthly living stipend paid on top of everything else — similar to BAH but separate" },
+                { label: "Scope", value: "Covers certifications, trade school, non-degree programs, and tools/equipment for your field" },
+                { label: "Time limit", value: "No hard expiration if your disability is the reason you need training" },
+                { label: "Who qualifies", value: "Vets with 10%+ service-connected disability rating AND an employment handicap" },
+              ].map(({ label, value }) => (
+                <div key={label} className="flex flex-col gap-0.5 border-b border-border pb-2 last:border-0 last:pb-0 text-sm">
+                  <p className="font-semibold text-foreground">{label}</p>
+                  <p className="text-muted-foreground">{value}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="mb-8 rounded-xl border border-border p-5">
+            <p className="mb-4 font-semibold text-foreground">GI Bill vs. VR&amp;E — side by side</p>
+            <div className="grid grid-cols-3 gap-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">
+              <p></p>
+              <p>GI Bill (Ch. 33)</p>
+              <p>VR&amp;E (Ch. 31)</p>
+            </div>
+            <div className="flex flex-col gap-3">
+              {[
+                { label: "Tuition cap", gi: "~$28,937/yr private", vre: "No cap — full cost paid" },
+                { label: "Grad school", gi: "Yes, within cap", vre: "Yes, no cap if disability-related" },
+                { label: "Trade / cert programs", gi: "Limited", vre: "Yes, broadly covered" },
+                { label: "Monthly living stipend", gi: "BAH rate (school zip)", vre: "Subsistence allowance + can stack with BAH" },
+                { label: "Books / supplies", gi: "Up to $1,000/yr", vre: "Fully covered, no cap" },
+                { label: "Disability rating required", gi: "No", vre: "Yes — 10%+ with employment handicap" },
+                { label: "Time limit", gi: "15 yrs from discharge", vre: "No limit if disability-related" },
+              ].map(({ label, gi, vre }) => (
+                <div key={label} className="grid grid-cols-3 gap-3 border-b border-border pb-3 last:border-0 last:pb-0 text-sm">
+                  <p className="font-medium text-foreground">{label}</p>
+                  <p className="text-muted-foreground">{gi}</p>
+                  <p className="font-medium" style={{ color: "var(--brand-600)" }}>{vre}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="rounded-xl p-5 text-white" style={{ background: "var(--brand-600)" }}>
+            <p className="mb-1 font-bold">Which one should you use?</p>
+            <p className="text-sm leading-relaxed text-white/85">
+              If you have a 10%+ disability rating and an employment handicap,
+              apply for VR&amp;E first — especially if you&apos;re going to a private
+              school, grad program, or trade certification. The tuition coverage
+              is uncapped, the subsistence allowance is on top, and there&apos;s
+              no expiration if your disability is the driver. Save the GI Bill
+              for situations where VR&amp;E doesn&apos;t apply, or transfer it to a
+              dependent. Don&apos;t burn your GI Bill when VR&amp;E would cover the
+              same cost for free.
+            </p>
+          </div>
+        </div>
+      );
+
+    case "ed-2":
+      return (
+        <div>
+          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+            Education Benefits · Lesson 2
+          </p>
+          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+            Getting Every Dollar You&apos;re Owed
+          </h1>
+
+          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+            The GI Bill and VR&amp;E are just the starting point. There are
+            stacking strategies, state-level benefits, and common mistakes
+            that determine whether you get the full value of your education
+            benefits or leave money behind. Here&apos;s what you need to know.
+          </p>
+
+          <div className="mb-8 rounded-xl border border-border p-5">
+            <p className="mb-3 font-semibold text-foreground">The BAH rate nobody talks about</p>
+            <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
+              The GI Bill housing allowance is based on the E-5 with
+              dependents BAH rate for your school&apos;s zip code — regardless
+              of your actual rank or whether you have dependents. This is
+              a flat rate that has nothing to do with your military record.
+            </p>
+            <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
+              In high cost-of-living areas this can be substantial. A vet
+              attending a school in San Diego could receive $3,200–$3,500/month
+              in housing allowance — tax-free — while in school full time.
+              That&apos;s on top of tuition being paid directly to the school.
+            </p>
+            <div className="flex flex-col gap-2 text-sm">
+              {[
+                { label: "In-person, half-time+", value: "Full E-5 w/ dependents BAH for school zip" },
+                { label: "Online only", value: "Half the national average BAH (~$1,050/mo)" },
+                { label: "Mix of in-person + online", value: "Prorated based on in-person credit hours" },
+              ].map(({ label, value }) => (
+                <div key={label} className="flex items-start justify-between gap-4 border-b border-border pb-2 last:border-0 last:pb-0">
+                  <p className="text-muted-foreground">{label}</p>
+                  <p className="font-semibold text-foreground text-right">{value}</p>
+                </div>
+              ))}
+            </div>
+            <p className="mt-3 text-xs text-muted-foreground">
+              This means going to school in person — even one day a week — triggers the full local BAH rate instead of the reduced online rate. If your school offers hybrid options, take at least some in-person credits.
+            </p>
+          </div>
+
+          <div className="mb-8 rounded-xl border border-border p-5">
+            <p className="mb-3 font-semibold text-foreground">Transfer your GI Bill to a dependent</p>
+            <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
+              If you don&apos;t need your GI Bill for yourself, you can transfer
+              unused months to a spouse or child — but only while you&apos;re
+              still on active duty, and only if you commit to at least 4
+              more years of service (or until 20 years, whichever comes first).
+            </p>
+            <p className="text-sm leading-relaxed text-muted-foreground">
+              This is a massive benefit for military families. A spouse can
+              use it to finish a degree, or you can bank it for a child to
+              use after they turn 18. The transfer must be approved through
+              milConnect before you leave active duty — you cannot transfer
+              it after separation.
+            </p>
+          </div>
+
+          <div className="mb-8 rounded-xl border border-border p-5">
+            <p className="mb-3 font-semibold text-foreground">State education benefits — the hidden layer</p>
+            <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
+              On top of federal benefits, many states offer their own
+              education programs for veterans and their families. These
+              can stack on top of the GI Bill.
+            </p>
+            <div className="flex flex-col gap-3">
+              {[
+                {
+                  title: "Free or reduced tuition at state schools",
+                  body: "Some states waive tuition entirely at public universities for eligible veterans — Texas, Illinois, and others have strong programs. Check your state's veterans affairs website.",
+                },
+                {
+                  title: "Dependent tuition waivers",
+                  body: "Several states extend tuition waivers to children and spouses of disabled veterans or veterans killed in action. These can stack with federal education benefits.",
+                },
+                {
+                  title: "Fry Scholarship",
+                  body: "For children and surviving spouses of servicemembers who died in the line of duty on or after September 11, 2001. Provides the same GI Bill benefits — full tuition, BAH, and book stipend.",
+                },
+                {
+                  title: "DEA — Dependents Educational Assistance (Chapter 35)",
+                  body: "For spouses and children of veterans who are permanently and totally disabled, or who died from a service-connected condition. Monthly stipend for education — separate from GI Bill entitlement.",
+                },
+              ].map(({ title, body }) => (
+                <div key={title} className="rounded-xl border border-border p-4">
+                  <p className="mb-1 text-sm font-semibold text-foreground">{title}</p>
+                  <p className="text-sm leading-relaxed text-muted-foreground">{body}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="mb-8 rounded-xl border border-border p-5">
+            <p className="mb-3 font-semibold text-foreground">Common mistakes that cost veterans money</p>
+            <div className="flex flex-col gap-3">
+              {[
+                {
+                  mistake: "Using GI Bill at a for-profit school",
+                  fix: "For-profit colleges routinely consume veterans' GI Bill entitlement while delivering degrees with limited job market value. Maximize your benefit at a public university or reputable private school. Research graduate outcomes before you commit.",
+                },
+                {
+                  mistake: "Going fully online to \"save time\" when local BAH is high",
+                  fix: "Online-only students get half the national average BAH instead of the local rate. In a high-cost city, taking even one in-person class can be worth $1,000–$2,000 more per month in housing allowance.",
+                },
+                {
+                  mistake: "Not applying for VR&E before using GI Bill",
+                  fix: "If you have a 10%+ disability rating, apply for VR&E first. If you qualify, it covers more and has no expiration. You can always fall back to GI Bill — you can't un-burn months you already used.",
+                },
+                {
+                  mistake: "Forgetting to check state benefits",
+                  fix: "Federal benefits and state benefits are separate programs that can often be stacked. Google your state's name + \"veteran education benefits\" and check what your state offers on top of the GI Bill.",
+                },
+                {
+                  mistake: "Not transferring GI Bill before leaving active duty",
+                  fix: "Transfer must happen while on active duty with enough service commitment remaining. If you wait until after separation, it's too late.",
+                },
+              ].map(({ mistake, fix }) => (
+                <div key={mistake} className="rounded-xl border border-border p-4">
+                  <p className="mb-1 text-sm font-semibold text-red-500">{mistake}</p>
+                  <p className="text-sm leading-relaxed text-muted-foreground">{fix}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="rounded-xl p-5 text-white" style={{ background: "var(--brand-600)" }}>
+            <p className="mb-1 font-bold">Make it count</p>
+            <p className="text-sm leading-relaxed text-white/85">
+              You earned these benefits. The GI Bill and VR&amp;E combined are
+              worth $100,000+ in real value if used well — and far less if
+              wasted on the wrong school or the wrong program. Check your
+              state benefits, apply for VR&amp;E if you have a disability rating,
+              go in-person when the BAH math makes it worth it, and protect
+              your months. This benefit doesn&apos;t roll over to a savings account
+              if you don&apos;t use it — but used right, it can fund a career change,
+              a degree, or your kids&apos; entire college education.
+            </p>
+          </div>
+        </div>
+      );
+
     default:
       return (
         <div>
