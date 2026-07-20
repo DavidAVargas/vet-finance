@@ -1118,6 +1118,475 @@ function LessonContent({ lessonId }: { lessonId: string }) {
         </div>
       );
 
+    case "dis-1":
+      return (
+        <div>
+          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+            VA Disability & Healthcare · Lesson 1
+          </p>
+          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+            How Ratings Work and Why They Matter
+          </h1>
+
+          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+            A VA disability rating is a percentage the VA assigns based on
+            how much a service-connected condition affects your ability to
+            function. It determines your monthly tax-free compensation, your
+            healthcare access, and a cascade of other benefits. Most veterans
+            are underrated — or never file at all. That&apos;s money and benefits
+            left on the table permanently.
+          </p>
+
+          <div className="mb-8 rounded-xl border border-border p-5">
+            <p className="mb-3 font-semibold text-foreground">What "service-connected" means</p>
+            <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
+              A condition is service-connected if it was caused by, aggravated
+              by, or directly related to your military service. This is broader
+              than most people think. It includes:
+            </p>
+            <div className="flex flex-col gap-2">
+              {[
+                "Physical injuries from training, combat, or accidents during service",
+                "Conditions that existed before service but were made worse by service",
+                "Hearing loss or tinnitus from noise exposure (one of the most common claims)",
+                "Mental health conditions like PTSD, depression, or anxiety related to service",
+                "Toxic exposure conditions — burn pits, Agent Orange, radiation (PACT Act expanded eligibility significantly)",
+                "Musculoskeletal issues from physical demands of service (knees, back, shoulders)",
+              ].map((item) => (
+                <div key={item} className="flex items-start gap-3 border-b border-border pb-2 last:border-0 last:pb-0 text-sm">
+                  <span className="mt-0.5 flex size-4 shrink-0 items-center justify-center rounded-full text-[10px] font-bold text-white" style={{ background: "var(--brand-600)" }}>✓</span>
+                  <p className="text-muted-foreground">{item}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="mb-8 rounded-xl border border-border p-5">
+            <p className="mb-3 font-semibold text-foreground">How the rating percentage works</p>
+            <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
+              Ratings go from 0% to 100% in 10% increments. A 0% rating means
+              the condition is service-connected but not currently disabling
+              enough to warrant compensation — it still matters because it
+              opens the door to future claims if it worsens.
+            </p>
+            <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
+              When you have multiple conditions, the VA uses a &quot;whole person&quot;
+              method — not simple addition. If your first condition is rated
+              40%, the VA treats you as 60% able-bodied. A second condition
+              rated 20% applies to that remaining 60%, adding 12 points for
+              a combined 52% — rounded to 50%. This is why having many
+              conditions doesn&apos;t simply add up to 100%.
+            </p>
+            <div className="rounded-lg bg-muted/40 p-4 text-sm">
+              <p className="mb-2 font-semibold text-foreground">Example: combined rating math</p>
+              <div className="flex flex-col gap-1 text-muted-foreground">
+                <p>Condition 1: 40% → leaves 60% "whole person"</p>
+                <p>Condition 2: 20% of 60% = 12 → combined 52%</p>
+                <p>Condition 3: 10% of 48% = ~5 → combined 57%</p>
+                <p className="mt-1 font-medium text-foreground">VA rounds to nearest 10% → rated at 60%</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="mb-8 rounded-xl border border-border p-5">
+            <p className="mb-3 font-semibold text-foreground">How to file a claim</p>
+            <div className="flex flex-col gap-3">
+              {[
+                { num: "1", title: "Gather your evidence", body: "Service records, medical records from service, and current treatment records. The VA needs a nexus — a connection between your service and your condition. A doctor's \"nexus letter\" is extremely helpful." },
+                { num: "2", title: "File at va.gov or with a VSO", body: "You can file online at va.gov/disability. A Veterans Service Organization (VSO) — DAV, VFW, American Legion — can help you file for free. They know the system and can help you avoid common mistakes." },
+                { num: "3", title: "Claim everything", body: "Don't self-filter. File claims for every condition that relates to your service, even if it seems minor. A 10% rating you didn't claim is money you're not receiving." },
+                { num: "4", title: "Appeal if you're underrated", body: "If you believe your rating is wrong, appeal. Many veterans are initially underrated. The supplemental claim process allows you to submit new evidence without starting over." },
+              ].map(({ num, title, body }) => (
+                <div key={num} className="flex gap-4">
+                  <div className="flex size-7 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white" style={{ background: "var(--brand-600)" }}>
+                    {num}
+                  </div>
+                  <div>
+                    <p className="mb-1 text-sm font-semibold text-foreground">{title}</p>
+                    <p className="text-sm leading-relaxed text-muted-foreground">{body}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="rounded-xl p-5 text-white" style={{ background: "var(--brand-600)" }}>
+            <p className="mb-1 font-bold">File your claim — don&apos;t wait</p>
+            <p className="text-sm leading-relaxed text-white/85">
+              Every month you don&apos;t have a rating is a month of compensation
+              you can&apos;t recover. The effective date of your claim matters —
+              the VA pays back to the date you filed, not when they finish
+              processing it. Filing now and waiting beats waiting to file.
+              Even if your conditions feel manageable today, service-connected
+              conditions tend to worsen over time. Get them on record now.
+            </p>
+          </div>
+        </div>
+      );
+
+    case "dis-2":
+      return (
+        <div>
+          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+            VA Disability & Healthcare · Lesson 2
+          </p>
+          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+            What Each Rating Unlocks
+          </h1>
+
+          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+            Your disability rating isn&apos;t just a number — it&apos;s a key that
+            unlocks different layers of benefits. Each threshold you cross
+            adds compensation, healthcare access, and other perks that stack
+            on each other. Here&apos;s what each level actually means in
+            practical terms.
+          </p>
+
+          <div className="mb-8 rounded-xl border border-border p-5">
+            <p className="mb-4 font-semibold text-foreground">Monthly compensation by rating (2024 rates, single veteran)</p>
+            <div className="flex flex-col gap-2">
+              {[
+                { rating: "10%", amount: "$171/mo", note: "" },
+                { rating: "20%", amount: "$338/mo", note: "" },
+                { rating: "30%", amount: "$524/mo", note: "Dependent allowances begin" },
+                { rating: "40%", amount: "$755/mo", note: "" },
+                { rating: "50%", amount: "$1,075/mo", note: "CRDP eligibility — can collect pension + disability" },
+                { rating: "60%", amount: "$1,361/mo", note: "" },
+                { rating: "70%", amount: "$1,716/mo", note: "Individual Unemployability consideration begins" },
+                { rating: "80%", amount: "$1,995/mo", note: "" },
+                { rating: "90%", amount: "$2,241/mo", note: "" },
+                { rating: "100%", amount: "$3,737/mo", note: "Full benefits package — massive state-level perks", highlight: true },
+              ].map(({ rating, amount, note, highlight }) => (
+                <div
+                  key={rating}
+                  className={`flex items-center justify-between gap-4 border-b border-border pb-2 last:border-0 last:pb-0 text-sm ${highlight ? "font-bold" : ""}`}
+                >
+                  <div>
+                    <p className={highlight ? "text-foreground" : "text-muted-foreground"}>{rating} {note && <span className="ml-2 text-xs font-normal" style={{ color: "var(--brand-600)" }}>{note}</span>}</p>
+                  </div>
+                  <p className="shrink-0 font-semibold text-foreground">{amount}</p>
+                </div>
+              ))}
+            </div>
+            <p className="mt-3 text-xs text-muted-foreground">All compensation is tax-free. Rates increase annually with COLA adjustments. Dependents (spouse, children) add to the base amount starting at 30%.</p>
+          </div>
+
+          <div className="mb-8 rounded-xl border border-border p-5">
+            <p className="mb-4 font-semibold text-foreground">Key thresholds and what they unlock</p>
+            <div className="flex flex-col gap-4">
+              {[
+                {
+                  rating: "10%+",
+                  unlocks: ["VA healthcare enrollment", "Monthly tax-free compensation", "Funding fee waiver on VA home loan", "10-point federal hiring preference"],
+                },
+                {
+                  rating: "30%+",
+                  unlocks: ["Additional monthly allowance for spouse", "Additional allowance for each dependent child", "Aid & Attendance allowance if needed"],
+                },
+                {
+                  rating: "50%+",
+                  unlocks: ["CRDP — collect both retirement pension AND disability pay concurrently (no offset)", "Priority Group 1 VA healthcare (lowest or no copays)"],
+                },
+                {
+                  rating: "70%+",
+                  unlocks: ["Individual Unemployability (TDIU) — if you can't work due to your disability, may be compensated at the 100% rate even with a lower rating"],
+                },
+                {
+                  rating: "100% (or P&T)",
+                  unlocks: [
+                    "Maximum monthly compensation (~$3,737+/mo)",
+                    "Free VA healthcare for all conditions",
+                    "Commissary and exchange access for life",
+                    "Many states: full property tax exemption",
+                    "Many states: free vehicle registration, hunting/fishing licenses",
+                    "Free America the Beautiful national parks pass",
+                    "CHAMPVA — healthcare coverage for dependents",
+                  ],
+                },
+              ].map(({ rating, unlocks }) => (
+                <div key={rating}>
+                  <p className="mb-2 text-sm font-bold text-foreground" style={{ color: "var(--brand-600)" }}>{rating}</p>
+                  <div className="flex flex-col gap-1.5">
+                    {unlocks.map((item) => (
+                      <div key={item} className="flex items-start gap-2 text-sm">
+                        <span className="mt-0.5 flex size-4 shrink-0 items-center justify-center rounded-full text-[10px] font-bold text-white" style={{ background: "var(--brand-600)" }}>✓</span>
+                        <p className="text-muted-foreground">{item}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="mb-8 rounded-xl border border-border p-5">
+            <p className="mb-3 font-semibold text-foreground">Permanent & Total (P&T) — the designation that matters most</p>
+            <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
+              A 100% rating can be either temporary or Permanent & Total.
+              P&T means the VA has determined your condition is not expected
+              to improve. This matters because:
+            </p>
+            <div className="flex flex-col gap-2 text-sm">
+              {[
+                "Your rating cannot be reduced without your consent",
+                "You qualify for CHAMPVA — VA healthcare for your spouse and dependents",
+                "State property tax exemptions almost always require P&T status",
+                "Some states offer free college tuition for your children if you hold P&T",
+                "Commissary/exchange access for life is tied to P&T in some cases",
+              ].map((item) => (
+                <div key={item} className="flex items-start gap-3 border-b border-border pb-2 last:border-0 last:pb-0">
+                  <span className="mt-0.5 flex size-4 shrink-0 items-center justify-center rounded-full text-[10px] font-bold text-white" style={{ background: "var(--brand-600)" }}>✓</span>
+                  <p className="text-muted-foreground">{item}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="rounded-xl p-5 text-white" style={{ background: "var(--brand-600)" }}>
+            <p className="mb-1 font-bold">Don&apos;t leave your rating where it is if it&apos;s wrong</p>
+            <p className="text-sm leading-relaxed text-white/85">
+              Many veterans accept their initial rating without questioning it.
+              If your conditions have worsened, file for an increase. If you
+              have new conditions connected to service, file new claims. The
+              difference between a 60% rating and a 100% P&T rating isn&apos;t
+              just monthly compensation — it&apos;s property tax exemptions,
+              dependent healthcare, state-level perks, and financial security
+              that compounds for the rest of your life. Know your rating,
+              understand what it unlocks, and fight for what you earned.
+            </p>
+          </div>
+        </div>
+      );
+
+    case "hid-1":
+      return (
+        <div>
+          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+            The Hidden Stuff · Lesson 1
+          </p>
+          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+            Benefits Most Vets Never Claim
+          </h1>
+
+          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+            The big benefits — VA loan, GI Bill, disability compensation —
+            get most of the attention. But there&apos;s a whole layer of perks
+            most veterans never know about. These aren&apos;t small either. Some
+            are worth thousands of dollars a year. Here&apos;s what you&apos;re probably
+            leaving behind.
+          </p>
+
+          <div className="mb-8 rounded-xl border border-border p-5">
+            <p className="mb-4 font-semibold text-foreground">Financial benefits most vets miss</p>
+            <div className="flex flex-col gap-4">
+              {[
+                {
+                  title: "VA funding fee refund",
+                  body: "If you used a VA home loan and later received a service-connected disability rating, you may be entitled to a refund of the funding fee you paid at closing. At 2.15% on a $300k loan, that's $6,450 back in your pocket. File through the VA with your loan paperwork and rating letter.",
+                },
+                {
+                  title: "CRSC — Combat Related Special Compensation",
+                  body: "Military retirees who have both a retirement pension and a VA disability rating normally see an offset — one reduces the other. CRSC is an exception that allows combat-disabled retirees to receive both, in full, without offset. Separate from CRDP and available even below 50% if the disability is combat-related.",
+                },
+                {
+                  title: "MilTax — free tax prep",
+                  body: "Military OneSource provides free federal and state tax software through H&R Block equivalent tools. Available to active duty, Guard, Reserve, and veterans in their first year after separation. It handles military-specific situations like combat zone exclusions and multiple state returns — no income limit, completely free.",
+                },
+                {
+                  title: "SGLI to VGLI conversion",
+                  body: "When you leave the military, you have 1 year and 120 days to convert your SGLI life insurance to Veterans Group Life Insurance without any medical exam. After that window closes, you need to qualify medically. If you have any health conditions, convert before the window closes — you can always reduce coverage later.",
+                },
+                {
+                  title: "National Cemetery burial benefits",
+                  body: "Honorably discharged veterans are entitled to burial in a national cemetery at no cost — including the grave, opening and closing, liner, and marker. Spouses and dependents can be buried there too. This benefit alone is worth several thousand dollars. Inform your family so they know to request it.",
+                },
+              ].map(({ title, body }) => (
+                <div key={title} className="rounded-xl border border-border p-4">
+                  <p className="mb-1 text-sm font-semibold text-foreground">{title}</p>
+                  <p className="text-sm leading-relaxed text-muted-foreground">{body}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="mb-8 rounded-xl border border-border p-5">
+            <p className="mb-4 font-semibold text-foreground">Lifestyle benefits worth real money</p>
+            <div className="flex flex-col gap-3">
+              {[
+                {
+                  title: "Exchange (PX/BX/NEX) access for life",
+                  body: "As of 2020, all honorably discharged veterans — not just retirees — can shop the military exchange online. No sales tax, military pricing on electronics, appliances, and more. shopmy.exchange is the online portal. On average 20–30% below retail prices.",
+                },
+                {
+                  title: "Space-A travel",
+                  body: "Space Available (Space-A) flights let military members and eligible veterans fly on military aircraft as space allows — for free or very low cost. Retirees have Space-A access. Active duty can fly worldwide. A round trip to Europe for $30 in fees is not unusual. Requires flexibility since you're flying standby.",
+                },
+                {
+                  title: "America the Beautiful national parks pass",
+                  body: "Veterans with a permanent service-connected disability (any rating) receive a free lifetime America the Beautiful pass — free entry to all national parks, monuments, recreation areas, and federal lands. Normally $80/year. Pick it up at any federal recreation site or order online through the USGS.",
+                },
+                {
+                  title: "Free or reduced admission at state parks and museums",
+                  body: "Many states offer free or discounted admission to state parks, museums, and recreational facilities for veterans. Some require a disability rating; others just need a DD-214. Check your state's veterans affairs website for the full list.",
+                },
+              ].map(({ title, body }) => (
+                <div key={title} className="rounded-xl border border-border p-4">
+                  <p className="mb-1 text-sm font-semibold text-foreground">{title}</p>
+                  <p className="text-sm leading-relaxed text-muted-foreground">{body}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="rounded-xl p-5 text-white" style={{ background: "var(--brand-600)" }}>
+            <p className="mb-1 font-bold">The pattern here</p>
+            <p className="text-sm leading-relaxed text-white/85">
+              These benefits exist. The VA and the government don&apos;t send you
+              a checklist when you separate. Nobody calls you to say your
+              funding fee is refundable or that your SGLI conversion window
+              is closing. You have to know to look. The veterans who get
+              the most out of their service are the ones who stay informed,
+              ask questions, and claim what they earned. That&apos;s what this
+              course is for.
+            </p>
+          </div>
+        </div>
+      );
+
+    case "hid-2":
+      return (
+        <div>
+          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+            The Hidden Stuff · Lesson 2
+          </p>
+          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+            State Benefits and Federal Hiring
+          </h1>
+
+          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+            Two of the most underused post-service advantages are state-level
+            benefits — which vary dramatically but can be worth tens of thousands
+            of dollars — and federal hiring preference, which can be the
+            difference between getting a government job and being passed over.
+            Most veterans don&apos;t fully understand either.
+          </p>
+
+          <div className="mb-8 rounded-xl border border-border p-5">
+            <p className="mb-3 font-semibold text-foreground">State benefits — why they matter so much</p>
+            <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
+              Federal benefits are the floor. State benefits are wildly
+              variable — some states offer almost nothing, others provide
+              benefits worth $20,000–$50,000+ per year to eligible veterans.
+              The key is knowing what your state offers and claiming it.
+            </p>
+            <div className="flex flex-col gap-4">
+              {[
+                {
+                  title: "Property tax exemptions",
+                  body: "This is the biggest one. Many states offer full or partial property tax exemptions for disabled veterans. Texas exempts 100% P&T veterans from all property taxes — on a $400,000 home with a $10,000/yr tax bill, that's $10,000/year in savings. Florida, Virginia, and others have strong programs too. Eligibility thresholds vary — some require 100% P&T, others start at 10%.",
+                },
+                {
+                  title: "Income tax exemption on military pay and disability",
+                  body: "Many states don't tax military retirement pay, VA disability compensation, or both. States like Texas and Florida have no income tax at all. Others like Virginia, North Carolina, and Colorado specifically exempt military retirement income. This can save a military retiree $3,000–$8,000/year in state taxes.",
+                },
+                {
+                  title: "Free or reduced college tuition",
+                  body: "Some states offer free tuition at public universities for eligible veterans or their dependents — separate from the GI Bill. Texas' Hazlewood Act gives eligible vets and their children up to 150 credit hours of tuition-free education at state schools. Illinois, Maryland, and others have similar programs.",
+                },
+                {
+                  title: "Vehicle registration and license fee waivers",
+                  body: "Many states waive vehicle registration fees for disabled veterans. Some offer specialized license plates that come with additional perks like free or reduced tolls. Minor benefit individually, but worth claiming.",
+                },
+              ].map(({ title, body }) => (
+                <div key={title} className="rounded-xl border border-border p-4">
+                  <p className="mb-1 text-sm font-semibold text-foreground">{title}</p>
+                  <p className="text-sm leading-relaxed text-muted-foreground">{body}</p>
+                </div>
+              ))}
+            </div>
+            <p className="mt-4 text-xs text-muted-foreground">
+              <span className="font-semibold text-foreground">How to find yours:</span> Search your state name + "veteran benefits" or go directly to your state's Department of Veterans Affairs website. If you're choosing where to live after service, factoring in state benefits is a legitimate financial decision — the difference between two states can be tens of thousands of dollars per year.
+            </p>
+          </div>
+
+          <div className="mb-8 rounded-xl border border-border p-5">
+            <p className="mb-3 font-semibold text-foreground">Federal hiring preference — how it actually works</p>
+            <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
+              If you&apos;re applying for a federal government job, veteran&apos;s
+              preference gives you an advantage over non-veteran applicants
+              with the same qualifications. It&apos;s not just symbolic — it
+              directly affects your position on ranked candidate lists.
+            </p>
+            <div className="flex flex-col gap-3 mb-4">
+              {[
+                {
+                  label: "5-point preference (TP)",
+                  desc: "Most honorably discharged veterans who served during a war or in a campaign with a campaign badge. 5 points added to your passing civil service exam score.",
+                },
+                {
+                  label: "10-point preference (CP/CPS/XP)",
+                  desc: "Veterans with a service-connected disability rating of 10% or higher. 10 points added, and you're placed at the top of the certificate above other preference eligibles.",
+                },
+                {
+                  label: "30%+ disabled veteran (Schedule A)",
+                  desc: "Veterans with a 30%+ disability rating can be hired non-competitively under Schedule A — meaning an agency can hire you without a competitive job posting. Agencies can bring you in directly.",
+                },
+              ].map(({ label, desc }) => (
+                <div key={label} className="rounded-xl border border-border p-4">
+                  <p className="mb-1 text-sm font-semibold text-foreground">{label}</p>
+                  <p className="text-sm leading-relaxed text-muted-foreground">{desc}</p>
+                </div>
+              ))}
+            </div>
+            <p className="text-sm leading-relaxed text-muted-foreground">
+              Federal jobs come with strong benefits — pension (FERS), TSP
+              matching, health insurance, and job security. The hiring
+              preference makes an already competitive option even more
+              accessible for veterans. When you apply on USAJOBS, indicate
+              your veteran&apos;s preference and upload your DD-214 and any
+              VA rating letters.
+            </p>
+          </div>
+
+          <div className="mb-8 rounded-xl border border-border p-5">
+            <p className="mb-3 font-semibold text-foreground">USERRA — your job is protected when you&apos;re called up</p>
+            <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
+              The Uniformed Services Employment and Reemployment Rights Act
+              (USERRA) protects your civilian job when you leave for military
+              duty. Key protections:
+            </p>
+            <div className="flex flex-col gap-2 text-sm">
+              {[
+                "Your employer must reinstate you to the same or equivalent position when you return",
+                "You cannot be fired or discriminated against because of military service",
+                "Your employer must continue your health insurance for up to 24 months during deployment",
+                "Pension and retirement benefits continue to accrue as if you never left",
+                "Applies to Guard and Reserve members called to active duty",
+              ].map((item) => (
+                <div key={item} className="flex items-start gap-3 border-b border-border pb-2 last:border-0 last:pb-0">
+                  <span className="mt-0.5 flex size-4 shrink-0 items-center justify-center rounded-full text-[10px] font-bold text-white" style={{ background: "var(--brand-600)" }}>✓</span>
+                  <p className="text-muted-foreground">{item}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="rounded-xl p-5 text-white" style={{ background: "var(--brand-600)" }}>
+            <p className="mb-1 font-bold">You earned all of this</p>
+            <p className="text-sm leading-relaxed text-white/85">
+              The financial advantage of military service isn&apos;t just the
+              paycheck — it&apos;s the benefits that compound for decades after
+              you separate. A 100% P&T veteran in Texas pays no property
+              taxes, no state income tax, gets free tuition for their kids,
+              shops the exchange tax-free, has free healthcare, and receives
+              $3,700+/month tax-free. That&apos;s a financial position most
+              people never reach. Know what you have, claim what you earned,
+              and build on it.
+            </p>
+          </div>
+        </div>
+      );
+
     default:
       return (
         <div>
