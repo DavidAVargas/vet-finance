@@ -1,21 +1,30 @@
-import { BookOpen, Shield, CreditCard, Clock } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { BookOpen, Shield, CreditCard, AlertTriangle, Medal, ArrowRight, Sparkles } from "lucide-react";
 import Link from "next/link";
 
 const courses = [
   {
     icon: <Shield className="size-5" />,
     title: "Credit Basics",
-    description:
-      "Everything you need to know about credit scores, hard pulls, credit age, derogatory marks, utilization, and building credit from zero.",
-    topics: ["Credit Scores", "Hard & Soft Pulls", "Credit Utilization", "Derogatory Marks", "Building from Zero", "And more..."],
+    description: "Credit scores, hard pulls, utilization, derogatory marks, and building from zero.",
+    live: true,
   },
   {
     icon: <CreditCard className="size-5" />,
     title: "Credit Cards 101",
-    description:
-      "How credit cards work, how to pick the right one, and how to use them strategically — including military-specific benefits most veterans don't know about.",
-    topics: ["Travel Cards", "Cash Back Cards", "APR & Interest", "Military Benefits", "SCRA Protections", "And more..."],
+    description: "How credit cards work, how to pick the right one, and military-specific benefits most veterans don't know about.",
+    live: true,
+  },
+  {
+    icon: <AlertTriangle className="size-5" />,
+    title: "Debt Traps",
+    description: "The wealth killers most people walk right into — car loans, medical bills, and student debt.",
+    live: true,
+  },
+  {
+    icon: <Medal className="size-5" />,
+    title: "Military Money",
+    description: "Every benefit you earned — BAH, TSP, VA Home Loan, GI Bill, disability, and the hidden stuff most vets never claim.",
+    live: true,
   },
 ];
 
@@ -38,60 +47,85 @@ export default function LearnPage() {
         </p>
       </div>
 
-      {/* Courses */}
-      <div className="mb-16 grid gap-6 sm:grid-cols-2">
+      {/* Beta access CTA */}
+      <div
+        className="mb-14 rounded-2xl p-8 text-center text-white"
+        style={{ background: "var(--brand-600)" }}
+      >
+        <div className="mb-3 inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-wider">
+          <Sparkles className="size-3" />
+          Beta Access Open
+        </div>
+        <h2 className="mb-2 text-2xl font-bold">4 courses are live right now.</h2>
+        <p className="mx-auto mb-6 max-w-sm text-sm text-white/80">
+          We&apos;re in early beta. Get an access code and start learning today — it&apos;s completely free.
+        </p>
+        <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+          <Link
+            href="/courses"
+            className="inline-flex items-center gap-2 rounded-xl bg-white px-6 py-3 text-sm font-semibold transition-opacity hover:opacity-90"
+            style={{ color: "var(--brand-700)" }}
+          >
+            Enter access code
+            <ArrowRight className="size-4" />
+          </Link>
+          <a
+            href="mailto:david.vargas024@gmail.com"
+            className="text-sm text-white/80 underline underline-offset-2 hover:text-white transition-colors"
+          >
+            Don&apos;t have a code? Request one
+          </a>
+        </div>
+      </div>
+
+      {/* Course cards */}
+      <div className="mb-16 grid gap-4 sm:grid-cols-2">
         {courses.map((course) => (
           <div
             key={course.title}
-            className="relative flex flex-col rounded-xl border border-border bg-muted/20 p-6"
+            className="flex flex-col rounded-xl border border-border bg-muted/20 p-6"
           >
-            {/* Coming soon badge */}
-            <div className="absolute right-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-muted px-3 py-1 text-xs text-muted-foreground">
-              <Clock className="size-3" />
-              Coming Soon
-            </div>
-
-            <div className="mb-3 flex items-center gap-3">
-              <div className="flex size-9 items-center justify-center rounded-full border border-border bg-background">
-                {course.icon}
+            <div className="mb-3 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="flex size-9 items-center justify-center rounded-full border border-border bg-background">
+                  {course.icon}
+                </div>
+                <h2 className="font-bold text-foreground">{course.title}</h2>
               </div>
-              <h2 className="font-bold text-foreground">{course.title}</h2>
+              {course.live && (
+                <span className="flex items-center gap-1 rounded-full bg-green-500/10 px-2.5 py-0.5 text-[11px] font-medium text-green-600 dark:text-green-400">
+                  <span className="size-1.5 rounded-full bg-green-500" />
+                  Live
+                </span>
+              )}
             </div>
-
-            <p className="mb-5 text-sm text-muted-foreground">{course.description}</p>
-
-            <ul className="mb-6 flex flex-col gap-1.5">
-              {course.topics.map((topic) => (
-                <li key={topic} className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <div className="size-1.5 shrink-0 rounded-full bg-foreground/30" />
-                  {topic}
-                </li>
-              ))}
-            </ul>
-
-            <Button variant="outline" size="sm" className="mt-auto w-full" disabled>
-              Course Coming Soon
-            </Button>
+            <p className="text-sm text-muted-foreground">{course.description}</p>
           </div>
         ))}
       </div>
 
-      {/* Notify me */}
+      {/* Bottom CTA */}
       <div className="rounded-xl border border-border bg-muted/40 px-6 py-10 text-center">
-        <h2 className="mb-2 text-xl font-bold text-foreground">Get notified when courses drop.</h2>
+        <h2 className="mb-2 text-xl font-bold text-foreground">Ready to get started?</h2>
         <p className="mx-auto mb-6 max-w-sm text-sm text-muted-foreground">
-          Leave your email and you&apos;ll be the first to know when the courses go live.
+          All courses are free. Get your access code and start building your financial foundation today.
         </p>
-        <form className="mx-auto flex max-w-md flex-col gap-3 sm:flex-row">
-          <input
-            type="email"
-            placeholder="Your email"
-            className="h-10 w-full rounded-md border border-input bg-background px-4 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-          />
-          <Button type="submit" className="shrink-0">
-            Notify Me
-          </Button>
-        </form>
+        <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+          <Link
+            href="/courses"
+            className="inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+            style={{ background: "var(--brand-600)" }}
+          >
+            Go to courses
+            <ArrowRight className="size-4" />
+          </Link>
+          <a
+            href="mailto:david.vargas024@gmail.com"
+            className="text-sm text-muted-foreground underline underline-offset-2 hover:text-foreground transition-colors"
+          >
+            Request beta access
+          </a>
+        </div>
       </div>
 
       {/* Back to home */}
