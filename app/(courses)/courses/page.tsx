@@ -6,6 +6,7 @@ import Link from "next/link";
 
 const BETA_CODE = "VETBETA";
 const BETA_KEY = "vf-beta-access";
+const BETA_WELCOMED_KEY = "vf-beta-welcomed";
 const FEEDBACK_URL = "https://forms.gle/PLACEHOLDER"; // swap with real Google Form link
 
 const mockUser = {
@@ -71,6 +72,67 @@ const courses = [
     recommended: false,
   },
 ];
+
+// ─── Welcome modal ────────────────────────────────────────────────────────────
+
+function WelcomeModal({ onClose }: { onClose: () => void }) {
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4 backdrop-blur-sm">
+      <div className="relative w-full max-w-md rounded-2xl border border-border bg-background p-8 shadow-2xl">
+
+        {/* Top badge */}
+        <div className="mb-6 flex justify-center">
+          <div
+            className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-white"
+            style={{ background: "var(--brand-600)" }}
+          >
+            <Sparkles className="size-3" />
+            Beta Access Granted
+          </div>
+        </div>
+
+        <h2 className="mb-3 text-center text-2xl font-bold tracking-tight text-foreground">
+          Welcome, Beta Tester.
+        </h2>
+
+        <p className="mb-4 text-center text-sm leading-relaxed text-muted-foreground">
+          Thanks for being here early — it genuinely means a lot.
+        </p>
+
+        <div className="mb-6 rounded-xl border border-border bg-muted/40 p-4 text-sm leading-relaxed text-muted-foreground">
+          <p className="mb-3">
+            Vet Finance is a work in progress. Things will change, content will
+            get updated, and some stuff might look rough around the edges —
+            that&apos;s normal. What matters is the information is real and it&apos;s
+            built specifically for military members and veterans.
+          </p>
+          <p className="mb-3">
+            My goal is to keep it straight to the point, easy to understand,
+            and actually useful — not another boring financial website that
+            puts you to sleep.
+          </p>
+          <p>
+            If something doesn&apos;t make sense, feels off, or you think I missed
+            something important — please tell me. Your feedback is exactly
+            what makes this better.
+          </p>
+        </div>
+
+        <button
+          onClick={onClose}
+          className="w-full rounded-xl py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+          style={{ background: "var(--brand-600)" }}
+        >
+          Let&apos;s get started
+        </button>
+
+        <p className="mt-4 text-center text-xs text-muted-foreground">
+          — David Vargas, Founder
+        </p>
+      </div>
+    </div>
+  );
+}
 
 // ─── Beta gate ────────────────────────────────────────────────────────────────
 
@@ -157,6 +219,7 @@ function BetaGate({ onUnlock }: { onUnlock: () => void }) {
 
 export default function CoursesPage() {
   const [betaUnlocked, setBetaUnlocked] = useState<boolean | null>(null);
+  const [showWelcome, setShowWelcome] = useState(false);
   const [creditBasicsComplete, setCreditBasicsComplete] = useState(false);
   const [cc101Complete, setCc101Complete] = useState(false);
 
@@ -177,16 +240,29 @@ export default function CoursesPage() {
     }
   }, []);
 
+  const handleUnlock = () => {
+    setBetaUnlocked(true);
+    const alreadyWelcomed = localStorage.getItem(BETA_WELCOMED_KEY) === "true";
+    if (!alreadyWelcomed) setShowWelcome(true);
+  };
+
+  const handleCloseWelcome = () => {
+    localStorage.setItem(BETA_WELCOMED_KEY, "true");
+    setShowWelcome(false);
+  };
+
   if (betaUnlocked === null) return null;
 
   if (!betaUnlocked) {
-    return <BetaGate onUnlock={() => setBetaUnlocked(true)} />;
+    return <BetaGate onUnlock={handleUnlock} />;
   }
 
   const playbookUnlocked = creditBasicsComplete && cc101Complete;
 
   return (
     <div className="flex min-h-[100dvh] flex-col bg-background">
+
+      {showWelcome && <WelcomeModal onClose={handleCloseWelcome} />}
 
       {/* Top bar */}
       <header className="flex h-14 items-center justify-between border-b border-border px-6">
