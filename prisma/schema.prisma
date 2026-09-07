@@ -1,0 +1,41 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model InviteCode {
+  id        String   @id @default(cuid())
+  code      String   @unique
+  type      String   // "event" | "personal" | "general"
+  label     String
+  isActive  Boolean  @default(true)
+  maxUses   Int?
+  usedCount Int      @default(0)
+  expiresAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model FeedbackPost {
+  id          String           @id @default(cuid())
+  clerkUserId String
+  authorName  String
+  content     String
+  category    String           @default("general")
+  upvotes     FeedbackUpvote[]
+  createdAt   DateTime         @default(now())
+}
+
+model FeedbackUpvote {
+  id             String       @id @default(cuid())
+  clerkUserId    String
+  feedbackPostId String
+  feedbackPost   FeedbackPost @relation(fields: [feedbackPostId], references: [id], onDelete: Cascade)
+  createdAt      DateTime     @default(now())
+
+  @@unique([clerkUserId, feedbackPostId])
+}

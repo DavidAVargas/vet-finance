@@ -1,18 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useUser, UserButton } from "@clerk/nextjs";
 import { Shield, CreditCard, AlertTriangle, Medal, Clock, BookOpen, ChevronRight, Star, Lock, Sparkles, MessageSquare } from "lucide-react";
+// Lock kept for the playbook locked state
 import Link from "next/link";
 
-const BETA_CODE = "VETBETA";
-const BETA_KEY = "vf-beta-access";
-const BETA_WELCOMED_KEY = "vf-beta-welcomed";
-const FEEDBACK_URL = "https://forms.gle/PLACEHOLDER"; // swap with real Google Form link
-
-const mockUser = {
-  name: "Beta Tester",
-  rank: "Veteran",
-};
 
 const courses = [
   {
@@ -73,196 +66,31 @@ const courses = [
   },
 ];
 
-// ─── Welcome modal ────────────────────────────────────────────────────────────
-
-function WelcomeModal({ onClose }: { onClose: () => void }) {
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4 backdrop-blur-sm">
-      <div className="relative w-full max-w-md rounded-2xl border border-border bg-background p-8 shadow-2xl">
-
-        {/* Top badge */}
-        <div className="mb-6 flex justify-center">
-          <div
-            className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-white"
-            style={{ background: "var(--brand-600)" }}
-          >
-            <Sparkles className="size-3" />
-            Beta Access Granted
-          </div>
-        </div>
-
-        <h2 className="mb-3 text-center text-2xl font-bold tracking-tight text-foreground">
-          Welcome, Beta Tester.
-        </h2>
-
-        <p className="mb-4 text-center text-sm leading-relaxed text-muted-foreground">
-          Thanks for being here early — it genuinely means a lot.
-        </p>
-
-        <div className="mb-6 rounded-xl border border-border bg-muted/40 p-4 text-sm leading-relaxed text-muted-foreground">
-          <p className="mb-3">
-            Vet Finance is a work in progress. Things will change, content will
-            get updated, and some stuff might look rough around the edges —
-            that&apos;s normal. What matters is the information is real and it&apos;s
-            built specifically for military members and veterans.
-          </p>
-          <p className="mb-3">
-            My goal is to keep it straight to the point, easy to understand,
-            and actually useful — not another boring financial website that
-            puts you to sleep.
-          </p>
-          <p>
-            If something doesn&apos;t make sense, feels off, or you think I missed
-            something important — please tell me. Your feedback is exactly
-            what makes this better.
-          </p>
-        </div>
-
-        <button
-          onClick={onClose}
-          className="w-full rounded-xl py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90"
-          style={{ background: "var(--brand-600)" }}
-        >
-          Let&apos;s get started
-        </button>
-
-        <p className="mt-4 text-center text-xs text-muted-foreground">
-          — David Vargas, Founder
-        </p>
-      </div>
-    </div>
-  );
-}
-
-// ─── Beta gate ────────────────────────────────────────────────────────────────
-
-function BetaGate({ onUnlock }: { onUnlock: () => void }) {
-  const [code, setCode] = useState("");
-  const [error, setError] = useState(false);
-  const [shake, setShake] = useState(false);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (code.trim().toUpperCase() === BETA_CODE) {
-      localStorage.setItem(BETA_KEY, "true");
-      onUnlock();
-    } else {
-      setError(true);
-      setShake(true);
-      setTimeout(() => setShake(false), 500);
-    }
-  };
-
-  return (
-    <div className="flex min-h-[100dvh] flex-col bg-background">
-      <header className="flex h-14 items-center border-b border-border px-6">
-        <Link href="/" className="flex items-center gap-2 text-sm font-semibold text-foreground">
-          <div className="flex size-6 items-center justify-center rounded-md bg-foreground">
-            <span className="text-[10px] font-bold text-background">VF</span>
-          </div>
-          Vet Finance
-        </Link>
-      </header>
-
-      <main className="flex flex-1 items-center justify-center px-6 py-16">
-        <div className="w-full max-w-sm">
-          <div className="mb-8 text-center">
-            <div className="mx-auto mb-5 flex size-14 items-center justify-center rounded-full border border-border bg-muted">
-              <Lock className="size-5 text-muted-foreground" />
-            </div>
-            <h1 className="mb-2 text-2xl font-bold tracking-tight text-foreground">Beta Access</h1>
-            <p className="text-sm text-muted-foreground">
-              Vet Finance is in early beta. Enter your access code to get in.
-            </p>
-          </div>
-
-          <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-            <input
-              type="text"
-              value={code}
-              onChange={(e) => { setCode(e.target.value); setError(false); }}
-              placeholder="Enter access code"
-              autoComplete="off"
-              autoCapitalize="characters"
-              className={`w-full rounded-xl border bg-background px-4 py-3 text-center text-sm font-mono tracking-widest text-foreground outline-none transition-colors placeholder:text-muted-foreground/50 focus:border-foreground ${
-                error ? "border-red-400" : "border-border"
-              } ${shake ? "animate-[shake_0.4s_ease-in-out]" : ""}`}
-            />
-            {error && (
-              <p className="text-center text-xs text-red-500">Invalid code — check with David and try again.</p>
-            )}
-            <button
-              type="submit"
-              className="w-full rounded-xl py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90"
-              style={{ background: "var(--brand-600)" }}
-            >
-              Enter
-            </button>
-          </form>
-
-          <p className="mt-6 text-center text-xs text-muted-foreground">
-            Don&apos;t have a code?{" "}
-            <a
-              href="mailto:david.vargas024@gmail.com"
-              className="underline underline-offset-2 hover:text-foreground transition-colors"
-            >
-              Request access
-            </a>
-          </p>
-        </div>
-      </main>
-    </div>
-  );
-}
-
 // ─── Main page ────────────────────────────────────────────────────────────────
 
 export default function CoursesPage() {
-  const [betaUnlocked, setBetaUnlocked] = useState<boolean | null>(null);
-  const [showWelcome, setShowWelcome] = useState(false);
+  const { user } = useUser();
   const [creditBasicsComplete, setCreditBasicsComplete] = useState(false);
   const [cc101Complete, setCc101Complete] = useState(false);
 
   useEffect(() => {
-    const hasAccess = localStorage.getItem(BETA_KEY) === "true";
-    setBetaUnlocked(hasAccess);
-
-    if (hasAccess) {
-      try {
-        const cbCompleted: string[] = JSON.parse(localStorage.getItem("cb-completed") ?? "[]");
-        const ccCompleted: string[] = JSON.parse(localStorage.getItem("cc101-completed") ?? "[]");
-        setCreditBasicsComplete(cbCompleted.includes("pyc-quiz"));
-        setCc101Complete(ccCompleted.includes("bcs-quiz"));
-      } catch {
-        setCreditBasicsComplete(false);
-        setCc101Complete(false);
-      }
+    try {
+      const cbCompleted: string[] = JSON.parse(localStorage.getItem("cb-completed") ?? "[]");
+      const ccCompleted: string[] = JSON.parse(localStorage.getItem("cc101-completed") ?? "[]");
+      setCreditBasicsComplete(cbCompleted.includes("pyc-quiz"));
+      setCc101Complete(ccCompleted.includes("bcs-quiz"));
+    } catch {
+      setCreditBasicsComplete(false);
+      setCc101Complete(false);
     }
   }, []);
 
-  const handleUnlock = () => {
-    setBetaUnlocked(true);
-    const alreadyWelcomed = localStorage.getItem(BETA_WELCOMED_KEY) === "true";
-    if (!alreadyWelcomed) setShowWelcome(true);
-  };
-
-  const handleCloseWelcome = () => {
-    localStorage.setItem(BETA_WELCOMED_KEY, "true");
-    setShowWelcome(false);
-  };
-
-  if (betaUnlocked === null) return null;
-
-  if (!betaUnlocked) {
-    return <BetaGate onUnlock={handleUnlock} />;
-  }
-
   const playbookUnlocked = creditBasicsComplete && cc101Complete;
+  const displayName = user?.firstName ?? user?.username ?? "Beta Tester";
+  const tier = user?.publicMetadata?.tier as string | undefined;
 
   return (
     <div className="flex min-h-[100dvh] flex-col bg-background">
-
-      {showWelcome && <WelcomeModal onClose={handleCloseWelcome} />}
 
       {/* Top bar */}
       <header className="flex h-14 items-center justify-between border-b border-border px-6">
@@ -273,19 +101,19 @@ export default function CoursesPage() {
           Vet Finance
         </Link>
         <div className="flex items-center gap-3">
-          <a
-            href={FEEDBACK_URL}
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            href="/feedback"
             className="flex items-center gap-1.5 rounded-full border border-border bg-muted px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:text-foreground"
           >
             <MessageSquare className="size-3" />
             Give feedback
-          </a>
-          <div className="hidden text-right sm:block">
-            <p className="text-sm font-medium text-foreground leading-none">{mockUser.name}</p>
-            <p className="mt-0.5 text-xs text-muted-foreground">{mockUser.rank}</p>
-          </div>
+          </Link>
+          {tier === "event" && (
+            <span className="hidden rounded-full bg-muted px-2.5 py-1 text-[11px] font-medium text-muted-foreground sm:block">
+              Code &amp; Coffee
+            </span>
+          )}
+          <UserButton afterSignOutUrl="/" />
         </div>
       </header>
 
@@ -295,7 +123,7 @@ export default function CoursesPage() {
 
           {/* Welcome */}
           <div className="mb-10">
-            <p className="mb-1 text-sm text-muted-foreground">Welcome to the beta</p>
+            <p className="mb-1 text-sm text-muted-foreground">Welcome back, {displayName}</p>
             <h1 className="text-3xl font-bold tracking-tight text-foreground">
               Your courses.
             </h1>
@@ -451,9 +279,9 @@ export default function CoursesPage() {
           {/* Beta note */}
           <p className="mt-10 text-center text-xs text-muted-foreground">
             You&apos;re in the beta — your feedback helps shape this.{" "}
-            <a href={FEEDBACK_URL} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-foreground transition-colors">
+            <Link href="/feedback" className="underline underline-offset-2 hover:text-foreground transition-colors">
               Share your thoughts.
-            </a>
+            </Link>
           </p>
 
         </div>
