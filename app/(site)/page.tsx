@@ -1,6 +1,9 @@
 import Link from "next/link";
+import { currentUser } from "@clerk/nextjs/server";
 import { Button } from "@/components/ui/button";
 import { Shield, BookOpen, ChevronRight, CreditCard } from "lucide-react";
+
+const FOUNDER_EMAIL = "david.vargas024@gmail.com";
 
 const creditBasics = [
   { topic: "Credit Scores", desc: "What they are, how they're calculated, and what's considered good vs. bad." },
@@ -20,7 +23,15 @@ const creditCards = [
   { topic: "And a lot more to learn...", desc: "APR, minimum payment traps, balance transfers, sign-up bonuses, and more." },
 ];
 
-export default function Home() {
+export default async function Home() {
+  const user = await currentUser();
+  const email = user?.emailAddresses?.[0]?.emailAddress;
+  const isFounder = email === FOUNDER_EMAIL;
+  const isActivated = !!user?.publicMetadata?.activated;
+
+  const ctaHref = !user ? "/sign-in" : isActivated || isFounder ? "/courses" : "/onboarding";
+  const ctaLabel = user ? "Go to your courses" : "Start Learning";
+
   return (
     <>
       {/* Hero */}
@@ -42,9 +53,9 @@ export default function Home() {
 
         <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
           <Button size="lg" asChild>
-            <Link href="/learn">
+            <Link href={ctaHref}>
               <BookOpen className="size-4" />
-              Start Learning
+              {ctaLabel}
             </Link>
           </Button>
           <Button size="lg" variant="outline" asChild>
@@ -139,9 +150,9 @@ export default function Home() {
 
           <div className="mt-16 text-center">
             <Button size="lg" asChild>
-              <Link href="/learn">
+              <Link href={ctaHref}>
                 <BookOpen className="size-4" />
-                Start Learning — It&apos;s Free
+                {user ? "Go to your courses" : "Start Learning — It's Free"}
               </Link>
             </Button>
           </div>

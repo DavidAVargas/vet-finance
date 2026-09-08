@@ -45,3 +45,4 @@ storybook-static
 # next-agents-md
 .next-docs/
 .next-browser-tools
+.neon

@@ -86,8 +86,12 @@ export default function CoursesPage() {
   }, []);
 
   const playbookUnlocked = creditBasicsComplete && cc101Complete;
-  const displayName = user?.firstName ?? user?.username ?? "Beta Tester";
+  const displayName = user?.firstName ?? user?.username ?? "there";
+  const email = user?.primaryEmailAddress?.emailAddress;
   const tier = user?.publicMetadata?.tier as string | undefined;
+
+  const isFounder = email === "david.vargas024@gmail.com";
+  const tag = isFounder ? "Admin" : tier === "event" ? "💻☕️" : "Beta Tester";
 
   return (
     <div className="flex min-h-[100dvh] flex-col bg-background">
@@ -108,11 +112,9 @@ export default function CoursesPage() {
             <MessageSquare className="size-3" />
             Give feedback
           </Link>
-          {tier === "event" && (
-            <span className="hidden rounded-full bg-muted px-2.5 py-1 text-[11px] font-medium text-muted-foreground sm:block">
-              Code &amp; Coffee
-            </span>
-          )}
+          <span className="hidden rounded-full bg-muted px-2.5 py-1 text-[11px] font-medium text-muted-foreground sm:block">
+            {tag}
+          </span>
           <UserButton afterSignOutUrl="/" />
         </div>
       </header>
