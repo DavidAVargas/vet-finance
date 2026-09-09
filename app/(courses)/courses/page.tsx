@@ -72,16 +72,19 @@ export default function CoursesPage() {
   const { user } = useUser();
   const [creditBasicsComplete, setCreditBasicsComplete] = useState(false);
   const [cc101Complete, setCc101Complete] = useState(false);
+  const [debtTrapsComplete, setDebtTrapsComplete] = useState(false);
+  const [thankYouVisible, setThankYouVisible] = useState(false);
 
   useEffect(() => {
     try {
-      const cbCompleted: string[] = JSON.parse(localStorage.getItem("cb-completed") ?? "[]");
-      const ccCompleted: string[] = JSON.parse(localStorage.getItem("cc101-completed") ?? "[]");
-      setCreditBasicsComplete(cbCompleted.includes("pyc-quiz"));
-      setCc101Complete(ccCompleted.includes("bcs-quiz"));
+      const cb  = JSON.parse(localStorage.getItem("cb-completed")    ?? "[]") as string[];
+      const cc  = JSON.parse(localStorage.getItem("cc101-completed")  ?? "[]") as string[];
+      const dt  = JSON.parse(localStorage.getItem("dt-completed")     ?? "[]") as string[];
+      setCreditBasicsComplete(cb.includes("pyc-quiz"));
+      setCc101Complete(cc.includes("bcs-quiz"));
+      setDebtTrapsComplete(dt.includes("sl-quiz"));
     } catch {
-      setCreditBasicsComplete(false);
-      setCc101Complete(false);
+      // leave all false
     }
   }, []);
 
@@ -90,14 +93,34 @@ export default function CoursesPage() {
   const email = user?.primaryEmailAddress?.emailAddress;
   const tier = user?.publicMetadata?.tier as string | undefined;
 
+  const militaryStatus = user?.publicMetadata?.militaryStatus as string | undefined;
   const isFounder = email === "david.vargas024@gmail.com";
-  const tag = isFounder ? "Admin" : tier === "event" ? "💻☕️" : "Beta Tester";
+
+  const isMilitary = ["active-duty", "veteran", "gold-star", "mil-family"].includes(militaryStatus ?? "");
+
+  const militaryTag =
+    militaryStatus === "active-duty" ? "🎖️ Active Duty" :
+    militaryStatus === "veteran"     ? "🎖️ Veteran" :
+    militaryStatus === "gold-star"   ? "⭐ Gold Star" :
+    militaryStatus === "mil-family"  ? "🫂 Mil Family" :
+    null;
+
+  const eventTag = tier === "event" ? "💻 Code & ☕️ Coffee" : null;
+
+  // Build tag list: Admin overrides all; military + event can stack
+  const tags: Array<{ label: string; military: boolean }> = isFounder
+    ? [{ label: "Admin", military: false }]
+    : [
+        ...(militaryTag ? [{ label: militaryTag, military: true }] : []),
+        ...(eventTag    ? [{ label: eventTag,    military: false }] : []),
+        ...(!militaryTag && !eventTag ? [{ label: "Beta Tester", military: false }] : []),
+      ];
 
   return (
     <div className="flex min-h-[100dvh] flex-col bg-background">
 
       {/* Top bar */}
-      <header className="flex h-14 items-center justify-between border-b border-border px-6">
+      <header className="relative flex h-14 items-center justify-between border-b border-border px-6 overflow-visible">
         <Link href="/" className="flex items-center gap-2 text-sm font-semibold text-foreground">
           <div className="flex size-6 items-center justify-center rounded-md bg-foreground">
             <span className="text-[10px] font-bold text-background">VF</span>
@@ -112,9 +135,32 @@ export default function CoursesPage() {
             <MessageSquare className="size-3" />
             Give feedback
           </Link>
-          <span className="hidden rounded-full bg-muted px-2.5 py-1 text-[11px] font-medium text-muted-foreground sm:block">
-            {tag}
-          </span>
+          <div className="hidden items-center gap-1.5 sm:flex">
+            {tags.map((t) =>
+              t.military ? (
+                <div key={t.label} className="relative">
+                  <span
+                    className="cursor-pointer rounded-full bg-muted px-2.5 py-1 text-[11px] font-medium text-muted-foreground select-none"
+                    onMouseEnter={() => setThankYouVisible(true)}
+                    onMouseLeave={() => setThankYouVisible(false)}
+                    onClick={() => setThankYouVisible((v) => !v)}
+                  >
+                    {t.label}
+                  </span>
+                  {thankYouVisible && (
+                    <div className="absolute top-full left-1/2 mt-2 -translate-x-1/2 whitespace-nowrap rounded-lg bg-foreground px-3 py-1.5 text-[11px] font-medium text-background shadow-lg z-50">
+                      🫡 Thank you for your service
+                      <div className="absolute left-1/2 bottom-full -translate-x-1/2 border-4 border-transparent border-b-foreground" />
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <span key={t.label} className="rounded-full bg-muted px-2.5 py-1 text-[11px] font-medium text-muted-foreground">
+                  {t.label}
+                </span>
+              )
+            )}
+          </div>
           <UserButton afterSignOutUrl="/" />
         </div>
       </header>
@@ -138,8 +184,12 @@ export default function CoursesPage() {
           <div className="flex flex-col gap-4">
             {courses.map((course) => {
               const Icon = course.icon;
-              const isCC101 = course.id === "credit-cards-101";
-              const unlocked = !isCC101 || creditBasicsComplete;
+              const unlocked =
+                course.id === "credit-basics"    ? true :
+                course.id === "credit-cards-101" ? creditBasicsComplete :
+                course.id === "debt-traps"       ? cc101Complete :
+                course.id === "military-money"   ? debtTrapsComplete :
+                false;
 
               return (
                 <div
@@ -202,7 +252,10 @@ export default function CoursesPage() {
                         ) : (
                           <span className="flex items-center gap-1.5 text-sm text-muted-foreground">
                             <Lock className="size-3.5" />
-                            Locked
+                            {course.id === "credit-cards-101" ? "Finish Credit Basics first" :
+                             course.id === "debt-traps"       ? "Finish Credit Cards 101 first" :
+                             course.id === "military-money"   ? "Finish Debt Traps first" :
+                             "Locked"}
                           </span>
                         )}
                       </div>

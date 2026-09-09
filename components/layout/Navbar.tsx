@@ -1,11 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import { useUser, UserButton } from "@clerk/nextjs";
 import Link from "next/link";
 import { Menu, X, Shield } from "lucide-react";
 import { ThemeToggle } from "@/components/DarkLightMode/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+
+const FOUNDER_EMAIL = "david.vargas024@gmail.com";
 
 const navLinks = [
   { label: "Home", href: "/" },
@@ -17,6 +20,13 @@ const navLinks = [
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
+  const { user, isLoaded } = useUser();
+
+  const email = user?.primaryEmailAddress?.emailAddress;
+  const isFounder = email === FOUNDER_EMAIL;
+  const isActivated = !!user?.publicMetadata?.activated;
+  const hasAccess = isFounder || isActivated;
+  const ctaHref = !user ? "/sign-in" : hasAccess ? "/courses" : "/onboarding";
 
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-md">
@@ -47,9 +57,13 @@ export function Navbar() {
           {/* Right side */}
           <div className="flex items-center gap-2">
             <ThemeToggle />
-            <Button size="sm" className="hidden md:inline-flex">
-              Get Started
-            </Button>
+            {isLoaded && user ? (
+              <UserButton afterSignOutUrl="/" />
+            ) : (
+              <Button size="sm" className="hidden md:inline-flex" asChild>
+                <Link href={ctaHref}>Get Started</Link>
+              </Button>
+            )}
             {/* Mobile hamburger */}
             <button
               className={cn(
@@ -77,8 +91,10 @@ export function Navbar() {
                 {link.label}
               </Link>
             ))}
-            <Button size="sm" className="mt-2 w-full">
-              Get Started
+            <Button size="sm" className="mt-2 w-full" asChild>
+              <Link href={ctaHref} onClick={() => setOpen(false)}>
+                {user ? "Go to courses" : "Get Started"}
+              </Link>
             </Button>
           </div>
         )}

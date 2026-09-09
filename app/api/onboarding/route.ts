@@ -7,12 +7,18 @@ export async function POST(req: Request) {
   if (!userId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const body = await req.json();
-  const { code, type } = body as { code?: string; type?: string };
+  const { joinType, militaryStatus } = body as {
+    joinType?: string;
+    militaryStatus?: string;
+  };
+
+  if (!militaryStatus) {
+    return NextResponse.json({ error: "Please select your background." }, { status: 400 });
+  }
 
   let inviteCode;
 
-  if (type === "cc") {
-    // Code & Coffee: find active event invite
+  if (joinType === "cc") {
     inviteCode = await prisma.inviteCode.findFirst({
       where: { type: "event", isActive: true },
     });
@@ -22,19 +28,11 @@ export async function POST(req: Request) {
         { status: 400 }
       );
     }
-  } else if (code) {
-    inviteCode = await prisma.inviteCode.findUnique({ where: { code } });
-    if (!inviteCode || !inviteCode.isActive) {
-      return NextResponse.json({ error: "Invalid or inactive invite code." }, { status: 400 });
-    }
-    if (inviteCode.maxUses !== null && inviteCode.usedCount >= inviteCode.maxUses) {
-      return NextResponse.json({ error: "This code has already been used." }, { status: 400 });
-    }
-    if (inviteCode.expiresAt && inviteCode.expiresAt < new Date()) {
-      return NextResponse.json({ error: "This invite code has expired." }, { status: 400 });
-    }
   } else {
-    return NextResponse.json({ error: "No invite code provided." }, { status: 400 });
+    return NextResponse.json(
+      { error: "No valid invite found. Use your invite link or reach out to David." },
+      { status: 400 }
+    );
   }
 
   // Increment usage
@@ -50,6 +48,7 @@ export async function POST(req: Request) {
       activated: true,
       tier: inviteCode.type,
       inviteCode: inviteCode.code,
+      militaryStatus,
       activatedAt: new Date().toISOString(),
     },
   });

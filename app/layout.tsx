@@ -15,7 +15,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
+    <ClerkProvider afterSignUpUrl="/courses" afterSignInUrl="/courses">
       <html lang="en" suppressHydrationWarning>
         <body className={inter.variable}>
           <Providers>{children}</Providers>
