@@ -26,7 +26,7 @@ export function Navbar() {
   const isFounder = email === FOUNDER_EMAIL;
   const isActivated = !!user?.publicMetadata?.activated;
   const hasAccess = isFounder || isActivated;
-  const ctaHref = !user ? "/sign-in" : hasAccess ? "/courses" : "/onboarding";
+  const ctaHref = !user ? "/learn" : hasAccess ? "/courses" : "/onboarding";
 
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-md">

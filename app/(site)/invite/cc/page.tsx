@@ -44,8 +44,8 @@ export default function CodeAndCoffeePage() {
   };
 
   const handleNewAccount = () => {
-    sessionStorage.setItem("vf-invite-type", "cc");
-    router.push("/sign-up");
+    localStorage.setItem("vf-join-type", "cc");
+    router.push("/join/cc");
   };
 
   if (!isLoaded || eventActive === null) {

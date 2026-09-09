@@ -42,7 +42,7 @@ export default function LearnPage() {
   const hasAccess = isFounder || isActivated;
 
   // Determine CTA based on auth state
-  const ctaHref = !user ? "/sign-in" : hasAccess ? "/courses" : "/onboarding";
+  const ctaHref = !user ? "/learn" : hasAccess ? "/courses" : "/onboarding";
   const ctaLabel = !user
     ? "Sign in to access"
     : hasAccess
@@ -113,24 +113,22 @@ export default function LearnPage() {
             </Link>
           </>
         ) : (
-          // Not signed in
+          // Not signed in — beta, invite only
           <>
             <div className="mb-3 inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-wider">
               <Sparkles className="size-3" />
-              Private Beta — Selected Few
+              Beta — Invite Only
             </div>
-            <h2 className="mb-2 text-2xl font-bold">4 courses are live right now.</h2>
+            <h2 className="mb-2 text-2xl font-bold">You need an invite code to get in.</h2>
             <p className="mx-auto mb-6 max-w-sm text-sm text-white/80">
-              We&apos;re in early beta. If you have an access code, you can start learning today — completely free.
+              Vet Finance is currently in beta. The only way in right now is with an invite code — if you have one, you&apos;re good to go.
             </p>
-            <Link
-              href="/sign-in"
-              className="inline-flex items-center gap-2 rounded-xl bg-white px-6 py-3 text-sm font-semibold transition-opacity hover:opacity-90"
-              style={{ color: "var(--brand-700)" }}
-            >
-              Sign in to access
-              <ArrowRight className="size-4" />
-            </Link>
+            <p className="text-sm text-white/60">
+              Already have an account?{" "}
+              <Link href="/sign-in" className="underline underline-offset-2 text-white hover:text-white/80 transition-opacity">
+                Sign in here.
+              </Link>
+            </p>
           </>
         )}
       </div>
@@ -164,21 +162,30 @@ export default function LearnPage() {
       {/* Bottom CTA */}
       <div className="rounded-xl border border-border bg-muted/40 px-6 py-10 text-center">
         <h2 className="mb-2 text-xl font-bold text-foreground">
-          {user && hasAccess ? "Ready to keep learning?" : "Have an access code?"}
+          {user && hasAccess ? "Ready to keep learning?" : "Currently in beta."}
         </h2>
         <p className="mx-auto mb-6 max-w-sm text-sm text-muted-foreground">
           {user && hasAccess
             ? "All your courses are waiting. Jump back in anytime."
-            : "This beta is invite only. If you were given a code, you're one of the first people in."}
+            : "If you have an invite code, that's your way in. No code, no access — for now."}
         </p>
-        <Link
-          href={ctaHref}
-          className="inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90"
-          style={{ background: "var(--brand-600)" }}
-        >
-          {ctaLabel}
-          <ArrowRight className="size-4" />
-        </Link>
+        {user && hasAccess ? (
+          <Link
+            href={ctaHref}
+            className="inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+            style={{ background: "var(--brand-600)" }}
+          >
+            {ctaLabel}
+            <ArrowRight className="size-4" />
+          </Link>
+        ) : (
+          <p className="text-sm text-muted-foreground">
+            Already have an account?{" "}
+            <Link href="/sign-in" className="font-medium text-foreground underline underline-offset-2 hover:opacity-80 transition-opacity">
+              Sign in here.
+            </Link>
+          </p>
+        )}
       </div>
 
       {/* Back to home */}

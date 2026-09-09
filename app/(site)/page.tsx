@@ -29,7 +29,7 @@ export default async function Home() {
   const isFounder = email === FOUNDER_EMAIL;
   const isActivated = !!user?.publicMetadata?.activated;
 
-  const ctaHref = !user ? "/sign-in" : isActivated || isFounder ? "/courses" : "/onboarding";
+  const ctaHref = !user ? "/learn" : isActivated || isFounder ? "/courses" : "/onboarding";
   const ctaLabel = user ? "Go to your courses" : "Start Learning";
 
   return (
