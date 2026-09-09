@@ -52,12 +52,19 @@ export default async function Home() {
         </p>
 
         <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-          <Button size="lg" asChild>
-            <Link href={ctaHref}>
+          {user ? (
+            <Button size="lg" asChild>
+              <Link href={ctaHref}>
+                <BookOpen className="size-4" />
+                {ctaLabel}
+              </Link>
+            </Button>
+          ) : (
+            <Button size="lg" disabled className="opacity-50 cursor-default">
               <BookOpen className="size-4" />
               {ctaLabel}
-            </Link>
-          </Button>
+            </Button>
+          )}
           <Button size="lg" variant="outline" asChild>
             <Link href="/card">
               The Card
@@ -149,12 +156,19 @@ export default async function Home() {
           </div>
 
           <div className="mt-16 text-center">
-            <Button size="lg" asChild>
-              <Link href={ctaHref}>
+            {user ? (
+              <Button size="lg" asChild>
+                <Link href={ctaHref}>
+                  <BookOpen className="size-4" />
+                  Go to your courses
+                </Link>
+              </Button>
+            ) : (
+              <Button size="lg" disabled className="opacity-50 cursor-default">
                 <BookOpen className="size-4" />
-                {user ? "Go to your courses" : "Start Learning — It's Free"}
-              </Link>
-            </Button>
+                Start Learning — It&apos;s Free
+              </Button>
+            )}
           </div>
         </div>
       </section>

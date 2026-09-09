@@ -124,10 +124,7 @@ export default function LearnPage() {
               Vet Finance is currently in beta. The only way in right now is with an invite code — if you have one, you&apos;re good to go.
             </p>
             <p className="text-sm text-white/60">
-              Already have an account?{" "}
-              <Link href="/sign-in" className="underline underline-offset-2 text-white hover:text-white/80 transition-opacity">
-                Sign in here.
-              </Link>
+              Already have an account? Use your invite link to sign in.
             </p>
           </>
         )}
@@ -180,10 +177,7 @@ export default function LearnPage() {
           </Link>
         ) : (
           <p className="text-sm text-muted-foreground">
-            Already have an account?{" "}
-            <Link href="/sign-in" className="font-medium text-foreground underline underline-offset-2 hover:opacity-80 transition-opacity">
-              Sign in here.
-            </Link>
+            Already have an account? Use your invite link to get in.
           </p>
         )}
       </div>

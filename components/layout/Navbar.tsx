@@ -60,8 +60,8 @@ export function Navbar() {
             {isLoaded && user ? (
               <UserButton afterSignOutUrl="/" />
             ) : (
-              <Button size="sm" className="hidden md:inline-flex" asChild>
-                <Link href={ctaHref}>Get Started</Link>
+              <Button size="sm" className="hidden md:inline-flex opacity-50 cursor-default" disabled>
+                Get Started
               </Button>
             )}
             {/* Mobile hamburger */}
@@ -91,11 +91,15 @@ export function Navbar() {
                 {link.label}
               </Link>
             ))}
-            <Button size="sm" className="mt-2 w-full" asChild>
-              <Link href={ctaHref} onClick={() => setOpen(false)}>
-                {user ? "Go to courses" : "Get Started"}
-              </Link>
-            </Button>
+            {user ? (
+              <Button size="sm" className="mt-2 w-full" asChild>
+                <Link href={ctaHref} onClick={() => setOpen(false)}>Go to courses</Link>
+              </Button>
+            ) : (
+              <Button size="sm" className="mt-2 w-full opacity-50 cursor-default" disabled>
+                Get Started
+              </Button>
+            )}
           </div>
         )}
       </nav>
