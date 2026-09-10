@@ -1603,9 +1603,6 @@ function LessonContent({ lessonId }: { lessonId: string }) {
 
 // ─── Main page ────────────────────────────────────────────────────────────────
 
-const STORAGE_COMPLETED = "mm-completed";
-const STORAGE_UNLOCKED = "mm-unlocked";
-
 export default function MilitaryMoneyPage() {
   const [completedLessons, setCompletedLessons] = useState<string[]>([]);
   const [unlockedSections, setUnlockedSections] = useState<string[]>([SECTIONS[0].id]);
@@ -1614,22 +1611,36 @@ export default function MilitaryMoneyPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
-    try {
-      const saved: string[] = JSON.parse(localStorage.getItem(STORAGE_COMPLETED) ?? "[]");
-      const savedUnlocked: string[] = JSON.parse(localStorage.getItem(STORAGE_UNLOCKED) ?? "[]");
-      setCompletedLessons(saved);
-      setUnlockedSections([SECTIONS[0].id, ...savedUnlocked]);
-    } catch {
-      setUnlockedSections([SECTIONS[0].id]);
-    }
+    fetch("/api/progress")
+      .then((r) => r.json())
+      .then((data) => {
+        const completed: string[] = data["military-money"] ?? [];
+        setCompletedLessons(completed);
+        const unlocked = [SECTIONS[0].id];
+        for (let i = 0; i < SECTIONS.length - 1; i++) {
+          const s = SECTIONS[i];
+          if (s.lessons.every((l) => completed.includes(l.id))) {
+            unlocked.push(SECTIONS[i + 1].id);
+          }
+        }
+        setUnlockedSections(unlocked);
+      })
+      .catch(() => {});
   }, []);
+
+  const postProgress = (lessonId: string) => {
+    fetch("/api/progress", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ courseId: "military-money", lessonId }),
+    }).catch(() => {});
+  };
 
   const markComplete = (lessonId: string) => {
     setCompletedLessons((prev) => {
       if (prev.includes(lessonId)) return prev;
-      const next = [...prev, lessonId];
-      localStorage.setItem(STORAGE_COMPLETED, JSON.stringify(next));
-      return next;
+      postProgress(lessonId);
+      return [...prev, lessonId];
     });
   };
 
@@ -1637,12 +1648,7 @@ export default function MilitaryMoneyPage() {
     const idx = SECTIONS.findIndex((s) => s.id === currentSectionId);
     if (idx < 0 || idx >= SECTIONS.length - 1) return;
     const nextId = SECTIONS[idx + 1].id;
-    setUnlockedSections((prev) => {
-      if (prev.includes(nextId)) return prev;
-      const next = [...prev, nextId];
-      localStorage.setItem(STORAGE_UNLOCKED, JSON.stringify(next.filter((id) => id !== SECTIONS[0].id)));
-      return next;
-    });
+    setUnlockedSections((prev) => prev.includes(nextId) ? prev : [...prev, nextId]);
   };
 
   const activeSection = SECTIONS.find((s) => s.id === activeSectionId) ?? SECTIONS[0];

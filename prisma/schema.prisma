@@ -30,6 +30,17 @@ model FeedbackPost {
   createdAt   DateTime         @default(now())
 }
 
+model LessonProgress {
+  id          String   @id @default(cuid())
+  clerkUserId String
+  courseId    String   // "credit-basics" | "credit-cards-101" | "debt-traps" | "military-money"
+  lessonId    String
+  completedAt DateTime @default(now())
+
+  @@unique([clerkUserId, courseId, lessonId])
+  @@index([clerkUserId])
+}
+
 model FeedbackUpvote {
   id             String       @id @default(cuid())
   clerkUserId    String

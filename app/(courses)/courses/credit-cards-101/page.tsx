@@ -1431,31 +1431,37 @@ function LessonContent({
 export default function CreditCards101Page() {
   const [activeLessonId, setActiveLessonId] = useState("mcs-1");
   const [expandedSections, setExpandedSections] = useState<string[]>(["my-cc-story"]);
-  const [completedLessons, setCompletedLessons] = useState<string[]>(() => {
-    if (typeof window === "undefined") return [];
-    try {
-      return JSON.parse(localStorage.getItem("cc101-completed") ?? "[]");
-    } catch {
-      return [];
-    }
-  });
-  const [unlockedSectionIds, setUnlockedSectionIds] = useState<string[]>(() => {
-    if (typeof window === "undefined") return ["my-cc-story"];
-    try {
-      return JSON.parse(localStorage.getItem("cc101-unlocked") ?? '["my-cc-story"]');
-    } catch {
-      return ["my-cc-story"];
-    }
-  });
+  const [completedLessons, setCompletedLessons] = useState<string[]>([]);
+  const [unlockedSectionIds, setUnlockedSectionIds] = useState<string[]>([SECTIONS[0].id]);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
   useEffect(() => {
-    localStorage.setItem("cc101-completed", JSON.stringify(completedLessons));
-  }, [completedLessons]);
+    fetch("/api/progress")
+      .then((r) => r.json())
+      .then((data) => {
+        const completed: string[] = data["credit-cards-101"] ?? [];
+        setCompletedLessons(completed);
+        const unlocked = [SECTIONS[0].id];
+        for (let i = 0; i < SECTIONS.length - 1; i++) {
+          const s = SECTIONS[i];
+          const done = s.noQuiz
+            ? s.lessons.every((l) => completed.includes(l.id))
+            : s.lessons.some((l) => (l as { isQuiz?: boolean }).isQuiz && completed.includes(l.id));
+          if (done) unlocked.push(SECTIONS[i + 1].id);
+        }
+        setUnlockedSectionIds(unlocked);
+        setExpandedSections(unlocked);
+      })
+      .catch(() => {});
+  }, []);
 
-  useEffect(() => {
-    localStorage.setItem("cc101-unlocked", JSON.stringify(unlockedSectionIds));
-  }, [unlockedSectionIds]);
+  const postProgress = (lessonId: string) => {
+    fetch("/api/progress", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ courseId: "credit-cards-101", lessonId }),
+    }).catch(() => {});
+  };
 
   const sections = SECTIONS.map((s) => ({
     ...s,
@@ -1514,6 +1520,7 @@ export default function CreditCards101Page() {
   const handleQuizPass = () => {
     if (!completedLessons.includes(activeLessonId)) {
       setCompletedLessons((prev) => [...prev, activeLessonId]);
+      postProgress(activeLessonId);
     }
     if (activeSection) unlockNextSection(activeSection.id);
   };
@@ -1522,6 +1529,7 @@ export default function CreditCards101Page() {
     const updated = completedLessons.includes(activeLessonId)
       ? completedLessons
       : [...completedLessons, activeLessonId];
+    if (!completedLessons.includes(activeLessonId)) postProgress(activeLessonId);
     setCompletedLessons(updated);
 
     if (isLastLessonOfNoQuizSection && nextSection) {

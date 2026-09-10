@@ -76,16 +76,17 @@ export default function CoursesPage() {
   const [thankYouVisible, setThankYouVisible] = useState(false);
 
   useEffect(() => {
-    try {
-      const cb  = JSON.parse(localStorage.getItem("cb-completed")    ?? "[]") as string[];
-      const cc  = JSON.parse(localStorage.getItem("cc101-completed")  ?? "[]") as string[];
-      const dt  = JSON.parse(localStorage.getItem("dt-completed")     ?? "[]") as string[];
-      setCreditBasicsComplete(cb.includes("pyc-quiz"));
-      setCc101Complete(cc.includes("bcs-quiz"));
-      setDebtTrapsComplete(dt.includes("sl-quiz"));
-    } catch {
-      // leave all false
-    }
+    fetch("/api/progress")
+      .then((r) => r.json())
+      .then((data) => {
+        const cb = (data["credit-basics"]    ?? []) as string[];
+        const cc = (data["credit-cards-101"] ?? []) as string[];
+        const dt = (data["debt-traps"]       ?? []) as string[];
+        setCreditBasicsComplete(cb.includes("pyc-quiz"));
+        setCc101Complete(cc.includes("bcs-quiz"));
+        setDebtTrapsComplete(dt.includes("sl-quiz"));
+      })
+      .catch(() => {});
   }, []);
 
   const playbookUnlocked = creditBasicsComplete && cc101Complete;

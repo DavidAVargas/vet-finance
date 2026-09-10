@@ -1096,21 +1096,37 @@ export default function DebtTrapsPage() {
   const lastSection = SECTIONS[SECTIONS.length - 1];
   const lastLesson = lastSection.lessons[lastSection.lessons.length - 1];
 
-  const [completedLessons, setCompletedLessons] = useState<string[]>(() => {
-    if (typeof window === "undefined") return [];
-    try { return JSON.parse(localStorage.getItem("dt-completed") ?? "[]"); } catch { return []; }
-  });
-  const [unlockedSectionIds, setUnlockedSectionIds] = useState<string[]>(() => {
-    if (typeof window === "undefined") return [SECTIONS[0].id];
-    try { return JSON.parse(localStorage.getItem("dt-unlocked") ?? `["${SECTIONS[0].id}"]`); } catch { return [SECTIONS[0].id]; }
-  });
+  const [completedLessons, setCompletedLessons] = useState<string[]>([]);
+  const [unlockedSectionIds, setUnlockedSectionIds] = useState<string[]>([SECTIONS[0].id]);
   const [activeLessonId, setActiveLessonId] = useState<string>(SECTIONS[0].lessons[0].id);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
-    localStorage.setItem("dt-completed", JSON.stringify(completedLessons));
-    localStorage.setItem("dt-unlocked", JSON.stringify(unlockedSectionIds));
-  }, [completedLessons, unlockedSectionIds]);
+    fetch("/api/progress")
+      .then((r) => r.json())
+      .then((data) => {
+        const completed: string[] = data["debt-traps"] ?? [];
+        setCompletedLessons(completed);
+        const unlocked = [SECTIONS[0].id];
+        for (let i = 0; i < SECTIONS.length - 1; i++) {
+          const s = SECTIONS[i];
+          const done = s.noQuiz
+            ? s.lessons.every((l) => completed.includes(l.id))
+            : s.lessons.some((l) => (l as { isQuiz?: boolean }).isQuiz && completed.includes(l.id));
+          if (done) unlocked.push(SECTIONS[i + 1].id);
+        }
+        setUnlockedSectionIds(unlocked);
+      })
+      .catch(() => {});
+  }, []);
+
+  const postProgress = (lessonId: string) => {
+    fetch("/api/progress", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ courseId: "debt-traps", lessonId }),
+    }).catch(() => {});
+  };
 
   const activeSection = SECTIONS.find((s) => s.lessons.some((l) => l.id === activeLessonId))!;
   const allLessonsInSection = activeSection.lessons;
@@ -1125,6 +1141,7 @@ export default function DebtTrapsPage() {
 
   const handleComplete = () => {
     if (isCompleted) { if (nextLesson) setActiveLessonId(nextLesson.id); return; }
+    postProgress(activeLessonId);
     const updated = [...completedLessons, activeLessonId];
     setCompletedLessons(updated);
     if (activeSection.noQuiz && allNonQuizLessons.every((l) => updated.includes(l.id))) {
@@ -1140,6 +1157,7 @@ export default function DebtTrapsPage() {
   };
 
   const handleQuizPass = () => {
+    postProgress(activeLessonId);
     const updated = [...completedLessons, activeLessonId];
     setCompletedLessons(updated);
     const nextSectionIndex = SECTIONS.indexOf(activeSection) + 1;

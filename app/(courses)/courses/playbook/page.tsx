@@ -817,17 +817,16 @@ export default function PlaybookPage() {
   const [answers, setAnswers] = useState<Answers>({ q1: null, activeDuty: null, q3: null, q4: null });
 
   useEffect(() => {
-    try {
-      const cbCompleted: string[] = JSON.parse(localStorage.getItem("cb-completed") ?? "[]");
-      const ccCompleted: string[] = JSON.parse(localStorage.getItem("cc101-completed") ?? "[]");
-      const cb = cbCompleted.includes("pyc-quiz");
-      const cc = ccCompleted.includes("bcs-quiz");
-      setCbDone(cb);
-      setCcDone(cc);
-      setUnlocked(cb && cc);
-    } catch {
-      setUnlocked(false);
-    }
+    fetch("/api/progress")
+      .then((r) => r.json())
+      .then((data) => {
+        const cb = ((data["credit-basics"]    ?? []) as string[]).includes("pyc-quiz");
+        const cc = ((data["credit-cards-101"] ?? []) as string[]).includes("bcs-quiz");
+        setCbDone(cb);
+        setCcDone(cc);
+        setUnlocked(cb && cc);
+      })
+      .catch(() => { setUnlocked(false); });
   }, []);
 
   const questions = getQuestions(answers);
