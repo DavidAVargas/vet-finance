@@ -162,7 +162,7 @@ export default function CoursesPage() {
               )
             )}
           </div>
-          <UserButton afterSignOutUrl="/" />
+          <UserButton />
         </div>
       </header>
 

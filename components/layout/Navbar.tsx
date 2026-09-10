@@ -58,7 +58,7 @@ export function Navbar() {
           <div className="flex items-center gap-2">
             <ThemeToggle />
             {isLoaded && user ? (
-              <UserButton afterSignOutUrl="/" />
+              <UserButton />
             ) : (
               <Button size="sm" className="hidden md:inline-flex opacity-50 cursor-default" disabled>
                 Get Started

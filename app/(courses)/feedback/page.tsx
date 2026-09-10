@@ -95,7 +95,7 @@ export default function FeedbackPage() {
           <ChevronLeft className="size-4" />
           Back to courses
         </Link>
-        <UserButton afterSignOutUrl="/" />
+        <UserButton />
       </header>
 
       <main className="flex-1 px-6 py-10">
@@ -153,7 +153,7 @@ export default function FeedbackPage() {
 
           {/* Filter tabs */}
           <div className="mb-5 flex items-center gap-2 overflow-x-auto pb-1">
-            {[{ value: "all", label: "All" }, ...CATEGORIES].map((c) => (
+            {([{ value: "all", label: "All" }, ...CATEGORIES] as { value: string; label: string }[]).map((c) => (
               <button
                 key={c.value}
                 onClick={() => setFilter(c.value)}
@@ -163,7 +163,7 @@ export default function FeedbackPage() {
                     : "bg-muted text-muted-foreground hover:text-foreground"
                 }`}
               >
-                {"label" in c ? c.label : c.value}
+                {c.label}
               </button>
             ))}
           </div>
