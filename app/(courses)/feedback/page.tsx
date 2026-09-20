@@ -122,7 +122,7 @@ export default function FeedbackPage() {
                 onChange={(e) => setContent(e.target.value)}
                 placeholder="What's working, what's not, or what you wish existed..."
                 rows={3}
-                className="w-full resize-none rounded-xl border border-border bg-muted/30 px-4 py-3 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/50 focus:border-foreground"
+                className="w-full resize-none rounded-xl border border-border bg-muted/30 px-4 py-3 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/50 focus:border-foreground focus:ring-2 focus:ring-ring"
               />
               <div className="flex items-center justify-between gap-3">
                 <div className="flex flex-wrap gap-2">

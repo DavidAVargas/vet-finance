@@ -688,7 +688,7 @@ function QuestionStep({
               <p className={`font-semibold ${selected === opt.id ? "text-white" : "text-foreground"}`}>
                 {opt.label}
               </p>
-              <p className={`text-sm ${selected === opt.id ? "text-white/70" : "text-muted-foreground"}`}>
+              <p className={`text-sm ${selected === opt.id ? "text-white/90" : "text-muted-foreground"}`}>
                 {opt.desc}
               </p>
             </div>
@@ -775,7 +775,7 @@ function ResultView({
         <div className="mb-8 overflow-hidden rounded-2xl" style={{ background: "var(--brand-600)10", border: "1px solid var(--brand-600)30" }}>
           <div className="px-5 py-4" style={{ background: "var(--brand-600)" }}>
             <p className="font-bold text-white">🎖️ Since you&apos;re active duty — don&apos;t skip this</p>
-            <p className="mt-0.5 text-xs text-white/75">Benefits most servicemembers never claim</p>
+            <p className="mt-0.5 text-xs text-white/90">Benefits most servicemembers never claim</p>
           </div>
           <div className="flex flex-col divide-y divide-border">
             {MILITARY_STEPS.map((step, i) => (

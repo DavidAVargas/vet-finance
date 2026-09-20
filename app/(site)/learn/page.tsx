@@ -80,7 +80,7 @@ export default function LearnPage() {
               You&apos;re in
             </div>
             <h2 className="mb-2 text-2xl font-bold">Welcome back, {user.firstName ?? "there"}.</h2>
-            <p className="mx-auto mb-6 max-w-sm text-sm text-white/80">
+            <p className="mx-auto mb-6 max-w-sm text-sm text-white/90">
               Your courses are ready. Pick up where you left off.
             </p>
             <Link
@@ -100,7 +100,7 @@ export default function LearnPage() {
               Almost there
             </div>
             <h2 className="mb-2 text-2xl font-bold">One step left.</h2>
-            <p className="mx-auto mb-6 max-w-sm text-sm text-white/80">
+            <p className="mx-auto mb-6 max-w-sm text-sm text-white/90">
               You&apos;re signed in — just enter your invite code to unlock your courses.
             </p>
             <Link
@@ -120,10 +120,10 @@ export default function LearnPage() {
               Beta — Invite Only
             </div>
             <h2 className="mb-2 text-2xl font-bold">You need an invite code to get in.</h2>
-            <p className="mx-auto mb-6 max-w-sm text-sm text-white/80">
+            <p className="mx-auto mb-6 max-w-sm text-sm text-white/90">
               Vet Finance is currently in beta. The only way in right now is with an invite code — if you have one, you&apos;re good to go.
             </p>
-            <p className="text-sm text-white/60">
+            <p className="text-sm text-white/90">
               Already have an account? Use your invite link to sign in.
             </p>
           </>

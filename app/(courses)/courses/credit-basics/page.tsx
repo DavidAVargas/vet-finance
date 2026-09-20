@@ -1143,7 +1143,7 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
 
           <div className="mb-8 rounded-xl p-5" style={{ background: "var(--brand-600)", opacity: 0.92 }}>
             <p className="mb-1 font-semibold text-white">The habit: check it once a month</p>
-            <p className="text-sm leading-relaxed text-white/80">
+            <p className="text-sm leading-relaxed text-white">
               Checking your own credit is a soft pull — it never hurts your
               score. Set a reminder to check Credit Karma once a month. You&apos;re
               not obsessing over the number; you&apos;re making sure nothing changed

@@ -53,13 +53,13 @@ export default function InvitePage() {
           className="mb-6 rounded-2xl p-6 text-white"
           style={{ background: "var(--brand-600)" }}
         >
-          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-white/70">
+          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-white/90">
             Your access code
           </p>
           <p className="font-mono text-4xl font-black tracking-widest">
             VETBETA
           </p>
-          <p className="mt-1 text-xs text-white/60">Enter it below to unlock</p>
+          <p className="mt-1 text-xs text-white/90">Enter it below to unlock</p>
         </div>
 
         {/* Code input */}
@@ -75,7 +75,7 @@ export default function InvitePage() {
             autoCapitalize="characters"
             aria-invalid={error}
             aria-describedby={error ? "invite-code-error" : undefined}
-            className={`w-full rounded-xl border bg-background px-4 py-3 text-center text-sm font-mono tracking-widest text-foreground outline-none transition-colors placeholder:text-muted-foreground/40 focus:border-foreground ${
+            className={`w-full rounded-xl border bg-background px-4 py-3 text-center text-sm font-mono tracking-widest text-foreground outline-none transition-colors placeholder:text-muted-foreground/40 focus:border-foreground focus:ring-2 focus:ring-ring ${
               error ? "border-red-400" : "border-border"
             } ${shake ? "animate-[shake_0.4s_ease-in-out]" : ""}`}
           />

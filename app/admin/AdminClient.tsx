@@ -102,20 +102,20 @@ export default function AdminClient({ inviteCodes: initial }: { inviteCodes: Inv
             onChange={(e) => setNewCode(e.target.value)}
             placeholder="Code (e.g. CC-OCT2026)"
             aria-label="Invite code"
-            className="rounded-xl border border-border bg-muted/30 px-4 py-2.5 text-sm font-mono uppercase text-foreground outline-none focus:border-foreground"
+            className="rounded-xl border border-border bg-muted/30 px-4 py-2.5 text-sm font-mono uppercase text-foreground outline-none focus:border-foreground focus:ring-2 focus:ring-ring"
           />
           <input
             value={newLabel}
             onChange={(e) => setNewLabel(e.target.value)}
             placeholder="Label (e.g. Code & Coffee Oct 2026)"
             aria-label="Invite label"
-            className="rounded-xl border border-border bg-muted/30 px-4 py-2.5 text-sm text-foreground outline-none focus:border-foreground"
+            className="rounded-xl border border-border bg-muted/30 px-4 py-2.5 text-sm text-foreground outline-none focus:border-foreground focus:ring-2 focus:ring-ring"
           />
           <select
             value={newType}
             onChange={(e) => setNewType(e.target.value)}
             aria-label="Invite type"
-            className="rounded-xl border border-border bg-muted/30 px-4 py-2.5 text-sm text-foreground outline-none focus:border-foreground"
+            className="rounded-xl border border-border bg-muted/30 px-4 py-2.5 text-sm text-foreground outline-none focus:border-foreground focus:ring-2 focus:ring-ring"
           >
             <option value="personal">Personal</option>
             <option value="event">Event</option>
@@ -127,7 +127,7 @@ export default function AdminClient({ inviteCodes: initial }: { inviteCodes: Inv
             type="number"
             placeholder="Max uses (blank = unlimited)"
             aria-label="Max uses"
-            className="rounded-xl border border-border bg-muted/30 px-4 py-2.5 text-sm text-foreground outline-none focus:border-foreground"
+            className="rounded-xl border border-border bg-muted/30 px-4 py-2.5 text-sm text-foreground outline-none focus:border-foreground focus:ring-2 focus:ring-ring"
           />
           <input
             value={newExpiry}
@@ -135,7 +135,7 @@ export default function AdminClient({ inviteCodes: initial }: { inviteCodes: Inv
             type="datetime-local"
             placeholder="Expires at (optional)"
             aria-label="Expires at"
-            className="rounded-xl border border-border bg-muted/30 px-4 py-2.5 text-sm text-foreground outline-none focus:border-foreground"
+            className="rounded-xl border border-border bg-muted/30 px-4 py-2.5 text-sm text-foreground outline-none focus:border-foreground focus:ring-2 focus:ring-ring"
           />
           <button
             type="submit"
