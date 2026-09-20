@@ -671,6 +671,7 @@ function QuestionStep({
           <button
             key={opt.id}
             onClick={() => handleSelect(opt.id)}
+            aria-pressed={selected === opt.id}
             className={`group flex items-center gap-4 rounded-2xl border p-4 text-left transition-all duration-200 hover:scale-[1.01] active:scale-[0.99] ${
               selected === opt.id
                 ? "border-transparent text-white"

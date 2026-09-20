@@ -114,9 +114,10 @@ export default function FeedbackPage() {
 
           {/* Post form */}
           <div className="mb-8 rounded-xl border border-border bg-background p-5">
-            <p className="mb-3 text-sm font-medium text-foreground">Share your feedback</p>
+            <label htmlFor="feedback-content" className="mb-3 block text-sm font-medium text-foreground">Share your feedback</label>
             <form onSubmit={handleSubmit} className="flex flex-col gap-3">
               <textarea
+                id="feedback-content"
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
                 placeholder="What's working, what's not, or what you wish existed..."
@@ -130,6 +131,7 @@ export default function FeedbackPage() {
                       key={c.value}
                       type="button"
                       onClick={() => setCategory(c.value)}
+                      aria-pressed={category === c.value}
                       className={`rounded-full px-2.5 py-1 text-xs font-medium transition-all ${
                         category === c.value
                           ? c.color + " ring-1 ring-current/20"
@@ -159,6 +161,7 @@ export default function FeedbackPage() {
               <button
                 key={c.value}
                 onClick={() => setFilter(c.value)}
+                aria-pressed={filter === c.value}
                 className={`shrink-0 rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
                   filter === c.value
                     ? "bg-foreground text-background"
@@ -186,6 +189,8 @@ export default function FeedbackPage() {
                   {/* Upvote */}
                   <button
                     onClick={() => handleUpvote(post.id)}
+                    aria-pressed={post.upvotedByMe}
+                    aria-label={`Upvote, ${post.upvoteCount} vote${post.upvoteCount === 1 ? "" : "s"}`}
                     className={`flex shrink-0 flex-col items-center gap-0.5 rounded-lg p-2 text-xs font-semibold transition-colors ${
                       post.upvotedByMe
                         ? "text-white"

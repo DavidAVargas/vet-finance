@@ -101,17 +101,20 @@ export default function AdminClient({ inviteCodes: initial }: { inviteCodes: Inv
             value={newCode}
             onChange={(e) => setNewCode(e.target.value)}
             placeholder="Code (e.g. CC-OCT2026)"
+            aria-label="Invite code"
             className="rounded-xl border border-border bg-muted/30 px-4 py-2.5 text-sm font-mono uppercase text-foreground outline-none focus:border-foreground"
           />
           <input
             value={newLabel}
             onChange={(e) => setNewLabel(e.target.value)}
             placeholder="Label (e.g. Code & Coffee Oct 2026)"
+            aria-label="Invite label"
             className="rounded-xl border border-border bg-muted/30 px-4 py-2.5 text-sm text-foreground outline-none focus:border-foreground"
           />
           <select
             value={newType}
             onChange={(e) => setNewType(e.target.value)}
+            aria-label="Invite type"
             className="rounded-xl border border-border bg-muted/30 px-4 py-2.5 text-sm text-foreground outline-none focus:border-foreground"
           >
             <option value="personal">Personal</option>
@@ -123,6 +126,7 @@ export default function AdminClient({ inviteCodes: initial }: { inviteCodes: Inv
             onChange={(e) => setNewMaxUses(e.target.value)}
             type="number"
             placeholder="Max uses (blank = unlimited)"
+            aria-label="Max uses"
             className="rounded-xl border border-border bg-muted/30 px-4 py-2.5 text-sm text-foreground outline-none focus:border-foreground"
           />
           <input
@@ -130,6 +134,7 @@ export default function AdminClient({ inviteCodes: initial }: { inviteCodes: Inv
             onChange={(e) => setNewExpiry(e.target.value)}
             type="datetime-local"
             placeholder="Expires at (optional)"
+            aria-label="Expires at"
             className="rounded-xl border border-border bg-muted/30 px-4 py-2.5 text-sm text-foreground outline-none focus:border-foreground"
           />
           <button
@@ -170,6 +175,7 @@ export default function AdminClient({ inviteCodes: initial }: { inviteCodes: Inv
             <div className="flex shrink-0 items-center gap-2">
               <button
                 onClick={() => copyToClipboard(c.code)}
+                aria-label={copied === c.code ? "Code copied" : `Copy code ${c.code}`}
                 className="flex size-8 items-center justify-center rounded-lg border border-border text-muted-foreground transition-colors hover:text-foreground"
               >
                 {copied === c.code ? <Check className="size-3.5 text-green-500" /> : <Copy className="size-3.5" />}

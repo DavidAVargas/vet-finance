@@ -1712,6 +1712,7 @@ export default function MilitaryMoneyPage() {
           <button
             className="flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 text-xs font-medium text-foreground sm:hidden"
             onClick={() => setSidebarOpen((v) => !v)}
+            aria-expanded={sidebarOpen}
           >
             <BookOpen className="size-3.5" />
             Lessons
@@ -1747,6 +1748,7 @@ export default function MilitaryMoneyPage() {
                       setActiveLessonId(section.lessons[0].id);
                       setSidebarOpen(false);
                     }}
+                    aria-expanded={isUnlocked ? isActive : undefined}
                     className={`flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-xs font-semibold uppercase tracking-wider transition-colors ${
                       isActive ? "text-foreground" : isUnlocked ? "text-muted-foreground hover:text-foreground" : "text-muted-foreground/40 cursor-not-allowed"
                     }`}

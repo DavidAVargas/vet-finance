@@ -117,6 +117,7 @@ function QuizBlock({ sectionLabel, questions, onPass }: {
                       key={oi}
                       disabled={submitted}
                       onClick={() => !submitted && setSelected((prev) => ({ ...prev, [qi]: oi }))}
+                      aria-pressed={isSelected}
                       className={`flex items-center gap-3 rounded-lg border px-4 py-3 text-left text-sm transition-colors ${
                         isCorrectOption ? "border-green-500 bg-green-500/10 text-foreground"
                         : isWrongSelected ? "border-red-400 bg-red-400/10 text-foreground"
@@ -1205,6 +1206,7 @@ export default function DebtTrapsPage() {
           <ThemeToggle />
           <button
             onClick={() => setSidebarOpen((o) => !o)}
+            aria-expanded={sidebarOpen}
             className="flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 text-xs font-medium text-foreground transition-colors hover:bg-muted lg:hidden"
           >
             <BookOpen className="size-3.5" />

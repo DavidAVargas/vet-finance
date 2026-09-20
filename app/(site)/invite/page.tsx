@@ -64,19 +64,23 @@ export default function InvitePage() {
 
         {/* Code input */}
         <form onSubmit={handleSubmit} className="mb-6 flex flex-col gap-3">
+          <label htmlFor="invite-code" className="sr-only">Access code</label>
           <input
+            id="invite-code"
             type="text"
             value={code}
             onChange={(e) => { setCode(e.target.value); setError(false); }}
             placeholder="Type your code here"
             autoComplete="off"
             autoCapitalize="characters"
+            aria-invalid={error}
+            aria-describedby={error ? "invite-code-error" : undefined}
             className={`w-full rounded-xl border bg-background px-4 py-3 text-center text-sm font-mono tracking-widest text-foreground outline-none transition-colors placeholder:text-muted-foreground/40 focus:border-foreground ${
               error ? "border-red-400" : "border-border"
             } ${shake ? "animate-[shake_0.4s_ease-in-out]" : ""}`}
           />
           {error && (
-            <p role="alert" className="text-xs text-red-500">That code doesn&apos;t look right — try again.</p>
+            <p id="invite-code-error" role="alert" className="text-xs text-red-500">That code doesn&apos;t look right — try again.</p>
           )}
           <button
             type="submit"

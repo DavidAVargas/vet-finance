@@ -75,6 +75,7 @@ export default function OnboardingPage() {
             <button
               key={opt.value}
               onClick={() => setSelected(opt.value)}
+              aria-pressed={selected === opt.value}
               className={`w-full rounded-xl border p-4 text-left transition-colors ${
                 selected === opt.value
                   ? "border-foreground bg-foreground text-background"
