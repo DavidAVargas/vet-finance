@@ -5,6 +5,7 @@ import { useUser, UserButton } from "@clerk/nextjs";
 import { Shield, CreditCard, AlertTriangle, Medal, Clock, BookOpen, ChevronRight, Star, Lock, Sparkles, MessageSquare } from "lucide-react";
 // Lock kept for the playbook locked state
 import Link from "next/link";
+import { SkipLink } from "@/components/layout/SkipLink";
 
 
 const courses = [
@@ -121,6 +122,8 @@ export default function CoursesPage() {
     <div className="flex min-h-[100dvh] flex-col bg-background">
 
       {/* Top bar */}
+      <SkipLink targetId="main-content" />
+
       <header className="relative flex h-14 items-center justify-between border-b border-border px-6 overflow-visible">
         <Link href="/" className="flex items-center gap-2 text-sm font-semibold text-foreground">
           <div className="flex size-6 items-center justify-center rounded-md bg-foreground">
@@ -175,7 +178,7 @@ export default function CoursesPage() {
       </header>
 
       {/* Main */}
-      <main className="flex-1 px-6 py-10 sm:px-10">
+      <main id="main-content" tabIndex={-1} className="flex-1 px-6 py-10 outline-none sm:px-10">
         <div className="mx-auto max-w-3xl">
 
           {/* Welcome */}

@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/DarkLightMode/theme-toggle";
 import Link from "next/link";
 import Image from "next/image";
+import { SkipLink } from "@/components/layout/SkipLink";
 
 // ─── Mock user ───────────────────────────────────────────────────────────────
 
@@ -1566,6 +1567,7 @@ export default function CreditCards101Page() {
 
   return (
     <div className="flex h-[100dvh] flex-col overflow-hidden bg-background">
+      <SkipLink targetId="lesson-content" />
 
       {/* ── Top bar ── */}
       <header className="flex h-12 shrink-0 items-center justify-between border-b border-border px-4">
@@ -1716,7 +1718,7 @@ export default function CreditCards101Page() {
         {/* ── Main content ── */}
         <main className="flex flex-1 flex-col overflow-hidden">
           <div className="flex-1 overflow-y-auto px-6 py-10 sm:px-10">
-            <div ref={lessonContentRef} tabIndex={-1} className="mx-auto max-w-2xl outline-none">
+            <div ref={lessonContentRef} id="lesson-content" tabIndex={-1} className="mx-auto max-w-2xl outline-none">
               {/* Mobile sidebar toggle */}
               <button
                 onClick={() => setMobileSidebarOpen(true)}

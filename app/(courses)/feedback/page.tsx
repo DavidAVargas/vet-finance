@@ -4,6 +4,7 @@ import { useEffect, useState, useOptimistic, startTransition } from "react";
 import { useUser, UserButton } from "@clerk/nextjs";
 import { ArrowUp, ChevronLeft, Loader2, Send } from "lucide-react";
 import Link from "next/link";
+import { SkipLink } from "@/components/layout/SkipLink";
 
 type Post = {
   id: string;
@@ -90,6 +91,7 @@ export default function FeedbackPage() {
 
   return (
     <div className="flex min-h-[100dvh] flex-col bg-background">
+      <SkipLink targetId="main-content" />
       <header className="flex h-14 items-center justify-between border-b border-border px-6">
         <Link href="/courses" className="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
           <ChevronLeft className="size-4" />
@@ -98,7 +100,7 @@ export default function FeedbackPage() {
         <UserButton />
       </header>
 
-      <main className="flex-1 px-6 py-10">
+      <main id="main-content" tabIndex={-1} className="flex-1 px-6 py-10 outline-none">
         <div className="mx-auto max-w-2xl">
 
           {/* Header */}

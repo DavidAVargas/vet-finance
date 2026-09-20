@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/DarkLightMode/theme-toggle";
 import Link from "next/link";
 import Image from "next/image";
+import { SkipLink } from "@/components/layout/SkipLink";
 
 // ─── Mock user ───────────────────────────────────────────────────────────────
 
@@ -2021,6 +2022,7 @@ export default function CreditBasicsPage() {
 
   return (
     <div className="flex h-[100dvh] flex-col overflow-hidden bg-background">
+      <SkipLink targetId="lesson-content" />
 
       {/* ── Top bar ── */}
       <header className="flex h-14 shrink-0 items-center justify-between border-b border-border px-4 sm:px-6">
@@ -2186,6 +2188,7 @@ export default function CreditBasicsPage() {
           <div className="flex-1 overflow-y-auto">
             <div
               ref={lessonContentRef}
+              id="lesson-content"
               tabIndex={-1}
               className="mx-auto max-w-2xl px-6 py-10 sm:px-10 sm:py-14 outline-none"
             >
