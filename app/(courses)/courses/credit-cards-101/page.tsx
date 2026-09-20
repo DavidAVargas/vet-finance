@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   ChevronDown,
   ChevronLeft,
@@ -1430,6 +1430,18 @@ function LessonContent({
 
 export default function CreditCards101Page() {
   const [activeLessonId, setActiveLessonId] = useState("mcs-1");
+  const lessonContentRef = useRef<HTMLDivElement>(null);
+  const isFirstLessonRender = useRef(true);
+
+  // Move focus to the new lesson content on navigation so keyboard/screen-reader
+  // users get context that the view changed (client-side swap, no page navigation).
+  useEffect(() => {
+    if (isFirstLessonRender.current) {
+      isFirstLessonRender.current = false;
+      return;
+    }
+    lessonContentRef.current?.focus();
+  }, [activeLessonId]);
   const [expandedSections, setExpandedSections] = useState<string[]>(["my-cc-story"]);
   const [completedLessons, setCompletedLessons] = useState<string[]>([]);
   const [unlockedSectionIds, setUnlockedSectionIds] = useState<string[]>([SECTIONS[0].id]);
@@ -1704,7 +1716,7 @@ export default function CreditCards101Page() {
         {/* ── Main content ── */}
         <main className="flex flex-1 flex-col overflow-hidden">
           <div className="flex-1 overflow-y-auto px-6 py-10 sm:px-10">
-            <div className="mx-auto max-w-2xl">
+            <div ref={lessonContentRef} tabIndex={-1} className="mx-auto max-w-2xl outline-none">
               {/* Mobile sidebar toggle */}
               <button
                 onClick={() => setMobileSidebarOpen(true)}

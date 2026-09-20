@@ -89,7 +89,7 @@ export default function OnboardingPage() {
           ))}
         </div>
 
-        {error && <p className="mb-4 text-center text-xs text-red-500">{error}</p>}
+        {error && <p role="alert" className="mb-4 text-center text-xs text-red-500">{error}</p>}
 
         <button
           onClick={handleContinue}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   ChevronDown,
   ChevronLeft,
@@ -1100,6 +1100,18 @@ export default function DebtTrapsPage() {
   const [unlockedSectionIds, setUnlockedSectionIds] = useState<string[]>([SECTIONS[0].id]);
   const [activeLessonId, setActiveLessonId] = useState<string>(SECTIONS[0].lessons[0].id);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const lessonContentRef = useRef<HTMLDivElement>(null);
+  const isFirstLessonRender = useRef(true);
+
+  // Move focus to the new lesson content on navigation so keyboard/screen-reader
+  // users get context that the view changed (client-side swap, no page navigation).
+  useEffect(() => {
+    if (isFirstLessonRender.current) {
+      isFirstLessonRender.current = false;
+      return;
+    }
+    lessonContentRef.current?.focus();
+  }, [activeLessonId]);
 
   useEffect(() => {
     fetch("/api/progress")
@@ -1248,7 +1260,11 @@ export default function DebtTrapsPage() {
 
         {/* Content */}
         <main className="flex-1 overflow-y-auto">
-          <div className="mx-auto max-w-2xl px-6 py-10 sm:px-10">
+          <div
+            ref={lessonContentRef}
+            tabIndex={-1}
+            className="mx-auto max-w-2xl px-6 py-10 sm:px-10 outline-none"
+          >
             <LessonContent lessonId={activeLessonId} onQuizPass={handleQuizPass} />
 
             {/* Navigation */}

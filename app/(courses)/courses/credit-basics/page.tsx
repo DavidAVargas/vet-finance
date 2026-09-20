@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   ChevronDown,
   ChevronLeft,
@@ -1877,6 +1877,18 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
 
 export default function CreditBasicsPage() {
   const [activeLessonId, setActiveLessonId] = useState("my-story-1");
+  const lessonContentRef = useRef<HTMLDivElement>(null);
+  const isFirstLessonRender = useRef(true);
+
+  // Move focus to the new lesson content on navigation so keyboard/screen-reader
+  // users get context that the view changed (client-side swap, no page navigation).
+  useEffect(() => {
+    if (isFirstLessonRender.current) {
+      isFirstLessonRender.current = false;
+      return;
+    }
+    lessonContentRef.current?.focus();
+  }, [activeLessonId]);
   const [expandedSections, setExpandedSections] = useState<string[]>(["my-story"]);
   const [completedLessons, setCompletedLessons] = useState<string[]>([]);
   const [unlockedSectionIds, setUnlockedSectionIds] = useState<string[]>([SECTIONS[0].id]);
@@ -2172,7 +2184,11 @@ export default function CreditBasicsPage() {
         {/* ── Main content ── */}
         <main className="flex flex-1 flex-col overflow-hidden">
           <div className="flex-1 overflow-y-auto">
-            <div className="mx-auto max-w-2xl px-6 py-10 sm:px-10 sm:py-14">
+            <div
+              ref={lessonContentRef}
+              tabIndex={-1}
+              className="mx-auto max-w-2xl px-6 py-10 sm:px-10 sm:py-14 outline-none"
+            >
               <LessonContent lessonId={activeLessonId} onQuizPass={handleQuizPass} />
             </div>
           </div>

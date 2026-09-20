@@ -76,7 +76,7 @@ export default function InvitePage() {
             } ${shake ? "animate-[shake_0.4s_ease-in-out]" : ""}`}
           />
           {error && (
-            <p className="text-xs text-red-500">That code doesn&apos;t look right — try again.</p>
+            <p role="alert" className="text-xs text-red-500">That code doesn&apos;t look right — try again.</p>
           )}
           <button
             type="submit"

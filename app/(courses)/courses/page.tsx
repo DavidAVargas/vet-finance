@@ -140,16 +140,24 @@ export default function CoursesPage() {
             {tags.map((t) =>
               t.military ? (
                 <div key={t.label} className="relative">
-                  <span
+                  <button
+                    type="button"
                     className="cursor-pointer rounded-full bg-muted px-2.5 py-1 text-[11px] font-medium text-muted-foreground select-none"
                     onMouseEnter={() => setThankYouVisible(true)}
                     onMouseLeave={() => setThankYouVisible(false)}
+                    onFocus={() => setThankYouVisible(true)}
+                    onBlur={() => setThankYouVisible(false)}
                     onClick={() => setThankYouVisible((v) => !v)}
+                    aria-describedby={thankYouVisible ? "military-tag-tooltip" : undefined}
                   >
                     {t.label}
-                  </span>
+                  </button>
                   {thankYouVisible && (
-                    <div className="absolute top-full left-1/2 mt-2 -translate-x-1/2 whitespace-nowrap rounded-lg bg-foreground px-3 py-1.5 text-[11px] font-medium text-background shadow-lg z-50">
+                    <div
+                      id="military-tag-tooltip"
+                      role="tooltip"
+                      className="absolute top-full left-1/2 mt-2 -translate-x-1/2 whitespace-nowrap rounded-lg bg-foreground px-3 py-1.5 text-[11px] font-medium text-background shadow-lg z-50"
+                    >
                       🫡 Thank you for your service
                       <div className="absolute left-1/2 bottom-full -translate-x-1/2 border-4 border-transparent border-b-foreground" />
                     </div>
