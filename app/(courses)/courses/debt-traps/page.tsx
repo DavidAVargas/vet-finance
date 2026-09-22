@@ -1104,6 +1104,9 @@ export default function DebtTrapsPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const lessonContentRef = useRef<HTMLDivElement>(null);
   const isFirstLessonRender = useRef(true);
+  const sidebarRef = useRef<HTMLElement>(null);
+  const sidebarToggleRef = useRef<HTMLButtonElement>(null);
+  const isFirstSidebarRender = useRef(true);
 
   // Move focus to the new lesson content on navigation so keyboard/screen-reader
   // users get context that the view changed (client-side swap, no page navigation).
@@ -1114,6 +1117,30 @@ export default function DebtTrapsPage() {
     }
     lessonContentRef.current?.focus();
   }, [activeLessonId]);
+
+  // The mobile sidebar behaves like a modal drawer (backdrop + covers the page),
+  // so move focus into it on open and back to the toggle button on close.
+  useEffect(() => {
+    if (isFirstSidebarRender.current) {
+      isFirstSidebarRender.current = false;
+      return;
+    }
+    if (sidebarOpen) {
+      sidebarRef.current?.focus();
+    } else {
+      sidebarToggleRef.current?.focus();
+    }
+  }, [sidebarOpen]);
+
+  // Escape closes the drawer, matching standard dialog/disclosure behavior.
+  useEffect(() => {
+    if (!sidebarOpen) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setSidebarOpen(false);
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [sidebarOpen]);
 
   useEffect(() => {
     fetch("/api/progress")
@@ -1205,8 +1232,10 @@ export default function DebtTrapsPage() {
         <div className="flex items-center gap-3">
           <ThemeToggle />
           <button
+            ref={sidebarToggleRef}
             onClick={() => setSidebarOpen((o) => !o)}
             aria-expanded={sidebarOpen}
+            aria-controls="debt-traps-sidebar"
             className="flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 text-xs font-medium text-foreground transition-colors hover:bg-muted lg:hidden"
           >
             <BookOpen className="size-3.5" />
@@ -1218,7 +1247,12 @@ export default function DebtTrapsPage() {
       <div className="flex flex-1 overflow-hidden">
 
         {/* Sidebar */}
-        <aside className={`${sidebarOpen ? "flex" : "hidden"} lg:flex w-72 shrink-0 flex-col border-r border-border bg-background overflow-y-auto absolute inset-y-14 z-20 lg:relative lg:inset-auto`}>
+        <aside
+          id="debt-traps-sidebar"
+          ref={sidebarRef}
+          tabIndex={-1}
+          className={`${sidebarOpen ? "flex" : "hidden"} lg:flex w-72 shrink-0 flex-col border-r border-border bg-background overflow-y-auto absolute inset-y-14 z-20 outline-none lg:relative lg:inset-auto`}
+        >
           <div className="flex-1 p-4">
             {SECTIONS.map((section) => {
               const isUnlocked = unlockedSectionIds.includes(section.id);
@@ -1263,7 +1297,7 @@ export default function DebtTrapsPage() {
         {sidebarOpen && <div className="fixed inset-0 z-10 bg-background/60 lg:hidden" onClick={() => setSidebarOpen(false)} />}
 
         {/* Content */}
-        <main className="flex-1 overflow-y-auto">
+        <main className="flex-1 overflow-y-auto" inert={sidebarOpen}>
           <div
             ref={lessonContentRef}
             id="lesson-content"
