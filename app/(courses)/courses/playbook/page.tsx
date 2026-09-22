@@ -643,7 +643,9 @@ function QuestionStep({
 
   const handleSelect = (id: string) => {
     setSelected(id);
-    setTimeout(() => onSelect(questionId, id), 350);
+    // Brief pause before advancing so the selection is clearly visible and
+    // reads as a deliberate confirmation rather than an instant context change.
+    setTimeout(() => onSelect(questionId, id), 800);
   };
 
   return (
