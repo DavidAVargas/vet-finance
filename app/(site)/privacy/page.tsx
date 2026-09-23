@@ -16,28 +16,28 @@ export default function PrivacyPage() {
 
         <section>
           <h2 className="mb-2 text-lg font-semibold text-foreground">Information We Collect</h2>
-          <ul className="flex flex-col gap-2 pl-4">
-            <li>• <span className="font-medium text-foreground">Email address</span> — when you join our waitlist or sign up for notifications</li>
-            <li>• <span className="font-medium text-foreground">Military status</span> — when you verify through ID.me or Login.gov (coming soon)</li>
-            <li>• <span className="font-medium text-foreground">Usage data</span> — pages visited, time on site, general analytics (no personally identifiable info)</li>
+          <ul className="flex list-disc flex-col gap-2 pl-4">
+            <li><span className="font-medium text-foreground">Email address</span> — when you join our waitlist or sign up for notifications</li>
+            <li><span className="font-medium text-foreground">Military status</span> — when you verify through ID.me or Login.gov (coming soon)</li>
+            <li><span className="font-medium text-foreground">Usage data</span> — pages visited, time on site, general analytics (no personally identifiable info)</li>
           </ul>
         </section>
 
         <section>
           <h2 className="mb-2 text-lg font-semibold text-foreground">How We Use Your Information</h2>
-          <ul className="flex flex-col gap-2 pl-4">
-            <li>• To send you updates about courses, the card, and community events — only if you opted in</li>
-            <li>• To verify military status for free access to content</li>
-            <li>• To improve the site and understand what content is most useful</li>
+          <ul className="flex list-disc flex-col gap-2 pl-4">
+            <li>To send you updates about courses, the card, and community events — only if you opted in</li>
+            <li>To verify military status for free access to content</li>
+            <li>To improve the site and understand what content is most useful</li>
           </ul>
         </section>
 
         <section>
           <h2 className="mb-2 text-lg font-semibold text-foreground">What We Don't Do</h2>
-          <ul className="flex flex-col gap-2 pl-4">
-            <li>• We do not sell your data to anyone</li>
-            <li>• We do not share your information with third parties except as required to operate the service</li>
-            <li>• We do not spam you</li>
+          <ul className="flex list-disc flex-col gap-2 pl-4">
+            <li>We do not sell your data to anyone</li>
+            <li>We do not share your information with third parties except as required to operate the service</li>
+            <li>We do not spam you</li>
           </ul>
         </section>
 

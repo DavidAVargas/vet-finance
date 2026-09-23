@@ -15,10 +15,10 @@ export default function TermsPage() {
 
         <section>
           <h2 className="mb-2 text-lg font-semibold text-foreground">Use of the Site</h2>
-          <ul className="flex flex-col gap-2 pl-4">
-            <li>• Vet Finance is an educational resource. Content on this site is for informational purposes only and does not constitute financial advice</li>
-            <li>• You are responsible for your own financial decisions</li>
-            <li>• You agree not to misuse the site or attempt to access it in unauthorized ways</li>
+          <ul className="flex list-disc flex-col gap-2 pl-4">
+            <li>Vet Finance is an educational resource. Content on this site is for informational purposes only and does not constitute financial advice</li>
+            <li>You are responsible for your own financial decisions</li>
+            <li>You agree not to misuse the site or attempt to access it in unauthorized ways</li>
           </ul>
         </section>
 
