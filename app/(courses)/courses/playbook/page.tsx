@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useUser } from "@clerk/nextjs";
 import { ChevronLeft, Lock, BookOpen, RotateCcw } from "lucide-react";
 import Link from "next/link";
 import { ThemeToggle } from "@/components/DarkLightMode/theme-toggle";
@@ -813,6 +814,8 @@ function ResultView({
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function PlaybookPage() {
+  const { user } = useUser();
+  const isFounder = user?.primaryEmailAddress?.emailAddress === "david.vargas024@gmail.com";
   const [unlocked, setUnlocked] = useState(false);
   const [cbDone, setCbDone] = useState(false);
   const [ccDone, setCcDone] = useState(false);
@@ -820,6 +823,12 @@ export default function PlaybookPage() {
   const [answers, setAnswers] = useState<Answers>({ q1: null, activeDuty: null, q3: null, q4: null });
 
   useEffect(() => {
+    if (isFounder) {
+      setCbDone(true);
+      setCcDone(true);
+      setUnlocked(true);
+      return;
+    }
     fetch("/api/progress")
       .then((r) => r.json())
       .then((data) => {
@@ -830,7 +839,7 @@ export default function PlaybookPage() {
         setUnlocked(cb && cc);
       })
       .catch(() => { setUnlocked(false); });
-  }, []);
+  }, [isFounder]);
 
   const questions = getQuestions(answers);
   const guideKey = getGuideKey(answers);

@@ -90,13 +90,13 @@ export default function CoursesPage() {
       .catch(() => {});
   }, []);
 
-  const playbookUnlocked = creditBasicsComplete && cc101Complete;
   const displayName = user?.firstName ?? user?.username ?? "there";
   const email = user?.primaryEmailAddress?.emailAddress;
   const tier = user?.publicMetadata?.tier as string | undefined;
 
   const militaryStatus = user?.publicMetadata?.militaryStatus as string | undefined;
   const isFounder = email === "david.vargas024@gmail.com";
+  const playbookUnlocked = isFounder || (creditBasicsComplete && cc101Complete);
 
   const isMilitary = ["active-duty", "veteran", "gold-star", "mil-family"].includes(militaryStatus ?? "");
 
@@ -197,6 +197,7 @@ export default function CoursesPage() {
             {courses.map((course) => {
               const Icon = course.icon;
               const unlocked =
+                isFounder ? true :
                 course.id === "credit-basics"    ? true :
                 course.id === "credit-cards-101" ? creditBasicsComplete :
                 course.id === "debt-traps"       ? cc101Complete :

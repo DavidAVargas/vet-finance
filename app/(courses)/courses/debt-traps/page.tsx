@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { useUser } from "@clerk/nextjs";
 import {
   ChevronDown,
   ChevronLeft,
@@ -1095,6 +1096,8 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
 // ─── Main page ────────────────────────────────────────────────────────────────
 
 export default function DebtTrapsPage() {
+  const { user } = useUser();
+  const isFounder = user?.primaryEmailAddress?.emailAddress === "david.vargas024@gmail.com";
   const lastSection = SECTIONS[SECTIONS.length - 1];
   const lastLesson = lastSection.lessons[lastSection.lessons.length - 1];
 
@@ -1148,6 +1151,12 @@ export default function DebtTrapsPage() {
       .then((data) => {
         const completed: string[] = data["debt-traps"] ?? [];
         setCompletedLessons(completed);
+
+        if (isFounder) {
+          setUnlockedSectionIds(SECTIONS.map((s) => s.id));
+          return;
+        }
+
         const unlocked = [SECTIONS[0].id];
         for (let i = 0; i < SECTIONS.length - 1; i++) {
           const s = SECTIONS[i];
@@ -1159,7 +1168,7 @@ export default function DebtTrapsPage() {
         setUnlockedSectionIds(unlocked);
       })
       .catch(() => {});
-  }, []);
+  }, [isFounder]);
 
   const postProgress = (lessonId: string) => {
     fetch("/api/progress", {

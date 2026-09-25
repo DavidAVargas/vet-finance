@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { useUser } from "@clerk/nextjs";
 import {
   ChevronDown,
   ChevronLeft,
@@ -1878,6 +1879,8 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
 // ─── Page ────────────────────────────────────────────────────────────────────
 
 export default function CreditBasicsPage() {
+  const { user } = useUser();
+  const isFounder = user?.primaryEmailAddress?.emailAddress === "david.vargas024@gmail.com";
   const [activeLessonId, setActiveLessonId] = useState("my-story-1");
   const lessonContentRef = useRef<HTMLDivElement>(null);
   const isFirstLessonRender = useRef(true);
@@ -1901,6 +1904,14 @@ export default function CreditBasicsPage() {
       .then((data) => {
         const completed: string[] = data["credit-basics"] ?? [];
         setCompletedLessons(completed);
+
+        if (isFounder) {
+          const allSectionIds = SECTIONS.map((s) => s.id);
+          setUnlockedSectionIds(allSectionIds);
+          setExpandedSections(allSectionIds);
+          return;
+        }
+
         const unlocked = [SECTIONS[0].id];
         for (let i = 0; i < SECTIONS.length - 1; i++) {
           const s = SECTIONS[i];
@@ -1913,7 +1924,7 @@ export default function CreditBasicsPage() {
         setExpandedSections(unlocked);
       })
       .catch(() => {});
-  }, []);
+  }, [isFounder]);
 
   const postProgress = (lessonId: string) => {
     fetch("/api/progress", {

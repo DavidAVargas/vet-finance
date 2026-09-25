@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { useUser } from "@clerk/nextjs";
 import {
   ChevronDown,
   ChevronLeft,
@@ -1605,6 +1606,8 @@ function LessonContent({ lessonId }: { lessonId: string }) {
 // ─── Main page ────────────────────────────────────────────────────────────────
 
 export default function MilitaryMoneyPage() {
+  const { user } = useUser();
+  const isFounder = user?.primaryEmailAddress?.emailAddress === "david.vargas024@gmail.com";
   const [completedLessons, setCompletedLessons] = useState<string[]>([]);
   const [unlockedSections, setUnlockedSections] = useState<string[]>([SECTIONS[0].id]);
   const [activeSectionId, setActiveSectionId] = useState(SECTIONS[0].id);
@@ -1629,6 +1632,12 @@ export default function MilitaryMoneyPage() {
       .then((data) => {
         const completed: string[] = data["military-money"] ?? [];
         setCompletedLessons(completed);
+
+        if (isFounder) {
+          setUnlockedSections(SECTIONS.map((s) => s.id));
+          return;
+        }
+
         const unlocked = [SECTIONS[0].id];
         for (let i = 0; i < SECTIONS.length - 1; i++) {
           const s = SECTIONS[i];
@@ -1639,7 +1648,7 @@ export default function MilitaryMoneyPage() {
         setUnlockedSections(unlocked);
       })
       .catch(() => {});
-  }, []);
+  }, [isFounder]);
 
   const postProgress = (lessonId: string) => {
     fetch("/api/progress", {
