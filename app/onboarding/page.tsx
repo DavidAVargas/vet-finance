@@ -5,8 +5,7 @@ import { useState } from "react";
 const MILITARY_OPTIONS = [
   { value: "active-duty", label: "🎖️ Active Duty", desc: "Currently serving in the military" },
   { value: "veteran", label: "🎖️ Veteran", desc: "Previously served and separated" },
-  { value: "gold-star", label: "⭐ Gold Star Family", desc: "Lost a family member in service" },
-  { value: "mil-family", label: "🫂 Military Family", desc: "Spouse, parent, or dependent of a service member" },
+  { value: "law-enforcement", label: "🛡️ Law Enforcement", desc: "Currently serving or retired from law enforcement" },
   { value: "civilian", label: "👤 Civilian Supporter", desc: "Supporting the military community" },
 ] as const;
 

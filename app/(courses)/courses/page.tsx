@@ -98,11 +98,12 @@ export default function CoursesPage() {
   const isFounder = email === "david.vargas024@gmail.com";
   const playbookUnlocked = isFounder || (creditBasicsComplete && cc101Complete);
 
-  const isMilitary = ["active-duty", "veteran", "gold-star", "mil-family"].includes(militaryStatus ?? "");
+  const isMilitary = ["active-duty", "veteran", "law-enforcement", "gold-star", "mil-family"].includes(militaryStatus ?? "");
 
   const militaryTag =
     militaryStatus === "active-duty" ? "🎖️ Active Duty" :
     militaryStatus === "veteran"     ? "🎖️ Veteran" :
+    militaryStatus === "law-enforcement" ? "🛡️ Law Enforcement" :
     militaryStatus === "gold-star"   ? "⭐ Gold Star" :
     militaryStatus === "mil-family"  ? "🫂 Mil Family" :
     null;
