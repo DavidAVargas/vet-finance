@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
-import { inter } from "@/utils/fonts";
+import { publicSans } from "@/utils/fonts";
 import Providers from "@/components/DarkLightMode/providers";
 import "@/styles/globals.css";
 
@@ -17,7 +17,7 @@ export default function RootLayout({
   return (
     <ClerkProvider signInFallbackRedirectUrl="/courses" signUpFallbackRedirectUrl="/courses">
       <html lang="en" suppressHydrationWarning>
-        <body className={inter.variable}>
+        <body className={publicSans.variable}>
           <Providers>{children}</Providers>
         </body>
       </html>

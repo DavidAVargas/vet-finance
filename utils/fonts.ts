@@ -1,7 +1,7 @@
-import localFont from "next/font/local";
+import { Public_Sans } from "next/font/google";
 
-export const inter = localFont({
-  src: "../public/fonts/InterVariable.woff2",
-  variable: "--font-inter",
-  weight: "300 400 500 600 700",
+export const publicSans = Public_Sans({
+  subsets: ["latin"],
+  variable: "--font-public-sans",
+  display: "swap",
 });
