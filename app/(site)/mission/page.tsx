@@ -57,7 +57,7 @@ export default function MissionPage() {
 
       {/* Story */}
       <section className="border-t border-border">
-        <div className="mx-auto grid max-w-site gap-10 px-4 py-20 sm:px-6 lg:grid-cols-[1fr_1.6fr] lg:gap-20 lg:py-24">
+        <div className="mx-auto grid max-w-site gap-8 px-4 py-16 sm:px-6 lg:grid-cols-[1fr_1.6fr] lg:gap-20 lg:py-20">
           <h2 className="text-3xl font-extrabold tracking-[-0.03em] text-navy sm:text-4xl lg:sticky lg:top-28 lg:self-start">
             Why we built this
           </h2>
@@ -97,7 +97,7 @@ export default function MissionPage() {
 
       {/* What we do */}
       <section className="border-t border-border bg-card">
-        <div className="mx-auto max-w-site px-4 py-20 sm:px-6 lg:py-24">
+        <div className="mx-auto max-w-site px-4 py-16 sm:px-6 lg:py-20">
           <h2 className="text-3xl font-extrabold tracking-[-0.03em] text-navy sm:text-4xl">
             What we do
           </h2>
@@ -107,7 +107,7 @@ export default function MissionPage() {
             financial decisions as fast as possible.
           </p>
 
-          <ul className="mt-12 grid gap-5 md:grid-cols-3">
+          <ul className="mt-10 grid gap-5 md:grid-cols-3">
             {pillars.map(({ icon: Icon, title, desc }) => (
               <li key={title} className="rounded-2xl border border-border bg-background p-7">
                 <div className="flex size-12 items-center justify-center rounded-[14px] bg-navy">
@@ -123,7 +123,7 @@ export default function MissionPage() {
 
       {/* Where we're headed */}
       <section className="bg-navy text-white">
-        <div className="mx-auto max-w-site px-4 py-20 sm:px-6 lg:py-24">
+        <div className="mx-auto max-w-site px-4 py-16 sm:px-6 lg:py-20">
           <p className="text-sm font-semibold tracking-[0.14em] text-brass uppercase">
             Where we&apos;re headed
           </p>
@@ -135,7 +135,7 @@ export default function MissionPage() {
             further.
           </p>
 
-          <div className="mt-12 grid gap-5 lg:grid-cols-2">
+          <div className="mt-10 grid gap-5 lg:grid-cols-2">
             <div className="flex flex-col rounded-2xl border border-white/12 bg-white/[0.04] p-8">
               <CreditCard className="size-7 text-brass" strokeWidth={1.8} aria-hidden="true" />
               <h3 className="mt-5 text-xl font-bold">A military credit card, built for veterans</h3>
@@ -174,7 +174,7 @@ export default function MissionPage() {
             </div>
           </div>
 
-          <p className="mt-14 max-w-2xl text-[#c9d2e0]">
+          <p className="mt-10 max-w-2xl text-[#c9d2e0]">
             None of this happens without the support of veterans, military
             families, and people who believe in this mission.{" "}
             <span className="font-semibold text-white">We&apos;re just getting started.</span>

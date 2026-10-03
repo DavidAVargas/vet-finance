@@ -146,13 +146,13 @@ export default function CardPage() {
 
       {/* Tier showcase */}
       <section aria-labelledby="tiers-heading" className="bg-navy-deep text-white">
-        <div className="mx-auto max-w-site px-4 py-20 sm:px-6 lg:py-24">
+        <div className="mx-auto max-w-site px-4 py-16 sm:px-6 lg:py-20">
           <p className="text-sm font-semibold tracking-[0.14em] text-brass uppercase">The tiers</p>
           <h2 id="tiers-heading" className="mt-3 text-3xl font-extrabold tracking-[-0.03em] sm:text-4xl">
             Three cards. One mission.
           </h2>
 
-          <ul className="mt-14 grid gap-12 md:grid-cols-3 md:gap-8">
+          <ul className="mt-12 grid gap-12 md:grid-cols-3 md:gap-8">
             {tiers.map((tier) => (
               <li key={tier.id} className="flex flex-col">
                 <CardArt tier={tier.id} />
@@ -182,7 +182,7 @@ export default function CardPage() {
 
       {/* A note on Combat Black */}
       <section className="bg-card">
-        <div className="mx-auto grid max-w-site gap-10 px-4 py-20 sm:px-6 lg:grid-cols-[1fr_1.6fr] lg:gap-20 lg:py-24">
+        <div className="mx-auto grid max-w-site gap-8 px-4 py-16 sm:px-6 lg:grid-cols-[1fr_1.6fr] lg:gap-20 lg:py-20">
           <h2 className="text-3xl font-extrabold tracking-[-0.03em] text-navy sm:text-4xl lg:self-start">
             A note on Combat Black
           </h2>
@@ -210,13 +210,13 @@ export default function CardPage() {
 
       {/* How it works */}
       <section id="how-it-works" className="scroll-mt-20 border-t border-border">
-        <div className="mx-auto max-w-site px-4 py-20 sm:px-6 lg:py-24">
+        <div className="mx-auto max-w-site px-4 py-16 sm:px-6 lg:py-20">
           <h2 className="text-3xl font-extrabold tracking-[-0.03em] text-navy sm:text-4xl">How it works</h2>
           <p className="mt-4 max-w-2xl text-[17px] text-muted-foreground">
             Civilians who believe in the mission fund the perks for those who
             served.
           </p>
-          <ol className="mt-12 grid gap-5 md:grid-cols-3">
+          <ol className="mt-10 grid gap-5 md:grid-cols-3">
             {steps.map((step, i) => (
               <li key={step.title} className="relative rounded-2xl border border-border bg-card p-7">
                 <span className="flex size-10 items-center justify-center rounded-full bg-navy text-sm font-bold text-white">
@@ -233,18 +233,14 @@ export default function CardPage() {
               </li>
             ))}
           </ol>
-        </div>
-      </section>
 
-      {/* Road to launch */}
-      <section className="border-t border-border bg-card">
-        <div className="mx-auto max-w-site px-4 py-20 sm:px-6 lg:py-24">
-          <h2 className="text-3xl font-extrabold tracking-[-0.03em] text-navy sm:text-4xl">The road to launch</h2>
+          {/* Road to launch */}
+          <h2 className="mt-16 text-3xl font-extrabold tracking-[-0.03em] text-navy sm:text-4xl lg:mt-20">The road to launch</h2>
           <p className="mt-4 max-w-2xl text-[17px] text-muted-foreground">
             This becomes real one step at a time, and the more people who sign
             up, the faster we get there.
           </p>
-          <ol className="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-4 lg:gap-6">
+          <ol className="mt-10 grid gap-8 md:grid-cols-2 lg:grid-cols-4 lg:gap-6">
             {roadmap.map(({ icon: Icon, status, title, desc, active }) => (
               <li key={title} className={cn("border-t-[3px] pt-6", active ? "border-navy" : "border-border")}>
                 <div className="flex items-center justify-between">
@@ -268,14 +264,14 @@ export default function CardPage() {
 
       {/* Waitlist */}
       <section id="waitlist" className="scroll-mt-20 bg-navy text-white">
-        <div className="mx-auto max-w-site px-4 py-20 text-center sm:px-6 lg:py-24">
+        <div className="mx-auto max-w-site px-4 py-16 text-center sm:px-6 lg:py-20">
           <h2 className="text-3xl font-extrabold tracking-[-0.03em] sm:text-4xl">Help us make this real.</h2>
           <p className="mx-auto mt-4 max-w-xl text-[17px] text-[#c9d2e0]">
             The more people who sign up, the stronger the case we can make to
             banking partners and investors. Join the founding member list and
             be first in line when we launch.
           </p>
-          <form className="mx-auto mt-10 flex max-w-md flex-col gap-3 sm:flex-row">
+          <form className="mx-auto mt-8 flex max-w-md flex-col gap-3 sm:flex-row">
             <label htmlFor="card-waitlist-email" className="sr-only">Email address</label>
             <input
               id="card-waitlist-email"
@@ -289,7 +285,7 @@ export default function CardPage() {
           </form>
           <p className="mt-4 text-sm text-[#9aa5b8]">No spam. Just a heads up when we launch.</p>
 
-          <p className="mx-auto mt-14 max-w-2xl border-t border-white/10 pt-6 text-xs leading-relaxed text-[#9aa5b8]">
+          <p className="mx-auto mt-12 max-w-2xl border-t border-white/10 pt-6 text-xs leading-relaxed text-[#9aa5b8]">
             The Vet Finance card is a concept in development. It is not
             currently available, and nothing on this page is an offer of credit
             or an application. Tiers, perks, and fees shown are planned and may
