@@ -37,39 +37,39 @@ export default async function Home() {
     <>
       {/* Hero */}
       <section className="px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto flex max-w-6xl flex-col items-center gap-14 py-16 sm:py-20 lg:min-h-[calc(100dvh-4.5rem)] lg:flex-row lg:gap-16">
+        <div className="mx-auto flex max-w-6xl flex-col items-center gap-14 pt-12 pb-20 sm:pt-16 sm:pb-24 lg:flex-row lg:gap-16">
           <div className="flex-1">
-            <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card py-1.5 pr-4 pl-1.5 text-sm font-medium text-foreground/80">
+            <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card py-1.5 pr-3.5 pl-2 text-sm font-medium text-foreground/80">
               <span className="rounded-full bg-primary px-2.5 py-0.5 text-xs font-semibold text-primary-foreground">
                 Free
               </span>
               By a veteran, for the military community
             </div>
 
-            <h1 className="mt-7 max-w-xl text-4xl leading-[1.05] font-extrabold tracking-[-0.035em] text-foreground sm:text-5xl lg:text-6xl">
+            <h1 className="mt-7 max-w-xl text-4xl leading-[1.05] font-extrabold tracking-[-0.035em] text-navy sm:text-5xl lg:text-[3.75rem]">
               The money stuff nobody taught us in uniform.
             </h1>
 
-            <p className="mt-6 max-w-lg text-lg text-muted-foreground sm:text-xl">
+            <p className="mt-6 max-w-[32.5rem] text-lg text-muted-foreground sm:text-xl">
               Credit, military pay, the VA home loan, the GI Bill. Explained in
               plain English by someone who&apos;s been there. No sales pitch.
             </p>
 
             <div className="mt-9 flex flex-wrap items-center gap-3">
               {user ? (
-                <Button size="lg" className="h-12 rounded-full px-7 text-base" asChild>
+                <Button size="lg" className="h-12 rounded-full px-7 text-base font-semibold" asChild>
                   <Link href={ctaHref}>
                     {ctaLabel}
                     <ArrowRight className="size-4" />
                   </Link>
                 </Button>
               ) : (
-                <Button size="lg" className="h-12 rounded-full px-7 text-base" disabled>
+                <Button size="lg" className="h-12 rounded-full px-7 text-base font-semibold" disabled>
                   {ctaLabel}
                   <ArrowRight className="size-4" />
                 </Button>
               )}
-              <Button size="lg" variant="outline" className="h-12 rounded-full bg-card px-7 text-base" asChild>
+              <Button size="lg" variant="outline" className="h-12 rounded-full border-input bg-card px-7 text-base font-semibold text-navy" asChild>
                 <Link href="#whats-inside">See what&apos;s inside</Link>
               </Button>
             </div>
