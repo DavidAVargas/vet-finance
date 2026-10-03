@@ -48,7 +48,7 @@ export default async function Home() {
     <>
       {/* Hero */}
       <section className="px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto flex max-w-6xl flex-col items-center gap-14 pt-12 pb-20 sm:pt-16 sm:pb-24 lg:flex-row lg:gap-16">
+        <div className="mx-auto flex min-h-[calc(100dvh-4.5rem-1px)] max-w-6xl flex-col items-center justify-center gap-14 py-12 sm:py-16 lg:flex-row lg:gap-16">
           <div className="flex-1">
             <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card py-1.5 pr-3.5 pl-2 text-sm font-medium text-foreground/80">
               <span className="rounded-full bg-primary px-2.5 py-0.5 text-xs font-semibold text-primary-foreground">
