@@ -28,7 +28,7 @@ const columns = [
 export function Footer() {
   return (
     <footer className="bg-navy-deep text-[#c9d2e0]">
-      <div className="mx-auto max-w-7xl px-4 pt-16 pb-10 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-site px-4 pt-16 pb-10 sm:px-6">
         <div className="flex flex-col gap-12 lg:flex-row lg:justify-between">
           {/* Brand */}
           <div className="max-w-sm">

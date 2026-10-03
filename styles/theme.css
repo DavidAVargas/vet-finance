@@ -130,6 +130,9 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 
+  /* Page content width — matches the approved mockup */
+  --container-site: 1180px;
+
   --color-navy: var(--navy);
   --color-navy-deep: var(--navy-deep);
   --color-brass: var(--brass);

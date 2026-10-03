@@ -72,7 +72,7 @@ export default async function Home() {
           className="absolute inset-y-0 right-0 left-[62%] -z-10 hidden bg-gradient-to-b from-secondary to-[#e3eaf4] lg:block"
         />
 
-        <div className="mx-auto flex w-full max-w-7xl flex-1 flex-col items-center justify-center gap-14 px-4 pt-10 pb-14 sm:px-6 sm:pt-12 sm:pb-20 lg:flex-row lg:gap-20 lg:px-8 lg:pt-6 lg:pb-24">
+        <div className="mx-auto flex w-full max-w-site flex-1 flex-col items-center justify-center gap-14 px-4 pt-10 pb-14 sm:px-6 sm:pt-12 sm:pb-20 lg:flex-row lg:gap-20 lg:pt-6 lg:pb-24">
           <div className="flex-1">
             <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card py-1.5 pr-3.5 pl-2 text-sm font-medium text-foreground/80">
               <span className="rounded-full bg-primary px-2.5 py-0.5 text-xs font-semibold text-primary-foreground">
@@ -81,7 +81,7 @@ export default async function Home() {
               By a veteran, for the military community
             </div>
 
-            <h1 className="mt-7 max-w-xl text-4xl leading-[1.05] font-extrabold tracking-[-0.035em] text-navy sm:text-5xl lg:text-[3.75rem] xl:text-[4.25rem]">
+            <h1 className="mt-7 max-w-xl text-4xl leading-[1.05] font-extrabold tracking-[-0.035em] text-navy sm:text-5xl lg:text-[3.75rem]">
               The money stuff nobody taught us in uniform.
             </h1>
 
@@ -121,7 +121,7 @@ export default async function Home() {
 
         {/* Trust strip */}
         <div className="border-t border-border bg-background">
-          <ul className="mx-auto grid max-w-7xl gap-6 px-4 py-7 sm:grid-cols-3 sm:px-6 lg:px-8">
+          <ul className="mx-auto grid max-w-site gap-6 px-4 py-7 sm:grid-cols-3 sm:px-6">
             {promises.map(({ icon: Icon, title, desc }) => (
               <li key={title} className="flex items-start gap-3.5">
                 <Icon className="mt-0.5 size-6 shrink-0 text-navy" strokeWidth={1.8} aria-hidden="true" />
@@ -136,8 +136,8 @@ export default async function Home() {
       </section>
 
       {/* What You'll Learn */}
-      <section id="whats-inside" className="scroll-mt-20 border-t border-border px-4 py-20 sm:px-6 sm:py-24 lg:px-8">
-        <div className="mx-auto max-w-7xl">
+      <section id="whats-inside" className="scroll-mt-20 border-t border-border px-4 py-20 sm:px-6 sm:py-24">
+        <div className="mx-auto max-w-site">
           <h2 className="max-w-2xl text-3xl leading-tight font-extrabold tracking-[-0.03em] text-navy sm:text-[2.625rem]">
             Four courses. Start wherever you are.
           </h2>
