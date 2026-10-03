@@ -11,7 +11,6 @@ import {
   Circle,
   BookOpen,
 } from "lucide-react";
-import { ThemeToggle } from "@/components/DarkLightMode/theme-toggle";
 import Link from "next/link";
 import { SkipLink } from "@/components/layout/SkipLink";
 
@@ -1717,7 +1716,6 @@ export default function MilitaryMoneyPage() {
           <span className="text-sm font-medium text-muted-foreground">Military Money</span>
         </div>
         <div className="flex items-center gap-2">
-          <ThemeToggle />
           <button
             className="flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 text-xs font-medium text-foreground sm:hidden"
             onClick={() => setSidebarOpen((v) => !v)}

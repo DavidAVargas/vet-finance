@@ -12,7 +12,6 @@ import {
   BookOpen,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { ThemeToggle } from "@/components/DarkLightMode/theme-toggle";
 import Link from "next/link";
 import Image from "next/image";
 import { SkipLink } from "@/components/layout/SkipLink";
@@ -2074,8 +2073,6 @@ export default function CreditBasicsPage() {
               {mockUser.name}
             </span>
           </div>
-
-          <ThemeToggle />
 
           {/* Mobile sidebar toggle */}
           <button

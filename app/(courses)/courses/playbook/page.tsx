@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { useUser } from "@clerk/nextjs";
 import { ChevronLeft, Lock, BookOpen, RotateCcw } from "lucide-react";
 import Link from "next/link";
-import { ThemeToggle } from "@/components/DarkLightMode/theme-toggle";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -897,7 +896,6 @@ export default function PlaybookPage() {
           <ChevronLeft className="size-4" />
           Back to courses
         </Link>
-        <ThemeToggle />
       </header>
 
       <main className="flex-1 px-6 py-10 sm:px-10">

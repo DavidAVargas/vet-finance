@@ -5,7 +5,6 @@ import { useUser, UserButton } from "@clerk/nextjs";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
-import { ThemeToggle } from "@/components/DarkLightMode/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/layout/Logo";
 import { cn } from "@/lib/utils";
@@ -61,7 +60,6 @@ export function Navbar() {
 
           {/* Right side */}
           <div className="flex items-center gap-2">
-            <ThemeToggle />
             {isLoaded && user ? (
               <>
                 <Button size="lg" className="hidden rounded-full px-5 md:inline-flex" asChild>

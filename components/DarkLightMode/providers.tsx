@@ -1,25 +1,16 @@
 "use client";
 
-import { ThemeProvider, useTheme } from "next-themes";
+import { ThemeProvider } from "next-themes";
 import { Toaster } from "@/components/ui/sonner";
 
-// ThemeProvider must SSR so next-themes injects its inline script in HTML; deferring it to post-hydration triggers React 19’s client <script> warning.
+// The site is light-only. ThemeProvider stays so next-themes keeps the `light` class pinned
+// (and clears any `dark` preference left in a returning visitor's localStorage).
+// It must SSR so next-themes injects its inline script in HTML; deferring it to post-hydration triggers React 19’s client <script> warning.
 export default function Providers({ children }: { children: React.ReactNode }) {
   return (
-    <ThemeProvider enableSystem attribute="class" defaultTheme="system">
+    <ThemeProvider attribute="class" forcedTheme="light" enableSystem={false}>
       {children}
-      <ToasterProvider />
+      <Toaster position="top-right" theme="light" />
     </ThemeProvider>
-  );
-}
-
-function ToasterProvider() {
-  const { resolvedTheme } = useTheme();
-
-  return (
-    <Toaster
-      position="top-right"
-      theme={resolvedTheme === "dark" ? "dark" : "light"}
-    />
   );
 }

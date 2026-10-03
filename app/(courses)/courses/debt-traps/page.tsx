@@ -12,7 +12,6 @@ import {
   BookOpen,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { ThemeToggle } from "@/components/DarkLightMode/theme-toggle";
 import Link from "next/link";
 import { SkipLink } from "@/components/layout/SkipLink";
 
@@ -1239,7 +1238,6 @@ export default function DebtTrapsPage() {
           <span className="text-sm font-semibold text-foreground">Debt Traps</span>
         </div>
         <div className="flex items-center gap-3">
-          <ThemeToggle />
           <button
             ref={sidebarToggleRef}
             onClick={() => setSidebarOpen((o) => !o)}
