@@ -66,15 +66,10 @@ export default async function Home() {
     <>
       {/* Hero */}
       <section className="relative isolate flex min-h-[calc(100dvh-4.5rem-1px)] flex-col overflow-hidden">
-        {/* Faint grid that fades toward the edges */}
+        {/* Topographic contour lines, faded toward the edges */}
         <div
           aria-hidden="true"
-          className="absolute inset-0 -z-10 [mask-image:radial-gradient(ellipse_70%_60%_at_50%_40%,black,transparent)]"
-          style={{
-            backgroundImage:
-              "linear-gradient(rgb(19 41 75 / 0.06) 1px, transparent 1px), linear-gradient(90deg, rgb(19 41 75 / 0.06) 1px, transparent 1px)",
-            backgroundSize: "56px 56px",
-          }}
+          className="absolute inset-0 -z-10 bg-[url(/images/topo.svg)] bg-cover bg-center opacity-[0.13] [mask-image:radial-gradient(ellipse_80%_70%_at_60%_45%,black,transparent)]"
         />
 
         <div className="mx-auto flex w-full max-w-7xl flex-1 flex-col items-center justify-center gap-14 px-4 py-14 sm:px-6 sm:py-20 lg:flex-row lg:gap-20 lg:px-8">
