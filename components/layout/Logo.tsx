@@ -1,7 +1,10 @@
 import { cn } from "@/lib/utils";
 
-/** Shield with two chevrons — the Vet Finance mark. */
-export function LogoMark({ className }: { className?: string }) {
+type Tone = "default" | "inverted";
+
+/** Shield with two chevrons — the Vet Finance mark. Use `inverted` on navy backgrounds. */
+export function LogoMark({ className, tone = "default" }: { className?: string; tone?: Tone }) {
+  const inverted = tone === "inverted";
   return (
     <svg
       viewBox="0 0 32 36"
@@ -10,7 +13,7 @@ export function LogoMark({ className }: { className?: string }) {
     >
       <path
         d="M16 1.5 L30 6.5 V17 C30 25.8 23.8 31.6 16 34.5 C8.2 31.6 2 25.8 2 17 V6.5 Z"
-        className="fill-navy dark:fill-white"
+        className={inverted ? "fill-white" : "fill-navy"}
       />
       <path
         d="M9 13.5 L16 18.5 L23 13.5"
@@ -18,7 +21,7 @@ export function LogoMark({ className }: { className?: string }) {
         fill="none"
         strokeLinecap="round"
         strokeLinejoin="round"
-        className="stroke-white dark:stroke-navy"
+        className={inverted ? "stroke-navy-deep" : "stroke-white"}
       />
       <path
         d="M9 20 L16 25 L23 20"
@@ -32,11 +35,16 @@ export function LogoMark({ className }: { className?: string }) {
   );
 }
 
-export function Logo({ className }: { className?: string }) {
+export function Logo({ className, tone = "default" }: { className?: string; tone?: Tone }) {
   return (
     <span className={cn("flex items-center gap-2.5", className)}>
-      <LogoMark />
-      <span className="text-xl font-extrabold tracking-tight text-navy dark:text-white">
+      <LogoMark tone={tone} />
+      <span
+        className={cn(
+          "text-xl font-extrabold tracking-tight",
+          tone === "inverted" ? "text-white" : "text-navy",
+        )}
+      >
         Vet Finance
       </span>
     </span>

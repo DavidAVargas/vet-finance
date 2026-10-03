@@ -1,50 +1,79 @@
 import Link from "next/link";
-import { Shield } from "lucide-react";
+import { Logo } from "@/components/layout/Logo";
+
+const columns = [
+  {
+    heading: "Learn",
+    links: [
+      { label: "Courses", href: "/learn" },
+      { label: "Community", href: "/community" },
+    ],
+  },
+  {
+    heading: "About",
+    links: [
+      { label: "Our Mission", href: "/mission" },
+      { label: "The Card", href: "/card" },
+    ],
+  },
+  {
+    heading: "Legal",
+    links: [
+      { label: "Privacy Policy", href: "/privacy" },
+      { label: "Terms of Service", href: "/terms" },
+    ],
+  },
+];
 
 export function Footer() {
   return (
-    <footer className="border-t border-border bg-muted/40 px-4 py-12">
-      <div className="mx-auto max-w-6xl grid grid-cols-2 gap-8 sm:grid-cols-3">
-        {/* Brand — full width on mobile */}
-        <div className="col-span-2 flex flex-col gap-3 sm:col-span-1">
-          <div className="flex items-center gap-2 font-semibold text-foreground">
-            <Shield className="size-4" />
-            <span>Vet Finance</span>
+    <footer className="bg-navy-deep text-[#c9d2e0]">
+      <div className="mx-auto max-w-7xl px-4 pt-16 pb-10 sm:px-6 lg:px-8">
+        <div className="flex flex-col gap-12 lg:flex-row lg:justify-between">
+          {/* Brand */}
+          <div className="max-w-sm">
+            <Link href="/" aria-label="Vet Finance home" className="inline-block rounded-md">
+              <Logo tone="inverted" />
+            </Link>
+            <p className="mt-4 text-[15px] leading-relaxed">
+              Free financial education for those who served, and the families
+              who served with them.
+            </p>
+            <p className="mt-6 inline-flex items-center gap-2 rounded-full border border-white/20 px-3.5 py-1.5 text-xs font-semibold tracking-[0.12em] text-brass uppercase">
+              <span className="size-1.5 rounded-full bg-brass" aria-hidden="true" />
+              Veteran-founded
+            </p>
           </div>
-          <p className="text-sm text-muted-foreground max-w-xs">
-            Free financial education for those who served. Built to help veterans thrive after service.
+
+          {/* Link columns */}
+          <nav aria-label="Footer" className="grid grid-cols-2 gap-10 sm:grid-cols-3 sm:gap-16">
+            {columns.map((col) => (
+              <div key={col.heading}>
+                <p className="text-sm font-bold text-white">{col.heading}</p>
+                <ul className="mt-4 flex flex-col gap-3 text-[15px]">
+                  {col.links.map((link) => (
+                    <li key={link.href}>
+                      <Link href={link.href} className="transition-colors hover:text-white">
+                        {link.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </nav>
+        </div>
+
+        {/* Bottom bar */}
+        <div className="mt-14 flex flex-col gap-3 border-t border-white/10 pt-6 text-[13px] leading-relaxed text-[#9aa5b8] lg:flex-row lg:justify-between lg:gap-10">
+          <p className="shrink-0">© {new Date().getFullYear()} Vet Finance. All rights reserved.</p>
+          <p className="max-w-3xl lg:text-right">
+            Educational content only, not financial, legal, or tax advice. Vet
+            Finance is not affiliated with or endorsed by the U.S. Department of
+            Veterans Affairs, the Department of Defense, or any branch of the
+            U.S. Armed Forces.
           </p>
         </div>
-
-        {/* Quick links */}
-        <div className="flex flex-col gap-3">
-          <p className="text-sm font-semibold text-foreground">Quick Links</p>
-          <div className="flex flex-col gap-2 text-sm text-muted-foreground">
-            <Link href="/learn" className="hover:text-foreground transition-colors">Learn</Link>
-            <Link href="/mission" className="hover:text-foreground transition-colors">Our Mission</Link>
-            <Link href="/card" className="hover:text-foreground transition-colors">The Card</Link>
-            <Link href="/community" className="hover:text-foreground transition-colors">Community</Link>
-          </div>
-        </div>
-
-        {/* Legal */}
-        <div className="flex flex-col gap-3">
-          <p className="text-sm font-semibold text-foreground">Legal</p>
-          <div className="flex flex-col gap-2 text-sm text-muted-foreground">
-            <Link href="/privacy" className="hover:text-foreground transition-colors">Privacy Policy</Link>
-            <Link href="/terms" className="hover:text-foreground transition-colors">Terms of Service</Link>
-          </div>
-        </div>
-      </div>
-
-      {/* Bottom bar */}
-      <div className="mx-auto max-w-6xl mt-10 pt-6 border-t border-border flex flex-col items-center gap-2 text-center sm:flex-row sm:justify-between sm:text-left">
-        <p className="text-xs text-muted-foreground">
-          © {new Date().getFullYear()} Vet Finance. All rights reserved.
-        </p>
-        <p className="text-xs text-muted-foreground">
-          Free for all military members & veterans.
-        </p>
       </div>
     </footer>
   );
