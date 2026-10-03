@@ -3,24 +3,26 @@
 import { useState } from "react";
 import { useUser, UserButton } from "@clerk/nextjs";
 import Link from "next/link";
-import { Menu, X, Shield } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { Menu, X } from "lucide-react";
 import { ThemeToggle } from "@/components/DarkLightMode/theme-toggle";
 import { Button } from "@/components/ui/button";
+import { Logo } from "@/components/layout/Logo";
 import { cn } from "@/lib/utils";
 
 const FOUNDER_EMAIL = "david.vargas024@gmail.com";
 
 const navLinks = [
-  { label: "Home", href: "/" },
-  { label: "Learn", href: "/learn" },
+  { label: "Courses", href: "/learn" },
   { label: "Our Mission", href: "/mission" },
-  { label: "The Card", href: "/card" },
   { label: "Community", href: "/community" },
+  { label: "The Card", href: "/card" },
 ];
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
   const { user, isLoaded } = useUser();
+  const pathname = usePathname();
 
   const email = user?.primaryEmailAddress?.emailAddress;
   const isFounder = email === FOUNDER_EMAIL;
@@ -28,26 +30,29 @@ export function Navbar() {
   const hasAccess = isFounder || isActivated;
   const ctaHref = !user ? "/learn" : hasAccess ? "/courses" : "/onboarding";
 
+  const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
+
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-md">
-      <nav className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between">
-          {/* Logo */}
-          <Link
-            href="/"
-            className="flex items-center gap-2 font-semibold text-foreground"
-          >
-            <Shield className="size-5" />
-            <span>Vet Finance</span>
+    <header className="sticky top-0 z-50 border-b border-border bg-background/85 backdrop-blur-md">
+      <nav aria-label="Main" className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div className="flex h-[4.5rem] items-center justify-between gap-6">
+          <Link href="/" aria-label="Vet Finance home" className="rounded-md">
+            <Logo />
           </Link>
 
           {/* Desktop nav links */}
-          <div className="hidden items-center gap-6 md:flex">
+          <div className="hidden items-center gap-1 md:flex">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm text-foreground/60 transition-colors hover:text-foreground"
+                aria-current={isActive(link.href) ? "page" : undefined}
+                className={cn(
+                  "rounded-full px-4 py-2 text-[15px] font-medium transition-colors",
+                  isActive(link.href)
+                    ? "bg-secondary text-secondary-foreground"
+                    : "text-muted-foreground hover:text-foreground",
+                )}
               >
                 {link.label}
               </Link>
@@ -58,17 +63,20 @@ export function Navbar() {
           <div className="flex items-center gap-2">
             <ThemeToggle />
             {isLoaded && user ? (
-              <UserButton />
+              <>
+                <Button size="lg" className="hidden rounded-full px-5 md:inline-flex" asChild>
+                  <Link href={ctaHref}>Go to courses</Link>
+                </Button>
+                <UserButton />
+              </>
             ) : (
-              <Button size="sm" className="hidden md:inline-flex opacity-50 cursor-default" disabled>
+              <Button size="lg" className="hidden rounded-full px-5 md:inline-flex" disabled>
                 Get Started
               </Button>
             )}
             {/* Mobile hamburger */}
             <button
-              className={cn(
-                "rounded-md p-2 text-muted-foreground transition-colors hover:text-foreground md:hidden",
-              )}
+              className="rounded-full p-2.5 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground md:hidden"
               onClick={() => setOpen(!open)}
               aria-label="Toggle menu"
               aria-expanded={open}
@@ -80,23 +88,29 @@ export function Navbar() {
 
         {/* Mobile menu */}
         {open && (
-          <div className="flex flex-col gap-3 border-t border-border py-4 md:hidden">
+          <div className="flex flex-col gap-1 border-t border-border py-4 md:hidden">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="px-1 text-sm text-foreground/60 transition-colors hover:text-foreground"
+                aria-current={isActive(link.href) ? "page" : undefined}
+                className={cn(
+                  "rounded-lg px-3 py-3 text-base font-medium transition-colors",
+                  isActive(link.href)
+                    ? "bg-secondary text-secondary-foreground"
+                    : "text-muted-foreground hover:text-foreground",
+                )}
                 onClick={() => setOpen(false)}
               >
                 {link.label}
               </Link>
             ))}
             {user ? (
-              <Button size="sm" className="mt-2 w-full" asChild>
+              <Button size="lg" className="mt-3 w-full rounded-full" asChild>
                 <Link href={ctaHref} onClick={() => setOpen(false)}>Go to courses</Link>
               </Button>
             ) : (
-              <Button size="sm" className="mt-2 w-full opacity-50 cursor-default" disabled>
+              <Button size="lg" className="mt-3 w-full rounded-full" disabled>
                 Get Started
               </Button>
             )}

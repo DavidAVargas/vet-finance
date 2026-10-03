@@ -21,15 +21,16 @@ export function ThemeToggle() {
   return (
     <Button
       size="icon"
-      className="group cursor-pointer"
+      variant="ghost"
+      className="group cursor-pointer rounded-full text-muted-foreground hover:text-foreground"
       onClick={() => {
         setTheme(resolvedTheme === "dark" ? "light" : "dark");
       }}
     >
       {resolvedTheme === "dark" ? (
-        <Sun className="text-dark size-4" />
+        <Sun className="size-4" />
       ) : (
-        <Moon className="text-dark size-4" />
+        <Moon className="size-4" />
       )}
 
       <span className="sr-only">Toggle theme</span>
