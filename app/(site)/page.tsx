@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { currentUser } from "@clerk/nextjs/server";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Clock, Compass, CreditCard, Gauge, Medal, ShieldCheck, TriangleAlert, Users } from "lucide-react";
+import { ArrowRight, Clock, Compass, ShieldCheck, Users } from "lucide-react";
+import { courseCatalog, courseMeta, PLAYBOOK_GUIDE_COUNT } from "@/lib/course-catalog";
 import { LessonPreview } from "@/components/home/LessonPreview";
 
 const FOUNDER_EMAIL = "david.vargas024@gmail.com";
@@ -21,35 +22,6 @@ const promises = [
     icon: Clock,
     title: "Short and to the point",
     desc: "Bite-size sections you can finish between duty days.",
-  },
-];
-
-const courses = [
-  {
-    title: "Credit Basics",
-    icon: Gauge,
-    desc: "Why credit matters, how your score is built, how to track it, and how to protect it from fraud.",
-    meta: ["5 sections", "4 quizzes"],
-    tag: "Start here",
-  },
-  {
-    title: "Credit Cards 101",
-    icon: CreditCard,
-    desc: "How cards really work, the power of points, and building a card stack that pays you back.",
-    meta: ["4 sections", "3 quizzes"],
-    tag: "After Credit Basics",
-  },
-  {
-    title: "Debt Traps",
-    icon: TriangleAlert,
-    desc: "The car trap, medical debt, and student loans: how they catch people, and how to get out.",
-    meta: ["3 sections", "3 quizzes"],
-  },
-  {
-    title: "Military Money",
-    icon: Medal,
-    desc: "Active duty pay, TSP and retirement, the VA home loan, education benefits, VA disability, and the hidden stuff.",
-    meta: ["6 sections", "Self-paced"],
   },
 ];
 
@@ -148,7 +120,9 @@ export default async function Home() {
           </p>
 
           <ul className="mt-12 grid gap-5 md:grid-cols-2">
-            {courses.map(({ title, icon: Icon, desc, meta, tag }) => (
+            {courseCatalog.map((course) => {
+              const { title, icon: Icon, desc, tag } = course;
+              return (
               <li key={title} className="flex gap-5 rounded-2xl border border-border bg-card p-6 sm:p-7">
                 <div className="flex size-13 shrink-0 items-center justify-center rounded-[14px] bg-secondary">
                   <Icon className="size-6 text-navy" strokeWidth={1.8} aria-hidden="true" />
@@ -163,10 +137,11 @@ export default async function Home() {
                     )}
                   </div>
                   <p className="mt-1.5 text-[15px] leading-relaxed text-muted-foreground">{desc}</p>
-                  <p className="mt-3 text-sm font-medium text-muted-foreground">{meta.join(" · ")}</p>
+                  <p className="mt-3 text-sm font-medium text-muted-foreground">{courseMeta(course)}</p>
                 </div>
               </li>
-            ))}
+              );
+            })}
           </ul>
 
           {/* Playbook bonus */}
@@ -180,7 +155,7 @@ export default async function Home() {
               </h3>
               <p className="mt-1 text-[15px] text-muted-foreground">
                 Finish Credit Basics and Credit Cards 101 to unlock a step-by-step
-                plan built for your situation, picked from 15 guides.
+                plan built for your situation, picked from {PLAYBOOK_GUIDE_COUNT} guides.
               </p>
             </div>
           </div>
