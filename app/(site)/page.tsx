@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { currentUser } from "@clerk/nextjs/server";
 import { Button } from "@/components/ui/button";
-import { Shield, BookOpen, ChevronRight, CreditCard } from "lucide-react";
+import { Shield, BookOpen, ArrowRight, CreditCard } from "lucide-react";
+import { LessonPreview } from "@/components/home/LessonPreview";
 
 const FOUNDER_EMAIL = "david.vargas024@gmail.com";
 
@@ -30,71 +31,62 @@ export default async function Home() {
   const isActivated = !!user?.publicMetadata?.activated;
 
   const ctaHref = !user ? "/learn" : isActivated || isFounder ? "/courses" : "/onboarding";
-  const ctaLabel = user ? "Go to your courses" : "Start Learning";
+  const ctaLabel = user ? "Go to your courses" : "Start the first course";
 
   return (
     <>
       {/* Hero */}
-      <section className="flex flex-col items-center justify-center px-4 py-24 text-center">
-        <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-muted px-4 py-1.5 text-sm text-muted-foreground">
-          <Shield className="size-3.5" />
-          <span>Built for those who served</span>
-        </div>
+      <section className="px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto flex max-w-6xl flex-col items-center gap-14 py-16 sm:py-20 lg:min-h-[calc(100dvh-4.5rem)] lg:flex-row lg:gap-16">
+          <div className="flex-1">
+            <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card py-1.5 pr-4 pl-1.5 text-sm font-medium text-foreground/80">
+              <span className="rounded-full bg-primary px-2.5 py-0.5 text-xs font-semibold text-primary-foreground">
+                Free
+              </span>
+              By a veteran, for the military community
+            </div>
 
-        <h1 className="max-w-3xl text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
-          Financial freedom,{" "}
-          <span className="text-foreground/50">earned and free.</span>
-        </h1>
+            <h1 className="mt-7 max-w-xl text-4xl leading-[1.05] font-extrabold tracking-[-0.035em] text-foreground sm:text-5xl lg:text-6xl">
+              The money stuff nobody taught us in uniform.
+            </h1>
 
-        <p className="mt-6 max-w-xl text-lg text-muted-foreground">
-          Free credit and finance education for active duty, veterans, and
-          military families. Know your benefits. Build your future.
-        </p>
+            <p className="mt-6 max-w-lg text-lg text-muted-foreground sm:text-xl">
+              Credit, military pay, the VA home loan, the GI Bill. Explained in
+              plain English by someone who&apos;s been there. No sales pitch.
+            </p>
 
-        <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-          {user ? (
-            <Button size="lg" asChild>
-              <Link href={ctaHref}>
-                <BookOpen className="size-4" />
-                {ctaLabel}
-              </Link>
-            </Button>
-          ) : (
-            <Button size="lg" disabled className="opacity-50 cursor-default">
-              <BookOpen className="size-4" />
-              {ctaLabel}
-            </Button>
-          )}
-          <Button size="lg" variant="outline" asChild>
-            <Link href="/card">
-              The Card
-              <ChevronRight className="size-4" />
-            </Link>
-          </Button>
-        </div>
+            <div className="mt-9 flex flex-wrap items-center gap-3">
+              {user ? (
+                <Button size="lg" className="h-12 rounded-full px-7 text-base" asChild>
+                  <Link href={ctaHref}>
+                    {ctaLabel}
+                    <ArrowRight className="size-4" />
+                  </Link>
+                </Button>
+              ) : (
+                <Button size="lg" className="h-12 rounded-full px-7 text-base" disabled>
+                  {ctaLabel}
+                  <ArrowRight className="size-4" />
+                </Button>
+              )}
+              <Button size="lg" variant="outline" className="h-12 rounded-full bg-card px-7 text-base" asChild>
+                <Link href="#whats-inside">See what&apos;s inside</Link>
+              </Button>
+            </div>
 
-        <p className="mt-12 text-sm text-muted-foreground">
-          Veteran-founded · Free for military · No credit card required
-        </p>
-
-        <div className="mt-16 grid grid-cols-1 gap-8 border-t border-border pt-16 sm:grid-cols-3 sm:gap-12">
-          <div className="flex flex-col items-center gap-1">
-            <span className="text-3xl font-bold text-foreground">18M+</span>
-            <span className="text-sm text-muted-foreground">Veterans in the U.S.</span>
+            <p className="mt-7 text-sm text-muted-foreground">
+              No credit card required · Active duty, veterans, Guard &amp; Reserve, families
+            </p>
           </div>
-          <div className="flex flex-col items-center gap-1">
-            <span className="text-3xl font-bold text-foreground">100%</span>
-            <span className="text-sm text-muted-foreground">Free for military members</span>
-          </div>
-          <div className="flex flex-col items-center gap-1">
-            <span className="text-3xl font-bold text-foreground">$0</span>
-            <span className="text-sm text-muted-foreground">Cost to get started</span>
+
+          <div className="w-full max-w-xl flex-1 lg:max-w-none">
+            <LessonPreview />
           </div>
         </div>
       </section>
 
       {/* What You'll Learn */}
-      <section className="border-t border-border bg-muted/40 px-4 py-24">
+      <section id="whats-inside" className="scroll-mt-20 border-t border-border bg-muted/40 px-4 py-24">
         <div className="mx-auto max-w-5xl">
           <p className="mb-3 text-center text-sm font-medium uppercase tracking-widest text-muted-foreground">
             What You&apos;ll Learn
