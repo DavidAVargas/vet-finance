@@ -1,27 +1,38 @@
 import Link from "next/link";
 import { currentUser } from "@clerk/nextjs/server";
 import { Button } from "@/components/ui/button";
-import { Shield, BookOpen, ArrowRight, CreditCard } from "lucide-react";
+import { ArrowRight, Compass, CreditCard, Gauge, Medal, TriangleAlert } from "lucide-react";
 import { LessonPreview } from "@/components/home/LessonPreview";
 
 const FOUNDER_EMAIL = "david.vargas024@gmail.com";
 
-const creditBasics = [
-  { topic: "Credit Scores", desc: "What they are, how they're calculated, and what's considered good vs. bad." },
-  { topic: "Hard & Soft Pulls", desc: "The difference between a hard inquiry and a soft pull — and when each one hits your score." },
-  { topic: "Credit Age", desc: "Why the age of your accounts matters and how to protect it." },
-  { topic: "Derogatory Marks", desc: "Late payments, collections, charge-offs — what they are and how to deal with them." },
-  { topic: "Credit Utilization", desc: "The ratio that can make or break your score and how to keep it in check." },
-  { topic: "And a lot more to learn...", desc: "Bureaus, disputes, building from zero, authorized users, credit mix, and more." },
-];
-
-const creditCards = [
-  { topic: "Travel Cards", desc: "Earn points and miles to fly, stay in hotels, and explore — the right way." },
-  { topic: "Cash Back Cards", desc: "Simple rewards that put money back in your pocket on everyday purchases." },
-  { topic: "Store & Co-Branded Cards", desc: "When they're worth it and when they're a trap." },
-  { topic: "Secured Cards", desc: "The best tool for building credit from zero — and how to graduate off them." },
-  { topic: "Military Benefits", desc: "SCRA protections, annual fee waivers, and perks most banks don't advertise." },
-  { topic: "And a lot more to learn...", desc: "APR, minimum payment traps, balance transfers, sign-up bonuses, and more." },
+const courses = [
+  {
+    title: "Credit Basics",
+    icon: Gauge,
+    desc: "Why credit matters, how your score is built, how to track it, and how to protect it from fraud.",
+    meta: ["5 sections", "4 quizzes"],
+    tag: "Start here",
+  },
+  {
+    title: "Credit Cards 101",
+    icon: CreditCard,
+    desc: "How cards really work, the power of points, and building a card stack that pays you back.",
+    meta: ["4 sections", "3 quizzes"],
+    tag: "After Credit Basics",
+  },
+  {
+    title: "Debt Traps",
+    icon: TriangleAlert,
+    desc: "The car trap, medical debt, and student loans: how they catch people, and how to get out.",
+    meta: ["3 sections", "3 quizzes"],
+  },
+  {
+    title: "Military Money",
+    icon: Medal,
+    desc: "Active duty pay, TSP and retirement, the VA home loan, education benefits, VA disability, and the hidden stuff.",
+    meta: ["6 sections", "Self-paced"],
+  },
 ];
 
 export default async function Home() {
@@ -86,79 +97,67 @@ export default async function Home() {
       </section>
 
       {/* What You'll Learn */}
-      <section id="whats-inside" className="scroll-mt-20 border-t border-border bg-muted/40 px-4 py-24">
-        <div className="mx-auto max-w-5xl">
-          <p className="mb-3 text-center text-sm font-medium uppercase tracking-widest text-muted-foreground">
-            What You&apos;ll Learn
-          </p>
-          <h2 className="mb-4 text-center text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-            Everything you need. Nothing you don&apos;t.
+      <section id="whats-inside" className="scroll-mt-20 border-t border-border px-4 py-20 sm:px-6 sm:py-24 lg:px-8">
+        <div className="mx-auto max-w-6xl">
+          <h2 className="max-w-2xl text-3xl leading-tight font-extrabold tracking-[-0.03em] text-navy sm:text-[2.625rem]">
+            Four courses. Start wherever you are.
           </h2>
-          <p className="mx-auto mb-16 max-w-xl text-center text-muted-foreground">
-            Straight to the point. No fluff, no overwhelming courses — just
-            the knowledge that actually moves the needle on your financial life.
+          <p className="mt-4 max-w-2xl text-lg text-muted-foreground">
+            Building credit from zero, getting ready to separate, or trying to
+            make sense of your benefits: there&apos;s a place to start. Short
+            sections, real examples, no fluff.
           </p>
 
-          <div className="grid gap-12 md:grid-cols-2">
-            {/* Credit Basics */}
-            <div>
-              <div className="mb-6 flex items-center gap-3">
-                <div className="flex size-9 items-center justify-center rounded-full border border-border bg-background">
-                  <Shield className="size-4 text-foreground" />
+          <ul className="mt-12 grid gap-5 md:grid-cols-2">
+            {courses.map(({ title, icon: Icon, desc, meta, tag }) => (
+              <li key={title} className="flex gap-5 rounded-2xl border border-border bg-card p-6 sm:p-7">
+                <div className="flex size-13 shrink-0 items-center justify-center rounded-[14px] bg-secondary">
+                  <Icon className="size-6 text-navy" strokeWidth={1.8} aria-hidden="true" />
                 </div>
-                <h3 className="text-lg font-bold text-foreground">Credit Basics</h3>
-              </div>
-              <div className="flex flex-col gap-4">
-                {creditBasics.map((item) => (
-                  <div key={item.topic} className="flex gap-3">
-                    <div className="mt-2 size-1.5 shrink-0 rounded-full bg-foreground/40" />
-                    <div>
-                      <p className={`font-medium ${item.topic === "More coming..." ? "text-muted-foreground italic" : "text-foreground"}`}>
-                        {item.topic}
-                      </p>
-                      <p className="text-sm text-muted-foreground">{item.desc}</p>
-                    </div>
+                <div className="min-w-0">
+                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                    <h3 className="text-xl font-bold text-navy">{title}</h3>
+                    {tag && (
+                      <span className="rounded-full bg-secondary px-2.5 py-0.5 text-xs font-semibold text-secondary-foreground">
+                        {tag}
+                      </span>
+                    )}
                   </div>
-                ))}
-              </div>
-            </div>
+                  <p className="mt-1.5 text-[15px] leading-relaxed text-muted-foreground">{desc}</p>
+                  <p className="mt-3 text-sm font-medium text-muted-foreground">{meta.join(" · ")}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
 
-            {/* Credit Cards */}
-            <div>
-              <div className="mb-6 flex items-center gap-3">
-                <div className="flex size-9 items-center justify-center rounded-full border border-border bg-background">
-                  <CreditCard className="size-4 text-foreground" />
-                </div>
-                <h3 className="text-lg font-bold text-foreground">Credit Cards</h3>
-              </div>
-              <div className="flex flex-col gap-4">
-                {creditCards.map((item) => (
-                  <div key={item.topic} className="flex gap-3">
-                    <div className="mt-2 size-1.5 shrink-0 rounded-full bg-foreground/40" />
-                    <div>
-                      <p className={`font-medium ${item.topic === "More coming..." ? "text-muted-foreground italic" : "text-foreground"}`}>
-                        {item.topic}
-                      </p>
-                      <p className="text-sm text-muted-foreground">{item.desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
+          {/* Playbook bonus */}
+          <div className="mt-5 flex flex-col gap-5 rounded-2xl border border-dashed border-[#b8c2d3] bg-card p-6 sm:flex-row sm:items-center sm:p-7">
+            <div className="flex size-13 shrink-0 items-center justify-center rounded-[14px] bg-navy">
+              <Compass className="size-6 text-white" strokeWidth={1.8} aria-hidden="true" />
+            </div>
+            <div className="min-w-0 flex-1">
+              <h3 className="text-lg font-bold text-navy">
+                Bonus: the &ldquo;What Would I Do If I&hellip;&rdquo; Playbook
+              </h3>
+              <p className="mt-1 text-[15px] text-muted-foreground">
+                Finish Credit Basics and Credit Cards 101 to unlock a step-by-step
+                plan built for your situation, picked from 15 guides.
+              </p>
             </div>
           </div>
 
-          <div className="mt-16 text-center">
+          <div className="mt-12">
             {user ? (
-              <Button size="lg" asChild>
+              <Button size="lg" className="h-12 rounded-full px-7 text-base font-semibold" asChild>
                 <Link href={ctaHref}>
-                  <BookOpen className="size-4" />
                   Go to your courses
+                  <ArrowRight className="size-4" />
                 </Link>
               </Button>
             ) : (
-              <Button size="lg" disabled className="opacity-50 cursor-default">
-                <BookOpen className="size-4" />
-                Start Learning — It&apos;s Free
+              <Button size="lg" className="h-12 rounded-full px-7 text-base font-semibold" disabled>
+                Start learning, it&apos;s free
+                <ArrowRight className="size-4" />
               </Button>
             )}
           </div>
