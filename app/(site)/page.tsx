@@ -1,10 +1,28 @@
 import Link from "next/link";
 import { currentUser } from "@clerk/nextjs/server";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Compass, CreditCard, Gauge, Medal, TriangleAlert } from "lucide-react";
+import { ArrowRight, Clock, Compass, CreditCard, Gauge, Medal, ShieldCheck, TriangleAlert, Users } from "lucide-react";
 import { LessonPreview } from "@/components/home/LessonPreview";
 
 const FOUNDER_EMAIL = "david.vargas024@gmail.com";
+
+const promises = [
+  {
+    icon: ShieldCheck,
+    title: "Free, no catch",
+    desc: "Free for the military community. No upsells, no hidden fees.",
+  },
+  {
+    icon: Users,
+    title: "Built by one of us",
+    desc: "Written by a veteran who's been where you are.",
+  },
+  {
+    icon: Clock,
+    title: "Short and to the point",
+    desc: "Bite-size sections you can finish between duty days.",
+  },
+];
 
 const courses = [
   {
@@ -47,8 +65,19 @@ export default async function Home() {
   return (
     <>
       {/* Hero */}
-      <section className="px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto flex min-h-[calc(100dvh-4.5rem-1px)] max-w-6xl flex-col items-center justify-center gap-14 py-12 sm:py-16 lg:flex-row lg:gap-16">
+      <section className="relative isolate flex min-h-[calc(100dvh-4.5rem-1px)] flex-col overflow-hidden">
+        {/* Faint grid that fades toward the edges */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 -z-10 [mask-image:radial-gradient(ellipse_70%_60%_at_50%_40%,black,transparent)]"
+          style={{
+            backgroundImage:
+              "linear-gradient(rgb(19 41 75 / 0.06) 1px, transparent 1px), linear-gradient(90deg, rgb(19 41 75 / 0.06) 1px, transparent 1px)",
+            backgroundSize: "56px 56px",
+          }}
+        />
+
+        <div className="mx-auto flex w-full max-w-7xl flex-1 flex-col items-center justify-center gap-14 px-4 py-14 sm:px-6 sm:py-20 lg:flex-row lg:gap-20 lg:px-8">
           <div className="flex-1">
             <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card py-1.5 pr-3.5 pl-2 text-sm font-medium text-foreground/80">
               <span className="rounded-full bg-primary px-2.5 py-0.5 text-xs font-semibold text-primary-foreground">
@@ -57,7 +86,7 @@ export default async function Home() {
               By a veteran, for the military community
             </div>
 
-            <h1 className="mt-7 max-w-xl text-4xl leading-[1.05] font-extrabold tracking-[-0.035em] text-navy sm:text-5xl lg:text-[3.75rem]">
+            <h1 className="mt-7 max-w-xl text-4xl leading-[1.05] font-extrabold tracking-[-0.035em] text-navy sm:text-5xl lg:text-[3.75rem] xl:text-[4.25rem]">
               The money stuff nobody taught us in uniform.
             </h1>
 
@@ -90,15 +119,34 @@ export default async function Home() {
             </p>
           </div>
 
-          <div className="w-full max-w-xl flex-1 lg:max-w-none">
+          <div className="relative w-full max-w-xl flex-1 lg:max-w-none">
+            <div
+              aria-hidden="true"
+              className="absolute -inset-10 -z-10 rounded-full bg-[radial-gradient(closest-side,rgb(46_90_154/0.16),transparent)]"
+            />
             <LessonPreview />
           </div>
+        </div>
+
+        {/* Trust strip */}
+        <div className="border-t border-border bg-card/80 backdrop-blur-sm">
+          <ul className="mx-auto grid max-w-7xl gap-6 px-4 py-7 sm:grid-cols-3 sm:px-6 lg:px-8">
+            {promises.map(({ icon: Icon, title, desc }) => (
+              <li key={title} className="flex items-start gap-3.5">
+                <Icon className="mt-0.5 size-6 shrink-0 text-navy" strokeWidth={1.8} aria-hidden="true" />
+                <div>
+                  <p className="font-bold text-navy">{title}</p>
+                  <p className="text-[15px] text-muted-foreground">{desc}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 
       {/* What You'll Learn */}
       <section id="whats-inside" className="scroll-mt-20 border-t border-border px-4 py-20 sm:px-6 sm:py-24 lg:px-8">
-        <div className="mx-auto max-w-6xl">
+        <div className="mx-auto max-w-7xl">
           <h2 className="max-w-2xl text-3xl leading-tight font-extrabold tracking-[-0.03em] text-navy sm:text-[2.625rem]">
             Four courses. Start wherever you are.
           </h2>

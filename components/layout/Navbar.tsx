@@ -33,7 +33,7 @@ export function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/85 backdrop-blur-md">
-      <nav aria-label="Main" className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+      <nav aria-label="Main" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-[4.5rem] items-center justify-between gap-6">
           <Link href="/" aria-label="Vet Finance home" className="rounded-md">
             <Logo />
