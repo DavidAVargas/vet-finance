@@ -65,14 +65,14 @@ export default async function Home() {
   return (
     <>
       {/* Hero */}
-      <section className="relative isolate flex min-h-[calc(100dvh-4.5rem-1px)] flex-col overflow-hidden">
-        {/* Topographic contour lines, faded toward the edges */}
+      <section className="relative isolate flex min-h-[calc(100dvh-4.5rem-1px)] flex-col overflow-hidden bg-card">
+        {/* Tinted panel behind the lesson preview (desktop) */}
         <div
           aria-hidden="true"
-          className="absolute inset-0 -z-10 bg-[url(/images/topo.svg)] bg-cover bg-center opacity-[0.13] [mask-image:radial-gradient(ellipse_80%_70%_at_60%_45%,black,transparent)]"
+          className="absolute inset-y-0 right-0 left-[62%] -z-10 hidden bg-gradient-to-b from-secondary to-[#e3eaf4] lg:block"
         />
 
-        <div className="mx-auto flex w-full max-w-7xl flex-1 flex-col items-center justify-center gap-14 px-4 py-14 sm:px-6 sm:py-20 lg:flex-row lg:gap-20 lg:px-8">
+        <div className="mx-auto flex w-full max-w-7xl flex-1 flex-col items-center justify-center gap-14 px-4 pt-10 pb-14 sm:px-6 sm:pt-12 sm:pb-20 lg:flex-row lg:gap-20 lg:px-8 lg:pt-6 lg:pb-24">
           <div className="flex-1">
             <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card py-1.5 pr-3.5 pl-2 text-sm font-medium text-foreground/80">
               <span className="rounded-full bg-primary px-2.5 py-0.5 text-xs font-semibold text-primary-foreground">
@@ -114,17 +114,13 @@ export default async function Home() {
             </p>
           </div>
 
-          <div className="relative w-full max-w-xl flex-1 lg:max-w-none">
-            <div
-              aria-hidden="true"
-              className="absolute -inset-10 -z-10 rounded-full bg-[radial-gradient(closest-side,rgb(46_90_154/0.16),transparent)]"
-            />
+          <div className="w-full max-w-xl flex-1 lg:max-w-none">
             <LessonPreview />
           </div>
         </div>
 
         {/* Trust strip */}
-        <div className="border-t border-border bg-card/80 backdrop-blur-sm">
+        <div className="border-t border-border bg-background">
           <ul className="mx-auto grid max-w-7xl gap-6 px-4 py-7 sm:grid-cols-3 sm:px-6 lg:px-8">
             {promises.map(({ icon: Icon, title, desc }) => (
               <li key={title} className="flex items-start gap-3.5">
