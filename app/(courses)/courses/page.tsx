@@ -1,104 +1,86 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useUser, UserButton } from "@clerk/nextjs";
-import { Shield, CreditCard, AlertTriangle, Medal, Clock, BookOpen, ChevronRight, Star, Lock, Sparkles, MessageSquare } from "lucide-react";
-// Lock kept for the playbook locked state
 import Link from "next/link";
+import { useUser, UserButton } from "@clerk/nextjs";
+import { ArrowRight, CheckCircle2, Compass, Lock, MessageSquare } from "lucide-react";
 import { SkipLink } from "@/components/layout/SkipLink";
+import { Logo } from "@/components/layout/Logo";
+import { Button } from "@/components/ui/button";
+import { courseCatalog, courseMeta, PLAYBOOK_GUIDE_COUNT, type CatalogCourse } from "@/lib/course-catalog";
+import { cn } from "@/lib/utils";
 
+const FOUNDER_EMAIL = "david.vargas024@gmail.com";
 
-const courses = [
-  {
-    id: "credit-basics",
-    icon: Shield,
-    title: "Credit Basics",
-    subtitle: "Start here",
-    description:
-      "Credit scores, hard pulls, utilization, derogatory marks, and building from zero.",
-    topics: ["Credit Scores", "Hard & Soft Pulls", "Utilization", "Building from Zero"],
-    sections: 7,
-    readTime: "~20 min",
-    href: "/courses/credit-basics",
-    available: true,
-    recommended: true,
-  },
-  {
-    id: "credit-cards-101",
-    icon: CreditCard,
-    title: "Credit Cards 101",
-    subtitle: "After Credit Basics",
-    description:
-      "How credit cards work, how to pick the right one, and military-specific benefits most veterans don't know about.",
-    topics: ["APR & Interest", "Travel Cards", "Military Benefits", "SCRA Protections"],
-    sections: 8,
-    readTime: "~25 min",
-    href: "/courses/credit-cards-101",
-    available: false,
-    recommended: false,
-  },
-  {
-    id: "debt-traps",
-    icon: AlertTriangle,
-    title: "Debt Traps",
-    subtitle: "Know what to avoid",
-    description:
-      "The wealth killers most people walk right into — car loans, medical bills, student debt, and how to handle them.",
-    topics: ["72-Month Car Loans", "Medical Debt", "Student Loans", "Wealth Killers"],
-    sections: 3,
-    readTime: "~15 min",
-    href: "/courses/debt-traps",
-    available: true,
-    recommended: false,
-  },
-  {
-    id: "military-money",
-    icon: Medal,
-    title: "Military Money",
-    subtitle: "Built for service",
-    description:
-      "Every financial benefit you've earned — BAH, TSP, VA Home Loan, GI Bill, disability, and the hidden stuff most vets never claim.",
-    topics: ["BAH & BAS", "VA Home Loan", "GI Bill vs. VR&E", "VA Disability"],
-    sections: 6,
-    readTime: "~30 min",
-    href: "/courses/military-money",
-    available: true,
-    recommended: false,
-  },
-];
+type Progress = Record<string, string[]>;
+
+type CourseStatus = {
+  course: CatalogCourse;
+  pct: number;
+  complete: boolean;
+  unlocked: boolean;
+};
+
+function titleOf(id?: string) {
+  return courseCatalog.find((c) => c.id === id)?.title ?? "the previous course";
+}
+
+function ProgressBar({ pct, className, tone = "light" }: { pct: number; className?: string; tone?: "light" | "dark" }) {
+  return (
+    <div
+      role="progressbar"
+      aria-valuenow={pct}
+      aria-valuemin={0}
+      aria-valuemax={100}
+      className={cn("h-1.5 overflow-hidden rounded-full", tone === "dark" ? "bg-white/15" : "bg-muted", className)}
+    >
+      <div
+        className={cn("h-full rounded-full transition-all duration-500", tone === "dark" ? "bg-brass" : "bg-navy")}
+        style={{ width: `${pct}%` }}
+      />
+    </div>
+  );
+}
 
 // ─── Main page ────────────────────────────────────────────────────────────────
 
 export default function CoursesPage() {
   const { user } = useUser();
-  const [creditBasicsComplete, setCreditBasicsComplete] = useState(false);
-  const [cc101Complete, setCc101Complete] = useState(false);
-  const [debtTrapsComplete, setDebtTrapsComplete] = useState(false);
+  const [progress, setProgress] = useState<Progress | null>(null);
   const [thankYouVisible, setThankYouVisible] = useState(false);
 
   useEffect(() => {
     fetch("/api/progress")
       .then((r) => r.json())
-      .then((data) => {
-        const cb = (data["credit-basics"]    ?? []) as string[];
-        const cc = (data["credit-cards-101"] ?? []) as string[];
-        const dt = (data["debt-traps"]       ?? []) as string[];
-        setCreditBasicsComplete(cb.includes("pyc-quiz"));
-        setCc101Complete(cc.includes("bcs-quiz"));
-        setDebtTrapsComplete(dt.includes("sl-quiz"));
-      })
-      .catch(() => {});
+      .then((data: Progress) => setProgress(data))
+      .catch(() => setProgress({}));
   }, []);
 
   const displayName = user?.firstName ?? user?.username ?? "there";
   const email = user?.primaryEmailAddress?.emailAddress;
   const tier = user?.publicMetadata?.tier as string | undefined;
-
   const militaryStatus = user?.publicMetadata?.militaryStatus as string | undefined;
-  const isFounder = email === "david.vargas024@gmail.com";
-  const playbookUnlocked = isFounder || (creditBasicsComplete && cc101Complete);
+  const isFounder = email === FOUNDER_EMAIL;
 
-  const isMilitary = ["active-duty", "veteran", "law-enforcement", "gold-star", "mil-family"].includes(militaryStatus ?? "");
+  const isDone = (id?: string) => {
+    const course = courseCatalog.find((c) => c.id === id);
+    return !!course && (progress?.[course.id] ?? []).includes(course.finalLessonId);
+  };
+
+  const statuses: CourseStatus[] = courseCatalog.map((course) => {
+    const done = new Set(progress?.[course.id] ?? []).size;
+    return {
+      course,
+      pct: Math.min(100, Math.round((done / course.lessonCount) * 100)),
+      complete: isDone(course.id),
+      unlocked: isFounder || !course.unlockAfter || isDone(course.unlockAfter),
+    };
+  });
+
+  const completedCount = statuses.filter((s) => s.complete).length;
+  const overallPct = Math.round(statuses.reduce((n, s) => n + s.pct, 0) / statuses.length);
+  const upNext = statuses.find((s) => s.unlocked && !s.complete);
+  const playbookUnlocked = isFounder || (isDone("credit-basics") && isDone("credit-cards-101"));
 
   const militaryTag =
     militaryStatus === "active-duty" ? "🎖️ Active Duty" :
@@ -121,238 +103,255 @@ export default function CoursesPage() {
 
   return (
     <div className="flex min-h-[100dvh] flex-col bg-background">
-
-      {/* Top bar */}
       <SkipLink targetId="main-content" />
 
-      <header className="relative flex h-14 items-center justify-between border-b border-border px-6 overflow-visible">
-        <Link href="/" className="flex items-center gap-2 text-sm font-semibold text-foreground">
-          <div className="flex size-6 items-center justify-center rounded-md bg-foreground">
-            <span className="text-[10px] font-bold text-background">VF</span>
-          </div>
-          Vet Finance
-        </Link>
-        <div className="flex items-center gap-3">
-          <Link
-            href="/feedback"
-            className="flex items-center gap-1.5 rounded-full border border-border bg-muted px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:text-foreground"
-          >
-            <MessageSquare className="size-3" />
-            Give feedback
+      {/* Top bar */}
+      <header className="border-b border-border bg-card">
+        <div className="mx-auto flex h-[4.5rem] max-w-site items-center justify-between gap-4 px-4 sm:px-6">
+          <Link href="/" aria-label="Vet Finance home" className="rounded-md">
+            <Logo />
           </Link>
-          <div className="hidden items-center gap-1.5 sm:flex">
-            {tags.map((t) =>
-              t.military ? (
-                <div key={t.label} className="relative">
-                  <button
-                    type="button"
-                    className="cursor-pointer rounded-full bg-muted px-2.5 py-1 text-[11px] font-medium text-muted-foreground select-none"
-                    onMouseEnter={() => setThankYouVisible(true)}
-                    onMouseLeave={() => setThankYouVisible(false)}
-                    onFocus={() => setThankYouVisible(true)}
-                    onBlur={() => setThankYouVisible(false)}
-                    onClick={() => setThankYouVisible((v) => !v)}
-                    aria-describedby={thankYouVisible ? "military-tag-tooltip" : undefined}
-                  >
-                    {t.label}
-                  </button>
-                  {thankYouVisible && (
-                    <div
-                      id="military-tag-tooltip"
-                      role="tooltip"
-                      className="absolute top-full left-1/2 mt-2 -translate-x-1/2 whitespace-nowrap rounded-lg bg-foreground px-3 py-1.5 text-[11px] font-medium text-background shadow-lg z-50"
+          <div className="flex items-center gap-3">
+            <Link
+              href="/feedback"
+              className="flex items-center gap-1.5 rounded-full border border-border bg-card px-3.5 py-2 text-sm font-medium text-navy transition-colors hover:bg-secondary"
+            >
+              <MessageSquare className="size-3.5" aria-hidden="true" />
+              <span className="hidden sm:inline">Give feedback</span>
+              <span className="sm:hidden">Feedback</span>
+            </Link>
+            <div className="hidden items-center gap-1.5 md:flex">
+              {tags.map((t) =>
+                t.military ? (
+                  <div key={t.label} className="relative">
+                    <button
+                      type="button"
+                      className="cursor-pointer rounded-full bg-secondary px-3 py-1.5 text-xs font-semibold text-secondary-foreground select-none"
+                      onMouseEnter={() => setThankYouVisible(true)}
+                      onMouseLeave={() => setThankYouVisible(false)}
+                      onFocus={() => setThankYouVisible(true)}
+                      onBlur={() => setThankYouVisible(false)}
+                      onClick={() => setThankYouVisible((v) => !v)}
+                      aria-describedby={thankYouVisible ? "military-tag-tooltip" : undefined}
                     >
-                      🫡 Thank you for your service
-                      <div className="absolute left-1/2 bottom-full -translate-x-1/2 border-4 border-transparent border-b-foreground" />
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <span key={t.label} className="rounded-full bg-muted px-2.5 py-1 text-[11px] font-medium text-muted-foreground">
-                  {t.label}
-                </span>
-              )
-            )}
+                      {t.label}
+                    </button>
+                    {thankYouVisible && (
+                      <div
+                        id="military-tag-tooltip"
+                        role="tooltip"
+                        className="absolute top-full left-1/2 z-50 mt-2 -translate-x-1/2 rounded-lg bg-navy-deep px-3 py-1.5 text-xs font-medium whitespace-nowrap text-white shadow-lg"
+                      >
+                        🫡 Thank you for your service
+                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 border-4 border-transparent border-b-navy-deep" />
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <span key={t.label} className="rounded-full bg-secondary px-3 py-1.5 text-xs font-semibold text-secondary-foreground">
+                    {t.label}
+                  </span>
+                ),
+              )}
+            </div>
+            <UserButton />
           </div>
-          <UserButton />
         </div>
       </header>
 
-      {/* Main */}
-      <main id="main-content" tabIndex={-1} className="flex-1 px-6 py-10 outline-none sm:px-10">
-        <div className="mx-auto max-w-3xl">
+      <main id="main-content" tabIndex={-1} className="flex-1 outline-none">
+        {/* Welcome + overall progress */}
+        <section className="border-b border-border bg-card">
+          <div className="mx-auto flex max-w-site flex-col gap-8 px-4 py-12 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:py-14">
+            <div>
+              <p className="text-sm font-semibold tracking-[0.14em] text-muted-foreground uppercase">
+                Welcome back, {displayName}
+              </p>
+              <h1 className="mt-3 text-4xl font-extrabold tracking-[-0.03em] text-navy sm:text-[2.75rem]">
+                Your courses
+              </h1>
+              <p className="mt-3 text-[17px] text-muted-foreground">
+                Pick up where you left off, or start something new.
+              </p>
+            </div>
 
-          {/* Welcome */}
-          <div className="mb-10">
-            <p className="mb-1 text-sm text-muted-foreground">Welcome back, {displayName}</p>
-            <h1 className="text-3xl font-bold tracking-tight text-foreground">
-              Your courses.
-            </h1>
-            <p className="mt-2 text-muted-foreground">
-              Pick up where you left off, or start a new course.
-            </p>
+            <div className="w-full rounded-2xl bg-navy-deep p-6 text-white lg:max-w-sm">
+              <div className="flex items-baseline justify-between">
+                <p className="text-sm font-semibold text-[#c9d2e0]">Overall progress</p>
+                <p className="text-2xl font-extrabold tabular-nums">{progress ? `${overallPct}%` : "—"}</p>
+              </div>
+              <ProgressBar pct={progress ? overallPct : 0} tone="dark" className="mt-3" />
+              <p className="mt-3 text-sm text-[#9aa5b8]">
+                {completedCount} of {courseCatalog.length} courses complete
+              </p>
+            </div>
           </div>
+        </section>
 
-          {/* Course cards */}
-          <div className="flex flex-col gap-4">
-            {courses.map((course) => {
-              const Icon = course.icon;
-              const unlocked =
-                isFounder ? true :
-                course.id === "credit-basics"    ? true :
-                course.id === "credit-cards-101" ? creditBasicsComplete :
-                course.id === "debt-traps"       ? cc101Complete :
-                course.id === "military-money"   ? debtTrapsComplete :
-                false;
-
-              return (
-                <div
-                  key={course.id}
-                  className="relative rounded-xl border border-border bg-background p-6 transition-colors hover:bg-muted/30"
-                >
-                  {course.recommended && (
-                    <div
-                      className="absolute right-5 top-5 inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-medium text-white"
-                      style={{ background: "var(--brand-600)" }}
-                    >
-                      <Star className="size-3" />
-                      Start here
-                    </div>
-                  )}
-
-                  <div className="flex items-start gap-4">
-                    <div className="mt-0.5 flex size-10 shrink-0 items-center justify-center rounded-full border border-border bg-muted">
-                      <Icon className="size-4 text-foreground" />
-                    </div>
-
-                    <div className="min-w-0 flex-1">
-                      <div className="mb-0.5 flex items-center gap-2">
-                        <h2 className="font-bold text-foreground">{course.title}</h2>
-                      </div>
-                      <p className="mb-4 text-sm text-muted-foreground">{course.description}</p>
-
-                      <div className="mb-5 flex flex-wrap gap-2">
-                        {course.topics.map((topic) => (
-                          <span
-                            key={topic}
-                            className="rounded-full border border-border bg-muted px-2.5 py-0.5 text-xs text-muted-foreground"
-                          >
-                            {topic}
-                          </span>
-                        ))}
-                      </div>
-
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3 text-xs text-muted-foreground">
-                          <span className="flex items-center gap-1">
-                            <BookOpen className="size-3" />
-                            {course.sections} sections
-                          </span>
-                          <span className="size-1 rounded-full bg-border" />
-                          <span className="flex items-center gap-1">
-                            <Clock className="size-3" />
-                            {course.readTime}
-                          </span>
-                        </div>
-
-                        {unlocked ? (
-                          <Link
-                            href={course.href}
-                            className="group flex items-center gap-1.5 text-sm font-medium text-foreground transition-colors hover:text-muted-foreground"
-                          >
-                            Start course
-                            <ChevronRight className="size-4 transition-transform group-hover:translate-x-0.5" />
-                          </Link>
-                        ) : (
-                          <span className="flex items-center gap-1.5 text-sm text-muted-foreground">
-                            <Lock className="size-3.5" />
-                            {course.id === "credit-cards-101" ? "Finish Credit Basics first" :
-                             course.id === "debt-traps"       ? "Finish Credit Cards 101 first" :
-                             course.id === "military-money"   ? "Finish Debt Traps first" :
-                             "Locked"}
-                          </span>
-                        )}
-                      </div>
-                    </div>
+        <div className="mx-auto max-w-site px-4 py-12 sm:px-6 lg:py-14">
+          {/* Up next */}
+          {progress && upNext && (
+            <section aria-labelledby="up-next-heading" className="mb-12">
+              <h2 id="up-next-heading" className="text-sm font-semibold tracking-[0.14em] text-muted-foreground uppercase">
+                {upNext.pct > 0 ? "Continue where you left off" : "Up next"}
+              </h2>
+              <div className="mt-4 flex flex-col gap-6 rounded-2xl border border-border bg-card p-6 sm:flex-row sm:items-center sm:p-8">
+                <div className="flex size-14 shrink-0 items-center justify-center rounded-2xl bg-navy">
+                  <upNext.course.icon className="size-6 text-white" strokeWidth={1.8} aria-hidden="true" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="text-2xl font-bold tracking-tight text-navy">{upNext.course.title}</p>
+                  <p className="mt-1 text-[15px] text-muted-foreground">{upNext.course.desc}</p>
+                  <div className="mt-4 flex items-center gap-3">
+                    <ProgressBar pct={upNext.pct} className="max-w-xs flex-1" />
+                    <span className="text-sm font-semibold text-navy tabular-nums">{upNext.pct}%</span>
                   </div>
                 </div>
-              );
-            })}
-          </div>
+                <Button size="lg" className="h-12 shrink-0 rounded-full px-7 text-base font-semibold" asChild>
+                  <Link href={`/courses/${upNext.course.id}`}>
+                    {upNext.pct > 0 ? "Continue" : "Start course"}
+                    <ArrowRight className="size-4" />
+                  </Link>
+                </Button>
+              </div>
+            </section>
+          )}
 
-          {/* Bonus divider */}
-          <div className="mt-10 mb-5 flex items-center gap-3">
-            <div className="h-px flex-1 bg-border" />
-            <div className="flex items-center gap-1.5 rounded-full border border-border bg-muted px-3 py-1">
-              <Sparkles className="size-3 text-muted-foreground" />
-              <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Bonus</span>
-            </div>
-            <div className="h-px flex-1 bg-border" />
-          </div>
+          {/* All courses */}
+          <section aria-labelledby="all-courses-heading">
+            <h2 id="all-courses-heading" className="text-sm font-semibold tracking-[0.14em] text-muted-foreground uppercase">
+              All courses
+            </h2>
+            <ul className="mt-4 grid gap-5 md:grid-cols-2">
+              {statuses.map(({ course, pct, complete, unlocked }) => {
+                const Icon = course.icon;
+                return (
+                  <li
+                    key={course.id}
+                    className={cn(
+                      "flex flex-col rounded-2xl border border-border bg-card p-7",
+                      !unlocked && "bg-card/60",
+                    )}
+                  >
+                    <div className="flex items-start gap-4">
+                      <div
+                        className={cn(
+                          "flex size-12 shrink-0 items-center justify-center rounded-[14px]",
+                          unlocked ? "bg-secondary" : "bg-muted",
+                        )}
+                      >
+                        <Icon
+                          className={cn("size-[22px]", unlocked ? "text-navy" : "text-muted-foreground")}
+                          strokeWidth={1.8}
+                          aria-hidden="true"
+                        />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                          <h3 className={cn("text-xl font-bold", unlocked ? "text-navy" : "text-muted-foreground")}>
+                            {course.title}
+                          </h3>
+                          {complete && (
+                            <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-semibold text-emerald-700">
+                              <CheckCircle2 className="size-3.5" aria-hidden="true" />
+                              Complete
+                            </span>
+                          )}
+                        </div>
+                        <p className="mt-0.5 text-sm font-medium text-muted-foreground">{courseMeta(course)}</p>
+                      </div>
+                    </div>
 
-          {/* Playbook card */}
-          <div
-            className={`relative overflow-hidden rounded-xl border p-6 transition-colors ${playbookUnlocked ? "hover:bg-muted/20" : "opacity-60"}`}
-            style={{
-              background: playbookUnlocked ? "color-mix(in srgb, var(--brand-600) 3%, transparent)" : undefined,
-              borderColor: playbookUnlocked ? "color-mix(in srgb, var(--brand-600) 25%, transparent)" : undefined,
-            }}
+                    <p className="mt-5 flex-1 text-[15px] leading-relaxed text-muted-foreground">{course.desc}</p>
+
+                    <div className="mt-6 flex items-center justify-between gap-4 border-t border-border pt-5">
+                      {unlocked ? (
+                        <>
+                          <div className="flex flex-1 items-center gap-3">
+                            <ProgressBar pct={progress ? pct : 0} className="max-w-[10rem] flex-1" />
+                            <span className="text-sm font-medium text-muted-foreground tabular-nums">
+                              {progress ? `${pct}%` : ""}
+                            </span>
+                          </div>
+                          <Link
+                            href={`/courses/${course.id}`}
+                            className="group flex shrink-0 items-center gap-1.5 text-sm font-semibold text-navy hover:text-[#2e5a9a]"
+                          >
+                            {complete ? "Review" : pct > 0 ? "Continue" : "Start course"}
+                            <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+                          </Link>
+                        </>
+                      ) : (
+                        <p className="flex items-center gap-2 text-sm text-muted-foreground">
+                          <Lock className="size-4" aria-hidden="true" />
+                          Finish {titleOf(course.unlockAfter)} to unlock
+                        </p>
+                      )}
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          </section>
+
+          {/* Playbook */}
+          <section
+            aria-labelledby="playbook-heading"
+            className={cn(
+              "mt-5 flex flex-col gap-6 rounded-2xl p-7 sm:flex-row sm:items-center sm:p-8",
+              playbookUnlocked ? "bg-navy text-white" : "border border-dashed border-[#b8c2d3] bg-card",
+            )}
           >
-            {!playbookUnlocked && (
-              <div className="absolute right-5 top-5 flex items-center gap-1.5 rounded-full bg-muted px-2.5 py-1 text-[11px] text-muted-foreground">
-                <Lock className="size-3" />
-                Finish both courses to unlock
-              </div>
-            )}
-            {playbookUnlocked && (
-              <div className="absolute right-5 top-5 inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-medium text-white" style={{ background: "var(--brand-600)" }}>
-                <Sparkles className="size-3" />
-                Unlocked
-              </div>
-            )}
-
-            <div className="flex items-start gap-4">
-              <div className="mt-0.5 flex size-10 shrink-0 items-center justify-center rounded-full border text-lg"
-                style={{ borderColor: "color-mix(in srgb, var(--brand-600) 25%, transparent)", background: "color-mix(in srgb, var(--brand-600) 6%, transparent)" }}>
-                🎯
-              </div>
-              <div className="min-w-0 flex-1">
-                <p className="mb-0.5 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">David&apos;s Playbook</p>
-                <h2 className="mb-1 font-bold text-foreground">What I Would Do If I...</h2>
-                <p className="mb-4 text-sm text-muted-foreground">
-                  Personalized step-by-step guide based on exactly where you are — zero cards, in collections, building, or optimizing. Not generic advice. Real talk.
-                </p>
-                <div className="mb-5 flex flex-wrap gap-2">
-                  {["Zero Cards", "In Collections", "1–3 Cards", "3–5 Cards", "Active Duty"].map((t) => (
-                    <span key={t} className="rounded-full border border-border bg-muted px-2.5 py-0.5 text-xs text-muted-foreground">{t}</span>
-                  ))}
-                </div>
-                <div className="flex items-center justify-between">
-                  <p className="text-xs text-muted-foreground">Unlocks after completing both courses</p>
-                  {playbookUnlocked ? (
-                    <Link href="/courses/playbook" className="group flex items-center gap-1.5 text-sm font-medium transition-colors hover:opacity-80" style={{ color: "var(--brand-600)" }}>
-                      Open playbook
-                      <ChevronRight className="size-4 transition-transform group-hover:translate-x-0.5" />
-                    </Link>
-                  ) : (
-                    <span className="flex items-center gap-1.5 text-sm text-muted-foreground">
-                      <Lock className="size-3.5" />
-                      Locked
-                    </span>
-                  )}
-                </div>
-              </div>
+            <div
+              className={cn(
+                "flex size-14 shrink-0 items-center justify-center rounded-2xl",
+                playbookUnlocked ? "bg-white/10" : "bg-muted",
+              )}
+            >
+              {playbookUnlocked ? (
+                <Compass className="size-6 text-brass" strokeWidth={1.8} aria-hidden="true" />
+              ) : (
+                <Lock className="size-6 text-muted-foreground" strokeWidth={1.8} aria-hidden="true" />
+              )}
             </div>
-          </div>
+            <div className="min-w-0 flex-1">
+              <p
+                className={cn(
+                  "text-xs font-semibold tracking-[0.14em] uppercase",
+                  playbookUnlocked ? "text-brass" : "text-muted-foreground",
+                )}
+              >
+                Bonus · David&apos;s Playbook
+              </p>
+              <h2 id="playbook-heading" className={cn("mt-1 text-xl font-bold", !playbookUnlocked && "text-navy")}>
+                What I Would Do If I&hellip;
+              </h2>
+              <p className={cn("mt-1 text-[15px]", playbookUnlocked ? "text-[#c9d2e0]" : "text-muted-foreground")}>
+                A personalized, step-by-step plan based on exactly where you are, picked from {PLAYBOOK_GUIDE_COUNT} guides.
+                Not generic advice. Real talk.
+              </p>
+            </div>
+            {playbookUnlocked ? (
+              <Button size="lg" className="h-12 shrink-0 rounded-full bg-brass px-7 text-base font-semibold text-navy-deep hover:bg-brass/90" asChild>
+                <Link href="/courses/playbook">
+                  Open playbook
+                  <ArrowRight className="size-4" />
+                </Link>
+              </Button>
+            ) : (
+              <p className="shrink-0 text-sm font-medium text-muted-foreground sm:max-w-[13rem] sm:text-right">
+                Finish Credit Basics and Credit Cards 101 to unlock
+              </p>
+            )}
+          </section>
 
           {/* Beta note */}
-          <p className="mt-10 text-center text-xs text-muted-foreground">
-            You&apos;re in the beta — your feedback helps shape this.{" "}
-            <Link href="/feedback" className="underline underline-offset-2 hover:text-foreground transition-colors">
-              Share your thoughts.
+          <p className="mt-12 text-center text-sm text-muted-foreground">
+            You&apos;re in the beta, and your feedback helps shape this.{" "}
+            <Link href="/feedback" className="font-medium text-navy underline underline-offset-2 hover:text-[#2e5a9a]">
+              Share your thoughts
             </Link>
           </p>
-
         </div>
       </main>
     </div>
