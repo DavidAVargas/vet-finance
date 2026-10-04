@@ -452,7 +452,7 @@ function LessonContent({
                   <div className="border-r border-border bg-muted/20 p-3">
                     <p className="text-xs font-semibold text-foreground">{label}</p>
                   </div>
-                  <div className="border-r border-border p-3" style={{ background: "var(--brand-600)10" }}>
+                  <div className="border-r border-border p-3" style={{ background: "color-mix(in srgb, var(--brand-600) 6%, transparent)" }}>
                     <p className={`text-xs leading-relaxed ${cc.good ? "text-green-600 dark:text-green-400 font-medium" : "text-red-500 dark:text-red-400"}`}>
                       {cc.text}
                     </p>
@@ -765,7 +765,7 @@ function LessonContent({
                 { method: "Transfer to airline partner", value: "$3,000–$8,000+", note: "3–8+ cents per point on business/first class flights", highlight: true },
               ].map(({ method, value, note, highlight }) => (
                 <div key={method} className={`flex items-center justify-between rounded-lg p-3 ${highlight ? "border border-border text-foreground" : "bg-muted/30"}`}
-                  style={highlight ? { background: "var(--brand-600)15" } : {}}>
+                  style={highlight ? { background: "color-mix(in srgb, var(--brand-600) 8%, transparent)" } : {}}>
                   <div>
                     <p className="text-sm font-semibold text-foreground">{method}</p>
                     <p className="text-xs text-muted-foreground">{note}</p>
@@ -1309,7 +1309,7 @@ function LessonContent({
               },
             ].map(({ issuer, benefit, detail, highlight }) => (
               <div key={issuer} className={`rounded-xl border p-4 ${highlight ? "border-border" : "border-border"}`}
-                style={highlight ? { borderColor: "var(--brand-600)40" } : {}}>
+                style={highlight ? { borderColor: "color-mix(in srgb, var(--brand-600) 25%, transparent)" } : {}}>
                 <div className="mb-1 flex items-start justify-between gap-2">
                   <p className="font-semibold text-foreground">{issuer}</p>
                   {highlight && (
@@ -1695,7 +1695,7 @@ export default function CreditCards101Page() {
                             }`}
                             style={
                               isActive
-                                ? { background: "var(--brand-600)15" }
+                                ? { background: "color-mix(in srgb, var(--brand-600) 8%, transparent)" }
                                 : undefined
                             }
                           >

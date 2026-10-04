@@ -39,19 +39,19 @@
   --navy-deep: #0b1f3a;
   --brass: #c9a464;
 
-  /* Brand — OD Green (military olive drab) */
-  --brand-25: #f6f7f0;
-  --brand-50: #eceddf;
-  --brand-100: #d8dbbe;
-  --brand-200: #b9be8c;
-  --brand-300: #969d5a;
-  --brand-400: #787f35;
-  --brand-500: #626a27;
-  --brand-600: #556B2F;
-  --brand-700: #4B5320;
-  --brand-800: #3a4018;
-  --brand-900: #2d3213;
-  --brand-950: #1d210b;
+  /* Brand scale — navy (formerly OD green; still referenced as brand-* by the course pages) */
+  --brand-25: #f6f8fb;
+  --brand-50: #eef2f8;
+  --brand-100: #d9e3f1;
+  --brand-200: #b4c7e3;
+  --brand-300: #84a3d0;
+  --brand-400: #4f78b5;
+  --brand-500: #2e5a9a;
+  --brand-600: #13294b;
+  --brand-700: #0b1f3a;
+  --brand-800: #091a31;
+  --brand-900: #071427;
+  --brand-950: #040d1a;
 }
 
 .dark {

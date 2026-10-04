@@ -294,8 +294,8 @@ export default function CoursesPage() {
           <div
             className={`relative overflow-hidden rounded-xl border p-6 transition-colors ${playbookUnlocked ? "hover:bg-muted/20" : "opacity-60"}`}
             style={{
-              background: playbookUnlocked ? "var(--brand-600)08" : undefined,
-              borderColor: playbookUnlocked ? "var(--brand-600)40" : undefined,
+              background: playbookUnlocked ? "color-mix(in srgb, var(--brand-600) 3%, transparent)" : undefined,
+              borderColor: playbookUnlocked ? "color-mix(in srgb, var(--brand-600) 25%, transparent)" : undefined,
             }}
           >
             {!playbookUnlocked && (
@@ -313,7 +313,7 @@ export default function CoursesPage() {
 
             <div className="flex items-start gap-4">
               <div className="mt-0.5 flex size-10 shrink-0 items-center justify-center rounded-full border text-lg"
-                style={{ borderColor: "var(--brand-600)40", background: "var(--brand-600)10" }}>
+                style={{ borderColor: "color-mix(in srgb, var(--brand-600) 25%, transparent)", background: "color-mix(in srgb, var(--brand-600) 6%, transparent)" }}>
                 🎯
               </div>
               <div className="min-w-0 flex-1">

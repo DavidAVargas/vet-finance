@@ -347,8 +347,8 @@ const GUIDES: Record<string, Guide> = {
     emoji: "⚡",
     title: "I'd make sure every dollar is working as hard as possible",
     subtitle: "3–5 cards · Maximizing rewards",
-    color: "#556B2F",
-    bg: "rgba(85,107,47,0.08)",
+    color: "#13294B",
+    bg: "rgba(19,41,75,0.08)",
     steps: [
       {
         title: "Map your spending to your cards",
@@ -408,8 +408,8 @@ const GUIDES: Record<string, Guide> = {
     emoji: "✈️",
     title: "I'd go deep on transfer partners — that's the real game",
     subtitle: "5+ cards · Maximize points",
-    color: "#556B2F",
-    bg: "rgba(85,107,47,0.08)",
+    color: "#13294B",
+    bg: "rgba(19,41,75,0.08)",
     steps: [
       {
         title: "Book a real trip using transfers — if you haven't already",
@@ -774,7 +774,7 @@ function ResultView({
 
       {/* Military section */}
       {activeDuty && (
-        <div className="mb-8 overflow-hidden rounded-2xl" style={{ background: "var(--brand-600)10", border: "1px solid var(--brand-600)30" }}>
+        <div className="mb-8 overflow-hidden rounded-2xl" style={{ background: "color-mix(in srgb, var(--brand-600) 6%, transparent)", border: "1px solid color-mix(in srgb, var(--brand-600) 19%, transparent)" }}>
           <div className="px-5 py-4" style={{ background: "var(--brand-600)" }}>
             <p className="font-bold text-white">🎖️ Since you&apos;re active duty — don&apos;t skip this</p>
             <p className="mt-0.5 text-xs text-white/90">Benefits most servicemembers never claim</p>

@@ -405,7 +405,7 @@ function LessonContent({ lessonId }: { lessonId: string }) {
                 <div
                   key={you}
                   className={`grid grid-cols-3 gap-3 rounded-lg px-3 py-2 text-sm ${highlight ? "font-semibold text-foreground" : "text-muted-foreground"}`}
-                  style={highlight ? { background: "var(--brand-600)15", border: "1px solid var(--brand-600)30" } : {}}
+                  style={highlight ? { background: "color-mix(in srgb, var(--brand-600) 8%, transparent)", border: "1px solid color-mix(in srgb, var(--brand-600) 19%, transparent)" } : {}}
                 >
                   <p>You contribute: {you}</p>
                   <p>Gov adds: {gov}</p>
@@ -1732,7 +1732,7 @@ export default function MilitaryMoneyPage() {
         <aside className={`${sidebarOpen ? "flex" : "hidden"} sm:flex w-72 shrink-0 flex-col border-r border-border overflow-y-auto absolute sm:relative inset-0 top-14 bg-background z-10`}>
           <div className="p-4">
             <div className="flex items-center gap-2 mb-1">
-              <div className="flex size-7 items-center justify-center rounded-md text-sm" style={{ background: "var(--brand-600)15" }}>
+              <div className="flex size-7 items-center justify-center rounded-md text-sm" style={{ background: "color-mix(in srgb, var(--brand-600) 8%, transparent)" }}>
                 🎖️
               </div>
               <div>
