@@ -160,7 +160,7 @@ export function CourseShell({ courseId, title, sections, renderLesson }: Props) 
   };
 
   return (
-    <div className="flex h-[100dvh] flex-col overflow-hidden bg-background">
+    <div className="flex h-[100dvh] flex-col overflow-hidden bg-card">
       <SkipLink targetId="lesson-content" />
 
       {/* ── Header ── */}
@@ -218,7 +218,7 @@ export function CourseShell({ courseId, title, sections, renderLesson }: Props) 
           tabIndex={-1}
           aria-label="Course contents"
           className={cn(
-            "absolute inset-y-0 left-0 z-30 w-[19rem] shrink-0 flex-col overflow-y-auto border-r border-border bg-card outline-none lg:static lg:flex",
+            "absolute inset-y-0 left-0 z-30 w-[19rem] shrink-0 flex-col overflow-y-auto border-r border-border bg-brand-25 outline-none lg:static lg:flex",
             sidebarOpen ? "flex shadow-2xl" : "hidden",
           )}
         >
@@ -284,8 +284,8 @@ export function CourseShell({ courseId, title, sections, renderLesson }: Props) 
                                 className={cn(
                                   "flex w-full items-center gap-2.5 rounded-lg border-l-2 py-2 pr-2 pl-[2.375rem] text-left text-sm transition-colors",
                                   active
-                                    ? "border-navy bg-secondary font-semibold text-navy"
-                                    : "border-transparent text-foreground/75 hover:bg-muted hover:text-navy",
+                                    ? "border-navy bg-white font-semibold text-navy shadow-sm"
+                                    : "border-transparent text-foreground/75 hover:bg-white hover:text-navy",
                                 )}
                               >
                                 {done ? (
