@@ -112,7 +112,7 @@ export default function CardPage() {
       {/* Intro */}
       <section className="bg-card">
         <div className="mx-auto max-w-site px-4 pt-16 pb-14 sm:px-6 lg:pt-20 lg:pb-16">
-          <p className="inline-flex items-center gap-2 rounded-full border border-border bg-background py-1.5 pr-3.5 pl-2 text-sm font-medium text-foreground/80">
+          <p className="inline-flex items-center gap-2 rounded-full border border-border bg-surface py-1.5 pr-3.5 pl-2 text-sm font-medium text-foreground/80">
             <span className="rounded-full bg-brass/20 px-2.5 py-0.5 text-xs font-semibold text-[#7a5a22]">
               In development
             </span>
@@ -209,7 +209,7 @@ export default function CardPage() {
       </section>
 
       {/* How it works */}
-      <section id="how-it-works" className="scroll-mt-20 border-t border-border">
+      <section id="how-it-works" className="scroll-mt-20 border-t border-border bg-surface">
         <div className="mx-auto max-w-site px-4 py-16 sm:px-6 lg:py-20">
           <h2 className="text-3xl font-extrabold tracking-[-0.03em] text-navy sm:text-4xl">How it works</h2>
           <p className="mt-4 max-w-2xl text-[17px] text-muted-foreground">
@@ -226,7 +226,7 @@ export default function CardPage() {
                 <p className="mt-2 text-[15px] leading-relaxed text-muted-foreground">{step.desc}</p>
                 {i < steps.length - 1 && (
                   <ArrowRight
-                    className="absolute top-1/2 -right-[18px] z-10 hidden size-5 -translate-y-1/2 rounded-full bg-background text-navy/50 md:block"
+                    className="absolute top-1/2 -right-[18px] z-10 hidden size-5 -translate-y-1/2 rounded-full bg-surface text-navy/50 md:block"
                     aria-hidden="true"
                   />
                 )}

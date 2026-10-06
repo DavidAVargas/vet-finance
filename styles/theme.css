@@ -1,7 +1,8 @@
 :root {
   --radius: 0.625rem;
-  /* Neutral ground with a slight warmth; cards sit on white */
-  --background: #f7f7f5;
+  /* White ground; `surface` is a pale navy tint for alternating sections and panels */
+  --background: #ffffff;
+  --surface: #f6f8fb;
   --foreground: #161d2b;
   --card: #ffffff;
   --card-foreground: #161d2b;
@@ -133,6 +134,7 @@
   /* Page content width — matches the approved mockup */
   --container-site: 1180px;
 
+  --color-surface: var(--surface);
   --color-navy: var(--navy);
   --color-navy-deep: var(--navy-deep);
   --color-brass: var(--brass);

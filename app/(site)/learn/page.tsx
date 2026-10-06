@@ -109,7 +109,7 @@ export default function LearnPage() {
       </section>
 
       {/* Curriculum */}
-      <section className="border-t border-border">
+      <section className="border-t border-border bg-surface">
         <div className="mx-auto max-w-site px-4 py-16 sm:px-6 lg:py-20">
           <h2 className="text-3xl font-extrabold tracking-[-0.03em] text-navy sm:text-4xl">The curriculum</h2>
           <p className="mt-4 max-w-2xl text-[17px] text-muted-foreground">

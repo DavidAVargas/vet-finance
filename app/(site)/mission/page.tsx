@@ -56,7 +56,7 @@ export default function MissionPage() {
       </section>
 
       {/* Story */}
-      <section className="border-t border-border">
+      <section className="border-t border-border bg-surface">
         <div className="mx-auto grid max-w-site gap-8 px-4 py-16 sm:px-6 lg:grid-cols-[1fr_1.6fr] lg:gap-20 lg:py-20">
           <h2 className="text-3xl font-extrabold tracking-[-0.03em] text-navy sm:text-4xl lg:sticky lg:top-28 lg:self-start">
             Why we built this
@@ -109,7 +109,7 @@ export default function MissionPage() {
 
           <ul className="mt-10 grid gap-5 md:grid-cols-3">
             {pillars.map(({ icon: Icon, title, desc }) => (
-              <li key={title} className="rounded-2xl border border-border bg-background p-7">
+              <li key={title} className="rounded-2xl border border-border bg-surface p-7">
                 <div className="flex size-12 items-center justify-center rounded-[14px] bg-navy">
                   <Icon className="size-[22px] text-white" strokeWidth={1.8} aria-hidden="true" />
                 </div>

@@ -92,7 +92,7 @@ export default async function Home() {
         </div>
 
         {/* Trust strip */}
-        <div className="border-t border-border bg-background">
+        <div className="border-t border-border bg-surface">
           <ul className="mx-auto grid max-w-site gap-6 px-4 py-7 sm:grid-cols-3 sm:px-6">
             {promises.map(({ icon: Icon, title, desc }) => (
               <li key={title} className="flex items-start gap-3.5">
@@ -108,7 +108,7 @@ export default async function Home() {
       </section>
 
       {/* What You'll Learn */}
-      <section id="whats-inside" className="scroll-mt-20 border-t border-border px-4 py-20 sm:px-6 sm:py-24">
+      <section id="whats-inside" className="scroll-mt-20 border-t border-border bg-surface px-4 py-20 sm:px-6 sm:py-24">
         <div className="mx-auto max-w-site">
           <h2 className="max-w-2xl text-3xl leading-tight font-extrabold tracking-[-0.03em] text-navy sm:text-[2.625rem]">
             Four courses. Start wherever you are.

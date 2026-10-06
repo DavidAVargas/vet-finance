@@ -218,7 +218,7 @@ export function CourseShell({ courseId, title, sections, renderLesson }: Props) 
           tabIndex={-1}
           aria-label="Course contents"
           className={cn(
-            "absolute inset-y-0 left-0 z-30 w-[19rem] shrink-0 flex-col overflow-y-auto border-r border-border bg-brand-25 outline-none lg:static lg:flex",
+            "absolute inset-y-0 left-0 z-30 w-[19rem] shrink-0 flex-col overflow-y-auto border-r border-border bg-surface outline-none lg:static lg:flex",
             sidebarOpen ? "flex shadow-2xl" : "hidden",
           )}
         >

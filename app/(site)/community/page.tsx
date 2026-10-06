@@ -131,7 +131,7 @@ export default function CommunityPage() {
       </section>
 
       {/* What already exists */}
-      <section className="border-t border-border">
+      <section className="border-t border-border bg-surface">
         <div className="mx-auto max-w-site px-4 py-16 sm:px-6 lg:py-20">
           <p className="text-sm font-semibold tracking-[0.14em] text-[#7a5a22] uppercase">Go now, free</p>
           <h2 className="mt-3 text-3xl font-extrabold tracking-[-0.03em] text-navy sm:text-4xl">

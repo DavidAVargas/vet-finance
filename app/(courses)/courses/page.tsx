@@ -102,7 +102,7 @@ export default function CoursesPage() {
       ];
 
   return (
-    <div className="flex min-h-[100dvh] flex-col bg-brand-25">
+    <div className="flex min-h-[100dvh] flex-col bg-surface">
       <SkipLink targetId="main-content" />
 
       {/* Top bar */}
