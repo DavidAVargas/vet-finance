@@ -2,7 +2,7 @@ export default function TermsPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-20">
       <h1 className="mb-4 text-3xl font-bold tracking-tight text-foreground">Terms of Service</h1>
-      <p className="mb-8 text-sm text-muted-foreground">Last updated: April 2026</p>
+      <p className="mb-8 text-sm text-muted-foreground">Last updated: October 2026</p>
 
       <div className="flex flex-col gap-8 text-muted-foreground">
         <section>
@@ -23,11 +23,12 @@ export default function TermsPage() {
         </section>
 
         <section>
-          <h2 className="mb-2 text-lg font-semibold text-foreground">Free Military Access</h2>
+          <h2 className="mb-2 text-lg font-semibold text-foreground">Access During the Beta</h2>
           <p>
-            Free access to educational content is provided to verified active duty service
-            members and veterans. Misrepresenting your military status to gain free access
-            is a violation of these terms.
+            Vet Finance is currently an invite-only beta. Access to the courses is free and
+            available to anyone with a valid invite code. The content is built for the
+            military community, and we also welcome supporters. Please don&apos;t share your
+            invite code publicly or try to access the courses without one.
           </p>
         </section>
 
