@@ -9,7 +9,7 @@ const usd = (n: number) => n.toLocaleString("en-US", { style: "currency", curren
 // Cents-per-point ranges from the "Why Points Beat Cash" lesson.
 const methods = [
   { label: "Cash back", note: "1¢ per point, always", low: 1, high: 1, fill: "bg-[#b4c7e3]" },
-  { label: "Travel portal", note: "1.25–1.5¢ per point", low: 1.25, high: 1.5, fill: "bg-[#4f78b5]" },
+  { label: "Travel portal", note: "usually 1¢, up to 2¢ on select bookings", low: 1, high: 2, fill: "bg-[#4f78b5]" },
   { label: "Transfer to airline partners", note: "3–8¢+ on business and first class", low: 3, high: 8, fill: "bg-navy" },
 ];
 const TOP = 8;

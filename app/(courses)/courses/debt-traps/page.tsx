@@ -860,15 +860,10 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
           <div className="mb-8 rounded-xl border border-border p-5">
             <p className="mb-3 font-semibold text-foreground">Income-driven repayment — your safety net</p>
             <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
-              If your federal loan payments feel unmanageable, income-driven
-              repayment (IDR) plans cap your monthly payment at 5–10% of your
-              discretionary income. If you&apos;re making $40,000 a year, your
-              payment could be as low as $50–$100/month regardless of how
-              much you owe.
+              If your federal loan payments feel unmanageable, income-driven repayment (IDR) sets your monthly payment based on your income instead of how much you owe. The rules changed in 2025: loans taken out after July 1, 2026 use the new Repayment Assistance Plan (RAP), with payments of 1–10% of your income (at least $10 a month). Older loans can still use Income-Based Repayment (IBR), and the SAVE plan is being phased out. Check studentaid.gov to see which plan fits your loans.
             </p>
             <p className="text-sm leading-relaxed text-muted-foreground">
-              After 20–25 years of payments on an IDR plan, any remaining
-              balance is forgiven. It&apos;s not the fastest way out — but it
+              After 20–25 years on IBR, or 30 years on RAP, any remaining balance is forgiven. It&apos;s not the fastest way out — but it
               makes sure the debt never breaks you while you&apos;re building
               your income.
             </p>
@@ -925,8 +920,7 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
 
           <p className="mb-5 text-base leading-relaxed text-muted-foreground">
             Income-driven repayment is a safety net — not a strategy.
-            Stretching your loans out for 20 years means paying interest
-            for 20 years. The goal should always be to eliminate student
+            Stretching your loans out for 20 to 30 years means paying interest for 20 to 30 years. The goal should always be to eliminate student
             debt as fast as your life realistically allows. Here&apos;s how to
             think about it.
           </p>

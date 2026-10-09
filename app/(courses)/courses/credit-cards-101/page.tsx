@@ -534,8 +534,8 @@ function LessonContent({
               <div className="flex flex-col gap-2">
                 {[
                   { card: "Chase Sapphire Preferred", fee: "$95/yr", value: "$200+ in travel value if you use the points right" },
-                  { card: "Chase Sapphire Reserve", fee: "$795/yr", value: "$300 travel credit + lounge access + 3x points on travel and dining — worth it if you travel regularly" },
-                  { card: "Amex Platinum", fee: "$895/yr", value: "$1,500+ in credits if you use every benefit — lounge access, airline credit, hotel status, and more" },
+                  { card: "Chase Sapphire Reserve", fee: "$795/yr", value: "$300 travel credit + lounge access + 4x points on flights and hotels booked directly and 3x on dining — worth it if you travel regularly" },
+                  { card: "Amex Platinum", fee: "$895/yr", value: "$3,500+ in credits and perks (Amex's own estimate) if you use every benefit — lounge access, airline, hotel, dining, and more" },
                 ].map(({ card, fee, value }) => (
                   <div key={card} className="rounded-lg bg-muted/40 p-3">
                     <div className="mb-1 flex items-center justify-between">
@@ -553,15 +553,15 @@ function LessonContent({
             <p className="mb-3 font-bold text-foreground">Match the card to your lifestyle — not the hype</p>
             <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
               The dollar math only tells half the story. A $895 annual fee card
-              might technically offer $1,500 in credits — but if half those
+              might technically offer $3,500 in credits and perks — but if half those
               credits are for things you&apos;d never buy anyway, you&apos;re not getting
-              $1,500 back. You&apos;re getting whatever you actually use.
+              $3,500 back. You&apos;re getting whatever you actually use.
             </p>
             <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
               Take the Amex Platinum. It&apos;s often called the ultimate luxury card
               — and it can be, if you travel constantly, shop at certain stores,
               and use every single perk. But a lot of those credits are for
-              specific brands: Lululemon, SoulCycle, Equinox. If none of that
+              specific brands: Lululemon, Resy restaurants, Equinox. If none of that
               fits your life, you&apos;re paying $895 for a card that doesn&apos;t really
               serve you.
             </p>
@@ -761,7 +761,7 @@ function LessonContent({
             <div className="flex flex-col gap-3">
               {[
                 { method: "Cash back", value: "$1,000", note: "1 cent per point — always", highlight: false },
-                { method: "Travel portal redemption", value: "~$1,500", note: "1.25–1.5 cents per point (Chase, Amex)", highlight: false },
+                { method: "Travel portal redemption", value: "~$1,000–$2,000", note: "Usually 1 cent per point; up to 2 cents on select bookings", highlight: false },
                 { method: "Transfer to airline partner", value: "$3,000–$8,000+", note: "3–8+ cents per point on business/first class flights", highlight: true },
               ].map(({ method, value, note, highlight }) => (
                 <div key={method} className={`flex items-center justify-between rounded-lg p-3 ${highlight ? "border border-border text-foreground" : "bg-muted/30"}`}
@@ -843,7 +843,7 @@ function LessonContent({
                 transfers, no partners to learn.
               </p>
               <p className="text-sm leading-relaxed text-muted-foreground">
-                The catch: you usually get 1 to 1.5 cents per point this way.
+                The catch: you usually get about 1 cent per point this way (sometimes up to 2 on select bookings).
                 It&apos;s decent — better than cash or gift cards — but you&apos;re
                 leaving a lot on the table. Think of this as the floor, not
                 the ceiling.
@@ -1190,7 +1190,7 @@ function LessonContent({
             <p className="font-semibold text-foreground">What a solid stack looks like</p>
             {[
               { category: "Dining & Groceries", card: "Amex Gold", rate: "4x points", why: "Best earning rate in these two categories — period." },
-              { category: "Travel & Hotels", card: "Chase Sapphire Reserve", rate: "3x points", why: "Plus $300 travel credit and lounge access. Strong for flights, hotels, rideshare." },
+              { category: "Travel & Hotels", card: "Chase Sapphire Reserve", rate: "4x points", why: "On flights and hotels booked directly. Plus a $300 travel credit and lounge access." },
               { category: "Everything Else", card: "Citi Double Cash / Freedom Unlimited", rate: "2% / 1.5x", why: "A catch-all card so nothing earns at the base 1x rate. Every uncategorized purchase still earns well." },
               { category: "Gas", card: "Costco Anywhere Visa / Citi Custom Cash", rate: "4–5%", why: "Gas-specific cards earn significantly more than general cards at the pump." },
               { category: "Hotels (Hyatt)", card: "World of Hyatt Card", rate: "4x at Hyatt", why: "If you stay at Hyatt, earning points directly speeds up free night redemptions." },

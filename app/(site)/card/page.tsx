@@ -36,7 +36,7 @@ const tiers: {
       "Built for every service member: active duty, reserves, and veterans. Every role makes the military work, and this card honors that.",
     perks: [
       "Competitive rewards rate",
-      "SCRA interest protections",
+      "SCRA and MLA protections applied automatically",
       "Annual fee waived",
       "Military travel perks",
       "Access to all Vet Finance content",

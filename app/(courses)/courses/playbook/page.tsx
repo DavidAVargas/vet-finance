@@ -29,7 +29,7 @@ type Guide = {
 const MILITARY_STEPS: Step[] = [
   {
     title: "Amex waives every annual fee for active duty — all of them",
-    body: "The Amex Platinum ($895/yr), Amex Gold ($250/yr), every Amex card with a fee — gone for active duty servicemembers. Chase also waives fees under SCRA. This doesn't happen automatically. You have to call each issuer, tell them you're active duty, and request it. Have your orders ready.",
+    body: "The Amex Platinum ($895/yr), Amex Gold ($325/yr), every Amex card with a fee — gone for active duty servicemembers. Chase also waives fees under SCRA. This doesn't happen automatically. You have to call each issuer, tell them you're active duty, and request it. Have your orders ready.",
   },
   {
     title: "SCRA caps interest on your pre-service debt at 6%",
@@ -54,7 +54,7 @@ const GUIDES: Record<string, Guide> = {
     steps: [
       {
         title: "Get a secured card — pick the right one",
-        body: "A secured card requires a deposit (usually $200–$500) that becomes your credit limit. It reports to all 3 bureaus just like a real card. Discover Secured is my top pick if you're not military — no annual fee and they automatically upgrade you to an unsecured card after 12 months. Capital One Secured is another solid option.",
+        body: "A secured card requires a deposit (usually $200–$500) that becomes your credit limit. It reports to all 3 bureaus just like a real card. Discover it Secured is my top pick if you're not military — no annual fee, and after a stretch of on-time payments you can graduate to an unsecured card and get your deposit back. Capital One Secured is another solid option.",
       },
       {
         title: "Put one recurring charge on it every month",
@@ -130,7 +130,7 @@ const GUIDES: Record<string, Guide> = {
       },
       {
         title: "Skip the credit repair companies",
-        body: "They charge $100+/month and usually can't remove legitimate debt — only dispute actual errors. What actually works: paying a collection can jump your score 50–100 points almost immediately. The person I helped went from the 600s to 750 after settling 3 collections. That's real. Then get a secured card and build from there.",
+        body: "They charge $100+/month and usually can't remove legitimate debt — only dispute actual errors. What actually works: settling it. Newer scoring models (FICO 9 and 10, VantageScore 3 and 4) ignore paid collections completely, so your score can jump once it's paid. Older FICO 8, which many lenders still use, may keep counting it, so ask the agency to delete it from your report as part of the deal. The person I helped went from the 600s to 750 after settling 3 collections. That's real. Then get a secured card and build from there.",
       },
     ],
   },
@@ -183,7 +183,7 @@ const GUIDES: Record<string, Guide> = {
       },
       {
         title: "If your score is 680+, look at the Amex Gold",
-        body: "4x on dining and groceries is the best earning rate in those two categories. If you eat out or buy groceries — everyone does — this card earns fast. The $250 annual fee sounds like a lot but the rewards cover it if you use it right.",
+        body: "4x on dining and groceries is the best earning rate in those two categories. If you eat out or buy groceries — everyone does — this card earns fast. The $325 annual fee sounds like a lot but the rewards cover it if you use it right.",
       },
       {
         title: "If your score is 700+, look at the Chase Sapphire Preferred",
@@ -273,7 +273,7 @@ const GUIDES: Record<string, Guide> = {
       },
       {
         title: "Your score will jump once it's paid",
-        body: "Paying a collection can move your score 50–100 points fast. Once that's done, shift your focus back to the cards you already have.",
+        body: "Newer scoring models ignore paid collections entirely, so your score can move fast once it's settled. (Older FICO 8 may still count it, which is why you ask for deletion in your settlement letter.) Once that's done, shift your focus back to the cards you already have.",
       },
       {
         title: "Now optimize what you've got",
@@ -356,7 +356,7 @@ const GUIDES: Record<string, Guide> = {
       },
       {
         title: "Find the gaps and fill them",
-        body: "Look for categories where you're earning at 1x or 2x when a card exists that earns 4x. If you don't have an Amex Gold, your dining and grocery spend is underperforming. If you don't have a travel card, your flights and hotels aren't earning 3x. Fill one gap at a time.",
+        body: "Look for categories where you're earning at 1x or 2x when a card exists that earns 4x. If you don't have an Amex Gold, your dining and grocery spend is underperforming. If you don't have a travel card, your flights and hotels aren't earning 3–4x. Fill one gap at a time.",
       },
       {
         title: "Download Max Rewards",
@@ -382,7 +382,7 @@ const GUIDES: Record<string, Guide> = {
     steps: [
       {
         title: "List every benefit the card offers",
-        body: "Get the full list from the issuer's website — every credit, every perk, every multiplier. For the Chase Sapphire Reserve: $300 travel credit, lounge access, 3x on dining and travel, primary rental car coverage. For the Amex Platinum: airline credit, hotel status, Lululemon, SoulCycle, Equinox, and dozens more.",
+        body: "Get the full list from the issuer's website — every credit, every perk, every multiplier. For the Chase Sapphire Reserve: $300 travel credit, lounge access, 4x on flights and hotels booked directly, 3x on dining, primary rental car coverage. For the Amex Platinum: airline credit, hotel credits, Resy dining credits, Lululemon, Equinox, and dozens more.",
       },
       {
         title: "Mark only what you'd actually use",
@@ -417,7 +417,7 @@ const GUIDES: Record<string, Guide> = {
       },
       {
         title: "Make sure every dollar earns maximum",
-        body: "At 5+ cards there should be zero spending going through at 1x. Amex Gold for dining and groceries (4x), Sapphire Reserve for travel and dining (3x), a catch-all card for everything else at 2%. Every dollar should earn as much as possible.",
+        body: "At 5+ cards there should be zero spending going through at 1x. Amex Gold for dining and groceries (4x), Sapphire Reserve for travel (4x booked direct) and dining (3x), a catch-all card for everything else at 2%. Every dollar should earn as much as possible.",
       },
       {
         title: "Use Max Rewards to find what you're still missing",

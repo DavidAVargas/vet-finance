@@ -10,7 +10,7 @@ const SPEND = 500;
 const categories = [
   { label: "Dining", card: "Amex Gold", rate: 4, unit: "points" },
   { label: "Groceries", card: "Amex Gold", rate: 4, unit: "points" },
-  { label: "Travel", card: "Chase Sapphire Reserve", rate: 3, unit: "points" },
+  { label: "Travel", card: "Chase Sapphire Reserve", rate: 4, unit: "points" },
   { label: "Gas", card: "Costco Anywhere Visa", rate: 4, unit: "cash" },
   { label: "Everything else", card: "Citi Double Cash", rate: 2, unit: "cash" },
 ] as const;

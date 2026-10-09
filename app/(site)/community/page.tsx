@@ -6,8 +6,8 @@ const existingMeetups = [
     icon: Coffee,
     name: "Black Rifle Coffee",
     description:
-      "Saturday meetups happening nationwide at BRC locations. Show up, grab a coffee, meet your people. No sign up, no cost, just veterans being veterans.",
-    tags: ["All ages", "Every Saturday"],
+      "Many Black Rifle Coffee locations host regular veteran meetups, often on Saturday mornings. Ask your local store. Show up, grab a coffee, meet your people. No sign up, no cost, just veterans being veterans.",
+    tags: ["All ages", "Varies by location"],
   },
   {
     icon: Backpack,
@@ -21,7 +21,7 @@ const existingMeetups = [
     name: "MilSim West & MilSim East",
     description:
       "Large-scale military simulation events that put you back in the field with your boys. Think airsoft, but at a whole different level: tactical, immersive, and a blast.",
-    tags: ["Younger vets", "Tickets ~$50–150"],
+    tags: ["Younger vets", "Paid events"],
   },
   {
     icon: Target,
