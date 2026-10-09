@@ -1,6 +1,12 @@
 "use client";
 
 import { CourseShell } from "@/components/courses/CourseShell";
+import { BahKeeper } from "@/components/lesson-visuals/military/BahKeeper";
+import { BrsMatch } from "@/components/lesson-visuals/military/BrsMatch";
+import { CombatRoth } from "@/components/lesson-visuals/military/CombatRoth";
+import { HouseHack } from "@/components/lesson-visuals/military/HouseHack";
+import { CombinedRating } from "@/components/lesson-visuals/military/CombinedRating";
+import { DeadlineTracker } from "@/components/lesson-visuals/military/DeadlineTracker";
 
 // ─── Course structure ─────────────────────────────────────────────────────────
 
@@ -260,6 +266,8 @@ function LessonContent({ lessonId }: { lessonId: string }) {
             </div>
           </div>
 
+          <BahKeeper />
+
           <div className="mb-8 rounded-xl border border-border p-5">
             <p className="mb-4 font-semibold text-foreground">The tax-free advantage — what this actually means</p>
             <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
@@ -399,6 +407,8 @@ function LessonContent({ lessonId }: { lessonId: string }) {
             </p>
           </div>
 
+          <BrsMatch />
+
           <div className="mb-8 rounded-xl border border-border p-5">
             <p className="mb-3 font-semibold text-foreground">Vesting — when the match is actually yours</p>
             <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
@@ -526,6 +536,8 @@ function LessonContent({ lessonId }: { lessonId: string }) {
               all of it completely tax-free when you pull it out in retirement.
             </p>
           </div>
+
+          <CombatRoth />
 
           <div className="mb-8 rounded-xl border border-border p-5">
             <p className="mb-3 font-semibold text-foreground">How to set this up before deployment</p>
@@ -740,6 +752,8 @@ function LessonContent({ lessonId }: { lessonId: string }) {
               Instead of covering the full ~$3,250/month yourself, you pay about $1,050 — while building equity in a $400k asset. Your tenants cover the rest. In stronger rental markets, rents can cover most or all of it.
             </p>
           </div>
+
+          <HouseHack />
 
           <div className="mb-8 rounded-xl border border-border p-5">
             <p className="mb-3 font-semibold text-foreground">Why this beats a single-family home</p>
@@ -1151,6 +1165,8 @@ function LessonContent({ lessonId }: { lessonId: string }) {
             </div>
           </div>
 
+          <CombinedRating />
+
           <div className="mb-8 rounded-xl border border-border p-5">
             <p className="mb-3 font-semibold text-foreground">How to file a claim</p>
             <div className="flex flex-col gap-3">
@@ -1337,6 +1353,8 @@ function LessonContent({ lessonId }: { lessonId: string }) {
             deadlines that quietly expire. Some are worth thousands of
             dollars. Here they are, sorted by when they matter.
           </p>
+
+          <DeadlineTracker />
 
           <div className="mb-8 rounded-xl border border-border p-5">
             <p className="mb-4 font-semibold text-foreground">While you&apos;re serving</p>
