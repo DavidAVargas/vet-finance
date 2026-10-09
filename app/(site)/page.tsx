@@ -15,8 +15,8 @@ const promises = [
   },
   {
     icon: Users,
-    title: "Built by one of us",
-    desc: "Written by a veteran who's been where you are.",
+    title: "Built for those who served",
+    desc: "Made for active duty, veterans, and their families.",
   },
   {
     icon: Clock,
@@ -50,16 +50,16 @@ export default async function Home() {
               <span className="rounded-full bg-primary px-2.5 py-0.5 text-xs font-semibold text-primary-foreground">
                 Free
               </span>
-              By a veteran, for the military community
+              Built for the military community
             </div>
 
             <h1 className="mt-7 max-w-xl text-4xl leading-[1.05] font-extrabold tracking-[-0.035em] text-navy sm:text-5xl lg:text-[3.75rem]">
-              The money stuff nobody taught us in uniform.
+              The money stuff nobody teaches you in uniform.
             </h1>
 
             <p className="mt-6 max-w-[32.5rem] text-lg text-muted-foreground sm:text-xl">
               Credit, military pay, the VA home loan, the GI Bill. Explained in
-              plain English by someone who&apos;s been there. No sales pitch.
+              plain English, straight to the point. No sales pitch.
             </p>
 
             <div className="mt-9 flex flex-wrap items-center gap-3">

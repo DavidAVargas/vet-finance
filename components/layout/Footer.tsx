@@ -41,7 +41,7 @@ export function Footer() {
             </p>
             <p className="mt-6 inline-flex items-center gap-2 rounded-full border border-white/20 px-3.5 py-1.5 text-xs font-semibold tracking-[0.12em] text-brass uppercase">
               <span className="size-1.5 rounded-full bg-brass" aria-hidden="true" />
-              Veteran-founded
+              Free for those who served
             </p>
           </div>
 
