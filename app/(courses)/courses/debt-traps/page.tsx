@@ -3,6 +3,12 @@
 import { CourseShell } from "@/components/courses/CourseShell";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { UnderwaterChart } from "@/components/lesson-visuals/debt-traps/UnderwaterChart";
+import { TrueCostCalculator } from "@/components/lesson-visuals/debt-traps/TrueCostCalculator";
+import { BillStaircase } from "@/components/lesson-visuals/debt-traps/BillStaircase";
+import { SurpriseBillChecker } from "@/components/lesson-visuals/debt-traps/SurpriseBillChecker";
+import { RefinanceTrap } from "@/components/lesson-visuals/debt-traps/RefinanceTrap";
+import { PayoffAccelerator } from "@/components/lesson-visuals/debt-traps/PayoffAccelerator";
 
 // ─── Course structure ─────────────────────────────────────────────────────────
 
@@ -178,8 +184,8 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
 
           <p className="mb-5 text-base leading-relaxed text-muted-foreground">
             Walk into any car dealership in America and within five minutes
-            someone will ask you: "What monthly payment are you comfortable
-            with?" That question is a trap. The moment you answer it, you&apos;ve
+            someone will ask you: &ldquo;What monthly payment are you comfortable
+            with?&rdquo; That question is a trap. The moment you answer it, you&apos;ve
             already lost.
           </p>
 
@@ -195,10 +201,10 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             <div className="flex flex-col gap-3">
               {[
                 { label: "Sticker price", value: "$35,000", note: "" },
-                { label: "72-month loan at 7% APR", value: "$548/mo", note: "Sounds manageable, right?" },
-                { label: "Total paid over 6 years", value: "$39,456", note: "$4,456 just in interest" },
+                { label: "72-month loan at 7% APR", value: "$597/mo", note: "Sounds manageable, right?" },
+                { label: "Total paid over 6 years", value: "$42,963", note: "$7,963 just in interest" },
                 { label: "Car's value after 1 year", value: "~$28,000", note: "New cars lose ~20% immediately" },
-                { label: "What you still owe after 1 year", value: "~$30,500", note: "You're $2,500 underwater — already" },
+                { label: "What you still owe after 1 year", value: "~$30,100", note: "You're about $2,100 underwater — already" },
                 { label: "Insurance on a $35k car", value: "$150–$250/mo", note: "Required when financing" },
               ].map(({ label, value, note }) => (
                 <div key={label} className="flex items-start justify-between gap-4 border-b border-border pb-3 last:border-0 last:pb-0 text-sm">
@@ -213,7 +219,7 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
           </div>
 
           <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-3 font-semibold text-foreground">What "underwater" actually means</p>
+            <p className="mb-3 font-semibold text-foreground">What &ldquo;underwater&rdquo; actually means</p>
             <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
               When you owe more on your car than it&apos;s worth, you&apos;re underwater —
               also called negative equity. On a 72-month loan you&apos;re almost
@@ -227,6 +233,8 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
               $35k car that could be $3,000–$6,000 you didn&apos;t plan for.
             </p>
           </div>
+
+          <UnderwaterChart />
 
           <div className="mb-8 rounded-xl border border-border p-5">
             <p className="mb-3 font-semibold text-foreground">Why dealers push this so hard</p>
@@ -301,11 +309,13 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             own that vehicle.
           </p>
 
+          <TrueCostCalculator />
+
           <div className="mb-8 rounded-xl border border-border p-5">
             <p className="mb-4 font-semibold text-foreground">True monthly cost of a $35,000 financed car</p>
             <div className="flex flex-col gap-3">
               {[
-                { item: "Loan payment (72 mo, 7% APR)", cost: "$548/mo" },
+                { item: "Loan payment (72 mo, 7% APR)", cost: "$597/mo" },
                 { item: "Full coverage insurance", cost: "$175/mo" },
                 { item: "Gas", cost: "$150/mo" },
                 { item: "Maintenance & tires (averaged)", cost: "$100/mo" },
@@ -318,10 +328,10 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
               ))}
               <div className="flex items-center justify-between pt-1 text-sm">
                 <p className="font-bold text-foreground">Total monthly cost</p>
-                <p className="font-bold text-red-500">~$1,003/mo</p>
+                <p className="font-bold text-red-500">~$1,052/mo</p>
               </div>
             </div>
-            <p className="mt-3 text-xs text-muted-foreground">Over 72 months that&apos;s over $72,000 out of pocket — on a $35,000 car.</p>
+            <p className="mt-3 text-xs text-muted-foreground">Over 72 months that&apos;s over $75,000 out of pocket — on a $35,000 car.</p>
           </div>
 
           <div className="mb-8 rounded-xl border border-border p-5">
@@ -344,11 +354,11 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
                 </thead>
                 <tbody>
                   {[
-                    { credit: "Excellent (750+)", apr: "7%", monthly: "$548", interest: "$4,456", highlight: false },
-                    { credit: "Good (700–749)", apr: "11%", monthly: "$612", interest: "$9,064", highlight: false },
-                    { credit: "Fair (650–699)", apr: "18%", monthly: "$731", interest: "$17,632", highlight: false },
-                    { credit: "Bad (below 650)", apr: "24%", monthly: "$816", interest: "$23,752", highlight: true },
-                    { credit: "Buy here pay here", apr: "29%", monthly: "$903", interest: "$30,016", highlight: true },
+                    { credit: "Excellent (750+)", apr: "7%", monthly: "$597", interest: "$7,963", highlight: false },
+                    { credit: "Good (700–749)", apr: "11%", monthly: "$666", interest: "$12,966", highlight: false },
+                    { credit: "Fair (650–699)", apr: "18%", monthly: "$798", interest: "$22,476", highlight: false },
+                    { credit: "Bad (below 650)", apr: "24%", monthly: "$921", interest: "$31,344", highlight: true },
+                    { credit: "Buy here pay here", apr: "29%", monthly: "$1,030", interest: "$39,195", highlight: true },
                   ].map(({ credit, apr, monthly, interest, highlight }) => (
                     <tr key={apr} className="border-b border-border last:border-0">
                       <td className={`py-2.5 text-left ${highlight ? "font-medium text-red-500" : "text-muted-foreground"}`}>{credit}</td>
@@ -361,7 +371,7 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
               </table>
             </div>
             <p className="text-xs leading-relaxed text-muted-foreground">
-              At 29% APR you&apos;re paying <span className="font-semibold text-foreground">$30,000 in pure interest</span> on a $35,000 car.
+              At 29% APR you&apos;re paying <span className="font-semibold text-foreground">$39,000 in pure interest</span> on a $35,000 car.
               You&apos;re essentially buying the car twice. This is exactly why building
               your credit score before making a big purchase isn&apos;t just about
               a number — it&apos;s about real money staying in your pocket.
@@ -371,15 +381,15 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
           <div className="mb-8 rounded-xl border border-border p-5">
             <p className="mb-3 font-semibold text-foreground">The opportunity cost — what that money could do instead</p>
             <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
-              That $548 car payment every month for 6 years is $39,456 total.
-              If you invested that same $548 a month into an index fund averaging
+              That $597 car payment every month for 6 years is $42,963 total.
+              If you invested that same $597 a month into an index fund averaging
               7% annual returns instead, here&apos;s what it would be worth:
             </p>
             <div className="flex flex-col gap-2">
               {[
-                { period: "After 6 years (loan term)", value: "~$45,800" },
-                { period: "After 10 years", value: "~$95,000" },
-                { period: "After 20 years", value: "~$285,000" },
+                { period: "After 6 years (loan term)", value: "~$53,200" },
+                { period: "After 10 years", value: "~$103,300" },
+                { period: "After 20 years", value: "~$310,800" },
               ].map(({ period, value }) => (
                 <div key={period} className="flex items-center justify-between rounded-lg bg-muted/40 px-4 py-3 text-sm">
                   <p className="text-muted-foreground">{period}</p>
@@ -400,10 +410,10 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             <div className="flex flex-col gap-3">
               {[
                 { label: "Purchase price", new: "$35,000", used: "$21,000" },
-                { label: "Loan (36 mo, 6% APR)", new: "$548/mo × 72 mo", used: "$639/mo × 36 mo" },
-                { label: "Total paid in loan", new: "$39,456", used: "$23,004" },
+                { label: "Loan (36 mo, 6% APR)", new: "$597/mo × 72 mo", used: "$639/mo × 36 mo" },
+                { label: "Total paid in loan", new: "$42,963", used: "$23,004" },
                 { label: "Insurance cost", new: "Higher (lender requires)", used: "Lower" },
-                { label: "Savings vs. new", new: "—", used: "~$16,000+" },
+                { label: "Savings vs. new", new: "—", used: "~$20,000" },
               ].map(({ label, new: newVal, used }) => (
                 <div key={label} className="grid grid-cols-3 gap-2 border-b border-border pb-2 last:border-0 last:pb-0 text-sm">
                   <p className="font-medium text-foreground">{label}</p>
@@ -477,7 +487,7 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
                 "Nothing — cars hold their value for the first two years",
               ],
               correct: 2,
-              explanation: "New cars typically lose around 20% of their value in the first year. That means a $35,000 car is worth roughly $28,000 after 12 months — while you still owe closer to $30,500 on a 72-month loan.",
+              explanation: "New cars typically lose around 20% of their value in the first year. That means a $35,000 car is worth roughly $28,000 after 12 months — while you still owe about $30,100 on a 72-month loan.",
             },
             {
               question: "What is the biggest advantage of buying a 3-year-old used car instead of new?",
@@ -595,6 +605,8 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             </div>
           </div>
 
+          <BillStaircase />
+
           <div className="rounded-xl p-5 text-white" style={{ background: "var(--brand-600)" }}>
             <p className="mb-1 font-bold">The bottom line</p>
             <p className="text-sm leading-relaxed text-white/85">
@@ -654,6 +666,8 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
               sharing rate — even if the provider is out of network.
             </p>
           </div>
+
+          <SurpriseBillChecker />
 
           <div className="mb-8 rounded-xl border border-border p-5">
             <p className="mb-3 font-semibold text-foreground">What to do when you get a surprise bill</p>
@@ -835,6 +849,8 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             </p>
           </div>
 
+          <RefinanceTrap />
+
           <div className="mb-8 rounded-xl border border-border p-5">
             <p className="mb-3 font-semibold text-foreground">Income-driven repayment — your safety net</p>
             <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
@@ -932,6 +948,8 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
               $14,480 extra just for taking 10 years. Pay it off in 5 and you&apos;d save around $8,000 in interest.
             </p>
           </div>
+
+          <PayoffAccelerator />
 
           <div className="mb-8 rounded-xl border border-border p-5">
             <p className="mb-4 font-semibold text-foreground">How to attack it faster</p>

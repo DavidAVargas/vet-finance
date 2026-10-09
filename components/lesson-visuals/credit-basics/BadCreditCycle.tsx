@@ -11,9 +11,10 @@ const steps = [
 
 // Points around the loop, as percentages of the square diagram.
 const RADIUS = 36;
+// Rounded so server and browser render identical styles (trig results can differ in the last digits).
 const point = (deg: number) => ({
-  left: `${50 + RADIUS * Math.cos((deg * Math.PI) / 180)}%`,
-  top: `${50 + RADIUS * Math.sin((deg * Math.PI) / 180)}%`,
+  left: `${(50 + RADIUS * Math.cos((deg * Math.PI) / 180)).toFixed(2)}%`,
+  top: `${(50 + RADIUS * Math.sin((deg * Math.PI) / 180)).toFixed(2)}%`,
 });
 
 /** The Cost of Bad Credit: the self-reinforcing loop that keeps people stuck. */
