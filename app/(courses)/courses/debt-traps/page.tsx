@@ -259,13 +259,19 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             <p className="mb-3 font-semibold text-foreground">The right questions to ask instead</p>
             <div className="flex flex-col gap-3">
               {[
-                { wrong: "What&apos;s my monthly payment?", right: "What is the total out-of-pocket cost including all fees and interest?" },
+                { wrong: "What's my monthly payment?", right: "What is the total out-of-pocket cost including all fees and interest?" },
                 { wrong: "Can I afford this monthly?", right: "Can I afford to own this car — insurance, maintenance, and the loan — for 6 years?" },
                 { wrong: "What's the best deal on this car?", right: "Is a new car the right move at all, or should I be buying used?" },
               ].map(({ wrong, right }, i) => (
                 <div key={i} className="rounded-lg bg-muted/40 p-3 text-sm">
-                  <p className="mb-1 text-red-500 line-through">{wrong}</p>
-                  <p className="font-medium text-foreground">{right}</p>
+                  <p className="mb-1 flex gap-2 text-red-600">
+                    <span className="w-16 shrink-0 text-xs font-bold tracking-wide uppercase">Don&apos;t ask</span>
+                    <span className="line-through">{wrong}</span>
+                  </p>
+                  <p className="flex gap-2 font-medium text-foreground">
+                    <span className="w-16 shrink-0 text-xs font-bold tracking-wide text-emerald-700 uppercase">Ask</span>
+                    <span>{right}</span>
+                  </p>
                 </div>
               ))}
             </div>
