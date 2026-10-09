@@ -3,7 +3,15 @@
 import { CourseShell } from "@/components/courses/CourseShell";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import Image from "next/image";
+import { CreditDoors } from "@/components/lesson-visuals/credit-basics/CreditDoors";
+import { BadCreditCycle } from "@/components/lesson-visuals/credit-basics/BadCreditCycle";
+import { SameThingDifferentPrice } from "@/components/lesson-visuals/credit-basics/SameThingDifferentPrice";
+import { ScoreScale } from "@/components/lesson-visuals/credit-basics/ScoreScale";
+import { FiveFactors } from "@/components/lesson-visuals/credit-basics/FiveFactors";
+import { CreditAppExample } from "@/components/lesson-visuals/credit-basics/CreditAppExample";
+import { ThreeBureaus } from "@/components/lesson-visuals/credit-basics/ThreeBureaus";
+import { TwoRules } from "@/components/lesson-visuals/credit-basics/TwoRules";
+import { FreezeChecklist } from "@/components/lesson-visuals/credit-basics/FreezeChecklist";
 
 // ─── Course structure ────────────────────────────────────────────────────────
 // noQuiz: true means completing all lessons auto-unlocks the next section
@@ -470,7 +478,7 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             What Credit Unlocks
           </h1>
 
-          <Image src="/Imgs/ai-pic-1.png" alt="Good credit opens doors, bad credit closes them" width={0} height={0} sizes="100vw" className="mb-8 h-auto w-full rounded-xl" quality={100} />
+          <CreditDoors />
 
           <div
             className="mb-8 rounded-r-lg bg-muted/40 p-5"
@@ -533,7 +541,7 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             The Cost of Bad Credit
           </h1>
 
-          <Image src="/Imgs/ai-pic-2.png" alt="Same car, two very different monthly payments based on credit score" width={0} height={0} sizes="100vw" className="mb-8 h-auto w-full rounded-xl" quality={100} />
+          <BadCreditCycle />
 
           <p className="mb-5 text-base leading-relaxed text-muted-foreground">
             Bad credit doesn&apos;t just mean you get denied sometimes. It means
@@ -599,7 +607,7 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             How Much Good Credit Saves You
           </h1>
 
-          <Image src="/Imgs/ai-pic-3.png" alt="Same house, $226,000 difference in total cost based on credit score" width={0} height={0} sizes="100vw" className="mb-8 h-auto w-full rounded-xl" quality={100} />
+          <SameThingDifferentPrice />
 
           <p className="mb-5 text-base leading-relaxed text-muted-foreground">
             Let&apos;s talk real numbers. This is where it stops being abstract
@@ -780,7 +788,7 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             a different one than having bad credit.
           </p>
 
-          <Image src="/Imgs/ai-pic-4.png" alt="Credit score scale from 300 to 850 with tier zones" width={0} height={0} sizes="100vw" className="mb-8 h-auto w-full rounded-xl" quality={100} />
+          <ScoreScale />
 
           <p className="mb-4 text-base font-semibold text-foreground">Here&apos;s how the tiers break down:</p>
           <div className="mb-8 overflow-hidden rounded-xl border border-border">
@@ -833,7 +841,7 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             move the number instead of guessing.
           </p>
 
-          <Image src="/Imgs/ai-pic-5.png" alt="Pie chart showing the 5 credit score factors and their weights" width={0} height={0} sizes="100vw" className="mb-8 h-auto w-full rounded-xl" quality={100} />
+          <FiveFactors />
 
           <div className="mb-6 flex flex-col gap-5">
             {[
@@ -1137,7 +1145,7 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             </p>
           </div>
 
-          <Image src="/Imgs/ai-pic-6.png" alt="Credit score app dashboard showing score and factor breakdown" width={0} height={0} sizes="100vw" className="h-auto w-full rounded-xl" quality={100} />
+          <CreditAppExample />
         </div>
       );
 
@@ -1163,7 +1171,7 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             normal, and here&apos;s why.
           </p>
 
-          <Image src="/Imgs/ai-pic-7.png" alt="Three credit bureau score cards showing slightly different scores" width={0} height={0} sizes="100vw" className="mb-8 h-auto w-full rounded-xl" quality={100} />
+          <ThreeBureaus />
 
           <div className="mb-8 rounded-xl border border-border p-5">
             <p className="mb-2 font-semibold text-foreground">Not every lender reports to all three</p>
@@ -1242,7 +1250,7 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             score or destroy it.
           </p>
 
-          <Image src="/Imgs/ai-pic-8.png" alt="Payment history 35% and credit utilization 30% stat cards" width={0} height={0} sizes="100vw" className="mb-8 h-auto w-full rounded-xl" quality={100} />
+          <TwoRules />
 
           <div className="mb-5 rounded-xl border border-border p-6">
             <div className="mb-4 flex items-center gap-3">
@@ -1531,7 +1539,7 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             </p>
           </div>
 
-          <Image src="/Imgs/ai-pic-9.png" alt="All three credit bureaus frozen with lock icons" width={0} height={0} sizes="100vw" className="h-auto w-full rounded-xl" quality={100} />
+          <FreezeChecklist />
         </div>
       );
 
