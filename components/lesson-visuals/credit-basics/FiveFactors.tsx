@@ -19,7 +19,7 @@ export function FiveFactors() {
   const f = factors[active];
 
   return (
-    <VisualFrame title="What your score is made of">
+    <VisualFrame title="What your score is made of" tryIt="Tap a factor to see what it means">
       {/* Bracket over the two biggest factors */}
       <div className="flex text-[11px] font-bold text-[#7a5a22] sm:text-xs" aria-hidden="true">
         <div className="w-[65%] border-x-2 border-t-2 border-brass px-2 pt-1 pb-1.5 text-center">
@@ -44,7 +44,7 @@ export function FiveFactors() {
         ))}
       </div>
 
-      <div role="group" aria-label="Score factors" className="mt-5 grid gap-2 sm:grid-cols-5">
+      <div role="group" aria-label="Score factors" data-nudge className="mt-5 grid gap-2 rounded-lg sm:grid-cols-5">
         {factors.map((x, i) => (
           <button
             key={x.name}
@@ -53,7 +53,7 @@ export function FiveFactors() {
             onClick={() => setActive(i)}
             className={cn(
               "flex items-center gap-2 rounded-lg border px-3 py-2 text-left text-sm font-semibold transition-colors sm:flex-col sm:items-start sm:gap-1",
-              i === active ? "border-navy bg-card text-navy shadow-sm" : "border-border bg-card/60 text-muted-foreground hover:text-navy",
+              i === active ? "border-navy bg-card text-navy shadow-sm" : "border-border bg-card/60 text-muted-foreground hover:border-brass-deep/60 hover:text-navy",
             )}
           >
             <span className={cn("size-3 shrink-0 rounded-sm", x.fill)} aria-hidden="true" />

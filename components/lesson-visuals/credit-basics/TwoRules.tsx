@@ -26,7 +26,7 @@ export function TwoRules() {
   const status = utilizationStatus(pct);
 
   return (
-    <VisualFrame title="The two rules, in action">
+    <VisualFrame title="The two rules, in action" tryIt="Miss a payment, then drag your balance up">
       <div className="grid gap-4 md:grid-cols-2">
         {/* Rule 1 */}
         <section className="rounded-2xl bg-card p-5 ring-1 ring-border">
@@ -55,8 +55,9 @@ export function TwoRules() {
           <button
             type="button"
             aria-pressed={missed}
+            data-nudge
             onClick={() => setMissed((v) => !v)}
-            className="mt-4 rounded-full border border-border px-3.5 py-2 text-sm font-semibold text-navy transition-colors hover:bg-secondary"
+            className="mt-4 rounded-full border border-brass-deep/50 px-3.5 py-2 text-sm font-semibold text-navy transition-colors hover:bg-secondary"
           >
             {missed ? "Undo the missed payment" : "Miss one payment"}
           </button>
@@ -102,7 +103,8 @@ export function TwoRules() {
             value={balance}
             onChange={(e) => setBalance(Number(e.target.value))}
             aria-valuetext={`${pct}% utilization, ${status.label}`}
-            className="mt-2 w-full accent-[#13294b]"
+            data-nudge
+            className="mt-2 w-full rounded-full accent-brass-deep"
           />
         </section>
       </div>

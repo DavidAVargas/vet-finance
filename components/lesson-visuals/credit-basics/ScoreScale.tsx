@@ -26,7 +26,7 @@ export function ScoreScale() {
   const tier = tiers.find((t) => score >= t.min && score <= t.max) ?? tiers[0];
 
   return (
-    <VisualFrame title="The credit score scale">
+    <VisualFrame title="The credit score scale" tryIt="Drag the slider to see where a score lands">
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div aria-live="polite">
           <p className="text-4xl font-extrabold tracking-tight text-navy tabular-nums">{score}</p>
@@ -106,7 +106,8 @@ export function ScoreScale() {
         value={score}
         onChange={(e) => setScore(Number(e.target.value))}
         aria-valuetext={`${score}, ${tier.label}`}
-        className="mt-2 w-full accent-[#13294b]"
+        data-nudge
+        className="mt-2 w-full rounded-full accent-brass-deep"
       />
     </VisualFrame>
   );

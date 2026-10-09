@@ -39,6 +39,8 @@
   --navy: #13294b;
   --navy-deep: #0b1f3a;
   --brass: #c9a464;
+  /* Darker brass for interactive controls (meets 3:1 against white) */
+  --brass-deep: #9c7a42;
 
   /* Brand scale — navy (formerly OD green; still referenced as brand-* by the course pages) */
   --brand-25: #f6f8fb;
@@ -138,6 +140,7 @@
   --color-navy: var(--navy);
   --color-navy-deep: var(--navy-deep);
   --color-brass: var(--brass);
+  --color-brass-deep: var(--brass-deep);
 
   /* Brand */
   --color-brand-25: var(--brand-25);

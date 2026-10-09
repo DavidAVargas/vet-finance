@@ -35,7 +35,7 @@ export function SameThingDifferentPrice() {
   const max = Math.max(...s.rows.map((r) => r.value));
 
   return (
-    <VisualFrame title="Same purchase, two credit scores">
+    <VisualFrame title="Same purchase, two credit scores" tryIt="Switch between the house and the car">
       <Toggle
         label="Choose a purchase"
         value={which}

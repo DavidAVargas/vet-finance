@@ -20,7 +20,7 @@ export function CreditDoors() {
   const good = score === "good";
 
   return (
-    <VisualFrame title="Same person, two credit scores">
+    <VisualFrame title="Same person, two credit scores" tryIt="Switch between 760 and 580 to see what changes">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <Toggle
           label="Choose a credit score"

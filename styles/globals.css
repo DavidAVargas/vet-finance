@@ -90,3 +90,15 @@ input[type="search"]::-webkit-search-cancel-button {
   60% { transform: translateX(-4px); }
   80% { transform: translateX(4px); }
 }
+
+/* One-time "you can touch this" pulse on lesson visuals, triggered when the frame scrolls into view. */
+@keyframes nudge-ring {
+  0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--brass) 75%, transparent); }
+  100% { box-shadow: 0 0 0 12px transparent; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-seen] [data-nudge] {
+    animation: nudge-ring 1.1s ease-out 0.4s 2;
+  }
+}

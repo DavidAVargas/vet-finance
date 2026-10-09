@@ -18,9 +18,10 @@ export function FreezeChecklist() {
   return (
     <VisualFrame
       title="Your freeze checklist"
-      caption="Tap each bureau once you've frozen it. A freeze is free, and you can lift it any time you apply for something."
+      tryIt="Tap each bureau as you freeze it"
+      caption="A freeze is free, and you can lift it any time you apply for something."
     >
-      <ul className="grid gap-3 sm:grid-cols-3">
+      <ul data-nudge className="grid gap-3 rounded-2xl sm:grid-cols-3">
         {BUREAUS.map((b) => {
           const on = frozen.includes(b);
           return (
@@ -31,7 +32,7 @@ export function FreezeChecklist() {
                 onClick={() => toggle(b)}
                 className={cn(
                   "flex w-full flex-col items-center rounded-2xl p-5 text-center transition-colors",
-                  on ? "bg-navy text-white" : "bg-card text-navy ring-1 ring-border hover:ring-navy/40",
+                  on ? "bg-navy text-white" : "bg-card text-navy ring-1 ring-border hover:ring-brass-deep/60",
                 )}
               >
                 <span
