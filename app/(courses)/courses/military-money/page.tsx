@@ -56,6 +56,7 @@ const SECTIONS = [
     noQuiz: true,
     lessons: [
       { id: "hid-1", title: "Benefits Most Vets Never Claim" },
+      { id: "hid-cards", title: "Military Banks and Credit Cards" },
       { id: "hid-2", title: "State Benefits and Federal Hiring" },
     ],
   },
@@ -100,8 +101,8 @@ function LessonContent({ lessonId }: { lessonId: string }) {
                     { code: "BASE PAY", desc: "Your rank + years of service pay. This is taxed." },
                     { code: "BAH", desc: "Basic Allowance for Housing. Based on your duty station zip code, rank, and dependent status. Not taxed." },
                     { code: "BAS", desc: "Basic Allowance for Subsistence — food money. Not taxed." },
-                    { code: "COLA", desc: "Cost of Living Allowance for high-cost areas or overseas. Not taxed." },
-                    { code: "HFAC / HFP", desc: "Hostile Fire / Imminent Danger Pay — extra pay for combat or hazardous duty. Not taxed if in a combat zone." },
+                    { code: "COLA", desc: "Cost of Living Allowance for high-cost areas. Overseas COLA isn't taxed; stateside (CONUS) COLA is." },
+                    { code: "HFAC / HFP", desc: "Hostile Fire / Imminent Danger Pay — an extra $225/month for combat or hazardous duty. Not taxed if in a combat zone." },
                   ],
                 },
                 {
@@ -110,9 +111,9 @@ function LessonContent({ lessonId }: { lessonId: string }) {
                   items: [
                     { code: "FED TAX", desc: "Federal income tax withheld. Only applied to taxable pay (base pay and some special pays)." },
                     { code: "STATE TAX", desc: "State income tax. Varies by your state of legal residence — some states exempt military pay entirely." },
-                    { code: "SGLI", desc: "Servicemembers Group Life Insurance premium. Usually $28–$29/month for $400,000 in coverage." },
+                    { code: "SGLI", desc: "Servicemembers Group Life Insurance premium. $21/month for the full $400,000 in coverage, including $1 for traumatic injury (TSGLI) coverage." },
                     { code: "TSP", desc: "What you're contributing to your Thrift Savings Plan retirement account." },
-                    { code: "MED/DEN", desc: "TRICARE dental and vision premiums if enrolled." },
+                    { code: "MED/DEN", desc: "Family dental (TRICARE Dental Program) or vision premiums if enrolled. Your own active duty dental care is free." },
                   ],
                 },
                 {
@@ -151,10 +152,8 @@ function LessonContent({ lessonId }: { lessonId: string }) {
               you&apos;re deployed — then the cap is 120 days.
             </p>
             <p className="text-sm leading-relaxed text-muted-foreground">
-              Every day of unused leave you forfeit is money lost. At an E-5
-              pay rate, one day of leave is worth roughly $90–$110. Letting
-              30 days expire at the end of September is throwing away $2,700–$3,300.
-              Check your leave balance regularly and use it or sell it at terminal leave.
+              Every day of unused leave you forfeit is money lost. At a 2026 E-5 pay rate (over 4 years), one day of leave is worth roughly $130. Letting 30 days expire at the end of September is throwing away about $3,900.
+              Check your leave balance regularly. You can sell leave back for cash, but only 60 days over your entire career, so plan to use most of it.
             </p>
           </div>
 
@@ -222,9 +221,9 @@ function LessonContent({ lessonId }: { lessonId: string }) {
               {[
                 { label: "Is it taxed?", value: "No — never" },
                 { label: "Based on", value: "Duty station zip code + rank + dependent status" },
-                { label: "Designed to cover", value: "Median rental cost in your area for your rank" },
+                { label: "Designed to cover", value: "Typical rent and utilities for your rank in that area, minus a small (~5%) cost share" },
                 { label: "What if you spend less?", value: "You keep the difference — this is how military families build savings" },
-                { label: "What if you live on base?", value: "BAH is waived — housing is provided instead" },
+                { label: "What if you live on base?", value: "You generally don't receive it — housing is provided instead" },
               ].map(({ label, value }) => (
                 <div key={label} className="flex items-start justify-between gap-4 border-b border-border pb-2 last:border-0 last:pb-0 text-sm">
                   <p className="text-muted-foreground">{label}</p>
@@ -233,9 +232,7 @@ function LessonContent({ lessonId }: { lessonId: string }) {
               ))}
             </div>
             <p className="text-sm leading-relaxed text-muted-foreground">
-              BAH ranges widely by location. A married E-5 in San Diego might
-              receive $3,400+/month in BAH. The same rank in a rural area
-              might get $1,200. If you can find housing below your BAH rate,
+              BAH ranges widely by location. A married E-5 in San Diego can receive well over $3,000/month in BAH. The same rank in a rural area might get under $1,500. If you can find housing below your BAH rate,
               the difference is yours to keep — tax-free. This is one of the
               most powerful savings opportunities in the military.
             </p>
@@ -250,8 +247,8 @@ function LessonContent({ lessonId }: { lessonId: string }) {
             </p>
             <div className="flex flex-col gap-2">
               {[
-                { label: "Enlisted (2025 rate)", value: "~$460/month" },
-                { label: "Officer (2025 rate)", value: "~$317/month" },
+                { label: "Enlisted (2026 rate)", value: "$476.95/month" },
+                { label: "Officer (2026 rate)", value: "$328.48/month" },
                 { label: "Is it taxed?", value: "No" },
                 { label: "Do you get it on deployment?", value: "Generally yes, unless meals are provided" },
               ].map(({ label, value }) => (
@@ -272,10 +269,10 @@ function LessonContent({ lessonId }: { lessonId: string }) {
             </p>
             <div className="flex flex-col gap-2 mb-4">
               {[
-                { label: "Base pay (E-5, 4 yrs)", value: "$3,276/mo", taxed: true },
+                { label: "Base pay (E-5, over 4 yrs, 2026)", value: "$3,947/mo", taxed: true },
                 { label: "BAH (w/ dependents, medium COL)", value: "$1,800/mo", taxed: false },
-                { label: "BAS", value: "$460/mo", taxed: false },
-                { label: "Total compensation", value: "$5,536/mo", taxed: null },
+                { label: "BAS", value: "$477/mo", taxed: false },
+                { label: "Total compensation", value: "$6,224/mo", taxed: null },
               ].map(({ label, value, taxed }) => (
                 <div key={label} className="flex items-center justify-between gap-4 border-b border-border pb-2 last:border-0 last:pb-0 text-sm">
                   <div className="flex items-center gap-2">
@@ -288,8 +285,7 @@ function LessonContent({ lessonId }: { lessonId: string }) {
               ))}
             </div>
             <p className="text-sm leading-relaxed text-muted-foreground">
-              A civilian earning $5,536/month pays income tax on the full
-              amount. This servicemember only pays tax on $3,276. That&apos;s a
+              A civilian earning $6,224/month pays income tax on the full amount. This servicemember only pays tax on $3,947. That&apos;s a
               meaningful difference in take-home pay — and it compounds over
               a career.
             </p>
@@ -301,8 +297,7 @@ function LessonContent({ lessonId }: { lessonId: string }) {
               When you&apos;re deployed to a designated combat zone, your base
               pay also becomes tax-free — for every month you spend at least
               one day in the combat zone. For enlisted members, all pay is
-              excluded. For officers, the exclusion is capped at the highest
-              enlisted pay rate.
+              excluded. For officers, the exclusion is capped at the highest enlisted pay rate (plus imminent danger pay).
             </p>
             <p className="text-sm leading-relaxed text-muted-foreground">
               This means during a 6-month combat deployment, you could receive
@@ -357,9 +352,9 @@ function LessonContent({ lessonId }: { lessonId: string }) {
             <div className="flex flex-col gap-3">
               {[
                 { label: "Pension after 20 yrs", legacy: "2.5% × years × base pay", brs: "2.0% × years × base pay" },
-                { label: "TSP matching", legacy: "None", brs: "Up to 5% of base pay matched" },
+                { label: "TSP matching", legacy: "None", brs: "1% automatic + up to 4% match (5% total)" },
                 { label: "If you leave before 20 yrs", legacy: "No pension, no TSP match", brs: "Keep TSP + matching (vested after 2 yrs)" },
-                { label: "Continuation bonus", legacy: "Not applicable", brs: "Lump sum at 12 yrs if you re-up 4 more" },
+                { label: "Continuation pay", legacy: "Not applicable", brs: "One-time cash payment around 7–12 years of service for agreeing to serve 4 more" },
                 { label: "Who it benefits most", legacy: "Career servicemembers (20+ yrs)", brs: "Everyone, especially those who serve 4–12 yrs" },
               ].map(({ label, legacy, brs }) => (
                 <div key={label} className="grid grid-cols-3 gap-3 border-b border-border pb-3 last:border-0 last:pb-0 text-sm">
@@ -374,10 +369,8 @@ function LessonContent({ lessonId }: { lessonId: string }) {
           <div className="mb-8 rounded-xl border border-border p-5">
             <p className="mb-3 font-semibold text-foreground">The TSP match — free money you should never leave behind</p>
             <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
-              Under BRS, the government automatically contributes 1% of your
-              base pay to your TSP whether you contribute or not. Then they
-              match your contributions dollar-for-dollar up to 3%, and 50
-              cents on the dollar for the next 2%. Here&apos;s what that looks like:
+              Under BRS, the government automatically contributes 1% of your base pay to your TSP whether you contribute or not, starting 60 days after you join. Then they
+              match your contributions dollar-for-dollar up to 3%, and 50 cents on the dollar for the next 2%. One catch most people miss: the match starts at the beginning of your third year of service. Here&apos;s what that looks like:
             </p>
             <div className="flex flex-col gap-2 mb-4">
               {[
@@ -451,8 +444,7 @@ function LessonContent({ lessonId }: { lessonId: string }) {
             <p className="text-sm leading-relaxed text-white/85">
               Log into myPay and make sure you&apos;re contributing at least 5% of
               your base pay to TSP. If you&apos;re junior enlisted and money is tight,
-              even 3–4% gets you most of the match. If you can swing 5%, do it —
-              the match is the best guaranteed return you&apos;ll ever get. Early in
+              even 3–4% gets you most of the match. If you can swing 5%, do it — the match is the best guaranteed return you&apos;ll ever get. Start contributing even before year 3; the match won&apos;t kick in yet, but your own money starts compounding and the habit is already set. Early in
               your career, lean toward Roth TSP. You&apos;re in a lower tax bracket
               now than you&apos;ll likely be later, and tax-free growth over 20–30
               years is a powerful thing.
@@ -510,7 +502,7 @@ function LessonContent({ lessonId }: { lessonId: string }) {
                 { label: "Growth taxed?", regular: "No", combat: "No" },
                 { label: "Withdrawals taxed?", regular: "No", combat: "No" },
                 { label: "Tax paid at any point?", regular: "Once (on contribution)", combat: "Never" },
-                { label: "Annual contribution limit", regular: "$7,000 (2025, IRA)", combat: "$70,000 (2025, total TSP)" },
+                { label: "Annual contribution limit", regular: "$7,500 (2026, IRA)", combat: "$72,000 (2026, total TSP)" },
               ].map(({ label, regular, combat }) => (
                 <div key={label} className="grid grid-cols-3 gap-3 border-b border-border pb-3 last:border-0 last:pb-0 text-sm">
                   <p className="font-medium text-foreground">{label}</p>
@@ -524,10 +516,7 @@ function LessonContent({ lessonId }: { lessonId: string }) {
           <div className="mb-8 rounded-xl border border-border p-5">
             <p className="mb-3 font-semibold text-foreground">The contribution limit advantage</p>
             <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
-              In 2025 a civilian can contribute a maximum of $23,500/year to
-              a 401(k) or $7,000 to an IRA. During a combat zone deployment,
-              the TSP&apos;s annual limit rises to $70,000 — the IRS limit for
-              defined contribution plans. A 6-month deployment with aggressive
+              In 2026 a civilian can contribute a maximum of $24,500/year to a 401(k) or $7,500 to an IRA. During a combat zone deployment, tax-exempt contributions can go above that, up to $72,000 total for the year — the IRS limit for defined contribution plans. A 6-month deployment with aggressive
               saving could mean $30,000–$40,000+ in tax-exempt Roth TSP
               contributions in a single year.
             </p>
@@ -544,7 +533,7 @@ function LessonContent({ lessonId }: { lessonId: string }) {
               {[
                 { num: "1", title: "Switch your TSP election to Roth", body: "Log into myPay or TSP.gov and change your contribution type from Traditional to Roth before you deploy. Do this early — it can take a pay cycle to process." },
                 { num: "2", title: "Increase your contribution percentage", body: "During deployment your expenses drop dramatically — no rent if you're on base, meals often provided, nothing to spend money on. Increase your TSP contribution to capture as much of that tax-free pay as possible." },
-                { num: "3", title: "Watch the annual limit", body: "You can contribute up to $70,000 total to TSP in a year during a combat deployment. The standard $23,500 limit doesn't apply while you're in the zone. Don't over-contribute beyond that though — excess contributions get returned." },
+                { num: "3", title: "Watch the annual limit", body: "Tax-exempt contributions from combat zone pay can go above the normal $24,500 limit, up to $72,000 total for 2026. Don't go over that — excess contributions get returned." },
                 { num: "4", title: "Switch back after returning", body: "When you return from deployment, consider your tax situation. If you're back to taxable income, Traditional TSP might make more sense again depending on your bracket." },
               ].map(({ num, title, body }) => (
                 <div key={num} className="flex gap-4">
@@ -608,10 +597,10 @@ function LessonContent({ lessonId }: { lessonId: string }) {
               {[
                 { label: "Down payment required", conv: "$17,500", va: "$0" },
                 { label: "PMI (private mortgage insurance)", conv: "~$150–$200/mo until 20% equity", va: "None — ever" },
-                { label: "Interest rate (typical)", conv: "7.0–7.5%", va: "6.5–7.0% (often lower)" },
+                { label: "Interest rate", conv: "Market rate", va: "Often slightly lower than conventional" },
                 { label: "Funding fee (first use)", conv: "N/A", va: "2.15% of loan (one-time, can be financed)" },
                 { label: "10-year PMI cost", conv: "~$18,000–$24,000", va: "$0" },
-                { label: "Cash needed to close", conv: "$17,500+", va: "Funding fee only (or $0 if exempt)" },
+                { label: "Cash needed to close", conv: "$17,500+ plus closing costs", va: "Closing costs only — the funding fee can be rolled into the loan, and the seller can cover costs" },
               ].map(({ label, conv, va }) => (
                 <div key={label} className="grid grid-cols-3 gap-3 border-b border-border pb-3 last:border-0 last:pb-0 text-sm">
                   <p className="font-medium text-foreground">{label}</p>
@@ -639,7 +628,7 @@ function LessonContent({ lessonId }: { lessonId: string }) {
                 },
                 {
                   title: "Funding fee exemption for disabled vets",
-                  body: "If you have a VA service-connected disability rating of 10% or higher, the funding fee is completely waived. That's a savings of $7,525 on a $350k loan. If you get a disability rating after closing, you can request a refund of the funding fee you paid.",
+                  body: "If you have a VA service-connected disability rating of 10% or higher, the funding fee is completely waived. That's a savings of $7,525 on a $350k loan. If you were already entitled to disability pay when you closed (for example, your rating came through later but its effective date is on or before your closing date), you can request a refund of the funding fee.",
                 },
                 {
                   title: "Seller can pay your closing costs",
@@ -664,7 +653,7 @@ function LessonContent({ lessonId }: { lessonId: string }) {
               {[
                 "90+ days active duty during wartime",
                 "181+ days active duty during peacetime",
-                "6+ years in the National Guard or Reserves",
+                "6+ years in the National Guard or Reserves (or 90 days of qualifying active-duty orders)",
                 "Surviving spouse of a servicemember who died in service or from a service-connected disability",
               ].map((item) => (
                 <div key={item} className="flex items-start gap-3 border-b border-border pb-2 last:border-0 last:pb-0">
@@ -732,10 +721,10 @@ function LessonContent({ lessonId }: { lessonId: string }) {
             <div className="flex flex-col gap-2 mb-4">
               {[
                 { label: "Down payment", value: "$0" },
-                { label: "Monthly mortgage (6.75%, 30yr)", value: "~$2,594/mo" },
+                { label: "Mortgage payment (6.75%, 30yr, funding fee financed)", value: "~$2,650/mo" }, { label: "Property taxes + insurance (estimate)", value: "~$600/mo" },
                 { label: "Unit 2 rent", value: "$1,100/mo" },
                 { label: "Unit 3 rent", value: "$1,100/mo" },
-                { label: "Your effective housing cost", value: "~$394/mo", highlight: true },
+                { label: "Your effective housing cost", value: "~$1,050/mo", highlight: true },
               ].map(({ label, value, highlight }) => (
                 <div
                   key={label}
@@ -748,7 +737,7 @@ function LessonContent({ lessonId }: { lessonId: string }) {
               ))}
             </div>
             <p className="text-xs text-muted-foreground">
-              Instead of paying $2,594/month in rent or mortgage, you pay ~$394/month — while building equity in a $400k asset. Your tenants are covering the rest. In many markets, rents cover the full mortgage and you live completely free.
+              Instead of covering the full ~$3,250/month yourself, you pay about $1,050 — while building equity in a $400k asset. Your tenants cover the rest. In stronger rental markets, rents can cover most or all of it.
             </p>
           </div>
 
@@ -766,7 +755,7 @@ function LessonContent({ lessonId }: { lessonId: string }) {
                 },
                 {
                   title: "You qualify using projected rental income",
-                  body: "VA lenders can count a percentage of the expected rental income from the other units when calculating your debt-to-income ratio. This means you can qualify for a larger loan than you could on your income alone.",
+                  body: "VA lenders can count a portion of the expected rent (often about 75%) from the other units when qualifying you. This means you can qualify for a larger loan than you could on your income alone. For 3–4 unit properties, VA also requires you to have 6 months of mortgage payments saved in reserve.",
                 },
                 {
                   title: "You can do it again",
@@ -791,8 +780,8 @@ function LessonContent({ lessonId }: { lessonId: string }) {
                 { num: "1", title: "Get your Certificate of Eligibility (COE)", body: "Your lender can pull this directly from the VA system — you usually don't need to request it yourself. It confirms your entitlement amount. You can also get it at va.gov." },
                 { num: "2", title: "Find a VA-experienced lender", body: "Not all lenders know VA loans well. Use one that does a high volume of VA loans — they'll know how to handle multi-unit properties, appraisal issues, and seller concession negotiations. Navy Federal, USAA, and Veterans United are good starting points." },
                 { num: "3", title: "Get pre-approved before you search", body: "A pre-approval letter makes your offer competitive. For a multi-unit property, your lender will want to see the expected rental income — have market comps ready." },
-                { num: "4", title: "Look for 2–4 unit properties in your target area", body: "Duplexes, triplexes, and fourplexes. The VA requires one unit to be your primary residence. Stay in it for at least a year — that's the occupancy requirement." },
-                { num: "5", title: "Check if you're exempt from the funding fee", body: "10%+ service-connected disability = no funding fee. If you're not yet rated, consider filing a claim before closing. If you get rated after closing, request a refund from the VA." },
+                { num: "4", title: "Look for 2–4 unit properties in your target area", body: "Duplexes, triplexes, and fourplexes. The VA requires one unit to be your primary residence. You need to move in within about 60 days and intend to live there; many lenders expect around a year." },
+                { num: "5", title: "Check if you're exempt from the funding fee", body: "10%+ service-connected disability = no funding fee. If you're not yet rated, file your claim before closing. If the rating comes through later with an effective date on or before your closing, request a refund from the VA." },
               ].map(({ num, title, body }) => (
                 <div key={num} className="flex gap-4">
                   <div className="flex size-7 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white" style={{ background: "var(--brand-600)" }}>
@@ -864,17 +853,16 @@ function LessonContent({ lessonId }: { lessonId: string }) {
           <div className="mb-8 rounded-xl border border-border p-5">
             <p className="mb-3 font-semibold text-foreground">Post-9/11 GI Bill (Chapter 33)</p>
             <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
-              The most commonly used education benefit. If you served 90+
-              days on active duty after September 10, 2001, you likely qualify.
+              The most commonly used education benefit. If you served 90+ days on active duty after September 10, 2001, you likely qualify. Your coverage is a percentage based on time served: 90 days gets 50%, and 36 months gets the full 100%.
               At 36 months of entitlement (the max), it covers:
             </p>
             <div className="flex flex-col gap-2 mb-4">
               {[
-                { label: "Tuition & fees", value: "100% at public in-state schools; capped at ~$28,937/yr at private schools (2024–25)" },
+                { label: "Tuition & fees", value: "100% at public in-state schools; capped at $30,908/yr at private schools (2026–27)" },
                 { label: "Monthly housing allowance", value: "E-5 with dependents BAH rate for your school's zip code — while attending more than half-time" },
                 { label: "Books & supplies", value: "Up to $1,000/yr" },
                 { label: "Yellow Ribbon Program", value: "For private schools above the cap — school and VA split the difference" },
-                { label: "Time limit", value: "15 years from your last discharge date to use it" },
+                { label: "Time limit", value: "None if you left service on or after Jan 1, 2013 (Forever GI Bill); 15 years if you left earlier" },
                 { label: "Who qualifies", value: "Veterans, active duty, and in some cases dependents (transferability)" },
               ].map(({ label, value }) => (
                 <div key={label} className="flex flex-col gap-0.5 border-b border-border pb-2 last:border-0 last:pb-0 text-sm">
@@ -884,26 +872,24 @@ function LessonContent({ lessonId }: { lessonId: string }) {
               ))}
             </div>
             <p className="text-xs text-muted-foreground">
-              The housing allowance is paid based on the zip code of your school — not where you live. Online-only students receive half the national average BAH (~$1,050/mo in 2024), not the local rate.
+              The housing allowance is paid based on the zip code of your school — not where you live. Online-only students receive a flat reduced rate ($1,261/mo for 2026–27), not the local rate.
             </p>
           </div>
 
           <div className="mb-8 rounded-xl border border-border p-5">
             <p className="mb-3 font-semibold text-foreground">VR&amp;E — Vocational Rehabilitation &amp; Employment (Chapter 31)</p>
             <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
-              VR&amp;E is for veterans with a service-connected disability rating
-              of 10% or higher who have an employment handicap due to that
-              disability. It&apos;s more restrictive to qualify for — but if you do,
+              VR&amp;E is for veterans with a service-connected disability rating — generally 20% or higher, or 10% with a serious employment handicap — whose disability makes it harder to work in their field. It&apos;s more restrictive to qualify for — but if you do,
               it&apos;s often significantly better than the GI Bill.
             </p>
             <div className="flex flex-col gap-2 mb-4">
               {[
                 { label: "Tuition & fees", value: "Paid directly — no cap. Covers private schools and grad programs that would exceed GI Bill limits" },
                 { label: "Books & supplies", value: "Covered — no dollar cap" },
-                { label: "Subsistence allowance", value: "Monthly living stipend paid on top of everything else — similar to BAH but separate" },
+                { label: "Subsistence allowance", value: "Monthly living stipend — and if you also have Post-9/11 GI Bill eligibility, you can choose the GI Bill housing rate instead, which is usually higher" },
                 { label: "Scope", value: "Covers certifications, trade school, non-degree programs, and tools/equipment for your field" },
-                { label: "Time limit", value: "No hard expiration if your disability is the reason you need training" },
-                { label: "Who qualifies", value: "Vets with 10%+ service-connected disability rating AND an employment handicap" },
+                { label: "Time limit", value: "None if you left service on or after Jan 1, 2013; otherwise 12 years (can be extended)" },
+                { label: "Who qualifies", value: "Vets rated 20%+ with an employment handicap, or 10% with a serious one" },
               ].map(({ label, value }) => (
                 <div key={label} className="flex flex-col gap-0.5 border-b border-border pb-2 last:border-0 last:pb-0 text-sm">
                   <p className="font-semibold text-foreground">{label}</p>
@@ -922,13 +908,13 @@ function LessonContent({ lessonId }: { lessonId: string }) {
             </div>
             <div className="flex flex-col gap-3">
               {[
-                { label: "Tuition cap", gi: "~$28,937/yr private", vre: "No cap — full cost paid" },
+                { label: "Tuition cap", gi: "$30,908/yr private (2026–27)", vre: "No cap — full cost paid" },
                 { label: "Grad school", gi: "Yes, within cap", vre: "Yes, no cap if disability-related" },
                 { label: "Trade / cert programs", gi: "Limited", vre: "Yes, broadly covered" },
-                { label: "Monthly living stipend", gi: "BAH rate (school zip)", vre: "Subsistence allowance + can stack with BAH" },
+                { label: "Monthly living stipend", gi: "BAH rate (school zip)", vre: "Subsistence allowance, or the GI Bill rate if eligible" },
                 { label: "Books / supplies", gi: "Up to $1,000/yr", vre: "Fully covered, no cap" },
-                { label: "Disability rating required", gi: "No", vre: "Yes — 10%+ with employment handicap" },
-                { label: "Time limit", gi: "15 yrs from discharge", vre: "No limit if disability-related" },
+                { label: "Disability rating required", gi: "No", vre: "Yes — usually 20%+ (10% with a serious handicap)" },
+                { label: "Time limit", gi: "None if separated 2013+", vre: "None if separated 2013+" },
               ].map(({ label, gi, vre }) => (
                 <div key={label} className="grid grid-cols-3 gap-3 border-b border-border pb-3 last:border-0 last:pb-0 text-sm">
                   <p className="font-medium text-foreground">{label}</p>
@@ -942,11 +928,8 @@ function LessonContent({ lessonId }: { lessonId: string }) {
           <div className="rounded-xl p-5 text-white" style={{ background: "var(--brand-600)" }}>
             <p className="mb-1 font-bold">Which one should you use?</p>
             <p className="text-sm leading-relaxed text-white/85">
-              If you have a 10%+ disability rating and an employment handicap,
-              apply for VR&amp;E first — especially if you&apos;re going to a private
-              school, grad program, or trade certification. The tuition coverage
-              is uncapped, the subsistence allowance is on top, and there&apos;s
-              no expiration if your disability is the driver. Save the GI Bill
+              If you have a service-connected disability rating, apply for VR&amp;E first — especially if you&apos;re going to a private
+              school, grad program, or trade certification. The tuition coverage is uncapped and the living allowance can match the GI Bill rate. (There&apos;s a combined 48-month cap across both programs, so plan your months.) Save the GI Bill
               for situations where VR&amp;E doesn&apos;t apply, or transfer it to a
               dependent. Don&apos;t burn your GI Bill when VR&amp;E would cover the
               same cost for free.
@@ -981,15 +964,13 @@ function LessonContent({ lessonId }: { lessonId: string }) {
               a flat rate that has nothing to do with your military record.
             </p>
             <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
-              In high cost-of-living areas this can be substantial. A vet
-              attending a school in San Diego could receive $3,200–$3,500/month
-              in housing allowance — tax-free — while in school full time.
+              In high cost-of-living areas this can be substantial. A vet attending a school in San Diego can receive well over $3,000/month in housing allowance — tax-free — while in school full time.
               That&apos;s on top of tuition being paid directly to the school.
             </p>
             <div className="flex flex-col gap-2 text-sm">
               {[
                 { label: "In-person, half-time+", value: "Full E-5 w/ dependents BAH for school zip" },
-                { label: "Online only", value: "Half the national average BAH (~$1,050/mo)" },
+                { label: "Online only", value: "Flat reduced rate ($1,261/mo for 2026–27)" },
                 { label: "Mix of in-person + online", value: "Prorated based on in-person credit hours" },
               ].map(({ label, value }) => (
                 <div key={label} className="flex items-start justify-between gap-4 border-b border-border pb-2 last:border-0 last:pb-0">
@@ -1006,10 +987,7 @@ function LessonContent({ lessonId }: { lessonId: string }) {
           <div className="mb-8 rounded-xl border border-border p-5">
             <p className="mb-3 font-semibold text-foreground">Transfer your GI Bill to a dependent</p>
             <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
-              If you don&apos;t need your GI Bill for yourself, you can transfer
-              unused months to a spouse or child — but only while you&apos;re
-              still on active duty, and only if you commit to at least 4
-              more years of service (or until 20 years, whichever comes first).
+              If you don&apos;t need your GI Bill for yourself, you can transfer unused months to a spouse or child — but you need at least 6 years of service, you must agree to serve 4 more, and you must request it while still serving (and before you reach 16 years).
             </p>
             <p className="text-sm leading-relaxed text-muted-foreground">
               This is a massive benefit for military families. A spouse can
@@ -1068,7 +1046,7 @@ function LessonContent({ lessonId }: { lessonId: string }) {
                 },
                 {
                   mistake: "Not applying for VR&E before using GI Bill",
-                  fix: "If you have a 10%+ disability rating, apply for VR&E first. If you qualify, it covers more and has no expiration. You can always fall back to GI Bill — you can't un-burn months you already used.",
+                  fix: "If you have a service-connected disability rating, apply for VR&E first. If you qualify, it often covers more. You can always fall back to GI Bill — you can't un-burn months you already used.",
                 },
                 {
                   mistake: "Forgetting to check state benefits",
@@ -1123,7 +1101,7 @@ function LessonContent({ lessonId }: { lessonId: string }) {
           </p>
 
           <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-3 font-semibold text-foreground">What "service-connected" means</p>
+            <p className="mb-3 font-semibold text-foreground">What &ldquo;service-connected&rdquo; means</p>
             <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
               A condition is service-connected if it was caused by, aggravated
               by, or directly related to your military service. This is broader
@@ -1165,7 +1143,7 @@ function LessonContent({ lessonId }: { lessonId: string }) {
             <div className="rounded-lg bg-muted/40 p-4 text-sm">
               <p className="mb-2 font-semibold text-foreground">Example: combined rating math</p>
               <div className="flex flex-col gap-1 text-muted-foreground">
-                <p>Condition 1: 40% → leaves 60% "whole person"</p>
+                <p>Condition 1: 40% → leaves 60% &ldquo;whole person&rdquo;</p>
                 <p>Condition 2: 20% of 60% = 12 → combined 52%</p>
                 <p>Condition 3: 10% of 48% = ~5 → combined 57%</p>
                 <p className="mt-1 font-medium text-foreground">VA rounds to nearest 10% → rated at 60%</p>
@@ -1203,7 +1181,7 @@ function LessonContent({ lessonId }: { lessonId: string }) {
               the VA pays back to the date you filed, not when they finish
               processing it. Filing now and waiting beats waiting to file.
               Even if your conditions feel manageable today, service-connected
-              conditions tend to worsen over time. Get them on record now.
+              conditions tend to worsen over time. Get them on record now. Two moves most people miss: file an Intent to File (VA Form 21-0966) today, which locks in your back-pay start date for up to a year while you gather evidence. And if you file within a year of leaving service, your effective date can go back to the day after discharge. Still in uniform? The Benefits Delivery at Discharge (BDD) program lets you file 180 to 90 days before separation so your rating can be ready right after you get out.
             </p>
           </div>
         </div>
@@ -1228,19 +1206,19 @@ function LessonContent({ lessonId }: { lessonId: string }) {
           </p>
 
           <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-4 font-semibold text-foreground">Monthly compensation by rating (2024 rates, single veteran)</p>
+            <p className="mb-4 font-semibold text-foreground">Monthly compensation by rating (2026 rates, veteran alone)</p>
             <div className="flex flex-col gap-2">
               {[
-                { rating: "10%", amount: "$171/mo", note: "" },
-                { rating: "20%", amount: "$338/mo", note: "" },
-                { rating: "30%", amount: "$524/mo", note: "Dependent allowances begin" },
-                { rating: "40%", amount: "$755/mo", note: "" },
-                { rating: "50%", amount: "$1,075/mo", note: "CRDP eligibility — can collect pension + disability" },
-                { rating: "60%", amount: "$1,361/mo", note: "" },
-                { rating: "70%", amount: "$1,716/mo", note: "Individual Unemployability consideration begins" },
-                { rating: "80%", amount: "$1,995/mo", note: "" },
-                { rating: "90%", amount: "$2,241/mo", note: "" },
-                { rating: "100%", amount: "$3,737/mo", note: "Full benefits package — massive state-level perks", highlight: true },
+                { rating: "10%", amount: "$180/mo", note: "" },
+                { rating: "20%", amount: "$357/mo", note: "" },
+                { rating: "30%", amount: "$552/mo", note: "Dependent allowances begin" },
+                { rating: "40%", amount: "$796/mo", note: "" },
+                { rating: "50%", amount: "$1,133/mo", note: "CRDP eligibility — can collect pension + disability" },
+                { rating: "60%", amount: "$1,435/mo", note: "Individual Unemployability possible" },
+                { rating: "70%", amount: "$1,808/mo", note: "" },
+                { rating: "80%", amount: "$2,102/mo", note: "" },
+                { rating: "90%", amount: "$2,362/mo", note: "" },
+                { rating: "100%", amount: "$3,939/mo", note: "Full benefits package — massive state-level perks", highlight: true },
               ].map(({ rating, amount, note, highlight }) => (
                 <div
                   key={rating}
@@ -1253,7 +1231,7 @@ function LessonContent({ lessonId }: { lessonId: string }) {
                 </div>
               ))}
             </div>
-            <p className="mt-3 text-xs text-muted-foreground">All compensation is tax-free. Rates increase annually with COLA adjustments. Dependents (spouse, children) add to the base amount starting at 30%.</p>
+            <p className="mt-3 text-xs text-muted-foreground">All compensation is tax-free. Rates increase every December with the cost-of-living adjustment. Dependents (spouse, children) add to the base amount starting at 30%.</p>
           </div>
 
           <div className="mb-8 rounded-xl border border-border p-5">
@@ -1262,7 +1240,7 @@ function LessonContent({ lessonId }: { lessonId: string }) {
               {[
                 {
                   rating: "10%+",
-                  unlocks: ["VA healthcare enrollment", "Monthly tax-free compensation", "Funding fee waiver on VA home loan", "10-point federal hiring preference"],
+                  unlocks: ["VA healthcare enrollment", "Monthly tax-free compensation", "Funding fee waiver on VA home loan", "10-point federal hiring preference", "Commissary, exchange, and MWR shopping (any service-connected rating, even 0%)"],
                 },
                 {
                   rating: "30%+",
@@ -1273,18 +1251,17 @@ function LessonContent({ lessonId }: { lessonId: string }) {
                   unlocks: ["CRDP — collect both retirement pension AND disability pay concurrently (no offset)", "Priority Group 1 VA healthcare (lowest or no copays)"],
                 },
                 {
-                  rating: "70%+",
-                  unlocks: ["Individual Unemployability (TDIU) — if you can't work due to your disability, may be compensated at the 100% rate even with a lower rating"],
+                  rating: "60–70%+", unlocks: ["Individual Unemployability (TDIU) — if your disabilities keep you from working, you may be paid at the 100% rate. Generally requires one condition at 60%+, or a combined 70% with one condition at 40%+"],
                 },
                 {
                   rating: "100% (or P&T)",
                   unlocks: [
-                    "Maximum monthly compensation (~$3,737+/mo)",
+                    "Maximum monthly compensation (~$3,939+/mo)",
                     "Free VA healthcare for all conditions",
-                    "Commissary and exchange access for life",
+                    "DoD ID card for base access (100% P&T)",
                     "Many states: full property tax exemption",
                     "Many states: free vehicle registration, hunting/fishing licenses",
-                    "Free America the Beautiful national parks pass",
+                    "Space-A travel on military flights (100% P&T)",
                     "CHAMPVA — healthcare coverage for dependents",
                   ],
                 },
@@ -1313,11 +1290,11 @@ function LessonContent({ lessonId }: { lessonId: string }) {
             </p>
             <div className="flex flex-col gap-2 text-sm">
               {[
-                "Your rating cannot be reduced without your consent",
+                "VA generally won't schedule routine re-exams or reduce your rating",
                 "You qualify for CHAMPVA — VA healthcare for your spouse and dependents",
                 "State property tax exemptions almost always require P&T status",
                 "Some states offer free college tuition for your children if you hold P&T",
-                "Commissary/exchange access for life is tied to P&T in some cases",
+                "A DoD ID card for base access, plus Space-A flights on military aircraft",
               ].map((item) => (
                 <div key={item} className="flex items-start gap-3 border-b border-border pb-2 last:border-0 last:pb-0">
                   <span className="mt-0.5 flex size-4 shrink-0 items-center justify-center rounded-full text-[10px] font-bold text-white" style={{ background: "var(--brand-600)" }}>✓</span>
@@ -1356,34 +1333,34 @@ function LessonContent({ lessonId }: { lessonId: string }) {
           <p className="mb-5 text-base leading-relaxed text-muted-foreground">
             The big benefits — VA loan, GI Bill, disability compensation —
             get most of the attention. But there&apos;s a whole layer of perks
-            most veterans never know about. These aren&apos;t small either. Some
-            are worth thousands of dollars a year. Here&apos;s what you&apos;re probably
-            leaving behind.
+            most people never hear about, and several of them come with
+            deadlines that quietly expire. Some are worth thousands of
+            dollars. Here they are, sorted by when they matter.
           </p>
 
           <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-4 font-semibold text-foreground">Financial benefits most vets miss</p>
+            <p className="mb-4 font-semibold text-foreground">While you&apos;re serving</p>
             <div className="flex flex-col gap-4">
               {[
                 {
-                  title: "VA funding fee refund",
-                  body: "If you used a VA home loan and later received a service-connected disability rating, you may be entitled to a refund of the funding fee you paid at closing. At 2.15% on a $300k loan, that's $6,450 back in your pocket. File through the VA with your loan paperwork and rating letter.",
+                  title: "Savings Deposit Program — a guaranteed 10%",
+                  body: "Deployed to a combat zone and receiving hostile fire or imminent danger pay? You can deposit up to $10,000 with DFAS and earn a guaranteed 10% a year, compounded quarterly, for the whole deployment and up to 90 days after you leave. Nothing else on the market guarantees 10%. Ask your finance office as soon as you deploy.",
                 },
                 {
-                  title: "CRSC — Combat Related Special Compensation",
-                  body: "Military retirees who have both a retirement pension and a VA disability rating normally see an offset — one reduces the other. CRSC is an exception that allows combat-disabled retirees to receive both, in full, without offset. Separate from CRDP and available even below 50% if the disability is combat-related.",
+                  title: "Turn your PCS into a paycheck (PPM move)",
+                  body: "Move yourself with a Personally Procured Move and the government pays you up to what it would have paid professional movers. Whatever you don't spend, you keep. The profit counts as taxable income, so keep every receipt: gas, truck rental, and supplies reduce what you owe.",
                 },
                 {
-                  title: "MilTax — free tax prep",
-                  body: "Military OneSource provides free federal and state tax software through H&R Block equivalent tools. Available to active duty, Guard, Reserve, and veterans in their first year after separation. It handles military-specific situations like combat zone exclusions and multiple state returns — no income limit, completely free.",
+                  title: "SkillBridge — train for your next job on military pay",
+                  body: "In your last 180 days of service, you can intern or train with a civilian employer while still receiving your full military pay and benefits, with your command's approval. It's one of the best ways to line up a job before you get out.",
                 },
                 {
-                  title: "SGLI to VGLI conversion",
-                  body: "When you leave the military, you have 1 year and 120 days to convert your SGLI life insurance to Veterans Group Life Insurance without any medical exam. After that window closes, you need to qualify medically. If you have any health conditions, convert before the window closes — you can always reduce coverage later.",
+                  title: "Lower interest on your debt",
+                  body: "The SCRA caps interest at 6% on debt you took on before active duty, and the Military Lending Act caps most new credit at 36%. Navy Federal and USAA go further with special deployment rates. More on this in the next lesson.",
                 },
                 {
-                  title: "National Cemetery burial benefits",
-                  body: "Honorably discharged veterans are entitled to burial in a national cemetery at no cost — including the grave, opening and closing, liner, and marker. Spouses and dependents can be buried there too. This benefit alone is worth several thousand dollars. Inform your family so they know to request it.",
+                  title: "MilTax — free tax filing",
+                  body: "Military OneSource offers free tax software and free tax consultants that handle military situations like combat zone exclusions and multiple state returns. Available to active duty, Guard, Reserve, and veterans for a year after separation. No income limit.",
                 },
               ].map(({ title, body }) => (
                 <div key={title} className="rounded-xl border border-border p-4">
@@ -1393,26 +1370,61 @@ function LessonContent({ lessonId }: { lessonId: string }) {
               ))}
             </div>
           </div>
-
           <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-4 font-semibold text-foreground">Lifestyle benefits worth real money</p>
-            <div className="flex flex-col gap-3">
+            <p className="mb-4 font-semibold text-foreground">When you get out — watch these deadlines</p>
+            <div className="flex flex-col gap-4">
               {[
                 {
-                  title: "Exchange (PX/BX/NEX) access for life",
-                  body: "As of 2020, all honorably discharged veterans — not just retirees — can shop the military exchange online. No sales tax, military pricing on electronics, appliances, and more. shopmy.exchange is the online portal. On average 20–30% below retail prices.",
+                  title: "One-time VA dental care — 180-day deadline",
+                  body: "If your DD-214 doesn't show that your dental work was completed before discharge, you can get a one-time round of VA dental care. But you must apply within 180 days of leaving service. Miss it and it's gone.",
                 },
                 {
-                  title: "Space-A travel",
-                  body: "Space Available (Space-A) flights let military members and eligible veterans fly on military aircraft as space allows — for free or very low cost. Retirees have Space-A access. Active duty can fly worldwide. A round trip to Europe for $30 in fees is not unusual. Requires flexibility since you're flying standby.",
+                  title: "SGLI to VGLI — 240 days with no health questions",
+                  body: "When you get out you can keep your life insurance by converting SGLI to VGLI. Apply within 240 days of separation and they can't ask any health questions. You can still apply up to 1 year and 120 days out, but after day 240 you'll have to answer health questions. If you have any health conditions, don't miss day 240.",
                 },
                 {
-                  title: "America the Beautiful national parks pass",
-                  body: "Veterans with a permanent service-connected disability (any rating) receive a free lifetime America the Beautiful pass — free entry to all national parks, monuments, recreation areas, and federal lands. Normally $80/year. Pick it up at any federal recreation site or order online through the USGS.",
+                  title: "VA health care for combat veterans",
+                  body: "If you served in a combat zone, you can enroll in VA health care for up to 10 years after discharge without needing a disability rating first. Enroll early, even if you feel fine; it's much harder to sort out later.",
+                },
+                {
+                  title: "VA funding fee refund",
+                  body: "If you paid a VA funding fee and were already entitled to disability compensation at closing (for example, your rating came through later but its effective date is on or before your closing date), you can get the fee refunded. At 2.15% on a $300k loan, that's $6,450. Contact your lender or the VA Regional Loan Center at 1-877-827-3702.",
+                },
+              ].map(({ title, body }) => (
+                <div key={title} className="rounded-xl border border-border p-4">
+                  <p className="mb-1 text-sm font-semibold text-foreground">{title}</p>
+                  <p className="text-sm leading-relaxed text-muted-foreground">{body}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="mb-8 rounded-xl border border-border p-5">
+            <p className="mb-4 font-semibold text-foreground">For life</p>
+            <div className="flex flex-col gap-4">
+              {[
+                {
+                  title: "CRSC — Combat-Related Special Compensation",
+                  body: "Military retirees with a VA rating normally see their retirement pay reduced by their disability pay. CRSC lets retirees with combat-related disabilities receive both. It's separate from CRDP and available even below a 50% rating if the disability is combat-related.",
+                },
+                {
+                  title: "Military exchange and commissary shopping",
+                  body: "Every honorably discharged veteran can shop the military exchange online at shopmyexchange.com. Veterans with any service-connected disability rating (even 0%), Purple Heart recipients, and former POWs can also shop in person at commissaries and exchanges on base.",
+                },
+                {
+                  title: "Space-A flights",
+                  body: "Active duty, retirees, and veterans rated 100% Permanent & Total can fly Space-Available on military aircraft for free or small fees. Seats depend on what's open, so you need a flexible schedule, but it can mean a trip overseas for almost nothing.",
+                },
+                {
+                  title: "Free lifetime national parks pass",
+                  body: "Every veteran — no disability rating required — gets a free lifetime pass to national parks, wildlife refuges, national forests, and 2,000+ federal recreation areas. Gold Star families qualify too. Bring a veteran ID (VA health card, DoD ID, Veteran ID Card, or a state license showing veteran status).",
+                },
+                {
+                  title: "National cemetery burial benefits",
+                  body: "Veterans discharged under conditions other than dishonorable can be buried in a national cemetery at no cost, including the grave, liner, headstone or marker, and a burial flag. Spouses and dependents can be buried there too. Apply for a pre-need eligibility decision now so your family doesn't have to sort it out later.",
                 },
                 {
                   title: "Free or reduced admission at state parks and museums",
-                  body: "Many states offer free or discounted admission to state parks, museums, and recreational facilities for veterans. Some require a disability rating; others just need a DD-214. Check your state's veterans affairs website for the full list.",
+                  body: "Many states offer free or discounted admission to state parks, museums, and recreation areas for veterans. Some require a disability rating; others just need proof of service. Check your state's veterans affairs website.",
                 },
               ].map(({ title, body }) => (
                 <div key={title} className="rounded-xl border border-border p-4">
@@ -1422,7 +1434,6 @@ function LessonContent({ lessonId }: { lessonId: string }) {
               ))}
             </div>
           </div>
-
           <div className="rounded-xl p-5 text-white" style={{ background: "var(--brand-600)" }}>
             <p className="mb-1 font-bold">The pattern here</p>
             <p className="text-sm leading-relaxed text-white/85">
@@ -1438,11 +1449,106 @@ function LessonContent({ lessonId }: { lessonId: string }) {
         </div>
       );
 
-    case "hid-2":
+    case "hid-cards":
       return (
         <div>
           <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
             The Hidden Stuff · Lesson 2
+          </p>
+          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+            Military Banks and Credit Cards
+          </h1>
+          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+            A handful of banks and credit unions exist specifically to serve
+            the military, and the big card issuers have rules that only apply
+            to servicemembers. Used right, that means no-fee cards with strong
+            rewards, lower interest when you deploy, and premium cards with
+            the annual fee waived.
+          </p>
+
+          <div className="mb-8 rounded-xl border border-border p-5">
+            <p className="mb-4 font-semibold text-foreground">Who can join the military-focused banks</p>
+            <div className="flex flex-col gap-3">
+              {[
+                { name: "Navy Federal Credit Union", who: "All branches (not just Navy), veterans, DoD civilians, and their families." },
+                { name: "USAA", who: "Active duty, veterans with an honorable discharge, their spouses, and children of USAA members." },
+                { name: "PenFed Credit Union", who: "Open to anyone, with extra perks for military members." },
+              ].map(({ name, who }) => (
+                <div key={name} className="rounded-xl border border-border p-4">
+                  <p className="mb-1 text-sm font-semibold text-foreground">{name}</p>
+                  <p className="text-sm leading-relaxed text-muted-foreground">{who}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="mb-8 rounded-xl border border-border p-5">
+            <p className="mb-4 font-semibold text-foreground">Standout no-fee cards from military banks</p>
+            <div className="flex flex-col gap-3">
+              {[
+                { card: "Navy Federal cashRewards Plus", perk: "Unlimited 2% cash back on everything. A great everyday catch-all card." },
+                { card: "USAA Cashback Rewards Plus American Express", perk: "5% cash back on gas and on-base purchases (on your first $3,000 a year in those categories)." },
+                { card: "PenFed Power Cash Rewards Visa Signature", perk: "Up to 2% cash back on everything for military members." },
+              ].map(({ card, perk }) => (
+                <div key={card} className="flex items-start justify-between gap-3 rounded-xl border border-border p-4">
+                  <div>
+                    <p className="mb-1 text-sm font-semibold text-foreground">{card}</p>
+                    <p className="text-sm leading-relaxed text-muted-foreground">{perk}</p>
+                  </div>
+                  <span className="shrink-0 rounded-full bg-muted px-2.5 py-0.5 text-xs font-semibold text-muted-foreground">$0 fee</span>
+                </div>
+              ))}
+            </div>
+            <p className="mt-3 text-xs text-muted-foreground">Card terms change often. Check the current rates and fees on the issuer&apos;s site before you apply.</p>
+          </div>
+
+          <div className="mb-8 rounded-xl border border-border p-5">
+            <p className="mb-4 font-semibold text-foreground">Protections only servicemembers get</p>
+            <div className="flex flex-col gap-3">
+              {[
+                { title: "SCRA — 6% cap on old debt", body: "Credit card debt and loans you had before active duty can be capped at 6% interest while you serve. You have to ask: send your issuer a copy of your orders." },
+                { title: "MLA — 36% cap on new credit", body: "The Military Lending Act caps most new consumer credit for active duty members and their dependents at 36%, and bans prepayment penalties and mandatory arbitration." },
+                { title: "Deployment rates", body: "Navy Federal and USAA both offer reduced interest rates on credit card balances while you're deployed. Call them before you leave." },
+                { title: "Premium card fees waived", body: "Amex, Chase, and Capital One waive annual fees for active duty members, including the Amex Platinum ($895), Chase Sapphire Reserve ($795), and Capital One Venture X ($395). Credit Cards 101 covers this in detail." },
+              ].map(({ title, body }) => (
+                <div key={title} className="rounded-xl border border-border p-4">
+                  <p className="mb-1 text-sm font-semibold text-foreground">{title}</p>
+                  <p className="text-sm leading-relaxed text-muted-foreground">{body}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="mb-8 rounded-xl border border-border p-5">
+            <p className="mb-2 font-semibold text-foreground">Watch out near the gate</p>
+            <p className="text-sm leading-relaxed text-muted-foreground">
+              Payday lenders, &ldquo;military loans,&rdquo; and buy-here-pay-here car lots
+              cluster around bases because servicemembers have steady paychecks.
+              A military-sounding name doesn&apos;t mean a good deal. If you need
+              to borrow, start with Navy Federal, USAA, PenFed, or your base&apos;s
+              relief society (Army Emergency Relief, Navy-Marine Corps Relief
+              Society, Air Force Aid Society), which offer interest-free loans
+              and grants for emergencies.
+            </p>
+          </div>
+
+          <div className="rounded-xl p-5 text-white" style={{ background: "var(--brand-600)" }}>
+            <p className="mb-1 font-bold">What I would do</p>
+            <p className="text-sm leading-relaxed text-white/85">
+              Open a no-fee 2% card from a military credit union as your
+              everyday card, then add one premium card while you&apos;re on active
+              duty to collect the perks with the fee waived. Pay both in full
+              every month, and you&apos;re earning rewards on money you were
+              going to spend anyway.
+            </p>
+          </div>
+        </div>
+      );
+    case "hid-2":
+      return (
+        <div>
+          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+            The Hidden Stuff · Lesson 3
           </p>
           <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
             State Benefits and Federal Hiring
@@ -1459,20 +1565,18 @@ function LessonContent({ lessonId }: { lessonId: string }) {
           <div className="mb-8 rounded-xl border border-border p-5">
             <p className="mb-3 font-semibold text-foreground">State benefits — why they matter so much</p>
             <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
-              Federal benefits are the floor. State benefits are wildly
-              variable — some states offer almost nothing, others provide
-              benefits worth $20,000–$50,000+ per year to eligible veterans.
+              Federal benefits are the floor. State benefits are wildly variable — some states offer very little, while others offer property tax breaks, tuition waivers, and fee exemptions worth thousands of dollars a year.
               The key is knowing what your state offers and claiming it.
             </p>
             <div className="flex flex-col gap-4">
               {[
                 {
                   title: "Property tax exemptions",
-                  body: "This is the biggest one. Many states offer full or partial property tax exemptions for disabled veterans. Texas exempts 100% P&T veterans from all property taxes — on a $400,000 home with a $10,000/yr tax bill, that's $10,000/year in savings. Florida, Virginia, and others have strong programs too. Eligibility thresholds vary — some require 100% P&T, others start at 10%.",
+                  body: "This is the biggest one. Many states offer full or partial property tax exemptions for disabled veterans. Texas exempts veterans rated 100% (or paid at 100% through Individual Unemployability) from property taxes on their home — on a $400,000 home with a $10,000/yr tax bill, that's $10,000/year in savings. Florida, Virginia, and others have strong programs too. Eligibility thresholds vary — some require 100% P&T, others start at 10%.",
                 },
                 {
                   title: "Income tax exemption on military pay and disability",
-                  body: "Many states don't tax military retirement pay, VA disability compensation, or both. States like Texas and Florida have no income tax at all. Others like Virginia, North Carolina, and Colorado specifically exempt military retirement income. This can save a military retiree $3,000–$8,000/year in state taxes.",
+                  body: "VA disability compensation is tax-free in every state. Most states now also exempt military retirement pay, fully or partly, and some, like Texas and Florida, have no income tax at all. Rules change often, so check your state's current rules before you choose where to settle.",
                 },
                 {
                   title: "Free or reduced college tuition",
@@ -1490,7 +1594,7 @@ function LessonContent({ lessonId }: { lessonId: string }) {
               ))}
             </div>
             <p className="mt-4 text-xs text-muted-foreground">
-              <span className="font-semibold text-foreground">How to find yours:</span> Search your state name + "veteran benefits" or go directly to your state's Department of Veterans Affairs website. If you're choosing where to live after service, factoring in state benefits is a legitimate financial decision — the difference between two states can be tens of thousands of dollars per year.
+              <span className="font-semibold text-foreground">How to find yours:</span> Search your state name + &ldquo;veteran benefits&rdquo; or go directly to your state&apos;s Department of Veterans Affairs website. If you&apos;re choosing where to live after service, factoring in state benefits is a legitimate financial decision — the difference between two states can be tens of thousands of dollars per year.
             </p>
           </div>
 
@@ -1510,11 +1614,15 @@ function LessonContent({ lessonId }: { lessonId: string }) {
                 },
                 {
                   label: "10-point preference (CP/CPS/XP)",
-                  desc: "Veterans with a service-connected disability rating of 10% or higher. 10 points added, and you're placed at the top of the certificate above other preference eligibles.",
+                  desc: "Veterans with a service-connected disability rating of 10% or higher. 10 points added, and for most jobs disabled veterans with a compensable rating move to the top of the list.",
                 },
                 {
-                  label: "30%+ disabled veteran (Schedule A)",
-                  desc: "Veterans with a 30%+ disability rating can be hired non-competitively under Schedule A — meaning an agency can hire you without a competitive job posting. Agencies can bring you in directly.",
+                  label: "30%+ disabled veteran (noncompetitive hiring)",
+                  desc: "Veterans with a 30%+ disability rating can be hired noncompetitively, meaning an agency can hire you directly without a competitive job posting. (This is separate from Schedule A, which covers people with disabilities generally.)",
+                },
+                {
+                  label: "VRA — Veterans Recruitment Appointment",
+                  desc: "Agencies can directly hire eligible veterans, including recently separated ones, for jobs up to GS-11 without a competitive process. Ask the hiring office about VRA when you apply.",
                 },
               ].map(({ label, desc }) => (
                 <div key={label} className="rounded-xl border border-border p-4">
@@ -1544,7 +1652,7 @@ function LessonContent({ lessonId }: { lessonId: string }) {
               {[
                 "Your employer must reinstate you to the same or equivalent position when you return",
                 "You cannot be fired or discriminated against because of military service",
-                "Your employer must continue your health insurance for up to 24 months during deployment",
+                "You can choose to keep your employer health coverage for up to 24 months while you're gone (you may pay up to 102% of the premium after 30 days)",
                 "Pension and retirement benefits continue to accrue as if you never left",
                 "Applies to Guard and Reserve members called to active duty",
               ].map((item) => (
@@ -1562,9 +1670,7 @@ function LessonContent({ lessonId }: { lessonId: string }) {
               The financial advantage of military service isn&apos;t just the
               paycheck — it&apos;s the benefits that compound for decades after
               you separate. A 100% P&T veteran in Texas pays no property
-              taxes, no state income tax, gets free tuition for their kids,
-              shops the exchange tax-free, has free healthcare, and receives
-              $3,700+/month tax-free. That&apos;s a financial position most
+              taxes, no state income tax, can pass college benefits to their kids, shops the exchange, has free VA healthcare, and receives $3,900+/month tax-free. That&apos;s a financial position most
               people never reach. Know what you have, claim what you earned,
               and build on it.
             </p>
@@ -1592,7 +1698,7 @@ export default function MilitaryMoneyPage() {
   return (
     <CourseShell
       courseId="military-money"
-      title="Military Money"
+      title="Military Pay & Benefits"
       sections={SECTIONS}
       renderLesson={(lessonId) => <LessonContent lessonId={lessonId} />}
     />

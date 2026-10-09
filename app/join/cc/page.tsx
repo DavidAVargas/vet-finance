@@ -107,7 +107,7 @@ export default function JoinCCPage() {
               "Credit Basics — scores, utilization, building from zero",
               "Credit Cards 101 — pick the right card, military perks",
               "Debt Traps — car loans, medical bills, student loans",
-              "Military Money — BAH, TSP, VA loan, GI Bill, disability",
+              "Military Pay & Benefits — BAH, TSP, VA loan, GI Bill, hidden perks",
               "David's Playbook — personalized step-by-step guide",
             ].map((item) => (
               <div key={item} className="flex items-start gap-2 text-sm text-muted-foreground">

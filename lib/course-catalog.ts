@@ -59,9 +59,9 @@ export const courseCatalog: CatalogCourse[] = [
   },
   {
     id: "military-money",
-    title: "Military Money",
+    title: "Military Pay & Benefits",
     icon: Medal,
-    desc: "Active duty pay, TSP and retirement, the VA home loan, education benefits, VA disability, and the hidden stuff.",
+    desc: "Your pay and TSP, the VA home loan, the GI Bill, VA disability, and the hidden perks and deadlines most people miss.",
     sections: [
       "Active Duty Pay",
       "TSP & Retirement",
@@ -71,7 +71,7 @@ export const courseCatalog: CatalogCourse[] = [
       "The Hidden Stuff",
     ],
     quizzes: 0,
-    lessonCount: 12,
+    lessonCount: 13,
     finalLessonId: "hid-2",
     unlockAfter: "debt-traps",
   },
