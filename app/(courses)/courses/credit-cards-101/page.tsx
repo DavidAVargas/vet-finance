@@ -3,6 +3,14 @@
 import { CourseShell } from "@/components/courses/CourseShell";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { BillingCycle } from "@/components/lesson-visuals/credit-cards-101/BillingCycle";
+import { AnnualFeeMath } from "@/components/lesson-visuals/credit-cards-101/AnnualFeeMath";
+import { MinimumPaymentTrap } from "@/components/lesson-visuals/credit-cards-101/MinimumPaymentTrap";
+import { PointsValue } from "@/components/lesson-visuals/credit-cards-101/PointsValue";
+import { TwoWaysToRedeem } from "@/components/lesson-visuals/credit-cards-101/TwoWaysToRedeem";
+import { StackUtilization } from "@/components/lesson-visuals/credit-cards-101/StackUtilization";
+import { CardForEverything } from "@/components/lesson-visuals/credit-cards-101/CardForEverything";
+import { FeeWaivers } from "@/components/lesson-visuals/credit-cards-101/FeeWaivers";
 
 // ─── Course structure ─────────────────────────────────────────────────────────
 // noQuiz: true  = completing all lessons auto-unlocks next section
@@ -356,6 +364,8 @@ function LessonContent({
           </p>
 
           <p className="mb-4 text-base font-semibold text-foreground">How the billing cycle works:</p>
+          <BillingCycle />
+
           <div className="mb-8 flex flex-col gap-3">
             {[
               {
@@ -480,7 +490,7 @@ function LessonContent({
           <p className="mb-5 text-base leading-relaxed text-muted-foreground">
             An annual fee is what some credit cards charge you once a year
             just to keep the card open. It can range from $95 to $895. Most
-            people hear "annual fee" and think it sounds like a bad deal. But
+            people hear &ldquo;annual fee&rdquo; and think it sounds like a bad deal. But
             here&apos;s the thing — the right card with an annual fee can actually
             pay you far more than it costs. The wrong card with an annual fee
             is just money wasted.
@@ -574,6 +584,8 @@ function LessonContent({
             </div>
           </div>
 
+          <AnnualFeeMath />
+
           <div className="mb-8 rounded-xl border border-red-500/20 bg-red-500/5 p-5">
             <p className="mb-2 font-semibold text-foreground">Watch out for the first-year trap</p>
             <p className="text-sm leading-relaxed text-muted-foreground">
@@ -645,13 +657,15 @@ function LessonContent({
             <p className="mb-2 font-semibold text-foreground">The minimum payment trap</p>
             <p className="text-sm leading-relaxed text-muted-foreground">
               Credit card companies set minimum payments low on purpose. If you
-              have a $5,000 balance and only pay the minimum every month, it
-              can take 10 to 15 years to pay it off — and you&apos;ll pay thousands
-              in interest on top of the original $5,000. The minimum payment
+              have a $5,000 balance at 24% and only pay the minimum every month, it
+              can take close to 20 years to pay it off — and you&apos;ll pay nearly
+              $9,000 in interest on top of the original $5,000. The minimum payment
               keeps you in debt. Always pay more than the minimum. Pay the full
               balance if you can.
             </p>
           </div>
+
+          <MinimumPaymentTrap />
 
           <div className="mb-8 rounded-xl border border-border p-5">
             <p className="mb-2 font-semibold text-foreground">What about 0% APR offers?</p>
@@ -739,6 +753,8 @@ function LessonContent({
             bad deal. The good deal is transferring those points to airline and
             hotel partners — and that&apos;s where the real value is.
           </p>
+
+          <PointsValue />
 
           <div className="mb-8 rounded-xl border border-border p-5">
             <p className="mb-4 font-semibold text-foreground">What 100,000 points is actually worth</p>
@@ -877,6 +893,8 @@ function LessonContent({
               ))}
             </div>
           </div>
+
+          <TwoWaysToRedeem />
 
           <div className="mb-8 rounded-xl border border-border p-5">
             <p className="mb-3 font-semibold text-foreground">Two sweet spots to start with</p>
@@ -1065,7 +1083,7 @@ function LessonContent({
           </h1>
 
           <p className="mb-5 text-base leading-relaxed text-muted-foreground">
-            When most people hear "5 credit cards," they think that sounds
+            When most people hear &ldquo;5 credit cards,&rdquo; they think that sounds
             irresponsible. But the people who understand credit know that
             having more cards — managed correctly — actually makes your
             financial profile stronger, not weaker. This isn&apos;t about spending
@@ -1111,6 +1129,8 @@ function LessonContent({
               </div>
             ))}
           </div>
+
+          <StackUtilization />
 
           <div className="mb-8 rounded-xl border border-border p-5">
             <p className="mb-3 font-semibold text-foreground">What about hard inquiries?</p>
@@ -1187,6 +1207,8 @@ function LessonContent({
               </div>
             ))}
           </div>
+
+          <CardForEverything />
 
           <div className="mb-8 rounded-xl border border-border p-5">
             <p className="mb-2 font-semibold text-foreground">Let the app do the thinking</p>
@@ -1270,7 +1292,7 @@ function LessonContent({
               {
                 issuer: "American Express",
                 benefit: "Waives ALL annual fees for active duty military",
-                detail: "This includes the Amex Platinum ($895/yr), Amex Gold ($250/yr), and every other Amex card. Active duty members can hold the most premium card in the game for $0.",
+                detail: "This includes the Amex Platinum ($895/yr), Amex Gold ($325/yr), and every other Amex card. Active duty members can hold the most premium card in the game for $0.",
                 highlight: true,
               },
               {
@@ -1307,6 +1329,8 @@ function LessonContent({
               </div>
             ))}
           </div>
+
+          <FeeWaivers />
 
           <div className="mb-8 rounded-xl border border-border p-5">
             <p className="mb-2 font-semibold text-foreground">Navy Federal & USAA</p>
@@ -1381,7 +1405,7 @@ function LessonContent({
                 "Citi",
               ],
               correct: 2,
-              explanation: "American Express waives every annual fee for active duty servicemembers — including the $895/yr Platinum and $250/yr Gold. That means active duty military can hold the most premium rewards card in the game for $0.",
+              explanation: "American Express waives every annual fee for active duty servicemembers — including the $895/yr Platinum and $325/yr Gold. That means active duty military can hold the most premium rewards card in the game for $0.",
             },
             {
               question: "Why is it better to space out credit card applications — one or two per year — instead of opening several at once?",
