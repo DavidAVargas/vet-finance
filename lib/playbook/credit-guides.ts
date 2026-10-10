@@ -42,12 +42,12 @@ export const GUIDES: Record<string, Guide> = {
     subtitle: "Zero cards · Clean slate",
     steps: [
       {
-        title: "Get a secured card — pick the right one",
-        body: "A secured card requires a deposit (usually $200–$500) that becomes your credit limit. It reports to all 3 bureaus just like a real card. Discover it Secured is my top pick if you're not military — no annual fee, and after a stretch of on-time payments you can graduate to an unsecured card and get your deposit back. Capital One Secured is another solid option.",
+        title: "Get a basic, no-annual-fee card from your own bank",
+        body: "Start with the bank or credit union you already use. You already have a relationship with them, which makes approval easier. Ask for their basic credit card with no annual fee. You don't need rewards yet; this card is about building history. If you get denied, a secured card is the backup: it works like a normal card, except you put down a refundable deposit (usually $200–$500) that becomes your limit. After months of on-time payments, you can usually move to a regular card and get the deposit back.",
       },
       {
         title: "Put one recurring charge on it every month",
-        body: "A subscription, gas, one grocery run — something small and predictable. You're not trying to earn rewards yet. You're building a track record. Every on-time payment is a data point working in your favor.",
+        body: "A subscription, gas, one grocery run — something small and predictable. Keep the balance under 30% of your limit (under 10% is even better). You're not trying to earn rewards yet. You're building a track record. Every on-time payment is a data point working in your favor.",
       },
       {
         title: "Pay the full balance every single month",
@@ -58,35 +58,34 @@ export const GUIDES: Record<string, Guide> = {
         body: "Call the issuer and ask. Many will approve without a hard pull on your credit. Higher limit with the same spending = lower utilization = better score.",
       },
       {
-        title: "At 12 months — apply for your first real card",
-        body: "After a year of on-time payments you should be in the 650–700+ range. Now you apply for an unsecured card — Chase Freedom Unlimited or Discover it are both great. No annual fee, solid rewards, and they start your next layer of history.",
+        title: "At 12 months — add a rewards card",
+        body: "After a year of on-time payments you should be in the 650–700+ range. Now add a no-annual-fee rewards card like Chase Freedom Unlimited or Discover it. Keep your first card open; its age keeps working for your score.",
       },
     ],
   },
 
   "zero-debt": {
-    title: "I'd clear the debt first — then build",
+    title: "I'd get my footing first — then build credit alongside the payoff",
     subtitle: "Zero cards · Has debt",
     steps: [
       {
-        title: "Don't open any cards yet",
-        body: "I know it feels like you should start building credit now. But opening cards while carrying other debt usually makes things harder. Get your debt to a manageable place first. Then build. The order matters.",
+        title: "Get your spending and income under control first",
+        body: "Before you add a card, make sure you're tracking every dollar, staying positive every paycheck, and ideally have that second income started. A card only helps if you can pay it in full every month.",
       },
       {
-        title: "List everything you owe",
-        body: "Write down every debt: who you owe, how much, and the interest rate. Medical debt, personal loans, car payments — all of it. You need the full picture before you can make a real plan.",
+        title: "Then get a basic, no-annual-fee card from your own bank",
+        body: "Start with the bank or credit union you already use; your relationship with them makes approval easier. No rewards needed yet. If you get denied, a secured card is the backup: you put down a refundable deposit (usually $200–$500) that becomes your limit.",
       },
       {
-        title: "Attack it with the avalanche method",
-        body: "Pay the minimum on everything. Take any extra money and throw it at the highest interest rate first. When that's gone, roll that payment into the next highest. This is mathematically the fastest way out of debt.",
+        title: "Put one small charge on it every month",
+        body: "A subscription or a tank of gas. Keep the balance under 30% of your limit (under 10% is even better). Every on-time payment builds your history while you pay down your other debt.",
       },
       {
-        title: "Once it's manageable — get a secured card",
-        body: "You don't have to be completely debt-free before you start building credit. But you should be at a point where you can comfortably pay a card bill on top of your other payments. When you're there, follow the zero-cards clean path above.",
+        title: "Pay it in full before the due date, every time",
+        body: "Never carry a balance on it. Your new card should never become new debt. Set up autopay so you can't miss a payment.",
       },
     ],
   },
-
   "zero-collections": {
     title: "I'd call the collection agency today — not tomorrow",
     subtitle: "Zero cards · Collections",
@@ -113,7 +112,7 @@ export const GUIDES: Record<string, Guide> = {
       },
       {
         title: "Skip the credit repair companies",
-        body: "They charge $100+/month and usually can't remove legitimate debt — only dispute actual errors. What actually works: settling it. Newer scoring models (FICO 9 and 10, VantageScore 3 and 4) ignore paid collections completely, so your score can jump once it's paid. Older FICO 8, which many lenders still use, may keep counting it, so ask the agency to delete it from your report as part of the deal. The person I helped went from the 600s to 750 after settling 3 collections. That's real. Then get a secured card and build from there.",
+        body: "They charge $100+/month and usually can't remove legitimate debt — only dispute actual errors. What actually works: settling it. Newer scoring models (FICO 9 and 10, VantageScore 3 and 4) ignore paid collections completely, so your score can jump once it's paid. Older FICO 8, which many lenders still use, may keep counting it, so ask the agency to delete it from your report as part of the deal. The person I helped went from the 600s to 750 after settling 3 collections. That's real. Then get a basic no-annual-fee card from your bank (or a secured card if you're denied) and build from there.",
       },
     ],
   },

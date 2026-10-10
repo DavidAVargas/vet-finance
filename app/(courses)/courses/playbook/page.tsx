@@ -7,9 +7,10 @@ import { ArrowRight, Check, ChevronLeft, CircleCheck, Info, Lock, Quote, RotateC
 import { LogoMark } from "@/components/layout/Logo";
 import { HysaEarnings } from "@/components/lesson-visuals/playbook/HysaEarnings";
 import {
+  DISCIPLINE_NOTE,
   EMPTY_ANSWERS,
   SECTIONS,
-  STATUS_LABEL,
+  answerChips,
   buildPlan,
   getQuestions,
   type Answers,
@@ -215,7 +216,7 @@ function PlanCard({ section, index }: { section: PlanSection; index: number }) {
 
 function ResultView({ answers, onRestart }: { answers: Answers; onRestart: () => void }) {
   const plan = buildPlan(answers);
-  const chips = [answers.status ? STATUS_LABEL[answers.status] : null, answers.age && `Age ${answers.age.replace("-plus", "+").replace("under-", "under ")}`].filter(Boolean) as string[];
+  const chips = answerChips(answers);
 
   return (
     <div className="animate-in fade-in slide-in-from-bottom-4 duration-300">
@@ -226,7 +227,8 @@ function ResultView({ answers, onRestart }: { answers: Answers; onRestart: () =>
         <p className="mt-2 text-[15px] text-[#c9d2e0]">
           Work through these one at a time. Each priority sets you up for the next.
         </p>
-        <div className="mt-5 flex flex-wrap gap-2">
+        <p className="mt-5 text-xs font-semibold tracking-[0.14em] text-[#9aa5b8] uppercase">Based on your answers</p>
+        <div className="mt-2 flex flex-wrap gap-2">
           {chips.map((c) => (
             <span key={c} className="rounded-full border border-white/20 px-3 py-1 text-xs font-semibold text-[#d5dce7]">
               {c}
@@ -250,6 +252,16 @@ function ResultView({ answers, onRestart }: { answers: Answers; onRestart: () =>
           ))}
         </ol>
       </div>
+
+      {/* Discipline */}
+      <figure className="mt-4 flex gap-3 rounded-2xl bg-brass/15 p-5 ring-1 ring-brass/40">
+        <Quote className="size-5 shrink-0 text-brass-deep" aria-hidden="true" />
+        <div>
+          <p className="text-xs font-semibold tracking-[0.14em] text-[#7a5a22] uppercase">Before you start</p>
+          <blockquote className="mt-1 text-[15px] leading-relaxed font-medium text-navy">{DISCIPLINE_NOTE}</blockquote>
+          <figcaption className="mt-2 text-xs font-semibold tracking-wide text-muted-foreground uppercase">— David</figcaption>
+        </div>
+      </figure>
 
       {/* Disclaimer */}
       <div className="mt-4 flex gap-3 rounded-xl bg-card p-4 ring-1 ring-border">
