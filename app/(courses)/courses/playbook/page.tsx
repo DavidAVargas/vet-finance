@@ -1,9 +1,36 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useUser } from "@clerk/nextjs";
-import { ChevronLeft, Lock, BookOpen, RotateCcw } from "lucide-react";
+import { useUser, UserButton } from "@clerk/nextjs";
+import {
+  ChartColumn,
+  Check,
+  ChevronLeft,
+  CircleAlert,
+  CircleCheck,
+  Compass,
+  CreditCard,
+  Gauge,
+  Gem,
+  Info,
+  Landmark,
+  Lock,
+  Medal,
+  Plane,
+  RotateCcw,
+  Search,
+  ShoppingBag,
+  Shuffle,
+  Sprout,
+  TrendingUp,
+  TriangleAlert,
+  User,
+  Zap,
+  type LucideIcon,
+} from "lucide-react";
 import Link from "next/link";
+import { LogoMark } from "@/components/layout/Logo";
+import { cn } from "@/lib/utils";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -16,11 +43,8 @@ type Answers = {
 
 type Step = { title: string; body: string };
 type Guide = {
-  emoji: string;
   title: string;
   subtitle: string;
-  color: string;
-  bg: string;
   steps: Step[];
 };
 
@@ -46,11 +70,8 @@ const MILITARY_STEPS: Step[] = [
 const GUIDES: Record<string, Guide> = {
   // ── 0 cards ───────────────────────────────────────────────────────────────
   "zero-clean": {
-    emoji: "🌱",
     title: "I'd start building the right way — right now",
     subtitle: "Zero cards · Clean slate",
-    color: "#3B82F6",
-    bg: "rgba(59,130,246,0.08)",
     steps: [
       {
         title: "Get a secured card — pick the right one",
@@ -76,11 +97,8 @@ const GUIDES: Record<string, Guide> = {
   },
 
   "zero-debt": {
-    emoji: "🏗️",
     title: "I'd clear the debt first — then build",
     subtitle: "Zero cards · Has debt",
-    color: "#F59E0B",
-    bg: "rgba(245,158,11,0.08)",
     steps: [
       {
         title: "Don't open any cards yet",
@@ -102,11 +120,8 @@ const GUIDES: Record<string, Guide> = {
   },
 
   "zero-collections": {
-    emoji: "🔧",
     title: "I'd call the collection agency today — not tomorrow",
     subtitle: "Zero cards · Collections",
-    color: "#EF4444",
-    bg: "rgba(239,68,68,0.08)",
     steps: [
       {
         title: "Don't apply for any cards yet",
@@ -137,11 +152,8 @@ const GUIDES: Record<string, Guide> = {
 
   // ── 1-3 cards ─────────────────────────────────────────────────────────────
   "one-three-store-clean": {
-    emoji: "📈",
     title: "I'd get my first real bank card",
     subtitle: "1–3 store cards · No debt",
-    color: "#8B5CF6",
-    bg: "rgba(139,92,246,0.08)",
     steps: [
       {
         title: "Store cards are a starting point — not a destination",
@@ -167,11 +179,8 @@ const GUIDES: Record<string, Guide> = {
   },
 
   "one-three-bank-clean": {
-    emoji: "🚀",
     title: "I'd start optimizing what you already have",
     subtitle: "1–3 bank cards · No debt",
-    color: "#10B981",
-    bg: "rgba(16,185,129,0.08)",
     steps: [
       {
         title: "Request limit increases on everything",
@@ -197,11 +206,8 @@ const GUIDES: Record<string, Guide> = {
   },
 
   "one-three-mix-clean": {
-    emoji: "🔄",
     title: "I'd upgrade your strategy without starting over",
     subtitle: "1–3 mixed cards · No debt",
-    color: "#F59E0B",
-    bg: "rgba(245,158,11,0.08)",
     steps: [
       {
         title: "Keep everything open — don't close anything",
@@ -223,11 +229,8 @@ const GUIDES: Record<string, Guide> = {
   },
 
   "one-three-any-balance": {
-    emoji: "⚠️",
     title: "I'd stop everything and pay this off first",
     subtitle: "1–3 cards · Carrying a balance",
-    color: "#EF4444",
-    bg: "rgba(239,68,68,0.08)",
     steps: [
       {
         title: "No new cards — full stop",
@@ -253,11 +256,8 @@ const GUIDES: Record<string, Guide> = {
   },
 
   "one-three-any-collections": {
-    emoji: "🔧",
     title: "I'd deal with collections first — then focus on what you have",
     subtitle: "1–3 cards · Collections",
-    color: "#EF4444",
-    bg: "rgba(239,68,68,0.08)",
     steps: [
       {
         title: "Don't open anything new right now",
@@ -284,11 +284,8 @@ const GUIDES: Record<string, Guide> = {
 
   // ── 3-5 cards ─────────────────────────────────────────────────────────────
   "three-five-balance": {
-    emoji: "🎯",
     title: "I'd make paying this off my only focus right now",
     subtitle: "3–5 cards · Carrying a balance",
-    color: "#EF4444",
-    bg: "rgba(239,68,68,0.08)",
     steps: [
       {
         title: "Put new card applications on hold",
@@ -314,11 +311,8 @@ const GUIDES: Record<string, Guide> = {
   },
 
   "three-five-score": {
-    emoji: "📊",
     title: "I'd focus on utilization and let time do the rest",
     subtitle: "3–5 cards · Building score",
-    color: "#3B82F6",
-    bg: "rgba(59,130,246,0.08)",
     steps: [
       {
         title: "Request limit increases on every single card",
@@ -344,11 +338,8 @@ const GUIDES: Record<string, Guide> = {
   },
 
   "three-five-rewards": {
-    emoji: "⚡",
     title: "I'd make sure every dollar is working as hard as possible",
     subtitle: "3–5 cards · Maximizing rewards",
-    color: "#13294B",
-    bg: "rgba(19,41,75,0.08)",
     steps: [
       {
         title: "Map your spending to your cards",
@@ -374,11 +365,8 @@ const GUIDES: Record<string, Guide> = {
   },
 
   "three-five-premium": {
-    emoji: "💎",
     title: "I'd run the math honestly before committing",
     subtitle: "3–5 cards · Premium card",
-    color: "#6366F1",
-    bg: "rgba(99,102,241,0.08)",
     steps: [
       {
         title: "List every benefit the card offers",
@@ -405,11 +393,8 @@ const GUIDES: Record<string, Guide> = {
 
   // ── 5+ cards ──────────────────────────────────────────────────────────────
   "five-plus-points": {
-    emoji: "✈️",
     title: "I'd go deep on transfer partners — that's the real game",
     subtitle: "5+ cards · Maximize points",
-    color: "#13294B",
-    bg: "rgba(19,41,75,0.08)",
     steps: [
       {
         title: "Book a real trip using transfers — if you haven't already",
@@ -435,11 +420,8 @@ const GUIDES: Record<string, Guide> = {
   },
 
   "five-plus-debt": {
-    emoji: "🏋️",
     title: "I'd consolidate and attack this systematically",
     subtitle: "5+ cards · Paying down debt",
-    color: "#EF4444",
-    bg: "rgba(239,68,68,0.08)",
     steps: [
       {
         title: "Consider a balance transfer — you likely qualify",
@@ -465,11 +447,8 @@ const GUIDES: Record<string, Guide> = {
   },
 
   "five-plus-checkup": {
-    emoji: "🔍",
     title: "I'd do a full audit — here's exactly how I'd run it",
     subtitle: "5+ cards · Spot check",
-    color: "#6366F1",
-    bg: "rgba(99,102,241,0.08)",
     steps: [
       {
         title: "Annual fee audit",
@@ -526,7 +505,7 @@ function getGuideKey(answers: Answers): string | null {
 
 // ─── Question definitions ─────────────────────────────────────────────────────
 
-type Option = { id: string; label: string; desc: string; emoji: string };
+type Option = { id: string; label: string; desc: string; icon: LucideIcon };
 
 function getQuestions(answers: Answers): { id: string; question: string; options: Option[] }[] {
   const questions: { id: string; question: string; options: Option[] }[] = [
@@ -534,18 +513,18 @@ function getQuestions(answers: Answers): { id: string; question: string; options
       id: "q1",
       question: "How many credit cards do you have right now?",
       options: [
-        { id: "zero", emoji: "🌱", label: "Zero cards", desc: "I don't have any credit cards yet" },
-        { id: "one-three", emoji: "📊", label: "1 to 3 cards", desc: "Just getting started" },
-        { id: "three-five", emoji: "📈", label: "3 to 5 cards", desc: "Building momentum" },
-        { id: "five-plus", emoji: "⚡", label: "5 or more cards", desc: "Already stacking" },
+        { id: "zero", icon: Sprout, label: "Zero cards", desc: "I don't have any credit cards yet" },
+        { id: "one-three", icon: ChartColumn, label: "1 to 3 cards", desc: "Just getting started" },
+        { id: "three-five", icon: TrendingUp, label: "3 to 5 cards", desc: "Building momentum" },
+        { id: "five-plus", icon: Zap, label: "5 or more cards", desc: "Already stacking" },
       ],
     },
     {
       id: "active-duty",
       question: "Are you currently active duty military?",
       options: [
-        { id: "yes", emoji: "🎖️", label: "Yes — active duty", desc: "I'm currently serving" },
-        { id: "no", emoji: "👤", label: "No", desc: "Veteran, civilian, or recently discharged" },
+        { id: "yes", icon: Medal, label: "Yes — active duty", desc: "I'm currently serving" },
+        { id: "no", icon: User, label: "No", desc: "Veteran, civilian, or recently discharged" },
       ],
     },
   ];
@@ -555,9 +534,9 @@ function getQuestions(answers: Answers): { id: string; question: string; options
       id: "q3",
       question: "Do you have any debt or collections on your record?",
       options: [
-        { id: "clean", emoji: "✅", label: "No debt — clean slate", desc: "Starting completely fresh" },
-        { id: "debt", emoji: "💳", label: "I have debt", desc: "Loans, medical bills, car payments" },
-        { id: "collections", emoji: "🔴", label: "I have collections", desc: "Debt that went to a collection agency" },
+        { id: "clean", icon: CircleCheck, label: "No debt — clean slate", desc: "Starting completely fresh" },
+        { id: "debt", icon: CreditCard, label: "I have debt", desc: "Loans, medical bills, car payments" },
+        { id: "collections", icon: CircleAlert, label: "I have collections", desc: "Debt that went to a collection agency" },
       ],
     });
   }
@@ -567,18 +546,18 @@ function getQuestions(answers: Answers): { id: string; question: string; options
       id: "q3",
       question: "What kind of cards do you have?",
       options: [
-        { id: "store", emoji: "🛍️", label: "Store / retail cards", desc: "Target, Amazon, department stores, etc." },
-        { id: "bank", emoji: "🏦", label: "Bank cards", desc: "Visa, Mastercard, or Amex from a bank" },
-        { id: "mix", emoji: "🔀", label: "A mix of both", desc: "Some store cards, some bank cards" },
+        { id: "store", icon: ShoppingBag, label: "Store / retail cards", desc: "Target, Amazon, department stores, etc." },
+        { id: "bank", icon: Landmark, label: "Bank cards", desc: "Visa, Mastercard, or Amex from a bank" },
+        { id: "mix", icon: Shuffle, label: "A mix of both", desc: "Some store cards, some bank cards" },
       ],
     });
     questions.push({
       id: "q4",
       question: "Any debt or collections?",
       options: [
-        { id: "clean", emoji: "✅", label: "No — I pay on time", desc: "In good standing" },
-        { id: "balance", emoji: "⚠️", label: "Carrying a balance", desc: "I owe money I can't pay off right now" },
-        { id: "collections", emoji: "🔴", label: "I have collections", desc: "Debt sent to a collection agency" },
+        { id: "clean", icon: CircleCheck, label: "No — I pay on time", desc: "In good standing" },
+        { id: "balance", icon: TriangleAlert, label: "Carrying a balance", desc: "I owe money I can't pay off right now" },
+        { id: "collections", icon: CircleAlert, label: "I have collections", desc: "Debt sent to a collection agency" },
       ],
     });
   }
@@ -588,8 +567,8 @@ function getQuestions(answers: Answers): { id: string; question: string; options
       id: "q3",
       question: "Do you pay your full balance every month?",
       options: [
-        { id: "full", emoji: "✅", label: "Yes — always in full", desc: "I pay the full statement balance before the due date" },
-        { id: "balance", emoji: "⚠️", label: "No — I carry a balance", desc: "I owe money across one or more cards" },
+        { id: "full", icon: CircleCheck, label: "Yes — always in full", desc: "I pay the full statement balance before the due date" },
+        { id: "balance", icon: TriangleAlert, label: "No — I carry a balance", desc: "I owe money across one or more cards" },
       ],
     });
     if (answers.q3 === "full") {
@@ -597,9 +576,9 @@ function getQuestions(answers: Answers): { id: string; question: string; options
         id: "q4",
         question: "What's your main goal right now?",
         options: [
-          { id: "score", emoji: "📊", label: "Grow my credit score", desc: "I want a higher score" },
-          { id: "rewards", emoji: "✈️", label: "Maximize points and rewards", desc: "I want to get the most out of every purchase" },
-          { id: "premium", emoji: "💎", label: "Get a premium card", desc: "I'm ready for a high-end card" },
+          { id: "score", icon: Gauge, label: "Grow my credit score", desc: "I want a higher score" },
+          { id: "rewards", icon: Plane, label: "Maximize points and rewards", desc: "I want to get the most out of every purchase" },
+          { id: "premium", icon: Gem, label: "Get a premium card", desc: "I'm ready for a high-end card" },
         ],
       });
     }
@@ -610,9 +589,9 @@ function getQuestions(answers: Answers): { id: string; question: string; options
       id: "q3",
       question: "What's your main goal right now?",
       options: [
-        { id: "points", emoji: "✈️", label: "Maximize points and travel", desc: "I want to get the most value out of my points" },
-        { id: "debt", emoji: "🏋️", label: "Pay down debt", desc: "I'm carrying balances I want to eliminate" },
-        { id: "checkup", emoji: "🔍", label: "Just making sure I'm doing it right", desc: "I want a full audit of where I stand" },
+        { id: "points", icon: Plane, label: "Maximize points and travel", desc: "I want to get the most value out of my points" },
+        { id: "debt", icon: CreditCard, label: "Pay down debt", desc: "I'm carrying balances I want to eliminate" },
+        { id: "checkup", icon: Search, label: "Just making sure I'm doing it right", desc: "I want a full audit of where I stand" },
       ],
     });
   }
@@ -651,59 +630,67 @@ function QuestionStep({
   return (
     <div className="animate-in fade-in slide-in-from-bottom-4 duration-300">
       {/* Progress */}
-      <div className="mb-8 flex items-center gap-2">
+      <div className="mb-8 flex items-center gap-2" aria-hidden="true">
         {Array.from({ length: totalSteps }).map((_, i) => (
           <div
             key={i}
-            className={`h-1.5 flex-1 rounded-full transition-all duration-300 ${i <= stepIndex ? "" : "bg-border"}`}
-            style={i <= stepIndex ? { background: "var(--brand-600)" } : {}}
+            className={cn("h-1.5 flex-1 rounded-full transition-colors duration-300", i <= stepIndex ? "bg-navy" : "bg-muted")}
           />
         ))}
       </div>
 
-      <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+      <p className="text-xs font-semibold tracking-[0.14em] text-muted-foreground uppercase">
         Question {stepIndex + 1} of {totalSteps}
       </p>
-      <h2 className="mb-8 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-        {question}
-      </h2>
+      <h2 className="mt-2 mb-7 text-2xl font-extrabold tracking-[-0.02em] text-navy sm:text-3xl">{question}</h2>
 
       <div className="flex flex-col gap-3">
-        {options.map((opt) => (
-          <button
-            key={opt.id}
-            onClick={() => handleSelect(opt.id)}
-            aria-pressed={selected === opt.id}
-            className={`group flex items-center gap-4 rounded-2xl border p-4 text-left transition-all duration-200 hover:scale-[1.01] active:scale-[0.99] ${
-              selected === opt.id
-                ? "border-transparent text-white"
-                : "border-border hover:border-foreground/20"
-            }`}
-            style={
-              selected === opt.id
-                ? { background: "var(--brand-600)" }
-                : {}
-            }
-          >
-            <span className="text-3xl">{opt.emoji}</span>
-            <div>
-              <p className={`font-semibold ${selected === opt.id ? "text-white" : "text-foreground"}`}>
-                {opt.label}
-              </p>
-              <p className={`text-sm ${selected === opt.id ? "text-white/90" : "text-muted-foreground"}`}>
-                {opt.desc}
-              </p>
-            </div>
-          </button>
-        ))}
+        {options.map((opt) => {
+          const Icon = opt.icon;
+          const isSelected = selected === opt.id;
+          return (
+            <button
+              key={opt.id}
+              type="button"
+              onClick={() => handleSelect(opt.id)}
+              aria-pressed={isSelected}
+              disabled={selected !== null && !isSelected}
+              className={cn(
+                "group flex items-center gap-4 rounded-2xl p-4 text-left transition-all duration-200 sm:p-5",
+                isSelected
+                  ? "bg-navy text-white shadow-md"
+                  : "bg-card ring-1 ring-border hover:-translate-y-0.5 hover:ring-navy/40 hover:shadow-sm disabled:opacity-50 disabled:hover:translate-y-0",
+              )}
+            >
+              <span
+                className={cn(
+                  "flex size-12 shrink-0 items-center justify-center rounded-[14px] transition-colors",
+                  isSelected ? "bg-white/10" : "bg-secondary group-hover:bg-navy/10",
+                )}
+              >
+                <Icon className={cn("size-[22px]", isSelected ? "text-brass" : "text-navy")} strokeWidth={1.8} aria-hidden="true" />
+              </span>
+              <span className="min-w-0 flex-1">
+                <span className={cn("block font-bold", isSelected ? "text-white" : "text-navy")}>{opt.label}</span>
+                <span className={cn("block text-sm", isSelected ? "text-[#c9d2e0]" : "text-muted-foreground")}>{opt.desc}</span>
+              </span>
+              {isSelected && (
+                <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-brass">
+                  <Check className="size-4 text-navy-deep" strokeWidth={3} aria-hidden="true" />
+                </span>
+              )}
+            </button>
+          );
+        })}
       </div>
 
       {stepIndex > 0 && (
         <button
+          type="button"
           onClick={onBack}
-          className="mt-6 flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
+          className="mt-6 flex items-center gap-1.5 rounded-full px-2 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-navy"
         >
-          <ChevronLeft className="size-4" />
+          <ChevronLeft className="size-4" aria-hidden="true" />
           Back
         </button>
       )}
@@ -713,98 +700,115 @@ function QuestionStep({
 
 // ─── Result component ─────────────────────────────────────────────────────────
 
+const GUIDE_ICONS: Record<string, LucideIcon> = {
+  zero: Sprout,
+  "one-three": ChartColumn,
+  "three-five": TrendingUp,
+  "five-plus": Zap,
+};
+
 function ResultView({
   guide,
+  guideKey,
   activeDuty,
   onRestart,
 }: {
   guide: Guide;
+  guideKey: string;
   activeDuty: boolean;
   onRestart: () => void;
 }) {
+  const Icon = GUIDE_ICONS[Object.keys(GUIDE_ICONS).find((k) => guideKey.startsWith(k)) ?? ""] ?? Compass;
+
   return (
     <div className="animate-in fade-in slide-in-from-bottom-4 duration-300">
       {/* Header card */}
-      <div className="mb-6 rounded-2xl p-6" style={{ background: guide.bg, border: `1px solid ${guide.color}30` }}>
-        <span className="mb-3 block text-5xl">{guide.emoji}</span>
-        <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-          What I Would Do If I...
-        </p>
-        <h1 className="mb-1 text-2xl font-bold tracking-tight text-foreground">
-          {guide.title}
-        </h1>
-        <p className="text-sm text-muted-foreground">{guide.subtitle}</p>
-        {activeDuty && (
-          <span className="mt-3 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium text-white" style={{ background: "var(--brand-600)" }}>
-            🎖️ Military benefits included below
+      <div className="rounded-2xl bg-navy-deep p-6 text-white sm:p-8">
+        <div className="flex items-start gap-4">
+          <span className="flex size-12 shrink-0 items-center justify-center rounded-[14px] bg-white/10">
+            <Icon className="size-6 text-brass" strokeWidth={1.8} aria-hidden="true" />
           </span>
-        )}
+          <div className="min-w-0">
+            <p className="text-xs font-semibold tracking-[0.14em] text-brass uppercase">What I would do if I&hellip;</p>
+            <h1 className="mt-2 text-2xl leading-tight font-extrabold tracking-[-0.02em] sm:text-[1.75rem]">{guide.title}</h1>
+          </div>
+        </div>
+        <div className="mt-5 flex flex-wrap gap-2">
+          <span className="rounded-full border border-white/20 px-3 py-1 text-xs font-semibold text-[#d5dce7]">
+            {guide.subtitle}
+          </span>
+          {activeDuty && (
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-brass px-3 py-1 text-xs font-bold text-navy-deep">
+              <Medal className="size-3.5" aria-hidden="true" />
+              Military benefits included below
+            </span>
+          )}
+        </div>
       </div>
 
       {/* Disclaimer */}
-      <div className="mb-8 rounded-xl border border-border bg-muted/30 p-4">
+      <div className="mt-4 flex gap-3 rounded-xl bg-surface p-4 ring-1 ring-border">
+        <Info className="mt-0.5 size-4 shrink-0 text-muted-foreground" aria-hidden="true" />
         <p className="text-xs leading-relaxed text-muted-foreground">
-          <span className="font-semibold text-foreground">Not financial advice.</span> This is my personal take — what I would personally do in this situation. I&apos;m not a financial advisor. I&apos;ve shared this with real people, they took action on their own, and it worked. You make your own call.
+          <span className="font-semibold text-navy">Not financial advice.</span>{" "}This is my personal take — what I would personally do in this situation. I&apos;m not a financial advisor. I&apos;ve shared this with real people, they took action on their own, and it worked. You make your own call.
         </p>
       </div>
 
       {/* Steps */}
-      <div className="relative mb-8">
-        <div
-          className="absolute left-[15px] top-2 w-px"
-          style={{ height: "calc(100% - 2rem)", background: `linear-gradient(to bottom, ${guide.color}60, transparent)` }}
-        />
-        <div className="flex flex-col">
-          {guide.steps.map((step, i) => (
-            <div key={i} className="flex gap-4 pb-7 last:pb-0">
-              <div
-                className="flex size-8 shrink-0 items-center justify-center rounded-full text-sm font-bold text-white"
-                style={{ background: guide.color }}
-              >
-                {i + 1}
-              </div>
-              <div className="pt-0.5">
-                <p className="mb-1.5 font-semibold text-foreground">{step.title}</p>
-                <p className="text-sm leading-relaxed text-muted-foreground">{step.body}</p>
-              </div>
+      <p className="mt-10 text-xs font-semibold tracking-[0.14em] text-muted-foreground uppercase">
+        The plan · {guide.steps.length} steps
+      </p>
+      <ol className="mt-5 flex flex-col">
+        {guide.steps.map((step, i) => (
+          <li key={i} className="relative flex gap-4 pb-8 last:pb-0">
+            {i < guide.steps.length - 1 && (
+              <span className="absolute top-10 bottom-1 left-[17px] w-px bg-navy/15" aria-hidden="true" />
+            )}
+            <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-navy text-sm font-bold text-white">
+              {i + 1}
+            </span>
+            <div className="pt-1">
+              <p className="text-[17px] font-bold text-navy">{step.title}</p>
+              <p className="mt-1.5 text-[15px] leading-relaxed text-muted-foreground">{step.body}</p>
             </div>
-          ))}
-        </div>
-      </div>
+          </li>
+        ))}
+      </ol>
 
       {/* Military section */}
       {activeDuty && (
-        <div className="mb-8 overflow-hidden rounded-2xl" style={{ background: "color-mix(in srgb, var(--brand-600) 6%, transparent)", border: "1px solid color-mix(in srgb, var(--brand-600) 19%, transparent)" }}>
-          <div className="px-5 py-4" style={{ background: "var(--brand-600)" }}>
-            <p className="font-bold text-white">🎖️ Since you&apos;re active duty — don&apos;t skip this</p>
-            <p className="mt-0.5 text-xs text-white/90">Benefits most servicemembers never claim</p>
+        <section aria-labelledby="military-heading" className="mt-10 overflow-hidden rounded-2xl ring-1 ring-border">
+          <div className="flex items-center gap-3 bg-navy px-5 py-4 text-white">
+            <Medal className="size-5 shrink-0 text-brass" aria-hidden="true" />
+            <div>
+              <h2 id="military-heading" className="font-bold">Since you&apos;re active duty, don&apos;t skip this</h2>
+              <p className="text-xs text-[#c9d2e0]">Benefits most servicemembers never claim</p>
+            </div>
           </div>
-          <div className="flex flex-col divide-y divide-border">
+          <ol className="divide-y divide-border bg-card">
             {MILITARY_STEPS.map((step, i) => (
-              <div key={i} className="flex gap-4 p-5">
-                <div
-                  className="flex size-7 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white"
-                  style={{ background: "var(--brand-700)" }}
-                >
+              <li key={i} className="flex gap-4 p-5">
+                <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-brass text-xs font-bold text-navy-deep">
                   {i + 1}
-                </div>
+                </span>
                 <div>
-                  <p className="mb-1 text-sm font-semibold text-foreground">{step.title}</p>
-                  <p className="text-sm leading-relaxed text-muted-foreground">{step.body}</p>
+                  <p className="font-bold text-navy">{step.title}</p>
+                  <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{step.body}</p>
                 </div>
-              </div>
+              </li>
             ))}
-          </div>
-        </div>
+          </ol>
+        </section>
       )}
 
       {/* Restart */}
       <button
+        type="button"
         onClick={onRestart}
-        className="flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
+        className="mt-10 flex items-center gap-2 rounded-full border border-border bg-card px-5 py-2.5 text-sm font-semibold text-navy transition-colors hover:bg-secondary"
       >
-        <RotateCcw className="size-4" />
-        Start over — try a different situation
+        <RotateCcw className="size-4" aria-hidden="true" />
+        Start over with a different situation
       </button>
     </div>
   );
@@ -815,30 +819,26 @@ function ResultView({
 export default function PlaybookPage() {
   const { user } = useUser();
   const isFounder = user?.primaryEmailAddress?.emailAddress === "david.vargas024@gmail.com";
-  const [unlocked, setUnlocked] = useState(false);
-  const [cbDone, setCbDone] = useState(false);
-  const [ccDone, setCcDone] = useState(false);
+  const [cbProgress, setCbProgress] = useState(false);
+  const [ccProgress, setCcProgress] = useState(false);
   const [stepIndex, setStepIndex] = useState(0);
   const [answers, setAnswers] = useState<Answers>({ q1: null, activeDuty: null, q3: null, q4: null });
 
   useEffect(() => {
-    if (isFounder) {
-      setCbDone(true);
-      setCcDone(true);
-      setUnlocked(true);
-      return;
-    }
+    if (isFounder) return;
     fetch("/api/progress")
       .then((r) => r.json())
       .then((data) => {
-        const cb = ((data["credit-basics"]    ?? []) as string[]).includes("pyc-quiz");
-        const cc = ((data["credit-cards-101"] ?? []) as string[]).includes("bcs-quiz");
-        setCbDone(cb);
-        setCcDone(cc);
-        setUnlocked(cb && cc);
+        setCbProgress(((data["credit-basics"] ?? []) as string[]).includes("pyc-quiz"));
+        setCcProgress(((data["credit-cards-101"] ?? []) as string[]).includes("bcs-quiz"));
       })
-      .catch(() => { setUnlocked(false); });
+      .catch(() => {});
   }, [isFounder]);
+
+  // The founder account has every course unlocked.
+  const cbDone = isFounder || cbProgress;
+  const ccDone = isFounder || ccProgress;
+  const unlocked = cbDone && ccDone;
 
   const questions = getQuestions(answers);
   const guideKey = getGuideKey(answers);
@@ -889,72 +889,113 @@ export default function PlaybookPage() {
     setStepIndex(0);
   };
 
+  const courseStatus = [
+    { title: "Credit Basics", href: "/courses/credit-basics", done: cbDone },
+    { title: "Credit Cards 101", href: "/courses/credit-cards-101", done: ccDone },
+  ];
+
   return (
-    <div className="flex min-h-[100dvh] flex-col bg-background">
-      <header className="flex h-14 items-center justify-between border-b border-border px-6">
-        <Link href="/courses" className="flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
-          <ChevronLeft className="size-4" />
-          Back to courses
-        </Link>
+    <div className="flex min-h-[100dvh] flex-col bg-surface">
+      <header className="shrink-0 border-b border-border bg-card">
+        <div className="flex h-16 items-center justify-between gap-4 px-4 sm:px-6">
+          <div className="flex min-w-0 items-center gap-3">
+            <Link
+              href="/courses"
+              className="flex shrink-0 items-center gap-1.5 rounded-full px-2 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-navy"
+            >
+              <ChevronLeft className="size-4" aria-hidden="true" />
+              <span className="hidden sm:inline">All courses</span>
+              <span className="sr-only sm:hidden">All courses</span>
+            </Link>
+            <span className="h-6 w-px shrink-0 bg-border" aria-hidden="true" />
+            <LogoMark className="hidden h-6 w-5 sm:block" />
+            <p className="truncate font-bold text-navy">David&apos;s Playbook</p>
+          </div>
+          <UserButton />
+        </div>
       </header>
 
-      <main className="flex-1 px-6 py-10 sm:px-10">
-        <div className="mx-auto max-w-xl">
-
-          {/* Locked */}
-          {!unlocked && (
-            <div className="flex flex-col items-center py-20 text-center">
-              <div className="mb-6 flex size-16 items-center justify-center rounded-full border-2 border-dashed border-border">
-                <Lock className="size-7 text-muted-foreground" />
-              </div>
-              <h1 className="mb-3 text-2xl font-bold tracking-tight text-foreground">
-                Finish both courses to unlock this
+      <main className="flex-1 px-4 py-10 sm:px-6 sm:py-14">
+        <div className="mx-auto max-w-2xl">
+          {/* Intro (while answering) */}
+          {unlocked && !showResult && (
+            <div className="mb-10">
+              <p className="text-xs font-semibold tracking-[0.14em] text-[#7a5a22] uppercase">Bonus · David&apos;s Playbook</p>
+              <h1 className="mt-3 text-3xl font-extrabold tracking-[-0.03em] text-navy sm:text-4xl">
+                What I Would Do If I&hellip;
               </h1>
-              <p className="mb-8 max-w-sm text-sm text-muted-foreground">
-                Complete Credit Basics and Credit Cards 101 first. This is where it all comes together.
+              <p className="mt-3 text-[17px] text-muted-foreground">
+                Answer a few quick questions and get the step-by-step plan I&apos;d follow in your exact situation.
               </p>
-              <div className="flex w-full max-w-xs flex-col gap-3">
-                <Link href="/courses/credit-basics" className={`flex items-center justify-between rounded-xl border p-4 text-left transition-colors hover:bg-muted/30 ${cbDone ? "border-green-500 bg-green-500/5" : "border-border"}`}>
-                  <div className="flex items-center gap-3">
-                    <BookOpen className="size-4 text-muted-foreground" />
-                    <span className="text-sm font-medium text-foreground">Credit Basics</span>
-                  </div>
-                  <span className={`text-xs font-medium ${cbDone ? "text-green-600" : "text-muted-foreground"}`}>{cbDone ? "Done ✓" : "Not done"}</span>
-                </Link>
-                <Link href="/courses/credit-cards-101" className={`flex items-center justify-between rounded-xl border p-4 text-left transition-colors hover:bg-muted/30 ${ccDone ? "border-green-500 bg-green-500/5" : "border-border"}`}>
-                  <div className="flex items-center gap-3">
-                    <BookOpen className="size-4 text-muted-foreground" />
-                    <span className="text-sm font-medium text-foreground">Credit Cards 101</span>
-                  </div>
-                  <span className={`text-xs font-medium ${ccDone ? "text-green-600" : "text-muted-foreground"}`}>{ccDone ? "Done ✓" : "Not done"}</span>
-                </Link>
-              </div>
             </div>
           )}
 
-          {/* Quiz flow */}
-          {unlocked && !showResult && currentQuestion && (
-            <QuestionStep
-              key={stepIndex}
-              question={currentQuestion.question}
-              questionId={currentQuestion.id}
-              options={currentQuestion.options}
-              stepIndex={stepIndex}
-              totalSteps={questions.length}
-              onSelect={handleSelect}
-              onBack={handleBack}
-            />
-          )}
+          <div className={cn(unlocked && !showResult && "rounded-2xl bg-card p-6 ring-1 ring-border sm:p-8")}>
+            {/* Locked */}
+            {!unlocked && (
+              <div className="flex flex-col items-center py-12 text-center">
+                <div className="flex size-16 items-center justify-center rounded-2xl bg-card ring-1 ring-border">
+                  <Lock className="size-7 text-muted-foreground" aria-hidden="true" />
+                </div>
+                <p className="mt-6 text-xs font-semibold tracking-[0.14em] text-[#7a5a22] uppercase">David&apos;s Playbook</p>
+                <h1 className="mt-2 text-2xl font-extrabold tracking-[-0.02em] text-navy sm:text-3xl">
+                  Finish both courses to unlock this
+                </h1>
+                <p className="mt-3 max-w-sm text-[15px] text-muted-foreground">
+                  Complete Credit Basics and Credit Cards 101 first. This is where it all comes together.
+                </p>
+                <ul className="mt-8 flex w-full max-w-sm flex-col gap-3">
+                  {courseStatus.map((c) => (
+                    <li key={c.href}>
+                      <Link
+                        href={c.href}
+                        className={cn(
+                          "flex items-center justify-between gap-3 rounded-2xl bg-card p-4 text-left ring-1 transition-colors hover:bg-secondary/50",
+                          c.done ? "ring-emerald-300" : "ring-border",
+                        )}
+                      >
+                        <span className="flex items-center gap-3">
+                          {c.done ? (
+                            <CircleCheck className="size-5 text-emerald-600" aria-hidden="true" />
+                          ) : (
+                            <span className="size-5 rounded-full border-2 border-border" aria-hidden="true" />
+                          )}
+                          <span className="font-semibold text-navy">{c.title}</span>
+                        </span>
+                        <span className={cn("text-xs font-semibold", c.done ? "text-emerald-700" : "text-muted-foreground")}>
+                          {c.done ? "Done" : "Not done"}
+                        </span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
 
-          {/* Result */}
-          {unlocked && showResult && guide && (
-            <ResultView
-              guide={guide}
-              activeDuty={answers.activeDuty === true}
-              onRestart={handleRestart}
-            />
-          )}
+            {/* Quiz flow */}
+            {unlocked && !showResult && currentQuestion && (
+              <QuestionStep
+                key={stepIndex}
+                question={currentQuestion.question}
+                questionId={currentQuestion.id}
+                options={currentQuestion.options}
+                stepIndex={stepIndex}
+                totalSteps={questions.length}
+                onSelect={handleSelect}
+                onBack={handleBack}
+              />
+            )}
 
+            {/* Result */}
+            {unlocked && showResult && guide && guideKey && (
+              <ResultView
+                guide={guide}
+                guideKey={guideKey}
+                activeDuty={answers.activeDuty === true}
+                onRestart={handleRestart}
+              />
+            )}
+          </div>
         </div>
       </main>
     </div>
