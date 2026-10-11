@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { Plus, ToggleLeft, ToggleRight, Copy, Check } from "lucide-react";
+import { useState, useSyncExternalStore } from "react";
+import { Plus, ToggleLeft, ToggleRight, Copy, Check, Link2, QrCode, Shuffle, Moon, Zap } from "lucide-react";
+import { generateInviteCode } from "@/lib/invite-code";
 import Link from "next/link";
 
 type InviteCode = {
@@ -18,7 +18,6 @@ type InviteCode = {
 };
 
 export default function AdminClient({ inviteCodes: initial }: { inviteCodes: InviteCode[] }) {
-  const router = useRouter();
   const [codes, setCodes] = useState(initial);
   const [newCode, setNewCode] = useState("");
   const [newLabel, setNewLabel] = useState("");
@@ -66,11 +65,42 @@ export default function AdminClient({ inviteCodes: initial }: { inviteCodes: Inv
     setCreating(false);
   };
 
-  const copyToClipboard = (code: string) => {
-    navigator.clipboard.writeText(code);
-    setCopied(code);
+  const copyToClipboard = (value: string) => {
+    navigator.clipboard.writeText(value);
+    setCopied(value);
     setTimeout(() => setCopied(null), 2000);
   };
+
+  /** 11:59 PM tonight, in the format a datetime-local input expects. */
+  const tonight = () => {
+    const d = new Date();
+    d.setHours(23, 59, 0, 0);
+    const pad = (n: number) => String(n).padStart(2, "0");
+    return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  };
+
+  /** One click: a random event code labeled for today that closes at midnight. */
+  const fillEventForTonight = () => {
+    setNewCode(generateInviteCode());
+    setNewType("event");
+    setNewExpiry(tonight());
+    if (!newLabel.trim()) {
+      setNewLabel(`Code & Coffee · ${new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}`);
+    }
+  };
+
+  const copyLink = (code: string) => {
+    navigator.clipboard.writeText(`${window.location.origin}/join/${code}`);
+    setCopied(`link:${code}`);
+    setTimeout(() => setCopied(null), 2000);
+  };
+
+  // Times are shown in the admin's own time zone, after hydration.
+  const mounted = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false,
+  );
 
   const typeColor: Record<string, string> = {
     event: "bg-blue-500/10 text-blue-600 dark:text-blue-400",
@@ -95,15 +125,35 @@ export default function AdminClient({ inviteCodes: initial }: { inviteCodes: Inv
 
       {/* Create form */}
       <div className="mb-8 rounded-xl border border-border bg-background p-6">
-        <h2 className="mb-4 text-sm font-semibold text-foreground">Create invite code</h2>
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+          <h2 className="text-sm font-semibold text-foreground">Create invite code</h2>
+          <button
+            type="button"
+            onClick={fillEventForTonight}
+            className="flex items-center gap-1.5 rounded-full bg-brass/20 px-3 py-1.5 text-xs font-bold text-[#7a5a22] hover:bg-brass/30"
+          >
+            <Zap className="size-3.5" />
+            Event code for tonight
+          </button>
+        </div>
         <form onSubmit={handleCreate} className="grid gap-3 sm:grid-cols-2">
-          <input
-            value={newCode}
-            onChange={(e) => setNewCode(e.target.value)}
-            placeholder="Code (e.g. CC-OCT2026)"
-            aria-label="Invite code"
-            className="rounded-xl border border-border bg-muted/30 px-4 py-2.5 text-sm font-mono uppercase text-foreground outline-none focus:border-foreground focus:ring-2 focus:ring-ring"
-          />
+          <div className="flex gap-2">
+            <input
+              value={newCode}
+              onChange={(e) => setNewCode(e.target.value)}
+              placeholder="Code (tap Generate)"
+              aria-label="Invite code"
+              className="min-w-0 flex-1 rounded-xl border border-border bg-muted/30 px-4 py-2.5 text-sm font-mono uppercase text-foreground outline-none focus:border-foreground focus:ring-2 focus:ring-ring"
+            />
+            <button
+              type="button"
+              onClick={() => setNewCode(generateInviteCode())}
+              className="flex shrink-0 items-center gap-1.5 rounded-xl border border-border px-3 text-xs font-semibold text-navy hover:bg-secondary"
+            >
+              <Shuffle className="size-3.5" />
+              Generate
+            </button>
+          </div>
           <input
             value={newLabel}
             onChange={(e) => setNewLabel(e.target.value)}
@@ -129,14 +179,24 @@ export default function AdminClient({ inviteCodes: initial }: { inviteCodes: Inv
             aria-label="Max uses"
             className="rounded-xl border border-border bg-muted/30 px-4 py-2.5 text-sm text-foreground outline-none focus:border-foreground focus:ring-2 focus:ring-ring"
           />
-          <input
-            value={newExpiry}
-            onChange={(e) => setNewExpiry(e.target.value)}
-            type="datetime-local"
-            placeholder="Expires at (optional)"
-            aria-label="Expires at"
-            className="rounded-xl border border-border bg-muted/30 px-4 py-2.5 text-sm text-foreground outline-none focus:border-foreground focus:ring-2 focus:ring-ring"
-          />
+          <div className="flex gap-2">
+            <input
+              value={newExpiry}
+              onChange={(e) => setNewExpiry(e.target.value)}
+              type="datetime-local"
+              placeholder="Expires at (optional)"
+              aria-label="Expires at"
+              className="min-w-0 flex-1 rounded-xl border border-border bg-muted/30 px-4 py-2.5 text-sm text-foreground outline-none focus:border-foreground focus:ring-2 focus:ring-ring"
+            />
+            <button
+              type="button"
+              onClick={() => setNewExpiry(tonight())}
+              className="flex shrink-0 items-center gap-1.5 rounded-xl border border-border px-3 text-xs font-semibold text-navy hover:bg-secondary"
+            >
+              <Moon className="size-3.5" />
+              Tonight
+            </button>
+          </div>
           <button
             type="submit"
             disabled={!newCode.trim() || !newLabel.trim() || creating}
@@ -168,11 +228,26 @@ export default function AdminClient({ inviteCodes: initial }: { inviteCodes: Inv
               <p className="text-xs text-muted-foreground">{c.label}</p>
               <p className="mt-0.5 text-xs text-muted-foreground">
                 {c.usedCount} used{c.maxUses !== null ? ` / ${c.maxUses} max` : ""}
-                {c.expiresAt && ` · expires ${new Date(c.expiresAt).toLocaleDateString()}`}
+                {mounted && c.expiresAt && ` · ${new Date(c.expiresAt) < new Date() ? "expired" : "expires"} ${new Date(c.expiresAt).toLocaleString("en-US", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" })}`}
               </p>
             </div>
 
-            <div className="flex shrink-0 items-center gap-2">
+            <div className="flex shrink-0 flex-wrap items-center justify-end gap-2">
+              <Link
+                href={`/admin/present/${c.id}`}
+                className="flex items-center gap-1.5 rounded-lg bg-navy px-3 py-1.5 text-xs font-semibold text-white hover:bg-navy/90"
+              >
+                <QrCode className="size-3.5" />
+                Present
+              </Link>
+              <button
+                onClick={() => copyLink(c.code)}
+                aria-label={copied === `link:${c.code}` ? "Link copied" : `Copy invite link for ${c.code}`}
+                className="flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:text-foreground"
+              >
+                {copied === `link:${c.code}` ? <Check className="size-3.5 text-green-500" /> : <Link2 className="size-3.5" />}
+                Copy link
+              </button>
               <button
                 onClick={() => copyToClipboard(c.code)}
                 aria-label={copied === c.code ? "Code copied" : `Copy code ${c.code}`}

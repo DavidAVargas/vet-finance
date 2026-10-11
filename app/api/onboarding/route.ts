@@ -1,53 +1,47 @@
 import { auth, clerkClient } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import { INVITE_ERRORS, redeemInvite } from "@/lib/invites";
 
 export async function POST(req: Request) {
   const { userId } = await auth();
   if (!userId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const body = await req.json();
-  const { joinType, militaryStatus } = body as {
-    joinType?: string;
+  const { inviteCode, militaryStatus } = body as {
+    inviteCode?: string;
     militaryStatus?: string;
   };
 
   if (!militaryStatus) {
     return NextResponse.json({ error: "Please select your background." }, { status: 400 });
   }
-
-  let inviteCode;
-
-  if (joinType === "cc") {
-    inviteCode = await prisma.inviteCode.findFirst({
-      where: { type: "event", isActive: true },
-    });
-    if (!inviteCode) {
-      return NextResponse.json(
-        { error: "This event access has ended. Reach out to David for a personal invite." },
-        { status: 400 }
-      );
-    }
-  } else {
+  if (!inviteCode) {
     return NextResponse.json(
-      { error: "No valid invite found. Use your invite link or reach out to David." },
-      { status: 400 }
+      { error: "No invite found. Open your invite link again, or ask the person who invited you." },
+      { status: 400 },
     );
   }
 
-  // Increment usage
-  await prisma.inviteCode.update({
-    where: { id: inviteCode.id },
-    data: { usedCount: { increment: 1 } },
-  });
+  // Already unlocked (e.g. a double tap): don't use up another slot.
+  const client = await clerkClient();
+  const existing = await client.users.getUser(userId);
+  if (existing.publicMetadata?.activated) {
+    return NextResponse.json({ success: true });
+  }
+
+  const result = await redeemInvite(inviteCode);
+  if (!result.ok) {
+    return NextResponse.json({ error: INVITE_ERRORS[result.reason] }, { status: 400 });
+  }
+  const invite = result.invite;
 
   // Activate user in Clerk
-  const client = await clerkClient();
   await client.users.updateUserMetadata(userId, {
     publicMetadata: {
       activated: true,
-      tier: inviteCode.type,
-      inviteCode: inviteCode.code,
+      tier: invite.type,
+      inviteCode: invite.code,
+      inviteLabel: invite.label,
       militaryStatus,
       activatedAt: new Date().toISOString(),
     },

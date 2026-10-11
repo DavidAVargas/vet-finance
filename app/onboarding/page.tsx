@@ -1,18 +1,22 @@
 "use client";
 
 import { useState } from "react";
+import { ArrowRight, Check, HeartHandshake, Landmark, Medal, Shield, type LucideIcon } from "lucide-react";
+import { Logo } from "@/components/layout/Logo";
+import { cn } from "@/lib/utils";
 
-const MILITARY_OPTIONS = [
-  { value: "active-duty", label: "🎖️ Active Duty", desc: "Currently serving in the military" },
-  { value: "veteran", label: "🎖️ Veteran", desc: "Previously served and separated" },
-  { value: "law-enforcement", label: "🛡️ Law Enforcement", desc: "Currently serving or retired from law enforcement" },
-  { value: "civilian", label: "👤 Civilian Supporter", desc: "Supporting the military community" },
-] as const;
+const MILITARY_OPTIONS: { value: string; label: string; desc: string; icon: LucideIcon }[] = [
+  { value: "active-duty", label: "Active duty", desc: "Currently serving in the military", icon: Medal },
+  { value: "veteran", label: "Veteran", desc: "Previously served and separated", icon: Landmark },
+  { value: "law-enforcement", label: "Law enforcement", desc: "Currently serving or retired from law enforcement", icon: Shield },
+  { value: "civilian", label: "Civilian supporter", desc: "Supporting the military community", icon: HeartHandshake },
+];
 
-type MilitaryStatus = (typeof MILITARY_OPTIONS)[number]["value"];
+/** Set by the invite page so the same invite is redeemed after sign-up. */
+const INVITE_KEY = "vf-invite-code";
 
 export default function OnboardingPage() {
-  const [selected, setSelected] = useState<MilitaryStatus | null>(null);
+  const [selected, setSelected] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -21,86 +25,90 @@ export default function OnboardingPage() {
     setLoading(true);
     setError("");
 
-    const joinType = localStorage.getItem("vf-join-type") ?? "";
-
     const res = await fetch("/api/onboarding", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ joinType, militaryStatus: selected }),
+      body: JSON.stringify({ inviteCode: localStorage.getItem(INVITE_KEY) ?? "", militaryStatus: selected }),
     });
 
     if (res.ok) {
-      localStorage.removeItem("vf-join-type");
+      localStorage.removeItem(INVITE_KEY);
       window.location.href = "/courses";
     } else {
       const { error: msg } = await res.json();
-      setError(msg ?? "Something went wrong. Contact David.");
+      setError(msg ?? "Something went wrong. Try your invite link again.");
       setLoading(false);
     }
   };
 
-  if (loading) {
-    return (
-      <div className="flex min-h-[100dvh] items-center justify-center bg-background">
-        <div className="text-center">
-          <div className="mx-auto mb-4 size-8 animate-spin rounded-full border-2 border-foreground border-t-transparent" />
-          <p className="text-sm text-muted-foreground">Setting up your account…</p>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="flex min-h-[100dvh] flex-col items-center justify-center bg-background px-6 py-16">
-      <div className="w-full max-w-sm">
-
-        {/* Logo */}
-        <div className="mb-8 flex justify-center">
-          <div className="flex size-14 items-center justify-center rounded-2xl bg-foreground shadow-lg">
-            <span className="text-xl font-black text-background">VF</span>
-          </div>
+    <main className="flex min-h-[100dvh] flex-col items-center justify-center bg-surface px-4 py-12">
+      <div className="w-full max-w-md rounded-3xl bg-card p-7 ring-1 ring-border sm:p-9">
+        <div className="flex justify-center">
+          <Logo />
         </div>
 
-        <h1 className="mb-2 text-2xl font-bold tracking-tight text-foreground text-center">
-          Tell us about yourself.
+        <p className="mt-8 text-center text-xs font-semibold tracking-[0.14em] text-[#7a5a22] uppercase">Last step</p>
+        <h1 className="mt-2 text-center text-2xl font-extrabold tracking-[-0.02em] text-navy sm:text-3xl">
+          Tell us about yourself
         </h1>
-        <p className="mb-8 text-sm text-muted-foreground text-center">
+        <p className="mt-2 text-center text-[15px] text-muted-foreground">
           This helps us tailor your experience. Pick the one that fits best.
         </p>
 
-        {/* Options */}
-        <div className="flex flex-col gap-3 mb-6">
-          {MILITARY_OPTIONS.map((opt) => (
-            <button
-              key={opt.value}
-              onClick={() => setSelected(opt.value)}
-              aria-pressed={selected === opt.value}
-              className={`w-full rounded-xl border p-4 text-left transition-colors ${
-                selected === opt.value
-                  ? "border-foreground bg-foreground text-background"
-                  : "border-border bg-background text-foreground hover:border-foreground/40 hover:bg-muted/30"
-              }`}
-            >
-              <p className="font-semibold text-sm">{opt.label}</p>
-              <p className={`text-xs mt-0.5 ${selected === opt.value ? "text-background/70" : "text-muted-foreground"}`}>
-                {opt.desc}
-              </p>
-            </button>
-          ))}
+        <div role="group" aria-label="Your background" className="mt-7 flex flex-col gap-3">
+          {MILITARY_OPTIONS.map(({ value, label, desc, icon: Icon }) => {
+            const isSelected = selected === value;
+            return (
+              <button
+                key={value}
+                type="button"
+                onClick={() => setSelected(value)}
+                aria-pressed={isSelected}
+                disabled={loading}
+                className={cn(
+                  "flex items-center gap-4 rounded-2xl p-4 text-left transition-all",
+                  isSelected ? "bg-navy text-white shadow-md" : "bg-card ring-1 ring-border hover:ring-navy/40",
+                )}
+              >
+                <span
+                  className={cn(
+                    "flex size-11 shrink-0 items-center justify-center rounded-[14px]",
+                    isSelected ? "bg-white/10" : "bg-secondary",
+                  )}
+                >
+                  <Icon className={cn("size-5", isSelected ? "text-brass" : "text-navy")} strokeWidth={1.8} aria-hidden="true" />
+                </span>
+                <span className="min-w-0 flex-1">
+                  <span className={cn("block font-bold", isSelected ? "text-white" : "text-navy")}>{label}</span>
+                  <span className={cn("block text-sm", isSelected ? "text-[#c9d2e0]" : "text-muted-foreground")}>{desc}</span>
+                </span>
+                {isSelected && (
+                  <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-brass">
+                    <Check className="size-3.5 text-navy-deep" strokeWidth={3} aria-hidden="true" />
+                  </span>
+                )}
+              </button>
+            );
+          })}
         </div>
 
-        {error && <p role="alert" className="mb-4 text-center text-xs text-red-500">{error}</p>}
+        {error && (
+          <p role="alert" className="mt-5 rounded-xl bg-[#b42318]/10 px-4 py-3 text-center text-sm font-medium text-[#b42318]">
+            {error}
+          </p>
+        )}
 
         <button
+          type="button"
           onClick={handleContinue}
-          disabled={!selected}
-          className="inline-flex w-full items-center justify-center gap-2 rounded-xl py-3.5 text-sm font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-40"
-          style={{ background: "var(--brand-600)" }}
+          disabled={!selected || loading}
+          className="mt-6 flex h-13 w-full items-center justify-center gap-2 rounded-full bg-navy text-base font-semibold text-white transition-colors hover:bg-navy/90 disabled:opacity-40"
         >
-          Continue
+          {loading ? "Setting up your account…" : "Get started"}
+          {!loading && <ArrowRight className="size-4" aria-hidden="true" />}
         </button>
-
       </div>
-    </div>
+    </main>
   );
 }

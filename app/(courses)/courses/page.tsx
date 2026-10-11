@@ -90,7 +90,9 @@ export default function CoursesPage() {
     militaryStatus === "mil-family"  ? "🫂 Mil Family" :
     null;
 
-  const eventTag = tier === "event" ? "💻 Code & ☕️ Coffee" : null;
+  const inviteLabel = user?.publicMetadata?.inviteLabel as string | undefined;
+  // Early Code & Coffee members joined before invite labels were stored.
+  const eventTag = tier === "event" ? (inviteLabel ?? "Code & Coffee") : null;
 
   // Build tag list: Admin overrides all; military + event can stack
   const tags: Array<{ label: string; military: boolean }> = isFounder
