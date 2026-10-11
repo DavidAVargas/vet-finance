@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Clock } from "lucide-react";
 import { Logo } from "@/components/layout/Logo";
 import { INVITE_ERRORS, checkInvite } from "@/lib/invites";
+import { isCodeAndCoffee } from "@/lib/invite-code";
 import JoinInvite from "./JoinInvite";
 
 // Invite links are private; keep them out of search results.
@@ -44,7 +45,7 @@ export default async function JoinPage({ params }: { params: Promise<{ code: str
       code={invite.code}
       label={invite.label}
       expiresAt={invite.expiresAt ? invite.expiresAt.toISOString() : null}
-      showPartnerLogo={/code\s*(&|and)\s*coffee/i.test(invite.label)}
+      showPartnerLogo={isCodeAndCoffee(invite.label)}
     />
   );
 }

@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useSyncExternalStore } from "react";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
 import { ArrowRight, Compass } from "lucide-react";
+import { CodeAndCoffeeLogo } from "@/components/CodeAndCoffeeLogo";
 import { Logo } from "@/components/layout/Logo";
 import { courseCatalog } from "@/lib/course-catalog";
 
@@ -56,22 +56,30 @@ export default function JoinInvite({
       <div className="w-full max-w-md overflow-hidden rounded-3xl bg-card ring-1 ring-border">
         {/* Header */}
         <div className="bg-navy-deep px-7 pt-8 pb-7 text-center text-white sm:px-9">
-          <div className="flex items-center justify-center gap-4">
-            <Logo tone="inverted" />
-            {showPartnerLogo && (
-              <>
-                <span className="text-xl font-light text-white/40" aria-hidden="true">×</span>
-                <span className="flex size-11 items-center justify-center overflow-hidden rounded-xl bg-white">
-                  <Image src="/cc-logo.webp" alt="Code & Coffee" width={44} height={44} className="object-contain" />
-                </span>
-              </>
-            )}
-          </div>
+          {showPartnerLogo ? (
+            <div className="flex flex-col items-center">
+              <CodeAndCoffeeLogo imageClassName="h-12 sm:h-14" />
+              <div className="mt-6 flex items-center gap-3 text-sm text-[#9aa5b8]">
+                <span className="h-px w-8 bg-white/20" aria-hidden="true" />
+                <span>presented with</span>
+                <span className="h-px w-8 bg-white/20" aria-hidden="true" />
+              </div>
+              <div className="mt-3">
+                <Logo tone="inverted" />
+              </div>
+            </div>
+          ) : (
+            <div className="flex justify-center">
+              <Logo tone="inverted" />
+            </div>
+          )}
           <p className="mt-7 inline-flex items-center gap-2 rounded-full bg-brass/20 px-3 py-1 text-xs font-bold tracking-[0.12em] text-brass uppercase">
             <span className="size-1.5 rounded-full bg-brass" aria-hidden="true" />
-            You&apos;re invited · {label}
+            {showPartnerLogo ? "Special event access" : <>You&apos;re invited · {label}</>}
           </p>
-          <h1 className="mt-4 text-3xl font-extrabold tracking-[-0.03em]">Welcome to Vet Finance</h1>
+          <h1 className="mt-4 text-3xl font-extrabold tracking-[-0.03em]">
+            {showPartnerLogo ? "Welcome, Code & Coffee" : "Welcome to Vet Finance"}
+          </h1>
           <p className="mt-3 text-[15px] leading-relaxed text-[#c9d2e0]">
             Free financial education built for the military community. Straight to the point, no fluff.
           </p>

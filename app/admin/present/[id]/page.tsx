@@ -4,9 +4,11 @@ import { headers } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 import QRCode from "qrcode";
 import { ChevronLeft } from "lucide-react";
+import { CodeAndCoffeeLogo } from "@/components/CodeAndCoffeeLogo";
 import { Logo } from "@/components/layout/Logo";
 import { LocalTime } from "@/components/LocalTime";
 import { adminAccess } from "@/lib/admin-gate";
+import { isCodeAndCoffee } from "@/lib/invite-code";
 import { checkInvite } from "@/lib/invites";
 import { prisma } from "@/lib/prisma";
 
@@ -50,9 +52,19 @@ export default async function PresentInvitePage({ params }: { params: Promise<{ 
 
       <div className="flex flex-1 flex-col items-center justify-center gap-10 px-6 pb-12 lg:flex-row lg:gap-20">
         <div className="max-w-md text-center lg:text-left">
-          <div className="flex justify-center lg:justify-start">
-            <Logo tone="inverted" />
-          </div>
+          {isCodeAndCoffee(invite.label) ? (
+            <div className="flex flex-col items-center gap-5 lg:items-start">
+              <CodeAndCoffeeLogo className="px-5 py-4" imageClassName="h-16 sm:h-20" />
+              <div className="flex items-center gap-3 text-[#9aa5b8]">
+                <span className="text-base">presented with</span>
+                <Logo tone="inverted" />
+              </div>
+            </div>
+          ) : (
+            <div className="flex justify-center lg:justify-start">
+              <Logo tone="inverted" />
+            </div>
+          )}
           <p className="mt-8 text-sm font-bold tracking-[0.16em] text-brass uppercase">{invite.label}</p>
           <h1 className="mt-3 text-5xl leading-[1.05] font-extrabold tracking-[-0.03em] sm:text-6xl">
             Scan to get free access
