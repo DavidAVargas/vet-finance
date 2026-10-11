@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { Clock } from "lucide-react";
 import { Logo } from "@/components/layout/Logo";
 import { INVITE_ERRORS, checkInvite } from "@/lib/invites";
@@ -28,12 +27,6 @@ export default async function JoinPage({ params }: { params: Promise<{ code: str
           </div>
           <h1 className="mt-5 text-2xl font-extrabold tracking-[-0.02em] text-navy">This invite isn&apos;t open</h1>
           <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground">{INVITE_ERRORS[result.reason]}</p>
-          <p className="mt-6 text-sm text-muted-foreground">
-            Already a member?{" "}
-            <Link href="/courses" className="font-semibold text-navy underline underline-offset-2">
-              Go to my courses
-            </Link>
-          </p>
         </div>
       </main>
     );
