@@ -1,13 +1,10 @@
-import { currentUser } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
+import { adminAccess } from "@/lib/admin-gate";
 import { prisma } from "@/lib/prisma";
 
-const ADMIN_EMAIL = "david.vargas024@gmail.com";
-
+/** Admin account and the password step are both required. */
 async function checkAdmin() {
-  const user = await currentUser();
-  const email = user?.emailAddresses?.[0]?.emailAddress;
-  return email === ADMIN_EMAIL;
+  return (await adminAccess()) === "ok";
 }
 
 export async function POST(req: Request) {
@@ -43,4 +40,16 @@ export async function PATCH(req: Request) {
   });
 
   return NextResponse.json(invite);
+}
+
+/** Removes a code for good. Members who already joined with it keep their access. */
+export async function DELETE(req: Request) {
+  if (!(await checkAdmin())) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const { id } = await req.json();
+  await prisma.inviteCode.delete({ where: { id } });
+
+  return NextResponse.json({ ok: true });
 }

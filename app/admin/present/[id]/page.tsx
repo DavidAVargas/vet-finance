@@ -2,22 +2,19 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { headers } from "next/headers";
 import { notFound, redirect } from "next/navigation";
-import { currentUser } from "@clerk/nextjs/server";
 import QRCode from "qrcode";
 import { ChevronLeft } from "lucide-react";
 import { Logo } from "@/components/layout/Logo";
 import { LocalTime } from "@/components/LocalTime";
+import { adminAccess } from "@/lib/admin-gate";
 import { checkInvite } from "@/lib/invites";
 import { prisma } from "@/lib/prisma";
-
-const ADMIN_EMAIL = "david.vargas024@gmail.com";
 
 export const metadata: Metadata = { title: "Present invite · Vet Finance", robots: { index: false, follow: false } };
 
 /** Full-screen QR code for an invite, made to put on a projector or TV. */
 export default async function PresentInvitePage({ params }: { params: Promise<{ id: string }> }) {
-  const user = await currentUser();
-  if (user?.emailAddresses?.[0]?.emailAddress !== ADMIN_EMAIL) redirect("/");
+  if ((await adminAccess()) !== "ok") redirect("/admin");
 
   const { id } = await params;
   const invite = await prisma.inviteCode.findUnique({ where: { id } });

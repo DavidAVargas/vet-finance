@@ -33,6 +33,8 @@ export default function JoinInvite({
 
   const go = (path: string) => {
     localStorage.setItem(INVITE_KEY, code);
+    // Lets the hidden sign-in / sign-up pages open for invite visitors (see middleware.ts).
+    document.cookie = `vf-invite=${encodeURIComponent(code)}; path=/; max-age=86400; samesite=lax`;
     router.push(path);
   };
 

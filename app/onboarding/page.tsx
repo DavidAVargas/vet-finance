@@ -33,6 +33,7 @@ export default function OnboardingPage() {
 
     if (res.ok) {
       localStorage.removeItem(INVITE_KEY);
+      document.cookie = "vf-invite=; path=/; max-age=0; samesite=lax";
       window.location.href = "/courses";
     } else {
       const { error: msg } = await res.json();
