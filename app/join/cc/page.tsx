@@ -35,6 +35,12 @@ export default function JoinCCPage() {
     router.push("/sign-in");
   };
 
+  // Signed in but not unlocked yet: onboarding collects their background and activates them.
+  const handleUnlock = () => {
+    localStorage.setItem("vf-join-type", "cc");
+    router.push("/onboarding");
+  };
+
   if (!isLoaded || eventActive === null) {
     return (
       <div className="flex min-h-[100dvh] items-center justify-center bg-background">
@@ -119,24 +125,37 @@ export default function JoinCCPage() {
         </div>
 
         {/* CTA */}
-        <button
-          onClick={handleJoin}
-          className="inline-flex w-full items-center justify-center gap-2 rounded-xl py-3.5 text-sm font-semibold text-white transition-opacity hover:opacity-90"
-          style={{ background: "var(--brand-600)" }}
-        >
-          Create your free account
-          <ArrowRight className="size-4" />
-        </button>
-
-        <p className="mt-4 text-sm text-muted-foreground">
-          Already have an account?{" "}
+        {isSignedIn ? (
           <button
-            onClick={handleSignIn}
-            className="font-medium text-foreground underline underline-offset-2 hover:opacity-80 transition-opacity"
+            onClick={handleUnlock}
+            className="inline-flex w-full items-center justify-center gap-2 rounded-xl py-3.5 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+            style={{ background: "var(--brand-600)" }}
           >
-            Sign in
+            Unlock my access
+            <ArrowRight className="size-4" />
           </button>
-        </p>
+        ) : (
+          <>
+            <button
+              onClick={handleJoin}
+              className="inline-flex w-full items-center justify-center gap-2 rounded-xl py-3.5 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+              style={{ background: "var(--brand-600)" }}
+            >
+              Create your free account
+              <ArrowRight className="size-4" />
+            </button>
+
+            <p className="mt-4 text-sm text-muted-foreground">
+              Already have an account?{" "}
+              <button
+                onClick={handleSignIn}
+                className="font-medium text-foreground underline underline-offset-2 hover:opacity-80 transition-opacity"
+              >
+                Sign in
+              </button>
+            </p>
+          </>
+        )}
 
         <p className="mt-6 text-xs text-muted-foreground">
           100% free — no credit card, no catch. Ever.
