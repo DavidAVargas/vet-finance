@@ -14,6 +14,7 @@ import {
   Zap,
   Trash2,
   UserCheck,
+  MessageSquare,
 } from "lucide-react";
 import { generateInviteCode } from "@/lib/invite-code";
 import Link from "next/link";
@@ -38,9 +39,11 @@ const PERSONAL_MAX_USES = "1";
 export default function AdminClient({
   inviteCodes: initial,
   membersByCode,
+  feedbackCount,
 }: {
   inviteCodes: InviteCode[];
   membersByCode: Record<string, Member[]>;
+  feedbackCount: number;
 }) {
   const [codes, setCodes] = useState(initial);
   const [newCode, setNewCode] = useState("");
@@ -169,12 +172,24 @@ export default function AdminClient({
           <p className="text-muted-foreground mb-1 text-sm">Admin</p>
           <h1 className="text-foreground text-2xl font-bold">Invite Codes</h1>
         </div>
-        <Link
-          href="/courses"
-          className="text-muted-foreground hover:text-foreground text-sm underline underline-offset-2 transition-colors"
-        >
-          Back to courses
-        </Link>
+        <div className="flex items-center gap-4">
+          <Link
+            href="/admin/feedback"
+            className="bg-navy hover:bg-navy/90 flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-semibold text-white"
+          >
+            <MessageSquare className="size-4" aria-hidden="true" />
+            Feedback
+            <span className="rounded-full bg-white/15 px-1.5 text-xs">
+              {feedbackCount}
+            </span>
+          </Link>
+          <Link
+            href="/courses"
+            className="text-muted-foreground hover:text-foreground text-sm underline underline-offset-2 transition-colors"
+          >
+            Back to courses
+          </Link>
+        </div>
       </div>
 
       {/* Create form */}
