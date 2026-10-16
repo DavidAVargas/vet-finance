@@ -50,3 +50,14 @@ model FeedbackUpvote {
 
   @@unique([clerkUserId, feedbackPostId])
 }
+
+/// Emails from the public waitlist forms (The Card, Community). Kept in our own database only.
+model WaitlistEntry {
+  id        String   @id @default(cuid())
+  email     String
+  list      String   // "card" | "community"
+  city      String?
+  createdAt DateTime @default(now())
+
+  @@unique([email, list])
+}

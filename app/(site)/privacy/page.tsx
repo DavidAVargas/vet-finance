@@ -22,6 +22,7 @@ export default function PrivacyPage() {
             <li><span className="font-medium text-foreground">Invite code</span> — the code you used to join the beta</li>
             <li><span className="font-medium text-foreground">Course progress</span> — which lessons you&apos;ve completed, so you can pick up where you left off</li>
             <li><span className="font-medium text-foreground">Feedback</span> — anything you post on the feedback board, along with your name</li>
+            <li><span className="font-medium text-foreground">Waitlist sign-ups</span> — if you join the Card or Community waitlist, your email (and city, for Community). We only use it to tell you about that launch or events near you, and you can ask us to remove it anytime</li>
           </ul>
         </section>
 

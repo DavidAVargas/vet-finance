@@ -11,9 +11,10 @@ export default async function AdminPage() {
   if (access === "sign-in") redirect("/sign-in?redirect_url=/admin");
   if (access === "denied") redirect("/");
 
-  const [inviteCodes, feedbackCount] = await Promise.all([
+  const [inviteCodes, feedbackCount, waitlistCount] = await Promise.all([
     prisma.inviteCode.findMany({ orderBy: { createdAt: "desc" } }),
     prisma.feedbackPost.count(),
+    prisma.waitlistEntry.count(),
   ]);
 
   // Who redeemed each code (stored on the member's account when they unlocked access).
@@ -30,5 +31,5 @@ export default async function AdminPage() {
     });
   }
 
-  return <AdminClient inviteCodes={inviteCodes} membersByCode={membersByCode} feedbackCount={feedbackCount} />;
+  return <AdminClient inviteCodes={inviteCodes} membersByCode={membersByCode} feedbackCount={feedbackCount} waitlistCount={waitlistCount} />;
 }

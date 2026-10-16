@@ -2,6 +2,7 @@ import { ArrowRight, Check, Handshake, BookOpen, Rocket, UsersRound } from "luci
 import { Button } from "@/components/ui/button";
 import { CardArt, type CardTier } from "@/components/card/CardArt";
 import { cn } from "@/lib/utils";
+import { WaitlistForm } from "@/components/WaitlistForm";
 
 const tiers: {
   id: CardTier;
@@ -271,18 +272,7 @@ export default function CardPage() {
             banking partners and investors. Join the founding member list and
             be first in line when we launch.
           </p>
-          <form className="mx-auto mt-8 flex max-w-md flex-col gap-3 sm:flex-row">
-            <label htmlFor="card-waitlist-email" className="sr-only">Email address</label>
-            <input
-              id="card-waitlist-email"
-              type="email"
-              placeholder="Enter your email"
-              className="h-12 w-full rounded-full border border-white/20 bg-white/10 px-5 text-[15px] text-white placeholder:text-[#9aa5b8] focus:border-white/40 focus:ring-2 focus:ring-brass/60 focus:outline-none"
-            />
-            <Button type="submit" size="lg" className="h-12 shrink-0 rounded-full bg-brass px-7 text-base font-semibold text-navy-deep hover:bg-brass/90">
-              Join the mission
-            </Button>
-          </form>
+          <WaitlistForm list="card" buttonLabel="Join the mission" dark successNote="We'll let you know when we launch." />
           <p className="mt-4 text-sm text-[#9aa5b8]">No spam. Just a heads up when we launch.</p>
 
           <p className="mx-auto mt-12 max-w-2xl border-t border-white/10 pt-6 text-xs leading-relaxed text-[#9aa5b8]">

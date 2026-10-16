@@ -1,5 +1,5 @@
 import { Backpack, Check, Coffee, Crosshair, Fish, Landmark, MapPin, Target } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { WaitlistForm } from "@/components/WaitlistForm";
 
 const existingMeetups = [
   {
@@ -235,18 +235,7 @@ export default function CommunityPage() {
             Tell us where you are. As we grow, your city is where we want to
             show up first.
           </p>
-          <form className="mx-auto mt-8 flex max-w-md flex-col gap-3 sm:flex-row">
-            <label htmlFor="community-email" className="sr-only">Email address</label>
-            <input
-              id="community-email"
-              type="email"
-              placeholder="Your email"
-              className="h-12 w-full rounded-full border border-input bg-background px-5 text-[15px] text-foreground placeholder:text-muted-foreground focus:ring-2 focus:ring-ring focus:outline-none"
-            />
-            <Button type="submit" size="lg" className="h-12 shrink-0 rounded-full px-7 text-base font-semibold">
-              I&apos;m in
-            </Button>
-          </form>
+          <WaitlistForm list="community" buttonLabel="I'm in" askCity successNote="We'll reach out when events come to your city." />
           <p className="mt-4 text-sm text-muted-foreground">No spam. Just updates on events near you.</p>
         </div>
       </section>

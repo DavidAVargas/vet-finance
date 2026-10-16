@@ -15,6 +15,7 @@ import {
   Trash2,
   UserCheck,
   MessageSquare,
+  Mail,
 } from "lucide-react";
 import { generateInviteCode } from "@/lib/invite-code";
 import Link from "next/link";
@@ -40,10 +41,12 @@ export default function AdminClient({
   inviteCodes: initial,
   membersByCode,
   feedbackCount,
+  waitlistCount,
 }: {
   inviteCodes: InviteCode[];
   membersByCode: Record<string, Member[]>;
   feedbackCount: number;
+  waitlistCount: number;
 }) {
   const [codes, setCodes] = useState(initial);
   const [newCode, setNewCode] = useState("");
@@ -167,12 +170,22 @@ export default function AdminClient({
 
   return (
     <div className="mx-auto max-w-3xl px-6 py-12">
-      <div className="mb-8 flex items-center justify-between">
+      <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
         <div>
           <p className="text-muted-foreground mb-1 text-sm">Admin</p>
           <h1 className="text-foreground text-2xl font-bold">Invite Codes</h1>
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex flex-wrap items-center gap-3">
+          <Link
+            href="/admin/waitlist"
+            className="border-border text-navy hover:bg-secondary flex items-center gap-1.5 rounded-full border px-4 py-2 text-sm font-semibold"
+          >
+            <Mail className="size-4" aria-hidden="true" />
+            Waitlists
+            <span className="bg-secondary rounded-full px-1.5 text-xs">
+              {waitlistCount}
+            </span>
+          </Link>
           <Link
             href="/admin/feedback"
             className="bg-navy hover:bg-navy/90 flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-semibold text-white"
