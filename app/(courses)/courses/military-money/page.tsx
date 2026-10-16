@@ -76,14 +76,14 @@ function LessonContent({ lessonId }: { lessonId: string }) {
     case "amp-1":
       return (
         <div>
-          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+          <p className="mb-3 text-xs font-bold tracking-[0.14em] text-[#7a5a22] uppercase">
             Active Duty Pay · Lesson 1
           </p>
-          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="mb-8 text-3xl leading-[1.1] font-extrabold tracking-[-0.03em] text-navy sm:text-4xl">
             Your LES — What All Those Numbers Mean
           </h1>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             Every servicemember gets a Leave and Earnings Statement — your LES
             — every month. Most people glance at the net pay and move on.
             That&apos;s a mistake. Your LES tells you exactly where every dollar
@@ -91,18 +91,18 @@ function LessonContent({ lessonId }: { lessonId: string }) {
             controlling your money in the military.
           </p>
 
-          <p className="mb-8 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-8 text-[17px] leading-[1.75] text-[#3b4658]">
             myPay (at mypay.dfas.mil) is where you access it. You&apos;ll see a
             wall of numbers and codes. Here&apos;s how to read it.
           </p>
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-4 font-semibold text-foreground">The three sections that matter most</p>
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-4 font-bold text-navy">The three sections that matter most</p>
             <div className="flex flex-col gap-4">
               {[
                 {
                   label: "ENTITLEMENTS",
-                  color: "text-green-600 dark:text-green-400",
+                  color: "text-green-600",
                   items: [
                     { code: "BASE PAY", desc: "Your rank + years of service pay. This is taxed." },
                     { code: "BAH", desc: "Basic Allowance for Housing. Based on your duty station zip code, rank, and dependent status. Not taxed." },
@@ -124,7 +124,7 @@ function LessonContent({ lessonId }: { lessonId: string }) {
                 },
                 {
                   label: "SUMMARY",
-                  color: "text-foreground",
+                  color: "text-navy",
                   items: [
                     { code: "TOTAL ENT", desc: "Everything you earned — taxable and non-taxable combined." },
                     { code: "TOTAL DED", desc: "Everything coming out before you see a dollar." },
@@ -138,7 +138,7 @@ function LessonContent({ lessonId }: { lessonId: string }) {
                   <div className="flex flex-col gap-2">
                     {items.map(({ code, desc }) => (
                       <div key={code} className="grid grid-cols-[auto_1fr] gap-3 text-sm">
-                        <span className="font-mono font-semibold text-foreground w-24 shrink-0">{code}</span>
+                        <span className="font-mono font-bold text-navy w-24 shrink-0">{code}</span>
                         <span className="text-muted-foreground">{desc}</span>
                       </div>
                     ))}
@@ -148,23 +148,23 @@ function LessonContent({ lessonId }: { lessonId: string }) {
             </div>
           </div>
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-3 font-semibold text-foreground">The leave section — don&apos;t ignore it</p>
-            <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-3 font-bold text-navy">The leave section — don&apos;t ignore it</p>
+            <p className="mb-3 text-[15px] leading-relaxed text-muted-foreground">
               The bottom of your LES shows your leave balance — how many days
               you&apos;ve earned vs. how many you&apos;ve used. You earn 2.5 days per
               month (30 days per year). The cap is 60 days at the end of the
               fiscal year (September 30). Any days above 60 are forfeited unless
               you&apos;re deployed — then the cap is 120 days.
             </p>
-            <p className="text-sm leading-relaxed text-muted-foreground">
+            <p className="text-[15px] leading-relaxed text-muted-foreground">
               Every day of unused leave you forfeit is money lost. At a 2026 E-5 pay rate (over 4 years), one day of leave is worth roughly $130. Letting 30 days expire at the end of September is throwing away about $3,900.
               Check your leave balance regularly. You can sell leave back for cash, but only 60 days over your entire career, so plan to use most of it.
             </p>
           </div>
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-3 font-semibold text-foreground">Three things to check on your LES every month</p>
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-3 font-bold text-navy">Three things to check on your LES every month</p>
             <div className="flex flex-col gap-3">
               {[
                 { num: "1", title: "Is your TSP contribution correct?", body: "If you enrolled and aren't seeing it deducted, contact your finance office immediately. You can't go back and make up missed contributions." },
@@ -172,21 +172,21 @@ function LessonContent({ lessonId }: { lessonId: string }) {
                 { num: "3", title: "Check your leave balance before September", body: "Don't forfeit days. Request leave, sell it at terminal, or make sure you're below 60 by fiscal year end." },
               ].map(({ num, title, body }) => (
                 <div key={num} className="flex gap-4">
-                  <div className="flex size-7 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white" style={{ background: "var(--brand-600)" }}>
+                  <div className="flex size-7 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white bg-navy">
                     {num}
                   </div>
                   <div>
-                    <p className="mb-1 text-sm font-semibold text-foreground">{title}</p>
-                    <p className="text-sm leading-relaxed text-muted-foreground">{body}</p>
+                    <p className="mb-1 text-sm font-bold text-navy">{title}</p>
+                    <p className="text-[15px] leading-relaxed text-muted-foreground">{body}</p>
                   </div>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="rounded-xl p-5 text-white" style={{ background: "var(--brand-600)" }}>
-            <p className="mb-1 font-bold">The bottom line</p>
-            <p className="text-sm leading-relaxed text-white/85">
+          <div className="rounded-2xl p-5 text-white bg-navy-deep sm:p-6">
+            <p className="mb-1 font-bold text-brass">The bottom line</p>
+            <p className="text-[15px] leading-relaxed text-[#c9d2e0]">
               Your LES is your monthly financial report card. Finance offices
               make errors — wrong BAH rates, missing allowances, incorrect
               deductions — and if you&apos;re not checking, you might not catch them
@@ -201,14 +201,14 @@ function LessonContent({ lessonId }: { lessonId: string }) {
     case "amp-2":
       return (
         <div>
-          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+          <p className="mb-3 text-xs font-bold tracking-[0.14em] text-[#7a5a22] uppercase">
             Active Duty Pay · Lesson 2
           </p>
-          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="mb-8 text-3xl leading-[1.1] font-extrabold tracking-[-0.03em] text-navy sm:text-4xl">
             BAH, BAS, and the Tax-Free Advantage
           </h1>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             One of the most underappreciated parts of military compensation is
             how much of it is tax-free. When civilians compare their salary to
             your base pay, they&apos;re missing the full picture. Your real
@@ -216,9 +216,9 @@ function LessonContent({ lessonId }: { lessonId: string }) {
             higher than the base pay number suggests.
           </p>
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-3 font-semibold text-foreground">BAH — Basic Allowance for Housing</p>
-            <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-3 font-bold text-navy">BAH — Basic Allowance for Housing</p>
+            <p className="mb-3 text-[15px] leading-relaxed text-muted-foreground">
               BAH covers your housing costs when you live off base. It&apos;s
               calculated based on three things: your duty station zip code,
               your pay grade (rank), and whether you have dependents.
@@ -233,20 +233,20 @@ function LessonContent({ lessonId }: { lessonId: string }) {
               ].map(({ label, value }) => (
                 <div key={label} className="flex items-start justify-between gap-4 border-b border-border pb-2 last:border-0 last:pb-0 text-sm">
                   <p className="text-muted-foreground">{label}</p>
-                  <p className="font-semibold text-foreground text-right">{value}</p>
+                  <p className="font-bold text-navy text-right">{value}</p>
                 </div>
               ))}
             </div>
-            <p className="text-sm leading-relaxed text-muted-foreground">
+            <p className="text-[15px] leading-relaxed text-muted-foreground">
               BAH ranges widely by location. A married E-5 in San Diego can receive well over $3,000/month in BAH. The same rank in a rural area might get under $1,500. If you can find housing below your BAH rate,
               the difference is yours to keep — tax-free. This is one of the
               most powerful savings opportunities in the military.
             </p>
           </div>
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-3 font-semibold text-foreground">BAS — Basic Allowance for Subsistence</p>
-            <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-3 font-bold text-navy">BAS — Basic Allowance for Subsistence</p>
+            <p className="mb-3 text-[15px] leading-relaxed text-muted-foreground">
               BAS is a flat monthly food allowance. It doesn&apos;t vary by
               location or dependent status — it&apos;s the same for everyone
               at the same pay level.
@@ -260,7 +260,7 @@ function LessonContent({ lessonId }: { lessonId: string }) {
               ].map(({ label, value }) => (
                 <div key={label} className="flex items-start justify-between gap-4 border-b border-border pb-2 last:border-0 last:pb-0 text-sm">
                   <p className="text-muted-foreground">{label}</p>
-                  <p className="font-semibold text-foreground">{value}</p>
+                  <p className="font-bold text-navy">{value}</p>
                 </div>
               ))}
             </div>
@@ -268,9 +268,9 @@ function LessonContent({ lessonId }: { lessonId: string }) {
 
           <BahKeeper />
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-4 font-semibold text-foreground">The tax-free advantage — what this actually means</p>
-            <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-4 font-bold text-navy">The tax-free advantage — what this actually means</p>
+            <p className="mb-4 text-[15px] leading-relaxed text-muted-foreground">
               Because BAH and BAS are not taxed, your effective compensation is
               higher than your base pay alone. Here&apos;s what that looks like for
               a married E-5 in a medium cost-of-living area:
@@ -286,28 +286,28 @@ function LessonContent({ lessonId }: { lessonId: string }) {
                   <div className="flex items-center gap-2">
                     <p className="text-muted-foreground">{label}</p>
                     {taxed === true && <span className="rounded-full bg-red-500/10 px-2 py-0.5 text-[10px] font-medium text-red-500">taxed</span>}
-                    {taxed === false && <span className="rounded-full bg-green-500/10 px-2 py-0.5 text-[10px] font-medium text-green-600 dark:text-green-400">tax-free</span>}
+                    {taxed === false && <span className="rounded-full bg-green-500/10 px-2 py-0.5 text-[10px] font-medium text-green-600">tax-free</span>}
                   </div>
-                  <p className="font-semibold text-foreground">{value}</p>
+                  <p className="font-bold text-navy">{value}</p>
                 </div>
               ))}
             </div>
-            <p className="text-sm leading-relaxed text-muted-foreground">
+            <p className="text-[15px] leading-relaxed text-muted-foreground">
               A civilian earning $6,224/month pays income tax on the full amount. This servicemember only pays tax on $3,947. That&apos;s a
               meaningful difference in take-home pay — and it compounds over
               a career.
             </p>
           </div>
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-3 font-semibold text-foreground">Combat zone pay exclusion</p>
-            <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-3 font-bold text-navy">Combat zone pay exclusion</p>
+            <p className="mb-3 text-[15px] leading-relaxed text-muted-foreground">
               When you&apos;re deployed to a designated combat zone, your base
               pay also becomes tax-free — for every month you spend at least
               one day in the combat zone. For enlisted members, all pay is
               excluded. For officers, the exclusion is capped at the highest enlisted pay rate (plus imminent danger pay).
             </p>
-            <p className="text-sm leading-relaxed text-muted-foreground">
+            <p className="text-[15px] leading-relaxed text-muted-foreground">
               This means during a 6-month combat deployment, you could receive
               6 months of base pay with zero federal income tax withheld. Many
               servicemembers use this window to aggressively build savings or
@@ -316,9 +316,9 @@ function LessonContent({ lessonId }: { lessonId: string }) {
             </p>
           </div>
 
-          <div className="rounded-xl p-5 text-white" style={{ background: "var(--brand-600)" }}>
-            <p className="mb-1 font-bold">How to take advantage of this</p>
-            <p className="text-sm leading-relaxed text-white/85">
+          <div className="rounded-2xl p-5 text-white bg-navy-deep sm:p-6">
+            <p className="mb-1 font-bold text-brass">How to take advantage of this</p>
+            <p className="text-[15px] leading-relaxed text-[#c9d2e0]">
               Find housing below your BAH rate — every dollar under that number
               is tax-free savings. During deployment, expenses drop and income
               stays fully tax-free — that&apos;s the best savings window you&apos;ll
@@ -334,14 +334,14 @@ function LessonContent({ lessonId }: { lessonId: string }) {
     case "tsp-1":
       return (
         <div>
-          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+          <p className="mb-3 text-xs font-bold tracking-[0.14em] text-[#7a5a22] uppercase">
             TSP & Retirement · Lesson 1
           </p>
-          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="mb-8 text-3xl leading-[1.1] font-extrabold tracking-[-0.03em] text-navy sm:text-4xl">
             The Blended Retirement System
           </h1>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             Before 2018, the military ran on a simple deal: serve 20 years and
             get a pension for life. If you left at 19 years and 11 months, you
             got nothing. That system is gone for most servicemembers today.
@@ -350,8 +350,8 @@ function LessonContent({ lessonId }: { lessonId: string }) {
             with a head start on retirement or leaving with nothing.
           </p>
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-4 font-semibold text-foreground">Old system vs. BRS — what changed</p>
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-4 font-bold text-navy">Old system vs. BRS — what changed</p>
             <div className="grid grid-cols-3 gap-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">
               <p></p>
               <p>Legacy (pre-2018)</p>
@@ -366,7 +366,7 @@ function LessonContent({ lessonId }: { lessonId: string }) {
                 { label: "Who it benefits most", legacy: "Career servicemembers (20+ yrs)", brs: "Everyone, especially those who serve 4–12 yrs" },
               ].map(({ label, legacy, brs }) => (
                 <div key={label} className="grid grid-cols-3 gap-3 border-b border-border pb-3 last:border-0 last:pb-0 text-sm">
-                  <p className="font-medium text-foreground">{label}</p>
+                  <p className="font-semibold text-navy">{label}</p>
                   <p className="text-muted-foreground">{legacy}</p>
                   <p className="text-muted-foreground">{brs}</p>
                 </div>
@@ -374,9 +374,9 @@ function LessonContent({ lessonId }: { lessonId: string }) {
             </div>
           </div>
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-3 font-semibold text-foreground">The TSP match — free money you should never leave behind</p>
-            <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-3 font-bold text-navy">The TSP match — free money you should never leave behind</p>
+            <p className="mb-4 text-[15px] leading-relaxed text-muted-foreground">
               Under BRS, the government automatically contributes 1% of your base pay to your TSP whether you contribute or not, starting 60 days after you join. Then they
               match your contributions dollar-for-dollar up to 3%, and 50 cents on the dollar for the next 2%. One catch most people miss: the match starts at the beginning of your third year of service. Here&apos;s what that looks like:
             </p>
@@ -389,8 +389,7 @@ function LessonContent({ lessonId }: { lessonId: string }) {
               ].map(({ you, gov, total, highlight }) => (
                 <div
                   key={you}
-                  className={`grid grid-cols-3 gap-3 rounded-lg px-3 py-2 text-sm ${highlight ? "font-semibold text-foreground" : "text-muted-foreground"}`}
-                  style={highlight ? { background: "color-mix(in srgb, var(--brand-600) 8%, transparent)", border: "1px solid color-mix(in srgb, var(--brand-600) 19%, transparent)" } : {}}
+                  className={`grid grid-cols-3 gap-3 rounded-xl px-3 py-2 text-sm ${highlight ? "bg-secondary font-semibold text-navy ring-1 ring-navy/20" : "text-muted-foreground"}`}
                 >
                   <p>You contribute: {you}</p>
                   <p>Gov adds: {gov}</p>
@@ -398,7 +397,7 @@ function LessonContent({ lessonId }: { lessonId: string }) {
                 </div>
               ))}
             </div>
-            <p className="text-sm leading-relaxed text-muted-foreground">
+            <p className="text-[15px] leading-relaxed text-muted-foreground">
               Contributing 5% of your base pay gets you the full 5% government
               match — that&apos;s a 100% instant return on that portion of your
               money. There is no investment on earth that guarantees that.
@@ -409,15 +408,15 @@ function LessonContent({ lessonId }: { lessonId: string }) {
 
           <BrsMatch />
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-3 font-semibold text-foreground">Vesting — when the match is actually yours</p>
-            <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-3 font-bold text-navy">Vesting — when the match is actually yours</p>
+            <p className="mb-3 text-[15px] leading-relaxed text-muted-foreground">
               The automatic 1% contribution vests after 2 years of service.
               The matching contributions vest immediately. So after 2 years,
               everything in your TSP — your contributions, the match, and the
               automatic 1% — is fully yours even if you leave the military.
             </p>
-            <p className="text-sm leading-relaxed text-muted-foreground">
+            <p className="text-[15px] leading-relaxed text-muted-foreground">
               This is a massive shift from the old system. Under legacy
               retirement, leaving at 10 years meant walking away with zero.
               Under BRS, 10 years of 5% contributions with full matching
@@ -425,8 +424,8 @@ function LessonContent({ lessonId }: { lessonId: string }) {
             </p>
           </div>
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-3 font-semibold text-foreground">Traditional TSP vs. Roth TSP — which one?</p>
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-3 font-bold text-navy">Traditional TSP vs. Roth TSP — which one?</p>
             <div className="flex flex-col gap-3">
               {[
                 {
@@ -438,9 +437,9 @@ function LessonContent({ lessonId }: { lessonId: string }) {
                   body: "Contributions come from after-tax dollars. Growth and withdrawals in retirement are completely tax-free. Best if you're early in your career (lower income now = lower tax rate now). Also the right call during combat zone deployments — more on that next lesson.",
                 },
               ].map(({ label, body }) => (
-                <div key={label} className="rounded-xl border border-border p-4">
-                  <p className="mb-1 text-sm font-semibold text-foreground">{label}</p>
-                  <p className="text-sm leading-relaxed text-muted-foreground">{body}</p>
+                <div key={label} className="rounded-2xl bg-card ring-1 ring-border p-4">
+                  <p className="mb-1 text-sm font-bold text-navy">{label}</p>
+                  <p className="text-[15px] leading-relaxed text-muted-foreground">{body}</p>
                 </div>
               ))}
             </div>
@@ -449,9 +448,9 @@ function LessonContent({ lessonId }: { lessonId: string }) {
             </p>
           </div>
 
-          <div className="rounded-xl p-5 text-white" style={{ background: "var(--brand-600)" }}>
-            <p className="mb-1 font-bold">The action item</p>
-            <p className="text-sm leading-relaxed text-white/85">
+          <div className="rounded-2xl p-5 text-white bg-navy-deep sm:p-6">
+            <p className="mb-1 font-bold text-brass">The action item</p>
+            <p className="text-[15px] leading-relaxed text-[#c9d2e0]">
               Log into myPay and make sure you&apos;re contributing at least 5% of
               your base pay to TSP. If you&apos;re junior enlisted and money is tight,
               even 3–4% gets you most of the match. If you can swing 5%, do it — the match is the best guaranteed return you&apos;ll ever get. Start contributing even before year 3; the match won&apos;t kick in yet, but your own money starts compounding and the habit is already set. Early in
@@ -466,14 +465,14 @@ function LessonContent({ lessonId }: { lessonId: string }) {
     case "tsp-2":
       return (
         <div>
-          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+          <p className="mb-3 text-xs font-bold tracking-[0.14em] text-[#7a5a22] uppercase">
             TSP & Retirement · Lesson 2
           </p>
-          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="mb-8 text-3xl leading-[1.1] font-extrabold tracking-[-0.03em] text-navy sm:text-4xl">
             The Combat Zone TSP Trick
           </h1>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             This is one of the most underused financial moves in the military.
             Most servicemembers know that combat zone pay is tax-free. Fewer
             know that when you contribute that tax-free pay into a Roth TSP,
@@ -482,25 +481,25 @@ function LessonContent({ lessonId }: { lessonId: string }) {
             much they earn.
           </p>
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-3 font-semibold text-foreground">How the math works normally</p>
-            <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-3 font-bold text-navy">How the math works normally</p>
+            <p className="mb-3 text-[15px] leading-relaxed text-muted-foreground">
               With a regular Roth IRA or Roth TSP, you contribute money
               that&apos;s already been taxed. It grows tax-free, and you withdraw
               it tax-free. You pay tax once — on the way in.
             </p>
-            <p className="text-sm leading-relaxed text-muted-foreground">
+            <p className="text-[15px] leading-relaxed text-muted-foreground">
               In a combat zone, your pay is excluded from federal income tax.
               When you contribute that tax-excluded pay into a Roth TSP, you
               never pay tax on it at all — not going in, not coming out.
-              These are called <span className="font-semibold text-foreground">tax-exempt contributions</span>,
+              These are called <span className="font-bold text-navy">tax-exempt contributions</span>,
               and they are only available to servicemembers deployed to a
               combat zone.
             </p>
           </div>
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-4 font-semibold text-foreground">Regular Roth vs. Combat Zone Roth TSP</p>
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-4 font-bold text-navy">Regular Roth vs. Combat Zone Roth TSP</p>
             <div className="grid grid-cols-3 gap-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">
               <p></p>
               <p>Regular Roth</p>
@@ -515,7 +514,7 @@ function LessonContent({ lessonId }: { lessonId: string }) {
                 { label: "Annual contribution limit", regular: "$7,500 (2026, IRA)", combat: "$72,000 (2026, total TSP)" },
               ].map(({ label, regular, combat }) => (
                 <div key={label} className="grid grid-cols-3 gap-3 border-b border-border pb-3 last:border-0 last:pb-0 text-sm">
-                  <p className="font-medium text-foreground">{label}</p>
+                  <p className="font-semibold text-navy">{label}</p>
                   <p className="text-muted-foreground">{regular}</p>
                   <p className="text-muted-foreground">{combat}</p>
                 </div>
@@ -523,14 +522,14 @@ function LessonContent({ lessonId }: { lessonId: string }) {
             </div>
           </div>
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-3 font-semibold text-foreground">The contribution limit advantage</p>
-            <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-3 font-bold text-navy">The contribution limit advantage</p>
+            <p className="mb-3 text-[15px] leading-relaxed text-muted-foreground">
               In 2026 a civilian can contribute a maximum of $24,500/year to a 401(k) or $7,500 to an IRA. During a combat zone deployment, tax-exempt contributions can go above that, up to $72,000 total for the year — the IRS limit for defined contribution plans. A 6-month deployment with aggressive
               saving could mean $30,000–$40,000+ in tax-exempt Roth TSP
               contributions in a single year.
             </p>
-            <p className="text-sm leading-relaxed text-muted-foreground">
+            <p className="text-[15px] leading-relaxed text-muted-foreground">
               At 7% annual growth over 25 years, $35,000 in tax-exempt Roth
               TSP contributions from one deployment becomes roughly $190,000 —
               all of it completely tax-free when you pull it out in retirement.
@@ -539,8 +538,8 @@ function LessonContent({ lessonId }: { lessonId: string }) {
 
           <CombatRoth />
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-3 font-semibold text-foreground">How to set this up before deployment</p>
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-3 font-bold text-navy">How to set this up before deployment</p>
             <div className="flex flex-col gap-3">
               {[
                 { num: "1", title: "Switch your TSP election to Roth", body: "Log into myPay or TSP.gov and change your contribution type from Traditional to Roth before you deploy. Do this early — it can take a pay cycle to process." },
@@ -549,21 +548,21 @@ function LessonContent({ lessonId }: { lessonId: string }) {
                 { num: "4", title: "Switch back after returning", body: "When you return from deployment, consider your tax situation. If you're back to taxable income, Traditional TSP might make more sense again depending on your bracket." },
               ].map(({ num, title, body }) => (
                 <div key={num} className="flex gap-4">
-                  <div className="flex size-7 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white" style={{ background: "var(--brand-600)" }}>
+                  <div className="flex size-7 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white bg-navy">
                     {num}
                   </div>
                   <div>
-                    <p className="mb-1 text-sm font-semibold text-foreground">{title}</p>
-                    <p className="text-sm leading-relaxed text-muted-foreground">{body}</p>
+                    <p className="mb-1 text-sm font-bold text-navy">{title}</p>
+                    <p className="text-[15px] leading-relaxed text-muted-foreground">{body}</p>
                   </div>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="rounded-xl p-5 text-white" style={{ background: "var(--brand-600)" }}>
-            <p className="mb-1 font-bold">Why this matters long-term</p>
-            <p className="text-sm leading-relaxed text-white/85">
+          <div className="rounded-2xl p-5 text-white bg-navy-deep sm:p-6">
+            <p className="mb-1 font-bold text-brass">Why this matters long-term</p>
+            <p className="text-[15px] leading-relaxed text-[#c9d2e0]">
               A single 6–9 month combat deployment, managed correctly, can
               fund a meaningful chunk of your retirement with money that will
               never be taxed again. Most servicemembers come home and spend
@@ -581,14 +580,14 @@ function LessonContent({ lessonId }: { lessonId: string }) {
     case "va-1":
       return (
         <div>
-          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+          <p className="mb-3 text-xs font-bold tracking-[0.14em] text-[#7a5a22] uppercase">
             The VA Home Loan · Lesson 1
           </p>
-          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="mb-8 text-3xl leading-[1.1] font-extrabold tracking-[-0.03em] text-navy sm:text-4xl">
             Why This Is Your Biggest Benefit
           </h1>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             The VA Home Loan is the single most powerful financial benefit
             most veterans never fully use. No down payment. No private
             mortgage insurance. Competitive interest rates. And you can use
@@ -597,8 +596,8 @@ function LessonContent({ lessonId }: { lessonId: string }) {
             they don&apos;t have this benefit. You do.
           </p>
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-4 font-semibold text-foreground">VA loan vs. conventional loan — the real numbers</p>
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-4 font-bold text-navy">VA loan vs. conventional loan — the real numbers</p>
             <p className="mb-4 text-sm text-muted-foreground">Buying a $350,000 home:</p>
             <div className="grid grid-cols-3 gap-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">
               <p></p>
@@ -615,9 +614,9 @@ function LessonContent({ lessonId }: { lessonId: string }) {
                 { label: "Cash needed to close", conv: "$17,500+ plus closing costs", va: "Closing costs only — the funding fee can be rolled into the loan, and the seller can cover costs" },
               ].map(({ label, conv, va }) => (
                 <div key={label} className="grid grid-cols-3 gap-3 border-b border-border pb-3 last:border-0 last:pb-0 text-sm">
-                  <p className="font-medium text-foreground">{label}</p>
+                  <p className="font-semibold text-navy">{label}</p>
                   <p className="text-muted-foreground">{conv}</p>
-                  <p className="font-medium" style={{ color: "var(--brand-600)" }}>{va}</p>
+                  <p className="font-medium text-[#7a5a22]">{va}</p>
                 </div>
               ))}
             </div>
@@ -626,8 +625,8 @@ function LessonContent({ lessonId }: { lessonId: string }) {
             </p>
           </div>
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-3 font-semibold text-foreground">The benefits most people miss</p>
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-3 font-bold text-navy">The benefits most people miss</p>
             <div className="flex flex-col gap-3">
               {[
                 {
@@ -651,16 +650,16 @@ function LessonContent({ lessonId }: { lessonId: string }) {
                   body: "Pay it off early with no penalty. Extra payments go straight to principal.",
                 },
               ].map(({ title, body }) => (
-                <div key={title} className="rounded-xl border border-border p-4">
-                  <p className="mb-1 text-sm font-semibold text-foreground">{title}</p>
-                  <p className="text-sm leading-relaxed text-muted-foreground">{body}</p>
+                <div key={title} className="rounded-2xl bg-card ring-1 ring-border p-4">
+                  <p className="mb-1 text-sm font-bold text-navy">{title}</p>
+                  <p className="text-[15px] leading-relaxed text-muted-foreground">{body}</p>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-3 font-semibold text-foreground">Who qualifies</p>
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-3 font-bold text-navy">Who qualifies</p>
             <div className="flex flex-col gap-2 text-sm">
               {[
                 "90+ days active duty during wartime",
@@ -669,7 +668,7 @@ function LessonContent({ lessonId }: { lessonId: string }) {
                 "Surviving spouse of a servicemember who died in service or from a service-connected disability",
               ].map((item) => (
                 <div key={item} className="flex items-start gap-3 border-b border-border pb-2 last:border-0 last:pb-0">
-                  <span className="mt-0.5 flex size-4 shrink-0 items-center justify-center rounded-full text-[10px] font-bold text-white" style={{ background: "var(--brand-600)" }}>✓</span>
+                  <span className="mt-0.5 flex size-4 shrink-0 items-center justify-center rounded-full text-[10px] font-bold text-white bg-navy">✓</span>
                   <p className="text-muted-foreground">{item}</p>
                 </div>
               ))}
@@ -677,9 +676,9 @@ function LessonContent({ lessonId }: { lessonId: string }) {
             <p className="mt-3 text-xs text-muted-foreground">Must have been discharged under conditions other than dishonorable. Your Certificate of Eligibility (COE) confirms your entitlement — your lender can pull this for you.</p>
           </div>
 
-          <div className="rounded-xl p-5 text-white" style={{ background: "var(--brand-600)" }}>
-            <p className="mb-1 font-bold">Why most vets don&apos;t use it</p>
-            <p className="text-sm leading-relaxed text-white/85">
+          <div className="rounded-2xl p-5 text-white bg-navy-deep sm:p-6">
+            <p className="mb-1 font-bold text-brass">Why most vets don&apos;t use it</p>
+            <p className="text-[15px] leading-relaxed text-[#c9d2e0]">
               Most veterans either don&apos;t know they have it, don&apos;t think they
               qualify, or are talked out of it by lenders or real estate
               agents who aren&apos;t familiar with it. Some sellers have historically
@@ -695,14 +694,14 @@ function LessonContent({ lessonId }: { lessonId: string }) {
     case "va-2":
       return (
         <div>
-          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+          <p className="mb-3 text-xs font-bold tracking-[0.14em] text-[#7a5a22] uppercase">
             The VA Home Loan · Lesson 2
           </p>
-          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="mb-8 text-3xl leading-[1.1] font-extrabold tracking-[-0.03em] text-navy sm:text-4xl">
             How to Actually Use It — Including House Hacking
           </h1>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             Using your VA loan to buy a single-family home is good. Using it
             to buy a duplex, triplex, or fourplex — living in one unit and
             renting the others — is a level up. This strategy is called house
@@ -710,16 +709,16 @@ function LessonContent({ lessonId }: { lessonId: string }) {
             loan product available.
           </p>
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-3 font-semibold text-foreground">What is house hacking?</p>
-            <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-3 font-bold text-navy">What is house hacking?</p>
+            <p className="mb-3 text-[15px] leading-relaxed text-muted-foreground">
               House hacking means buying a multi-unit property, living in
               one unit, and renting out the others. The rental income from
               your tenants covers part or all of your mortgage. In the
               best cases, you live for free — or close to it — while building
               equity in a property someone else is paying for.
             </p>
-            <p className="text-sm leading-relaxed text-muted-foreground">
+            <p className="text-[15px] leading-relaxed text-muted-foreground">
               The VA loan allows you to buy properties with up to 4 units
               as long as you live in one of them as your primary residence.
               Combined with no down payment and no PMI, this is one of the
@@ -727,8 +726,8 @@ function LessonContent({ lessonId }: { lessonId: string }) {
             </p>
           </div>
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-4 font-semibold text-foreground">The house hacking math — real example</p>
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-4 font-bold text-navy">The house hacking math — real example</p>
             <p className="mb-4 text-sm text-muted-foreground">Buying a $400,000 triplex with a VA loan:</p>
             <div className="flex flex-col gap-2 mb-4">
               {[
@@ -742,9 +741,8 @@ function LessonContent({ lessonId }: { lessonId: string }) {
                   key={label}
                   className={`flex items-center justify-between border-b border-border pb-2 last:border-0 last:pb-0 text-sm ${highlight ? "font-bold" : ""}`}
                 >
-                  <p className={highlight ? "text-foreground" : "text-muted-foreground"}>{label}</p>
-                  <p className={highlight ? "text-foreground" : "text-foreground font-semibold"}
-                    style={highlight ? { color: "var(--brand-600)" } : {}}>{value}</p>
+                  <p className={highlight ? "text-navy" : "text-muted-foreground"}>{label}</p>
+                  <p className="font-semibold text-navy">{value}</p>
                 </div>
               ))}
             </div>
@@ -755,8 +753,8 @@ function LessonContent({ lessonId }: { lessonId: string }) {
 
           <HouseHack />
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-3 font-semibold text-foreground">Why this beats a single-family home</p>
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-3 font-bold text-navy">Why this beats a single-family home</p>
             <div className="flex flex-col gap-3">
               {[
                 {
@@ -777,18 +775,18 @@ function LessonContent({ lessonId }: { lessonId: string }) {
                 },
               ].map(({ title, body }) => (
                 <div key={title} className="flex gap-4">
-                  <span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full text-[10px] font-bold text-white" style={{ background: "var(--brand-600)" }}>✓</span>
+                  <span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full text-[10px] font-bold text-white bg-navy">✓</span>
                   <div>
-                    <p className="mb-1 text-sm font-semibold text-foreground">{title}</p>
-                    <p className="text-sm leading-relaxed text-muted-foreground">{body}</p>
+                    <p className="mb-1 text-sm font-bold text-navy">{title}</p>
+                    <p className="text-[15px] leading-relaxed text-muted-foreground">{body}</p>
                   </div>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-4 font-semibold text-foreground">How to get started — step by step</p>
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-4 font-bold text-navy">How to get started — step by step</p>
             <div className="flex flex-col gap-3">
               {[
                 { num: "1", title: "Get your Certificate of Eligibility (COE)", body: "Your lender can pull this directly from the VA system — you usually don't need to request it yourself. It confirms your entitlement amount. You can also get it at va.gov." },
@@ -798,20 +796,20 @@ function LessonContent({ lessonId }: { lessonId: string }) {
                 { num: "5", title: "Check if you're exempt from the funding fee", body: "10%+ service-connected disability = no funding fee. If you're not yet rated, file your claim before closing. If the rating comes through later with an effective date on or before your closing, request a refund from the VA." },
               ].map(({ num, title, body }) => (
                 <div key={num} className="flex gap-4">
-                  <div className="flex size-7 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white" style={{ background: "var(--brand-600)" }}>
+                  <div className="flex size-7 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white bg-navy">
                     {num}
                   </div>
                   <div>
-                    <p className="mb-1 text-sm font-semibold text-foreground">{title}</p>
-                    <p className="text-sm leading-relaxed text-muted-foreground">{body}</p>
+                    <p className="mb-1 text-sm font-bold text-navy">{title}</p>
+                    <p className="text-[15px] leading-relaxed text-muted-foreground">{body}</p>
                   </div>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-3 font-semibold text-foreground">Things to know before you buy multi-unit</p>
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-3 font-bold text-navy">Things to know before you buy multi-unit</p>
             <div className="flex flex-col gap-2 text-sm">
               {[
                 { label: "Occupancy requirement", note: "You must move in within 60 days of closing and live there as your primary residence." },
@@ -820,9 +818,9 @@ function LessonContent({ lessonId }: { lessonId: string }) {
                 { label: "Reserve funds", note: "Set aside 3–6 months of mortgage payments as a reserve in case of vacancies or repairs. Even if the rent covers the mortgage, have a cushion." },
               ].map(({ label, note }) => (
                 <div key={label} className="flex gap-3 border-b border-border pb-3 last:border-0 last:pb-0">
-                  <span className="mt-0.5 flex size-4 shrink-0 items-center justify-center rounded-full bg-muted text-[10px] font-bold text-muted-foreground">!</span>
+                  <span className="mt-0.5 flex size-4 shrink-0 items-center justify-center rounded-full bg-brass/25 text-[10px] font-bold text-[#7a5a22]">!</span>
                   <div>
-                    <p className="font-semibold text-foreground">{label}</p>
+                    <p className="font-bold text-navy">{label}</p>
                     <p className="text-muted-foreground">{note}</p>
                   </div>
                 </div>
@@ -830,9 +828,9 @@ function LessonContent({ lessonId }: { lessonId: string }) {
             </div>
           </div>
 
-          <div className="rounded-xl p-5 text-white" style={{ background: "var(--brand-600)" }}>
-            <p className="mb-1 font-bold">The big picture</p>
-            <p className="text-sm leading-relaxed text-white/85">
+          <div className="rounded-2xl p-5 text-white bg-navy-deep sm:p-6">
+            <p className="mb-1 font-bold text-brass">The big picture</p>
+            <p className="text-[15px] leading-relaxed text-[#c9d2e0]">
               Most people use their VA loan to buy a single-family home and
               call it done. That&apos;s fine. But if you use it to buy a duplex
               or triplex with no money down, live in one unit, and let tenants
@@ -849,14 +847,14 @@ function LessonContent({ lessonId }: { lessonId: string }) {
     case "ed-1":
       return (
         <div>
-          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+          <p className="mb-3 text-xs font-bold tracking-[0.14em] text-[#7a5a22] uppercase">
             Education Benefits · Lesson 1
           </p>
-          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="mb-8 text-3xl leading-[1.1] font-extrabold tracking-[-0.03em] text-navy sm:text-4xl">
             GI Bill vs. VR&amp;E — Know the Difference
           </h1>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             Most veterans know they have education benefits. Fewer know that
             there are two separate programs — the GI Bill and Vocational
             Rehabilitation &amp; Employment (VR&amp;E) — and that choosing the wrong
@@ -864,9 +862,9 @@ function LessonContent({ lessonId }: { lessonId: string }) {
             Here&apos;s how they actually compare.
           </p>
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-3 font-semibold text-foreground">Post-9/11 GI Bill (Chapter 33)</p>
-            <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-3 font-bold text-navy">Post-9/11 GI Bill (Chapter 33)</p>
+            <p className="mb-4 text-[15px] leading-relaxed text-muted-foreground">
               The most commonly used education benefit. If you served 90+ days on active duty after September 10, 2001, you likely qualify. Your coverage is a percentage based on time served: 90 days gets 50%, and 36 months gets the full 100%.
               At 36 months of entitlement (the max), it covers:
             </p>
@@ -880,7 +878,7 @@ function LessonContent({ lessonId }: { lessonId: string }) {
                 { label: "Who qualifies", value: "Veterans, active duty, and in some cases dependents (transferability)" },
               ].map(({ label, value }) => (
                 <div key={label} className="flex flex-col gap-0.5 border-b border-border pb-2 last:border-0 last:pb-0 text-sm">
-                  <p className="font-semibold text-foreground">{label}</p>
+                  <p className="font-bold text-navy">{label}</p>
                   <p className="text-muted-foreground">{value}</p>
                 </div>
               ))}
@@ -890,9 +888,9 @@ function LessonContent({ lessonId }: { lessonId: string }) {
             </p>
           </div>
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-3 font-semibold text-foreground">VR&amp;E — Vocational Rehabilitation &amp; Employment (Chapter 31)</p>
-            <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-3 font-bold text-navy">VR&amp;E — Vocational Rehabilitation &amp; Employment (Chapter 31)</p>
+            <p className="mb-4 text-[15px] leading-relaxed text-muted-foreground">
               VR&amp;E is for veterans with a service-connected disability rating — generally 20% or higher, or 10% with a serious employment handicap — whose disability makes it harder to work in their field. It&apos;s more restrictive to qualify for — but if you do,
               it&apos;s often significantly better than the GI Bill.
             </p>
@@ -906,15 +904,15 @@ function LessonContent({ lessonId }: { lessonId: string }) {
                 { label: "Who qualifies", value: "Vets rated 20%+ with an employment handicap, or 10% with a serious one" },
               ].map(({ label, value }) => (
                 <div key={label} className="flex flex-col gap-0.5 border-b border-border pb-2 last:border-0 last:pb-0 text-sm">
-                  <p className="font-semibold text-foreground">{label}</p>
+                  <p className="font-bold text-navy">{label}</p>
                   <p className="text-muted-foreground">{value}</p>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-4 font-semibold text-foreground">GI Bill vs. VR&amp;E — side by side</p>
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-4 font-bold text-navy">GI Bill vs. VR&amp;E — side by side</p>
             <div className="grid grid-cols-3 gap-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">
               <p></p>
               <p>GI Bill (Ch. 33)</p>
@@ -931,17 +929,17 @@ function LessonContent({ lessonId }: { lessonId: string }) {
                 { label: "Time limit", gi: "None if separated 2013+", vre: "None if separated 2013+" },
               ].map(({ label, gi, vre }) => (
                 <div key={label} className="grid grid-cols-3 gap-3 border-b border-border pb-3 last:border-0 last:pb-0 text-sm">
-                  <p className="font-medium text-foreground">{label}</p>
+                  <p className="font-semibold text-navy">{label}</p>
                   <p className="text-muted-foreground">{gi}</p>
-                  <p className="font-medium" style={{ color: "var(--brand-600)" }}>{vre}</p>
+                  <p className="font-medium text-[#7a5a22]">{vre}</p>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="rounded-xl p-5 text-white" style={{ background: "var(--brand-600)" }}>
-            <p className="mb-1 font-bold">Which one should you use?</p>
-            <p className="text-sm leading-relaxed text-white/85">
+          <div className="rounded-2xl p-5 text-white bg-navy-deep sm:p-6">
+            <p className="mb-1 font-bold text-brass">Which one should you use?</p>
+            <p className="text-[15px] leading-relaxed text-[#c9d2e0]">
               If you have a service-connected disability rating, apply for VR&amp;E first — especially if you&apos;re going to a private
               school, grad program, or trade certification. The tuition coverage is uncapped and the living allowance can match the GI Bill rate. (There&apos;s a combined 48-month cap across both programs, so plan your months.) Save the GI Bill
               for situations where VR&amp;E doesn&apos;t apply, or transfer it to a
@@ -955,29 +953,29 @@ function LessonContent({ lessonId }: { lessonId: string }) {
     case "ed-2":
       return (
         <div>
-          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+          <p className="mb-3 text-xs font-bold tracking-[0.14em] text-[#7a5a22] uppercase">
             Education Benefits · Lesson 2
           </p>
-          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="mb-8 text-3xl leading-[1.1] font-extrabold tracking-[-0.03em] text-navy sm:text-4xl">
             Getting Every Dollar You&apos;re Owed
           </h1>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             The GI Bill and VR&amp;E are just the starting point. There are
             stacking strategies, state-level benefits, and common mistakes
             that determine whether you get the full value of your education
             benefits or leave money behind. Here&apos;s what you need to know.
           </p>
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-3 font-semibold text-foreground">The BAH rate nobody talks about</p>
-            <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-3 font-bold text-navy">The BAH rate nobody talks about</p>
+            <p className="mb-3 text-[15px] leading-relaxed text-muted-foreground">
               The GI Bill housing allowance is based on the E-5 with
               dependents BAH rate for your school&apos;s zip code — regardless
               of your actual rank or whether you have dependents. This is
               a flat rate that has nothing to do with your military record.
             </p>
-            <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
+            <p className="mb-3 text-[15px] leading-relaxed text-muted-foreground">
               In high cost-of-living areas this can be substantial. A vet attending a school in San Diego can receive well over $3,000/month in housing allowance — tax-free — while in school full time.
               That&apos;s on top of tuition being paid directly to the school.
             </p>
@@ -989,7 +987,7 @@ function LessonContent({ lessonId }: { lessonId: string }) {
               ].map(({ label, value }) => (
                 <div key={label} className="flex items-start justify-between gap-4 border-b border-border pb-2 last:border-0 last:pb-0">
                   <p className="text-muted-foreground">{label}</p>
-                  <p className="font-semibold text-foreground text-right">{value}</p>
+                  <p className="font-bold text-navy text-right">{value}</p>
                 </div>
               ))}
             </div>
@@ -998,12 +996,12 @@ function LessonContent({ lessonId }: { lessonId: string }) {
             </p>
           </div>
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-3 font-semibold text-foreground">Transfer your GI Bill to a dependent</p>
-            <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-3 font-bold text-navy">Transfer your GI Bill to a dependent</p>
+            <p className="mb-3 text-[15px] leading-relaxed text-muted-foreground">
               If you don&apos;t need your GI Bill for yourself, you can transfer unused months to a spouse or child — but you need at least 6 years of service, you must agree to serve 4 more, and you must request it while still serving (and before you reach 16 years).
             </p>
-            <p className="text-sm leading-relaxed text-muted-foreground">
+            <p className="text-[15px] leading-relaxed text-muted-foreground">
               This is a massive benefit for military families. A spouse can
               use it to finish a degree, or you can bank it for a child to
               use after they turn 18. The transfer must be approved through
@@ -1012,9 +1010,9 @@ function LessonContent({ lessonId }: { lessonId: string }) {
             </p>
           </div>
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-3 font-semibold text-foreground">State education benefits — the hidden layer</p>
-            <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-3 font-bold text-navy">State education benefits — the hidden layer</p>
+            <p className="mb-3 text-[15px] leading-relaxed text-muted-foreground">
               On top of federal benefits, many states offer their own
               education programs for veterans and their families. These
               can stack on top of the GI Bill.
@@ -1038,16 +1036,16 @@ function LessonContent({ lessonId }: { lessonId: string }) {
                   body: "For spouses and children of veterans who are permanently and totally disabled, or who died from a service-connected condition. Monthly stipend for education — separate from GI Bill entitlement.",
                 },
               ].map(({ title, body }) => (
-                <div key={title} className="rounded-xl border border-border p-4">
-                  <p className="mb-1 text-sm font-semibold text-foreground">{title}</p>
-                  <p className="text-sm leading-relaxed text-muted-foreground">{body}</p>
+                <div key={title} className="rounded-2xl bg-card ring-1 ring-border p-4">
+                  <p className="mb-1 text-sm font-bold text-navy">{title}</p>
+                  <p className="text-[15px] leading-relaxed text-muted-foreground">{body}</p>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-3 font-semibold text-foreground">Common mistakes that cost veterans money</p>
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-3 font-bold text-navy">Common mistakes that cost veterans money</p>
             <div className="flex flex-col gap-3">
               {[
                 {
@@ -1071,17 +1069,17 @@ function LessonContent({ lessonId }: { lessonId: string }) {
                   fix: "Transfer must happen while on active duty with enough service commitment remaining. If you wait until after separation, it's too late.",
                 },
               ].map(({ mistake, fix }) => (
-                <div key={mistake} className="rounded-xl border border-border p-4">
+                <div key={mistake} className="rounded-2xl bg-card ring-1 ring-border p-4">
                   <p className="mb-1 text-sm font-semibold text-red-500">{mistake}</p>
-                  <p className="text-sm leading-relaxed text-muted-foreground">{fix}</p>
+                  <p className="text-[15px] leading-relaxed text-muted-foreground">{fix}</p>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="rounded-xl p-5 text-white" style={{ background: "var(--brand-600)" }}>
-            <p className="mb-1 font-bold">Make it count</p>
-            <p className="text-sm leading-relaxed text-white/85">
+          <div className="rounded-2xl p-5 text-white bg-navy-deep sm:p-6">
+            <p className="mb-1 font-bold text-brass">Make it count</p>
+            <p className="text-[15px] leading-relaxed text-[#c9d2e0]">
               You earned these benefits. The GI Bill and VR&amp;E combined are
               worth $100,000+ in real value if used well — and far less if
               wasted on the wrong school or the wrong program. Check your
@@ -1098,14 +1096,14 @@ function LessonContent({ lessonId }: { lessonId: string }) {
     case "dis-1":
       return (
         <div>
-          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+          <p className="mb-3 text-xs font-bold tracking-[0.14em] text-[#7a5a22] uppercase">
             VA Disability & Healthcare · Lesson 1
           </p>
-          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="mb-8 text-3xl leading-[1.1] font-extrabold tracking-[-0.03em] text-navy sm:text-4xl">
             How Ratings Work and Why They Matter
           </h1>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             A VA disability rating is a percentage the VA assigns based on
             how much a service-connected condition affects your ability to
             function. It determines your monthly tax-free compensation, your
@@ -1114,9 +1112,9 @@ function LessonContent({ lessonId }: { lessonId: string }) {
             left on the table permanently.
           </p>
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-3 font-semibold text-foreground">What &ldquo;service-connected&rdquo; means</p>
-            <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-3 font-bold text-navy">What &ldquo;service-connected&rdquo; means</p>
+            <p className="mb-3 text-[15px] leading-relaxed text-muted-foreground">
               A condition is service-connected if it was caused by, aggravated
               by, or directly related to your military service. This is broader
               than most people think. It includes:
@@ -1131,22 +1129,22 @@ function LessonContent({ lessonId }: { lessonId: string }) {
                 "Musculoskeletal issues from physical demands of service (knees, back, shoulders)",
               ].map((item) => (
                 <div key={item} className="flex items-start gap-3 border-b border-border pb-2 last:border-0 last:pb-0 text-sm">
-                  <span className="mt-0.5 flex size-4 shrink-0 items-center justify-center rounded-full text-[10px] font-bold text-white" style={{ background: "var(--brand-600)" }}>✓</span>
+                  <span className="mt-0.5 flex size-4 shrink-0 items-center justify-center rounded-full text-[10px] font-bold text-white bg-navy">✓</span>
                   <p className="text-muted-foreground">{item}</p>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-3 font-semibold text-foreground">How the rating percentage works</p>
-            <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-3 font-bold text-navy">How the rating percentage works</p>
+            <p className="mb-3 text-[15px] leading-relaxed text-muted-foreground">
               Ratings go from 0% to 100% in 10% increments. A 0% rating means
               the condition is service-connected but not currently disabling
               enough to warrant compensation — it still matters because it
               opens the door to future claims if it worsens.
             </p>
-            <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
+            <p className="mb-3 text-[15px] leading-relaxed text-muted-foreground">
               When you have multiple conditions, the VA uses a &quot;whole person&quot;
               method — not simple addition. If your first condition is rated
               40%, the VA treats you as 60% able-bodied. A second condition
@@ -1154,21 +1152,21 @@ function LessonContent({ lessonId }: { lessonId: string }) {
               a combined 52% — rounded to 50%. This is why having many
               conditions doesn&apos;t simply add up to 100%.
             </p>
-            <div className="rounded-lg bg-muted/40 p-4 text-sm">
-              <p className="mb-2 font-semibold text-foreground">Example: combined rating math</p>
+            <div className="rounded-xl bg-surface p-4 text-sm">
+              <p className="mb-2 font-bold text-navy">Example: combined rating math</p>
               <div className="flex flex-col gap-1 text-muted-foreground">
                 <p>Condition 1: 40% → leaves 60% &ldquo;whole person&rdquo;</p>
                 <p>Condition 2: 20% of 60% = 12 → combined 52%</p>
                 <p>Condition 3: 10% of 48% = ~5 → combined 57%</p>
-                <p className="mt-1 font-medium text-foreground">VA rounds to nearest 10% → rated at 60%</p>
+                <p className="mt-1 font-semibold text-navy">VA rounds to nearest 10% → rated at 60%</p>
               </div>
             </div>
           </div>
 
           <CombinedRating />
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-3 font-semibold text-foreground">How to file a claim</p>
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-3 font-bold text-navy">How to file a claim</p>
             <div className="flex flex-col gap-3">
               {[
                 { num: "1", title: "Gather your evidence", body: "Service records, medical records from service, and current treatment records. The VA needs a nexus — a connection between your service and your condition. A doctor's \"nexus letter\" is extremely helpful." },
@@ -1177,21 +1175,21 @@ function LessonContent({ lessonId }: { lessonId: string }) {
                 { num: "4", title: "Appeal if you're underrated", body: "If you believe your rating is wrong, appeal. Many veterans are initially underrated. The supplemental claim process allows you to submit new evidence without starting over." },
               ].map(({ num, title, body }) => (
                 <div key={num} className="flex gap-4">
-                  <div className="flex size-7 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white" style={{ background: "var(--brand-600)" }}>
+                  <div className="flex size-7 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white bg-navy">
                     {num}
                   </div>
                   <div>
-                    <p className="mb-1 text-sm font-semibold text-foreground">{title}</p>
-                    <p className="text-sm leading-relaxed text-muted-foreground">{body}</p>
+                    <p className="mb-1 text-sm font-bold text-navy">{title}</p>
+                    <p className="text-[15px] leading-relaxed text-muted-foreground">{body}</p>
                   </div>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="rounded-xl p-5 text-white" style={{ background: "var(--brand-600)" }}>
-            <p className="mb-1 font-bold">File your claim — don&apos;t wait</p>
-            <p className="text-sm leading-relaxed text-white/85">
+          <div className="rounded-2xl p-5 text-white bg-navy-deep sm:p-6">
+            <p className="mb-1 font-bold text-brass">File your claim — don&apos;t wait</p>
+            <p className="text-[15px] leading-relaxed text-[#c9d2e0]">
               Every month you don&apos;t have a rating is a month of compensation
               you can&apos;t recover. The effective date of your claim matters —
               the VA pays back to the date you filed, not when they finish
@@ -1206,14 +1204,14 @@ function LessonContent({ lessonId }: { lessonId: string }) {
     case "dis-2":
       return (
         <div>
-          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+          <p className="mb-3 text-xs font-bold tracking-[0.14em] text-[#7a5a22] uppercase">
             VA Disability & Healthcare · Lesson 2
           </p>
-          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="mb-8 text-3xl leading-[1.1] font-extrabold tracking-[-0.03em] text-navy sm:text-4xl">
             What Each Rating Unlocks
           </h1>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             Your disability rating isn&apos;t just a number — it&apos;s a key that
             unlocks different layers of benefits. Each threshold you cross
             adds compensation, healthcare access, and other perks that stack
@@ -1221,8 +1219,8 @@ function LessonContent({ lessonId }: { lessonId: string }) {
             practical terms.
           </p>
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-4 font-semibold text-foreground">Monthly compensation by rating (2026 rates, veteran alone)</p>
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-4 font-bold text-navy">Monthly compensation by rating (2026 rates, veteran alone)</p>
             <div className="flex flex-col gap-2">
               {[
                 { rating: "10%", amount: "$180/mo", note: "" },
@@ -1241,17 +1239,17 @@ function LessonContent({ lessonId }: { lessonId: string }) {
                   className={`flex items-center justify-between gap-4 border-b border-border pb-2 last:border-0 last:pb-0 text-sm ${highlight ? "font-bold" : ""}`}
                 >
                   <div>
-                    <p className={highlight ? "text-foreground" : "text-muted-foreground"}>{rating} {note && <span className="ml-2 text-xs font-normal" style={{ color: "var(--brand-600)" }}>{note}</span>}</p>
+                    <p className={highlight ? "text-navy" : "text-muted-foreground"}>{rating} {note && <span className="ml-2 text-xs font-normal text-[#7a5a22]">{note}</span>}</p>
                   </div>
-                  <p className="shrink-0 font-semibold text-foreground">{amount}</p>
+                  <p className="shrink-0 font-bold text-navy">{amount}</p>
                 </div>
               ))}
             </div>
             <p className="mt-3 text-xs text-muted-foreground">All compensation is tax-free. Rates increase every December with the cost-of-living adjustment. Dependents (spouse, children) add to the base amount starting at 30%.</p>
           </div>
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-4 font-semibold text-foreground">Key thresholds and what they unlock</p>
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-4 font-bold text-navy">Key thresholds and what they unlock</p>
             <div className="flex flex-col gap-4">
               {[
                 {
@@ -1283,11 +1281,11 @@ function LessonContent({ lessonId }: { lessonId: string }) {
                 },
               ].map(({ rating, unlocks }) => (
                 <div key={rating}>
-                  <p className="mb-2 text-sm font-bold text-foreground" style={{ color: "var(--brand-600)" }}>{rating}</p>
+                  <p className="mb-2 text-sm font-bold text-navy text-[#7a5a22]">{rating}</p>
                   <div className="flex flex-col gap-1.5">
                     {unlocks.map((item) => (
                       <div key={item} className="flex items-start gap-2 text-sm">
-                        <span className="mt-0.5 flex size-4 shrink-0 items-center justify-center rounded-full text-[10px] font-bold text-white" style={{ background: "var(--brand-600)" }}>✓</span>
+                        <span className="mt-0.5 flex size-4 shrink-0 items-center justify-center rounded-full text-[10px] font-bold text-white bg-navy">✓</span>
                         <p className="text-muted-foreground">{item}</p>
                       </div>
                     ))}
@@ -1297,9 +1295,9 @@ function LessonContent({ lessonId }: { lessonId: string }) {
             </div>
           </div>
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-3 font-semibold text-foreground">Permanent & Total (P&T) — the designation that matters most</p>
-            <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-3 font-bold text-navy">Permanent & Total (P&T) — the designation that matters most</p>
+            <p className="mb-3 text-[15px] leading-relaxed text-muted-foreground">
               A 100% rating can be either temporary or Permanent & Total.
               P&T means the VA has determined your condition is not expected
               to improve. This matters because:
@@ -1313,16 +1311,16 @@ function LessonContent({ lessonId }: { lessonId: string }) {
                 "A DoD ID card for base access, plus Space-A flights on military aircraft",
               ].map((item) => (
                 <div key={item} className="flex items-start gap-3 border-b border-border pb-2 last:border-0 last:pb-0">
-                  <span className="mt-0.5 flex size-4 shrink-0 items-center justify-center rounded-full text-[10px] font-bold text-white" style={{ background: "var(--brand-600)" }}>✓</span>
+                  <span className="mt-0.5 flex size-4 shrink-0 items-center justify-center rounded-full text-[10px] font-bold text-white bg-navy">✓</span>
                   <p className="text-muted-foreground">{item}</p>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="rounded-xl p-5 text-white" style={{ background: "var(--brand-600)" }}>
-            <p className="mb-1 font-bold">Don&apos;t leave your rating where it is if it&apos;s wrong</p>
-            <p className="text-sm leading-relaxed text-white/85">
+          <div className="rounded-2xl p-5 text-white bg-navy-deep sm:p-6">
+            <p className="mb-1 font-bold text-brass">Don&apos;t leave your rating where it is if it&apos;s wrong</p>
+            <p className="text-[15px] leading-relaxed text-[#c9d2e0]">
               Many veterans accept their initial rating without questioning it.
               If your conditions have worsened, file for an increase. If you
               have new conditions connected to service, file new claims. The
@@ -1339,14 +1337,14 @@ function LessonContent({ lessonId }: { lessonId: string }) {
     case "hid-1":
       return (
         <div>
-          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+          <p className="mb-3 text-xs font-bold tracking-[0.14em] text-[#7a5a22] uppercase">
             The Hidden Stuff · Lesson 1
           </p>
-          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="mb-8 text-3xl leading-[1.1] font-extrabold tracking-[-0.03em] text-navy sm:text-4xl">
             Benefits Most Vets Never Claim
           </h1>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             The big benefits — VA loan, GI Bill, disability compensation —
             get most of the attention. But there&apos;s a whole layer of perks
             most people never hear about, and several of them come with
@@ -1356,8 +1354,8 @@ function LessonContent({ lessonId }: { lessonId: string }) {
 
           <DeadlineTracker />
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-4 font-semibold text-foreground">While you&apos;re serving</p>
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-4 font-bold text-navy">While you&apos;re serving</p>
             <div className="flex flex-col gap-4">
               {[
                 {
@@ -1381,15 +1379,15 @@ function LessonContent({ lessonId }: { lessonId: string }) {
                   body: "Military OneSource offers free tax software and free tax consultants that handle military situations like combat zone exclusions and multiple state returns. Available to active duty, Guard, Reserve, and veterans for a year after separation. No income limit.",
                 },
               ].map(({ title, body }) => (
-                <div key={title} className="rounded-xl border border-border p-4">
-                  <p className="mb-1 text-sm font-semibold text-foreground">{title}</p>
-                  <p className="text-sm leading-relaxed text-muted-foreground">{body}</p>
+                <div key={title} className="rounded-2xl bg-card ring-1 ring-border p-4">
+                  <p className="mb-1 text-sm font-bold text-navy">{title}</p>
+                  <p className="text-[15px] leading-relaxed text-muted-foreground">{body}</p>
                 </div>
               ))}
             </div>
           </div>
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-4 font-semibold text-foreground">When you get out — watch these deadlines</p>
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-4 font-bold text-navy">When you get out — watch these deadlines</p>
             <div className="flex flex-col gap-4">
               {[
                 {
@@ -1409,15 +1407,15 @@ function LessonContent({ lessonId }: { lessonId: string }) {
                   body: "If you paid a VA funding fee and were already entitled to disability compensation at closing (for example, your rating came through later but its effective date is on or before your closing date), you can get the fee refunded. At 2.15% on a $300k loan, that's $6,450. Contact your lender or the VA Regional Loan Center at 1-877-827-3702.",
                 },
               ].map(({ title, body }) => (
-                <div key={title} className="rounded-xl border border-border p-4">
-                  <p className="mb-1 text-sm font-semibold text-foreground">{title}</p>
-                  <p className="text-sm leading-relaxed text-muted-foreground">{body}</p>
+                <div key={title} className="rounded-2xl bg-card ring-1 ring-border p-4">
+                  <p className="mb-1 text-sm font-bold text-navy">{title}</p>
+                  <p className="text-[15px] leading-relaxed text-muted-foreground">{body}</p>
                 </div>
               ))}
             </div>
           </div>
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-4 font-semibold text-foreground">For life</p>
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-4 font-bold text-navy">For life</p>
             <div className="flex flex-col gap-4">
               {[
                 {
@@ -1445,16 +1443,16 @@ function LessonContent({ lessonId }: { lessonId: string }) {
                   body: "Many states offer free or discounted admission to state parks, museums, and recreation areas for veterans. Some require a disability rating; others just need proof of service. Check your state's veterans affairs website.",
                 },
               ].map(({ title, body }) => (
-                <div key={title} className="rounded-xl border border-border p-4">
-                  <p className="mb-1 text-sm font-semibold text-foreground">{title}</p>
-                  <p className="text-sm leading-relaxed text-muted-foreground">{body}</p>
+                <div key={title} className="rounded-2xl bg-card ring-1 ring-border p-4">
+                  <p className="mb-1 text-sm font-bold text-navy">{title}</p>
+                  <p className="text-[15px] leading-relaxed text-muted-foreground">{body}</p>
                 </div>
               ))}
             </div>
           </div>
-          <div className="rounded-xl p-5 text-white" style={{ background: "var(--brand-600)" }}>
-            <p className="mb-1 font-bold">The pattern here</p>
-            <p className="text-sm leading-relaxed text-white/85">
+          <div className="rounded-2xl p-5 text-white bg-navy-deep sm:p-6">
+            <p className="mb-1 font-bold text-brass">The pattern here</p>
+            <p className="text-[15px] leading-relaxed text-[#c9d2e0]">
               These benefits exist. The VA and the government don&apos;t send you
               a checklist when you separate. Nobody calls you to say your
               funding fee is refundable or that your SGLI conversion window
@@ -1470,13 +1468,13 @@ function LessonContent({ lessonId }: { lessonId: string }) {
     case "hid-cards":
       return (
         <div>
-          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+          <p className="mb-3 text-xs font-bold tracking-[0.14em] text-[#7a5a22] uppercase">
             The Hidden Stuff · Lesson 2
           </p>
-          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="mb-8 text-3xl leading-[1.1] font-extrabold tracking-[-0.03em] text-navy sm:text-4xl">
             Military Banks and Credit Cards
           </h1>
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             A handful of banks and credit unions exist specifically to serve
             the military, and the big card issuers have rules that only apply
             to servicemembers. Used right, that means no-fee cards with strong
@@ -1484,44 +1482,44 @@ function LessonContent({ lessonId }: { lessonId: string }) {
             the annual fee waived.
           </p>
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-4 font-semibold text-foreground">Who can join the military-focused banks</p>
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-4 font-bold text-navy">Who can join the military-focused banks</p>
             <div className="flex flex-col gap-3">
               {[
                 { name: "Navy Federal Credit Union", who: "All branches (not just Navy), veterans, DoD civilians, and their families." },
                 { name: "USAA", who: "Active duty, veterans with an honorable discharge, their spouses, and children of USAA members." },
                 { name: "PenFed Credit Union", who: "Open to anyone, with extra perks for military members." },
               ].map(({ name, who }) => (
-                <div key={name} className="rounded-xl border border-border p-4">
-                  <p className="mb-1 text-sm font-semibold text-foreground">{name}</p>
-                  <p className="text-sm leading-relaxed text-muted-foreground">{who}</p>
+                <div key={name} className="rounded-2xl bg-card ring-1 ring-border p-4">
+                  <p className="mb-1 text-sm font-bold text-navy">{name}</p>
+                  <p className="text-[15px] leading-relaxed text-muted-foreground">{who}</p>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-4 font-semibold text-foreground">Standout no-fee cards from military banks</p>
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-4 font-bold text-navy">Standout no-fee cards from military banks</p>
             <div className="flex flex-col gap-3">
               {[
                 { card: "Navy Federal cashRewards Plus", perk: "Unlimited 2% cash back on everything. A great everyday catch-all card." },
                 { card: "USAA Cashback Rewards Plus American Express", perk: "5% cash back on gas and on-base purchases (on your first $3,000 a year in those categories)." },
                 { card: "PenFed Power Cash Rewards Visa Signature", perk: "Up to 2% cash back on everything for military members." },
               ].map(({ card, perk }) => (
-                <div key={card} className="flex items-start justify-between gap-3 rounded-xl border border-border p-4">
+                <div key={card} className="flex items-start justify-between gap-3 rounded-2xl bg-card ring-1 ring-border p-4">
                   <div>
-                    <p className="mb-1 text-sm font-semibold text-foreground">{card}</p>
-                    <p className="text-sm leading-relaxed text-muted-foreground">{perk}</p>
+                    <p className="mb-1 text-sm font-bold text-navy">{card}</p>
+                    <p className="text-[15px] leading-relaxed text-muted-foreground">{perk}</p>
                   </div>
-                  <span className="shrink-0 rounded-full bg-muted px-2.5 py-0.5 text-xs font-semibold text-muted-foreground">$0 fee</span>
+                  <span className="shrink-0 rounded-full bg-secondary px-2.5 py-0.5 text-xs font-semibold text-navy">$0 fee</span>
                 </div>
               ))}
             </div>
             <p className="mt-3 text-xs text-muted-foreground">Card terms change often. Check the current rates and fees on the issuer&apos;s site before you apply.</p>
           </div>
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-4 font-semibold text-foreground">Protections only servicemembers get</p>
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-4 font-bold text-navy">Protections only servicemembers get</p>
             <div className="flex flex-col gap-3">
               {[
                 { title: "SCRA — 6% cap on old debt", body: "Credit card debt and loans you had before active duty can be capped at 6% interest while you serve. You have to ask: send your issuer a copy of your orders." },
@@ -1529,17 +1527,17 @@ function LessonContent({ lessonId }: { lessonId: string }) {
                 { title: "Deployment rates", body: "Navy Federal and USAA both offer reduced interest rates on credit card balances while you're deployed. Call them before you leave." },
                 { title: "Premium card fees waived", body: "Amex, Chase, and Capital One waive annual fees for active duty members, including the Amex Platinum ($895), Chase Sapphire Reserve ($795), and Capital One Venture X ($395). Credit Cards 101 covers this in detail." },
               ].map(({ title, body }) => (
-                <div key={title} className="rounded-xl border border-border p-4">
-                  <p className="mb-1 text-sm font-semibold text-foreground">{title}</p>
-                  <p className="text-sm leading-relaxed text-muted-foreground">{body}</p>
+                <div key={title} className="rounded-2xl bg-card ring-1 ring-border p-4">
+                  <p className="mb-1 text-sm font-bold text-navy">{title}</p>
+                  <p className="text-[15px] leading-relaxed text-muted-foreground">{body}</p>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-2 font-semibold text-foreground">Watch out near the gate</p>
-            <p className="text-sm leading-relaxed text-muted-foreground">
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-2 font-bold text-navy">Watch out near the gate</p>
+            <p className="text-[15px] leading-relaxed text-muted-foreground">
               Payday lenders, &ldquo;military loans,&rdquo; and buy-here-pay-here car lots
               cluster around bases because servicemembers have steady paychecks.
               A military-sounding name doesn&apos;t mean a good deal. If you need
@@ -1550,9 +1548,9 @@ function LessonContent({ lessonId }: { lessonId: string }) {
             </p>
           </div>
 
-          <div className="rounded-xl p-5 text-white" style={{ background: "var(--brand-600)" }}>
-            <p className="mb-1 font-bold">What I would do</p>
-            <p className="text-sm leading-relaxed text-white/85">
+          <div className="rounded-2xl p-5 text-white bg-navy-deep sm:p-6">
+            <p className="mb-1 font-bold text-brass">What I would do</p>
+            <p className="text-[15px] leading-relaxed text-[#c9d2e0]">
               Open a no-fee 2% card from a military credit union as your
               everyday card, then add one premium card while you&apos;re on active
               duty to collect the perks with the fee waived. Pay both in full
@@ -1565,14 +1563,14 @@ function LessonContent({ lessonId }: { lessonId: string }) {
     case "hid-2":
       return (
         <div>
-          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+          <p className="mb-3 text-xs font-bold tracking-[0.14em] text-[#7a5a22] uppercase">
             The Hidden Stuff · Lesson 3
           </p>
-          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="mb-8 text-3xl leading-[1.1] font-extrabold tracking-[-0.03em] text-navy sm:text-4xl">
             State Benefits and Federal Hiring
           </h1>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             Two of the most underused post-service advantages are state-level
             benefits — which vary dramatically but can be worth tens of thousands
             of dollars — and federal hiring preference, which can be the
@@ -1580,9 +1578,9 @@ function LessonContent({ lessonId }: { lessonId: string }) {
             Most veterans don&apos;t fully understand either.
           </p>
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-3 font-semibold text-foreground">State benefits — why they matter so much</p>
-            <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-3 font-bold text-navy">State benefits — why they matter so much</p>
+            <p className="mb-3 text-[15px] leading-relaxed text-muted-foreground">
               Federal benefits are the floor. State benefits are wildly variable — some states offer very little, while others offer property tax breaks, tuition waivers, and fee exemptions worth thousands of dollars a year.
               The key is knowing what your state offers and claiming it.
             </p>
@@ -1605,20 +1603,20 @@ function LessonContent({ lessonId }: { lessonId: string }) {
                   body: "Many states waive vehicle registration fees for disabled veterans. Some offer specialized license plates that come with additional perks like free or reduced tolls. Minor benefit individually, but worth claiming.",
                 },
               ].map(({ title, body }) => (
-                <div key={title} className="rounded-xl border border-border p-4">
-                  <p className="mb-1 text-sm font-semibold text-foreground">{title}</p>
-                  <p className="text-sm leading-relaxed text-muted-foreground">{body}</p>
+                <div key={title} className="rounded-2xl bg-card ring-1 ring-border p-4">
+                  <p className="mb-1 text-sm font-bold text-navy">{title}</p>
+                  <p className="text-[15px] leading-relaxed text-muted-foreground">{body}</p>
                 </div>
               ))}
             </div>
             <p className="mt-4 text-xs text-muted-foreground">
-              <span className="font-semibold text-foreground">How to find yours:</span> Search your state name + &ldquo;veteran benefits&rdquo; or go directly to your state&apos;s Department of Veterans Affairs website. If you&apos;re choosing where to live after service, factoring in state benefits is a legitimate financial decision — the difference between two states can be tens of thousands of dollars per year.
+              <span className="font-bold text-navy">How to find yours:</span> Search your state name + &ldquo;veteran benefits&rdquo; or go directly to your state&apos;s Department of Veterans Affairs website. If you&apos;re choosing where to live after service, factoring in state benefits is a legitimate financial decision — the difference between two states can be tens of thousands of dollars per year.
             </p>
           </div>
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-3 font-semibold text-foreground">Federal hiring preference — how it actually works</p>
-            <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-3 font-bold text-navy">Federal hiring preference — how it actually works</p>
+            <p className="mb-3 text-[15px] leading-relaxed text-muted-foreground">
               If you&apos;re applying for a federal government job, veteran&apos;s
               preference gives you an advantage over non-veteran applicants
               with the same qualifications. It&apos;s not just symbolic — it
@@ -1643,13 +1641,13 @@ function LessonContent({ lessonId }: { lessonId: string }) {
                   desc: "Agencies can directly hire eligible veterans, including recently separated ones, for jobs up to GS-11 without a competitive process. Ask the hiring office about VRA when you apply.",
                 },
               ].map(({ label, desc }) => (
-                <div key={label} className="rounded-xl border border-border p-4">
-                  <p className="mb-1 text-sm font-semibold text-foreground">{label}</p>
-                  <p className="text-sm leading-relaxed text-muted-foreground">{desc}</p>
+                <div key={label} className="rounded-2xl bg-card ring-1 ring-border p-4">
+                  <p className="mb-1 text-sm font-bold text-navy">{label}</p>
+                  <p className="text-[15px] leading-relaxed text-muted-foreground">{desc}</p>
                 </div>
               ))}
             </div>
-            <p className="text-sm leading-relaxed text-muted-foreground">
+            <p className="text-[15px] leading-relaxed text-muted-foreground">
               Federal jobs come with strong benefits — pension (FERS), TSP
               matching, health insurance, and job security. The hiring
               preference makes an already competitive option even more
@@ -1659,9 +1657,9 @@ function LessonContent({ lessonId }: { lessonId: string }) {
             </p>
           </div>
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-3 font-semibold text-foreground">USERRA — your job is protected when you&apos;re called up</p>
-            <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-3 font-bold text-navy">USERRA — your job is protected when you&apos;re called up</p>
+            <p className="mb-3 text-[15px] leading-relaxed text-muted-foreground">
               The Uniformed Services Employment and Reemployment Rights Act
               (USERRA) protects your civilian job when you leave for military
               duty. Key protections:
@@ -1675,16 +1673,16 @@ function LessonContent({ lessonId }: { lessonId: string }) {
                 "Applies to Guard and Reserve members called to active duty",
               ].map((item) => (
                 <div key={item} className="flex items-start gap-3 border-b border-border pb-2 last:border-0 last:pb-0">
-                  <span className="mt-0.5 flex size-4 shrink-0 items-center justify-center rounded-full text-[10px] font-bold text-white" style={{ background: "var(--brand-600)" }}>✓</span>
+                  <span className="mt-0.5 flex size-4 shrink-0 items-center justify-center rounded-full text-[10px] font-bold text-white bg-navy">✓</span>
                   <p className="text-muted-foreground">{item}</p>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="rounded-xl p-5 text-white" style={{ background: "var(--brand-600)" }}>
-            <p className="mb-1 font-bold">You earned all of this</p>
-            <p className="text-sm leading-relaxed text-white/85">
+          <div className="rounded-2xl p-5 text-white bg-navy-deep sm:p-6">
+            <p className="mb-1 font-bold text-brass">You earned all of this</p>
+            <p className="text-[15px] leading-relaxed text-[#c9d2e0]">
               The financial advantage of military service isn&apos;t just the
               paycheck — it&apos;s the benefits that compound for decades after
               you separate. A 100% P&T veteran in Texas pays no property
@@ -1699,7 +1697,7 @@ function LessonContent({ lessonId }: { lessonId: string }) {
     default:
       return (
         <div>
-          <h1 className="mb-6 text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="mb-6 text-3xl leading-[1.1] font-extrabold tracking-[-0.03em] text-navy sm:text-4xl">
             Coming Soon
           </h1>
           <p className="text-muted-foreground">
