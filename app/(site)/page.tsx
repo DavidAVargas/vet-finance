@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { currentUser } from "@clerk/nextjs/server";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Clock, Compass, ShieldCheck, Users } from "lucide-react";
+import { ArrowRight, Clock, Compass, Lock, ShieldCheck, Users } from "lucide-react";
 import { courseCatalog, courseMeta, PLAYBOOK_GUIDE_COUNT } from "@/lib/course-catalog";
 import { LessonPreview } from "@/components/home/LessonPreview";
 
@@ -32,7 +32,7 @@ export default async function Home() {
   const isActivated = !!user?.publicMetadata?.activated;
 
   const ctaHref = !user ? "/learn" : isActivated || isFounder ? "/courses" : "/onboarding";
-  const ctaLabel = user ? "Go to your courses" : "Start the first course";
+  const ctaLabel = "Go to your courses";
 
   return (
     <>
@@ -46,12 +46,23 @@ export default async function Home() {
 
         <div className="mx-auto flex w-full max-w-site flex-1 flex-col items-center justify-center gap-14 px-4 pt-10 pb-14 sm:px-6 sm:pt-12 sm:pb-20 lg:flex-row lg:gap-20 lg:pt-6 lg:pb-24">
           <div className="flex-1">
-            <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card py-1.5 pr-3.5 pl-2 text-sm font-medium text-foreground/80">
-              <span className="rounded-full bg-primary px-2.5 py-0.5 text-xs font-semibold text-primary-foreground">
-                Free
-              </span>
-              Built for the military community
-            </div>
+            {user ? (
+              <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card py-1.5 pr-3.5 pl-2 text-sm font-medium text-foreground/80">
+                <span className="rounded-full bg-primary px-2.5 py-0.5 text-xs font-semibold text-primary-foreground">
+                  Free
+                </span>
+                Built for the military community
+              </div>
+            ) : (
+              <div className="inline-flex items-center gap-2.5 rounded-full bg-navy py-1.5 pr-4 pl-3 text-sm font-medium text-white">
+                <span className="relative flex size-2" aria-hidden="true">
+                  <span className="absolute inline-flex size-full rounded-full bg-brass opacity-70 motion-safe:animate-ping" />
+                  <span className="relative inline-flex size-2 rounded-full bg-brass" />
+                </span>
+                <span className="text-xs font-bold tracking-[0.12em] text-brass uppercase">Invite-only beta</span>
+                <span className="hidden text-white/80 sm:inline">Free for the military community</span>
+              </div>
+            )}
 
             <h1 className="mt-7 max-w-xl text-4xl leading-[1.05] font-extrabold tracking-[-0.035em] text-navy sm:text-5xl lg:text-[3.75rem]">
               The money stuff nobody teaches you in uniform.
@@ -62,24 +73,46 @@ export default async function Home() {
               plain English, straight to the point. No sales pitch.
             </p>
 
-            <div className="mt-9 flex flex-wrap items-center gap-3">
-              {user ? (
+            {user ? (
+              <div className="mt-9 flex flex-wrap items-center gap-3">
                 <Button size="lg" className="h-12 rounded-full px-7 text-base font-semibold" asChild>
                   <Link href={ctaHref}>
                     {ctaLabel}
                     <ArrowRight className="size-4" />
                   </Link>
                 </Button>
-              ) : (
-                <Button size="lg" className="h-12 rounded-full px-7 text-base font-semibold" disabled>
-                  {ctaLabel}
-                  <ArrowRight className="size-4" />
+                <Button size="lg" variant="outline" className="h-12 rounded-full border-input bg-card px-7 text-base font-semibold text-navy" asChild>
+                  <Link href="#whats-inside">See what&apos;s inside</Link>
                 </Button>
-              )}
-              <Button size="lg" variant="outline" className="h-12 rounded-full border-input bg-card px-7 text-base font-semibold text-navy" asChild>
-                <Link href="#whats-inside">See what&apos;s inside</Link>
-              </Button>
-            </div>
+              </div>
+            ) : (
+              <>
+                {/* Invite-only notice */}
+                <div className="mt-9 flex max-w-[32.5rem] gap-4 rounded-2xl border border-border bg-surface p-5">
+                  <span className="flex size-11 shrink-0 items-center justify-center rounded-[14px] bg-navy">
+                    <Lock className="size-5 text-brass" strokeWidth={2} aria-hidden="true" />
+                  </span>
+                  <div>
+                    <p className="font-bold text-navy">Doors are open by invite only.</p>
+                    <p className="mt-1 text-[15px] leading-relaxed text-muted-foreground">
+                      We&apos;re letting people in a few at a time while we build. Get an invite from a member
+                      or catch us at a meetup.
+                    </p>
+                  </div>
+                </div>
+                <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-3">
+                  <Button size="lg" variant="outline" className="h-12 rounded-full border-input bg-card px-7 text-base font-semibold text-navy" asChild>
+                    <Link href="#whats-inside">See what&apos;s inside</Link>
+                  </Button>
+                  <p className="text-[15px] text-muted-foreground">
+                    Already a member?{" "}
+                    <Link href="/sign-in?redirect_url=/courses" className="font-semibold text-navy underline underline-offset-2 hover:text-[#2e5a9a]">
+                      Sign in
+                    </Link>
+                  </p>
+                </div>
+              </>
+            )}
 
             <p className="mt-7 text-sm text-muted-foreground">
               No credit card required · Active duty, veterans, Guard &amp; Reserve, families

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useUser, UserButton } from "@clerk/nextjs";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X } from "lucide-react";
+import { Lock, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/layout/Logo";
 import { cn } from "@/lib/utils";
@@ -17,6 +17,9 @@ const navLinks = [
   { label: "Community", href: "/community" },
   { label: "The Card", href: "/card" },
 ];
+
+/** Sign-in stays hidden from people who type the URL; this link opens it for returning members. */
+const MEMBER_SIGN_IN = "/sign-in?redirect_url=/courses";
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
@@ -68,9 +71,18 @@ export function Navbar() {
                 <UserButton />
               </>
             ) : (
-              <Button size="lg" className="hidden rounded-full px-5 md:inline-flex" disabled>
-                Get Started
-              </Button>
+              <>
+                <Link
+                  href={MEMBER_SIGN_IN}
+                  className="hidden rounded-full px-4 py-2 text-[15px] font-semibold text-navy hover:text-[#2e5a9a] md:inline-flex"
+                >
+                  Member sign in
+                </Link>
+                <span className="hidden items-center gap-1.5 rounded-full bg-secondary px-4 py-2.5 text-sm font-semibold text-navy md:inline-flex">
+                  <Lock className="size-3.5 text-brass-deep" aria-hidden="true" />
+                  Invite only
+                </span>
+              </>
             )}
             {/* Mobile hamburger */}
             <button
@@ -108,8 +120,8 @@ export function Navbar() {
                 <Link href={ctaHref} onClick={() => setOpen(false)}>Go to courses</Link>
               </Button>
             ) : (
-              <Button size="lg" className="mt-3 w-full rounded-full" disabled>
-                Get Started
+              <Button size="lg" variant="outline" className="mt-3 w-full rounded-full text-navy" asChild>
+                <Link href={MEMBER_SIGN_IN} onClick={() => setOpen(false)}>Member sign in</Link>
               </Button>
             )}
           </div>
