@@ -1,9 +1,10 @@
-import { auth, currentUser } from "@clerk/nextjs/server";
+import { currentUser } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
+import { memberId } from "@/lib/member";
 import { prisma } from "@/lib/prisma";
 
 export async function GET(req: Request) {
-  const { userId } = await auth();
+  const userId = await memberId();
   if (!userId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const posts = await prisma.feedbackPost.findMany({
@@ -25,7 +26,7 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
-  const { userId } = await auth();
+  const userId = await memberId();
   if (!userId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const user = await currentUser();

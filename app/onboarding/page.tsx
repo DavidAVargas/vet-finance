@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
-import { ArrowRight, Check, HeartHandshake, Landmark, Medal, Shield, type LucideIcon } from "lucide-react";
+import { useEffect, useState, useSyncExternalStore } from "react";
+import { SignOutButton, useUser } from "@clerk/nextjs";
+import { ArrowRight, Check, HeartHandshake, Landmark, Lock, Medal, Shield, type LucideIcon } from "lucide-react";
 import { Logo } from "@/components/layout/Logo";
 import { cn } from "@/lib/utils";
 
@@ -19,6 +20,12 @@ export default function OnboardingPage() {
   const [selected, setSelected] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  // Read after hydration: undefined while loading, null when this browser has no invite.
+  const invite = useSyncExternalStore(
+    () => () => {},
+    () => localStorage.getItem(INVITE_KEY),
+    () => undefined,
+  );
 
   const handleContinue = async () => {
     if (!selected) return;
@@ -28,7 +35,7 @@ export default function OnboardingPage() {
     const res = await fetch("/api/onboarding", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ inviteCode: localStorage.getItem(INVITE_KEY) ?? "", militaryStatus: selected }),
+      body: JSON.stringify({ inviteCode: invite ?? "", militaryStatus: selected }),
     });
 
     if (res.ok) {
@@ -41,6 +48,42 @@ export default function OnboardingPage() {
       setLoading(false);
     }
   };
+
+  // Already a member: nothing to set up.
+  const { user } = useUser();
+  const activated = !!user?.publicMetadata?.activated;
+  useEffect(() => {
+    if (activated) window.location.replace("/courses");
+  }, [activated]);
+
+  // Signed in without an invite (e.g. an account made outside the site): nothing to unlock.
+  if (invite === null && !activated) {
+    return (
+      <main className="flex min-h-[100dvh] flex-col items-center justify-center bg-surface px-4 py-12">
+        <div className="w-full max-w-md rounded-3xl bg-card p-8 text-center ring-1 ring-border sm:p-10">
+          <div className="flex justify-center">
+            <Logo />
+          </div>
+          <span className="mx-auto mt-8 flex size-14 items-center justify-center rounded-2xl bg-navy">
+            <Lock className="size-6 text-brass" strokeWidth={2} aria-hidden="true" />
+          </span>
+          <h1 className="mt-5 text-2xl font-extrabold tracking-[-0.02em] text-navy">Vet Finance is invite-only</h1>
+          <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground">
+            Your account is set up, but access opens with an invite. If someone sent you an invite link,
+            open it on this device to unlock everything.
+          </p>
+          <SignOutButton redirectUrl="/">
+            <button
+              type="button"
+              className="mt-7 h-12 w-full rounded-full border border-input text-base font-semibold text-navy hover:bg-secondary"
+            >
+              Sign out
+            </button>
+          </SignOutButton>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main className="flex min-h-[100dvh] flex-col items-center justify-center bg-surface px-4 py-12">
