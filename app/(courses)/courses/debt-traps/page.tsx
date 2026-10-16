@@ -1,8 +1,7 @@
 "use client";
 
 import { CourseShell } from "@/components/courses/CourseShell";
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import { QuizBlock } from "@/components/courses/QuizBlock";
 import { UnderwaterChart } from "@/components/lesson-visuals/debt-traps/UnderwaterChart";
 import { TrueCostCalculator } from "@/components/lesson-visuals/debt-traps/TrueCostCalculator";
 import { BillStaircase } from "@/components/lesson-visuals/debt-traps/BillStaircase";
@@ -45,128 +44,6 @@ const SECTIONS = [
   },
 ];
 
-// ─── Quiz component ───────────────────────────────────────────────────────────
-
-interface QuizQuestion {
-  question: string;
-  options: string[];
-  correct: number;
-  explanation: string;
-}
-
-function QuizBlock({ sectionLabel, questions, onPass }: {
-  sectionLabel: string;
-  questions: QuizQuestion[];
-  onPass?: () => void;
-}) {
-  const [selected, setSelected] = useState<Record<number, number>>({});
-  const [submitted, setSubmitted] = useState(false);
-  const [passed, setPassed] = useState(false);
-
-  const allAnswered = questions.every((_, i) => selected[i] !== undefined);
-  const score = questions.filter((q, i) => selected[i] === q.correct).length;
-  const passThreshold = Math.ceil(questions.length * (2 / 3));
-
-  const handleSubmit = () => {
-    const didPass = score >= passThreshold;
-    setSubmitted(true);
-    setPassed(didPass);
-    if (didPass) onPass?.();
-  };
-
-  const handleRetry = () => {
-    setSelected({});
-    setSubmitted(false);
-    setPassed(false);
-  };
-
-  return (
-    <div>
-      <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-        {sectionLabel} · Quiz
-      </p>
-      <h1 className="mb-2 text-3xl font-bold tracking-tight text-foreground">Knowledge Check</h1>
-      <p className="mb-8 text-base text-muted-foreground">
-        You need {passThreshold} out of {questions.length} to pass.
-      </p>
-      <div className="flex flex-col gap-8">
-        {questions.map((q, qi) => {
-          const isCorrect = submitted && selected[qi] === q.correct;
-          return (
-            <div key={qi}>
-              <p className="mb-3 font-semibold text-foreground">
-                <span className="mr-2 font-mono text-xs text-muted-foreground/60">{qi + 1}.</span>
-                {q.question}
-              </p>
-              <div className="flex flex-col gap-2">
-                {q.options.map((opt, oi) => {
-                  const isSelected = selected[qi] === oi;
-                  const isCorrectOption = submitted && oi === q.correct;
-                  const isWrongSelected = submitted && isSelected && oi !== q.correct;
-                  return (
-                    <button
-                      key={oi}
-                      disabled={submitted}
-                      onClick={() => !submitted && setSelected((prev) => ({ ...prev, [qi]: oi }))}
-                      aria-pressed={isSelected}
-                      className={`flex items-center gap-3 rounded-lg border px-4 py-3 text-left text-sm transition-colors ${
-                        isCorrectOption ? "border-green-500 bg-green-500/10 text-foreground"
-                        : isWrongSelected ? "border-red-400 bg-red-400/10 text-foreground"
-                        : isSelected ? "border-foreground bg-muted text-foreground"
-                        : "border-border text-muted-foreground hover:border-foreground/40 hover:text-foreground"
-                      } ${submitted ? "cursor-default" : "cursor-pointer"}`}
-                    >
-                      <span className={`flex size-5 shrink-0 items-center justify-center rounded-full border text-xs font-medium ${
-                        isCorrectOption ? "border-green-500 bg-green-500 text-white"
-                        : isWrongSelected ? "border-red-400 bg-red-400 text-white"
-                        : isSelected ? "border-foreground bg-foreground text-background"
-                        : "border-border"
-                      }`}>
-                        {isCorrectOption ? "✓" : isWrongSelected ? "✗" : String.fromCharCode(65 + oi)}
-                      </span>
-                      {opt}
-                    </button>
-                  );
-                })}
-              </div>
-              {submitted && (
-                <p className={`mt-3 rounded-lg px-3 py-2 text-sm ${isCorrect ? "bg-green-500/10 text-green-700 dark:text-green-400" : "bg-muted text-muted-foreground"}`}>
-                  {q.explanation}
-                </p>
-              )}
-            </div>
-          );
-        })}
-      </div>
-      {submitted ? (
-        <div className={`mt-8 rounded-xl border p-5 text-center ${passed ? "border-green-500 bg-green-500/10" : "border-border bg-muted/30"}`}>
-          {passed ? (
-            <>
-              <p className="text-lg font-bold text-foreground">You passed! {score}/{questions.length} correct.</p>
-              <p className="mt-1 text-sm text-muted-foreground">The next section is now unlocked.</p>
-            </>
-          ) : (
-            <>
-              <p className="text-lg font-bold text-foreground">{score}/{questions.length} correct — not quite.</p>
-              <p className="mt-1 mb-4 text-sm text-muted-foreground">Review the lessons above and try again.</p>
-              <Button size="sm" variant="outline" onClick={handleRetry}>Try Again</Button>
-            </>
-          )}
-        </div>
-      ) : (
-        <Button
-          className="mt-8"
-          disabled={!allAnswered}
-          onClick={handleSubmit}
-          style={allAnswered ? { background: "var(--brand-600)", color: "white" } : {}}
-        >
-          Submit Answers
-        </Button>
-      )}
-    </div>
-  );
-}
-
 // ─── Lesson content ───────────────────────────────────────────────────────────
 
 function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?: () => void }) {
@@ -175,29 +52,29 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
     case "ct-1":
       return (
         <div>
-          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+          <p className="mb-3 text-xs font-bold tracking-[0.14em] text-[#7a5a22] uppercase">
             The Car Trap · Lesson 1
           </p>
-          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="mb-8 text-3xl leading-[1.1] font-extrabold tracking-[-0.03em] text-navy sm:text-4xl">
             The 72-Month Lie
           </h1>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             Walk into any car dealership in America and within five minutes
             someone will ask you: &ldquo;What monthly payment are you comfortable
             with?&rdquo; That question is a trap. The moment you answer it, you&apos;ve
             already lost.
           </p>
 
-          <p className="mb-8 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-8 text-[17px] leading-[1.75] text-[#3b4658]">
             The 72-month, zero down car loan is one of the most effective
             wealth killers in this country. It&apos;s dressed up to look like a
             good deal — low monthly payment, no money out of pocket today.
             But the numbers behind it tell a completely different story.
           </p>
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-4 font-semibold text-foreground">What a $35,000 car actually costs you</p>
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-4 font-bold text-navy">What a $35,000 car actually costs you</p>
             <div className="flex flex-col gap-3">
               {[
                 { label: "Sticker price", value: "$35,000", note: "" },
@@ -209,24 +86,24 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
               ].map(({ label, value, note }) => (
                 <div key={label} className="flex items-start justify-between gap-4 border-b border-border pb-3 last:border-0 last:pb-0 text-sm">
                   <div>
-                    <p className="font-medium text-foreground">{label}</p>
+                    <p className="font-semibold text-navy">{label}</p>
                     {note && <p className="text-xs text-muted-foreground">{note}</p>}
                   </div>
-                  <p className="shrink-0 font-semibold text-foreground">{value}</p>
+                  <p className="shrink-0 font-bold text-navy">{value}</p>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-3 font-semibold text-foreground">What &ldquo;underwater&rdquo; actually means</p>
-            <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-3 font-bold text-navy">What &ldquo;underwater&rdquo; actually means</p>
+            <p className="mb-3 text-[15px] leading-relaxed text-muted-foreground">
               When you owe more on your car than it&apos;s worth, you&apos;re underwater —
               also called negative equity. On a 72-month loan you&apos;re almost
               guaranteed to be underwater for the first 2 to 3 years because
               the car is depreciating faster than you&apos;re paying it down.
             </p>
-            <p className="text-sm leading-relaxed text-muted-foreground">
+            <p className="text-[15px] leading-relaxed text-muted-foreground">
               This means if your car gets totaled, stolen, or you need to sell
               it — your insurance or buyer pays what the car is worth, not what
               you owe. You&apos;re left covering the difference out of pocket. On a
@@ -236,16 +113,16 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
 
           <UnderwaterChart />
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-3 font-semibold text-foreground">Why dealers push this so hard</p>
-            <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-3 font-bold text-navy">Why dealers push this so hard</p>
+            <p className="mb-3 text-[15px] leading-relaxed text-muted-foreground">
               Stretching the loan to 72 months lowers your monthly payment
               enough that you stop questioning the price of the car. A $40,000
               car at $600/month feels different than $650/month — even though
               you&apos;re paying an extra $3,600 over the life of the loan. They&apos;re
               selling you a monthly payment, not a car.
             </p>
-            <p className="text-sm leading-relaxed text-muted-foreground">
+            <p className="text-[15px] leading-relaxed text-muted-foreground">
               Dealerships near military bases are especially aggressive about
               this. They know servicemembers have steady paychecks and may be
               young, first-time buyers with less experience negotiating. The
@@ -255,21 +132,21 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             </p>
           </div>
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-3 font-semibold text-foreground">The right questions to ask instead</p>
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-3 font-bold text-navy">The right questions to ask instead</p>
             <div className="flex flex-col gap-3">
               {[
                 { wrong: "What's my monthly payment?", right: "What is the total out-of-pocket cost including all fees and interest?" },
                 { wrong: "Can I afford this monthly?", right: "Can I afford to own this car — insurance, maintenance, and the loan — for 6 years?" },
                 { wrong: "What's the best deal on this car?", right: "Is a new car the right move at all, or should I be buying used?" },
               ].map(({ wrong, right }, i) => (
-                <div key={i} className="rounded-lg bg-muted/40 p-3 text-sm">
+                <div key={i} className="rounded-xl bg-surface p-3 text-sm">
                   <p className="mb-1 flex gap-2 text-red-600">
-                    <span className="w-16 shrink-0 text-xs font-bold tracking-wide uppercase">Don&apos;t ask</span>
+                    <span className="w-[4.5rem] shrink-0 pt-0.5 text-xs font-bold tracking-wide whitespace-nowrap uppercase">Don&apos;t ask</span>
                     <span className="line-through">{wrong}</span>
                   </p>
-                  <p className="flex gap-2 font-medium text-foreground">
-                    <span className="w-16 shrink-0 text-xs font-bold tracking-wide text-emerald-700 uppercase">Ask</span>
+                  <p className="flex gap-2 font-semibold text-navy">
+                    <span className="w-[4.5rem] shrink-0 pt-0.5 text-xs font-bold tracking-wide whitespace-nowrap text-emerald-700 uppercase">Ask</span>
                     <span>{right}</span>
                   </p>
                 </div>
@@ -277,9 +154,9 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             </div>
           </div>
 
-          <div className="rounded-xl p-5 text-white" style={{ background: "var(--brand-600)" }}>
-            <p className="mb-1 font-bold">What I would do</p>
-            <p className="text-sm leading-relaxed text-white/85">
+          <div className="rounded-2xl p-5 text-white bg-navy-deep sm:p-6">
+            <p className="mb-1 font-bold text-brass">What I would do</p>
+            <p className="text-[15px] leading-relaxed text-[#c9d2e0]">
               Buy a used car that&apos;s 2 to 4 years old in cash or with a short
               loan — 24 to 36 months max. Let someone else take the
               depreciation hit. A 3-year-old car with 30,000 miles runs the
@@ -295,21 +172,21 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
     case "ct-2":
       return (
         <div>
-          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+          <p className="mb-3 text-xs font-bold tracking-[0.14em] text-[#7a5a22] uppercase">
             The Car Trap · Lesson 2
           </p>
-          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="mb-8 text-3xl leading-[1.1] font-extrabold tracking-[-0.03em] text-navy sm:text-4xl">
             What a Car Actually Costs You
           </h1>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             Most people think of a car payment as the cost of the car. It&apos;s
             not. The monthly payment is just one piece of a much bigger number
             — and when you add everything up, most people are shocked by what
             they&apos;re actually spending to keep a car on the road.
           </p>
 
-          <p className="mb-8 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-8 text-[17px] leading-[1.75] text-[#3b4658]">
             The real cost of a car isn&apos;t just the loan. It&apos;s the total cost
             of ownership — every dollar that leaves your pocket because you
             own that vehicle.
@@ -317,8 +194,8 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
 
           <TrueCostCalculator />
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-4 font-semibold text-foreground">True monthly cost of a $35,000 financed car</p>
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-4 font-bold text-navy">True monthly cost of a $35,000 financed car</p>
             <div className="flex flex-col gap-3">
               {[
                 { item: "Loan payment (72 mo, 7% APR)", cost: "$597/mo" },
@@ -329,20 +206,20 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
               ].map(({ item, cost }) => (
                 <div key={item} className="flex items-center justify-between border-b border-border pb-2 last:border-0 last:pb-0 text-sm">
                   <p className="text-muted-foreground">{item}</p>
-                  <p className="font-semibold text-foreground">{cost}</p>
+                  <p className="font-bold text-navy">{cost}</p>
                 </div>
               ))}
               <div className="flex items-center justify-between pt-1 text-sm">
-                <p className="font-bold text-foreground">Total monthly cost</p>
+                <p className="font-bold text-navy">Total monthly cost</p>
                 <p className="font-bold text-red-500">~$1,052/mo</p>
               </div>
             </div>
             <p className="mt-3 text-xs text-muted-foreground">Over 72 months that&apos;s over $75,000 out of pocket — on a $35,000 car.</p>
           </div>
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-2 font-semibold text-foreground">Your credit score has a real dollar cost — here&apos;s the proof</p>
-            <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-2 font-bold text-navy">Your credit score has a real dollar cost — here&apos;s the proof</p>
+            <p className="mb-4 text-[15px] leading-relaxed text-muted-foreground">
               The 7% APR example above is best-case — good credit territory.
               Most people financing a car aren&apos;t getting 7%. And the difference
               between a good rate and a bad rate on the same $35,000 car over
@@ -352,10 +229,10 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-border">
-                    <th className="pb-2 text-left font-semibold text-foreground">Credit</th>
-                    <th className="pb-2 text-center font-semibold text-foreground">APR</th>
-                    <th className="pb-2 text-center font-semibold text-foreground">Monthly</th>
-                    <th className="pb-2 text-right font-semibold text-foreground">Interest paid</th>
+                    <th className="pb-2 text-left font-bold text-navy">Credit</th>
+                    <th className="pb-2 text-center font-bold text-navy">APR</th>
+                    <th className="pb-2 text-center font-bold text-navy">Monthly</th>
+                    <th className="pb-2 text-right font-bold text-navy">Interest paid</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -370,23 +247,23 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
                       <td className={`py-2.5 text-left ${highlight ? "font-medium text-red-500" : "text-muted-foreground"}`}>{credit}</td>
                       <td className={`py-2.5 text-center ${highlight ? "font-medium text-red-500" : "text-muted-foreground"}`}>{apr}</td>
                       <td className={`py-2.5 text-center ${highlight ? "font-medium text-red-500" : "text-muted-foreground"}`}>{monthly}</td>
-                      <td className={`py-2.5 text-right font-semibold ${highlight ? "text-red-500" : "text-foreground"}`}>{interest}</td>
+                      <td className={`py-2.5 text-right font-semibold ${highlight ? "text-red-500" : "text-navy"}`}>{interest}</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
             <p className="text-xs leading-relaxed text-muted-foreground">
-              At 29% APR you&apos;re paying <span className="font-semibold text-foreground">$39,000 in pure interest</span> on a $35,000 car.
+              At 29% APR you&apos;re paying <span className="font-bold text-navy">$39,000 in pure interest</span> on a $35,000 car.
               You&apos;re essentially buying the car twice. This is exactly why building
               your credit score before making a big purchase isn&apos;t just about
               a number — it&apos;s about real money staying in your pocket.
             </p>
           </div>
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-3 font-semibold text-foreground">The opportunity cost — what that money could do instead</p>
-            <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-3 font-bold text-navy">The opportunity cost — what that money could do instead</p>
+            <p className="mb-4 text-[15px] leading-relaxed text-muted-foreground">
               That $597 car payment every month for 6 years is $42,963 total.
               If you invested that same $597 a month into an index fund averaging
               7% annual returns instead, here&apos;s what it would be worth:
@@ -397,18 +274,18 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
                 { period: "After 10 years", value: "~$103,300" },
                 { period: "After 20 years", value: "~$310,800" },
               ].map(({ period, value }) => (
-                <div key={period} className="flex items-center justify-between rounded-lg bg-muted/40 px-4 py-3 text-sm">
+                <div key={period} className="flex items-center justify-between rounded-xl bg-surface px-4 py-3 text-sm">
                   <p className="text-muted-foreground">{period}</p>
-                  <p className="font-bold text-foreground">{value}</p>
+                  <p className="font-bold text-navy">{value}</p>
                 </div>
               ))}
             </div>
             <p className="mt-3 text-xs text-muted-foreground">A car loses value every year. Investments compound. That&apos;s the real trade-off.</p>
           </div>
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-3 font-semibold text-foreground">The used car math</p>
-            <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-3 font-bold text-navy">The used car math</p>
+            <p className="mb-4 text-[15px] leading-relaxed text-muted-foreground">
               A 3-year-old version of that same $35,000 car costs roughly
               $20,000–$22,000. Someone else already took the depreciation hit.
               The car runs the same. Here&apos;s the difference:
@@ -422,17 +299,17 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
                 { label: "Savings vs. new", new: "—", used: "~$20,000" },
               ].map(({ label, new: newVal, used }) => (
                 <div key={label} className="grid grid-cols-3 gap-2 border-b border-border pb-2 last:border-0 last:pb-0 text-sm">
-                  <p className="font-medium text-foreground">{label}</p>
+                  <p className="font-semibold text-navy">{label}</p>
                   <p className="text-center text-muted-foreground">{newVal}</p>
-                  <p className="text-right font-medium text-foreground">{used}</p>
+                  <p className="text-right font-semibold text-navy">{used}</p>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-2 font-semibold text-foreground">When a car loan isn&apos;t the end of the world</p>
-            <p className="text-sm leading-relaxed text-muted-foreground">
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-2 font-bold text-navy">When a car loan isn&apos;t the end of the world</p>
+            <p className="text-[15px] leading-relaxed text-muted-foreground">
               Not everyone can buy a car in cash — and that&apos;s fine. If you need
               to finance, keep it short (24–36 months max), put money down, and
               keep the total loan amount as low as possible. A $12,000 used car
@@ -442,9 +319,9 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             </p>
           </div>
 
-          <div className="rounded-xl p-5 text-white" style={{ background: "var(--brand-600)" }}>
-            <p className="mb-1 font-bold">The mindset shift</p>
-            <p className="text-sm leading-relaxed text-white/85">
+          <div className="rounded-2xl p-5 text-white bg-navy-deep sm:p-6">
+            <p className="mb-1 font-bold text-brass">The mindset shift</p>
+            <p className="text-[15px] leading-relaxed text-[#c9d2e0]">
               A car is a tool to get you from point A to point B. It is not a
               status symbol, it is not an investment, and it is not worth going
               broke over. The people building real wealth drive boring, paid-off
@@ -524,14 +401,14 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
     case "md-1":
       return (
         <div>
-          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+          <p className="mb-3 text-xs font-bold tracking-[0.14em] text-[#7a5a22] uppercase">
             Medical Debt · Lesson 1
           </p>
-          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="mb-8 text-3xl leading-[1.1] font-extrabold tracking-[-0.03em] text-navy sm:text-4xl">
             Hospital Bills Are Negotiable
           </h1>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             Most people get a hospital bill and either pay it immediately or
             panic because they can&apos;t. What almost nobody does — and what
             actually works — is pick up the phone and negotiate. Hospital
@@ -540,23 +417,23 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             pay less.
           </p>
 
-          <p className="mb-8 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-8 text-[17px] leading-[1.75] text-[#3b4658]">
             Medical bills are one of the most common reasons Americans fall
             behind on debt, and for some families they lead all the way to
             bankruptcy. Not because the care is always that expensive — but
             because most people don&apos;t know they have options.
           </p>
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-3 font-semibold text-foreground">The chargemaster — the number nobody actually pays</p>
-            <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-3 font-bold text-navy">The chargemaster — the number nobody actually pays</p>
+            <p className="mb-3 text-[15px] leading-relaxed text-muted-foreground">
               Every hospital has a chargemaster — a master list of prices for
               every service, procedure, and supply. These are the sticker
               prices. Insurance companies negotiate them down by 40–80%.
               Medicare pays even less. The only people who pay the full
               chargemaster rate are uninsured patients who don&apos;t know to ask.
             </p>
-            <p className="text-sm leading-relaxed text-muted-foreground">
+            <p className="text-[15px] leading-relaxed text-muted-foreground">
               When you call and ask for the cash pay rate or the uninsured
               rate, you&apos;re essentially asking for what the hospital would
               accept from an insurer. Most hospitals will give it to you —
@@ -564,9 +441,9 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             </p>
           </div>
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-3 font-semibold text-foreground">Request an itemized bill first</p>
-            <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-3 font-bold text-navy">Request an itemized bill first</p>
+            <p className="mb-3 text-[15px] leading-relaxed text-muted-foreground">
               Before you negotiate anything, ask for an itemized bill — a
               line-by-line breakdown of every charge. Studies show that up
               to 80% of hospital bills contain errors. Common ones include
@@ -589,8 +466,8 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             <p className="mt-3 text-xs text-muted-foreground">You have the right to request an itemized bill. If they push back, ask again.</p>
           </div>
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-4 font-semibold text-foreground">How to negotiate a hospital bill — step by step</p>
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-4 font-bold text-navy">How to negotiate a hospital bill — step by step</p>
             <div className="flex flex-col gap-3">
               {[
                 { step: "1", title: "Call the billing department — not the collections number", body: "The billing department has more flexibility than a collections agency. Call them directly and tell them you want to discuss your bill." },
@@ -600,12 +477,12 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
                 { step: "5", title: "Set up a payment plan if you can't pay now", body: "Most hospitals offer 0% interest payment plans. Always ask for interest-free. Do not agree to medical credit cards (like CareCredit) without understanding the deferred interest terms — they can be a trap." },
               ].map(({ step, title, body }) => (
                 <div key={step} className="flex gap-4">
-                  <div className="flex size-7 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white" style={{ background: "var(--brand-600)" }}>
+                  <div className="flex size-7 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white bg-navy">
                     {step}
                   </div>
                   <div>
-                    <p className="mb-1 text-sm font-semibold text-foreground">{title}</p>
-                    <p className="text-sm leading-relaxed text-muted-foreground">{body}</p>
+                    <p className="mb-1 text-sm font-bold text-navy">{title}</p>
+                    <p className="text-[15px] leading-relaxed text-muted-foreground">{body}</p>
                   </div>
                 </div>
               ))}
@@ -614,9 +491,9 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
 
           <BillStaircase />
 
-          <div className="rounded-xl p-5 text-white" style={{ background: "var(--brand-600)" }}>
-            <p className="mb-1 font-bold">The bottom line</p>
-            <p className="text-sm leading-relaxed text-white/85">
+          <div className="rounded-2xl p-5 text-white bg-navy-deep sm:p-6">
+            <p className="mb-1 font-bold text-brass">The bottom line</p>
+            <p className="text-[15px] leading-relaxed text-[#c9d2e0]">
               The hospital sent you a bill. That&apos;s not the final number —
               that&apos;s the starting point. Call them. Ask questions. Request
               the itemized bill, ask about financial assistance, and make
@@ -630,14 +507,14 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
     case "md-2":
       return (
         <div>
-          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+          <p className="mb-3 text-xs font-bold tracking-[0.14em] text-[#7a5a22] uppercase">
             Medical Debt · Lesson 2
           </p>
-          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="mb-8 text-3xl leading-[1.1] font-extrabold tracking-[-0.03em] text-navy sm:text-4xl">
             Surprise Bills and What To Do
           </h1>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             You go to an in-network hospital for surgery. You check — the
             hospital is covered by your insurance. You get the procedure done.
             Then a few weeks later you get a bill from a doctor you never met
@@ -645,15 +522,15 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             That&apos;s a surprise bill. And it used to be completely legal.
           </p>
 
-          <p className="mb-8 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-8 text-[17px] leading-[1.75] text-[#3b4658]">
             The No Surprises Act went into effect in January 2022 and changed
             a lot of this. But it doesn&apos;t cover everything — and you still need
             to know what to do when a surprise bill lands in your mailbox.
           </p>
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-3 font-semibold text-foreground">What the No Surprises Act covers</p>
-            <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-3 font-bold text-navy">What the No Surprises Act covers</p>
+            <p className="mb-3 text-[15px] leading-relaxed text-muted-foreground">
               As of 2022, federal law limits surprise billing in these situations:
             </p>
             <div className="flex flex-col gap-2 mb-3">
@@ -668,7 +545,7 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
                 </div>
               ))}
             </div>
-            <p className="text-sm leading-relaxed text-muted-foreground">
+            <p className="text-[15px] leading-relaxed text-muted-foreground">
               In these cases, you can only be billed at your in-network cost
               sharing rate — even if the provider is out of network.
             </p>
@@ -676,8 +553,8 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
 
           <SurpriseBillChecker />
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-3 font-semibold text-foreground">What to do when you get a surprise bill</p>
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-3 font-bold text-navy">What to do when you get a surprise bill</p>
             <div className="flex flex-col gap-3">
               {[
                 { title: "Don't pay it immediately", body: "Take a breath. A bill arriving doesn't mean you owe that amount. Review it before doing anything." },
@@ -685,22 +562,22 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
                 { title: "File a complaint if needed", body: "If you believe you were wrongly billed, you can file a complaint with the federal No Surprises Act help desk at cms.gov or call 1-800-985-3059. This is a real option — use it." },
                 { title: "Dispute directly with the provider", body: "Call the billing department. Tell them you received a surprise bill and you believe it may be covered under the No Surprises Act. Ask them to review it before you pay." },
               ].map(({ title, body }, i) => (
-                <div key={i} className="flex gap-4 rounded-xl border border-border p-4">
-                  <div className="flex size-7 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white" style={{ background: "var(--brand-600)" }}>
+                <div key={i} className="flex gap-4 rounded-2xl bg-card ring-1 ring-border p-4">
+                  <div className="flex size-7 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white bg-navy">
                     {i + 1}
                   </div>
                   <div>
-                    <p className="mb-1 text-sm font-semibold text-foreground">{title}</p>
-                    <p className="text-sm leading-relaxed text-muted-foreground">{body}</p>
+                    <p className="mb-1 text-sm font-bold text-navy">{title}</p>
+                    <p className="text-[15px] leading-relaxed text-muted-foreground">{body}</p>
                   </div>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-3 font-semibold text-foreground">Medical debt and your credit score</p>
-            <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-3 font-bold text-navy">Medical debt and your credit score</p>
+            <p className="mb-3 text-[15px] leading-relaxed text-muted-foreground">
               The credit bureaus have been moving away from medical debt in
               recent years. Here&apos;s where things stand:
             </p>
@@ -710,8 +587,8 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
                 { label: "Paid medical debt", status: "No longer reported by Equifax, Experian, and TransUnion" },
                 { label: "Unpaid medical debt over $500", status: "Can still appear after a 1-year grace period" },
               ].map(({ label, status }) => (
-                <div key={label} className="rounded-lg bg-muted/40 p-3 text-sm">
-                  <p className="font-semibold text-foreground">{label}</p>
+                <div key={label} className="rounded-xl bg-surface p-3 text-sm">
+                  <p className="font-bold text-navy">{label}</p>
                   <p className="text-muted-foreground">{status}</p>
                 </div>
               ))}
@@ -719,8 +596,8 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
           </div>
 
           <div className="mb-8 rounded-xl border border-red-500/20 bg-red-500/5 p-5">
-            <p className="mb-2 font-semibold text-foreground">Watch out for medical credit cards</p>
-            <p className="text-sm leading-relaxed text-muted-foreground">
+            <p className="mb-2 font-bold text-navy">Watch out for medical credit cards</p>
+            <p className="text-[15px] leading-relaxed text-muted-foreground">
               CareCredit and similar medical credit cards are often offered
               right at the front desk when you&apos;re stressed and just want to
               leave. They advertise 0% interest — but most of them use
@@ -731,9 +608,9 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             </p>
           </div>
 
-          <div className="rounded-xl p-5 text-white" style={{ background: "var(--brand-600)" }}>
-            <p className="mb-1 font-bold">The key takeaway</p>
-            <p className="text-sm leading-relaxed text-white/85">
+          <div className="rounded-2xl p-5 text-white bg-navy-deep sm:p-6">
+            <p className="mb-1 font-bold text-brass">The key takeaway</p>
+            <p className="text-[15px] leading-relaxed text-[#c9d2e0]">
               Medical bills feel official and final. They&apos;re not. You have
               more rights and more options than the bill implies. Don&apos;t pay
               immediately, don&apos;t panic, and don&apos;t sign up for a medical
@@ -812,14 +689,14 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
     case "sl-1":
       return (
         <div>
-          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+          <p className="mb-3 text-xs font-bold tracking-[0.14em] text-[#7a5a22] uppercase">
             Student Loans · Lesson 1
           </p>
-          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="mb-8 text-3xl leading-[1.1] font-extrabold tracking-[-0.03em] text-navy sm:text-4xl">
             It&apos;s Manageable — If You&apos;re Smart About It
           </h1>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             Student loans are different from every other debt trap in this
             course. A car loan is almost always a bad deal. A medical bill
             is something that happened to you. But student loans — done right
@@ -828,15 +705,20 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             what comes after.
           </p>
 
-          <p className="mb-8 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-8 text-[17px] leading-[1.75] text-[#3b4658]">
             If you have student loans, you&apos;re not alone and you&apos;re not stuck.
             But managing them well requires understanding what you actually
             signed up for.
           </p>
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-4 font-semibold text-foreground">Federal vs. private loans — know the difference</p>
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-4 font-bold text-navy">Federal vs. private loans — know the difference</p>
             <div className="flex flex-col gap-3">
+              <div className="grid grid-cols-3 gap-3 border-b border-border pb-2 text-xs font-bold tracking-wide text-muted-foreground uppercase">
+                <span />
+                <span className="text-navy">Federal</span>
+                <span>Private</span>
+              </div>
               {[
                 { label: "Interest rates", federal: "Fixed by Congress — predictable", private: "Set by lender — can be variable and higher" },
                 { label: "Income-driven repayment", federal: "Available — payments capped at % of income", private: "Rarely available" },
@@ -845,33 +727,33 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
                 { label: "Military benefits", federal: "0% interest during active combat deployment", private: "SCRA applies (6% cap), but varies" },
               ].map(({ label, federal, private: priv }) => (
                 <div key={label} className="grid grid-cols-3 gap-3 border-b border-border pb-3 last:border-0 last:pb-0 text-sm">
-                  <p className="font-medium text-foreground">{label}</p>
+                  <p className="font-semibold text-navy">{label}</p>
                   <p className="text-muted-foreground">{federal}</p>
                   <p className="text-muted-foreground">{priv}</p>
                 </div>
               ))}
             </div>
             <p className="mt-3 text-xs text-muted-foreground">
-              <span className="font-semibold text-foreground">Rule #1:</span> Never refinance federal loans into private loans. You lose every protection above and can never get them back.
+              <span className="font-bold text-navy">Rule #1:</span> Never refinance federal loans into private loans. You lose every protection above and can never get them back.
             </p>
           </div>
 
           <RefinanceTrap />
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-3 font-semibold text-foreground">Income-driven repayment — your safety net</p>
-            <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-3 font-bold text-navy">Income-driven repayment — your safety net</p>
+            <p className="mb-3 text-[15px] leading-relaxed text-muted-foreground">
               If your federal loan payments feel unmanageable, income-driven repayment (IDR) sets your monthly payment based on your income instead of how much you owe. The rules changed in 2025: loans taken out after July 1, 2026 use the new Repayment Assistance Plan (RAP), with payments of 1–10% of your income (at least $10 a month). Older loans can still use Income-Based Repayment (IBR), and the SAVE plan has ended. If you were on SAVE, your servicer will ask you to pick a new plan; if you don&apos;t, you&apos;ll be moved to a standard plan. Check studentaid.gov to see which plan fits your loans.
             </p>
-            <p className="text-sm leading-relaxed text-muted-foreground">
+            <p className="text-[15px] leading-relaxed text-muted-foreground">
               After 20–25 years on IBR, or 30 years on RAP, any remaining balance is forgiven. It&apos;s not the fastest way out — but it
               makes sure the debt never breaks you while you&apos;re building
               your income.
             </p>
           </div>
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-3 font-semibold text-foreground">Military and veteran benefits on student loans</p>
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-3 font-bold text-navy">Military and veteran benefits on student loans</p>
             <div className="flex flex-col gap-3">
               {[
                 {
@@ -887,17 +769,17 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
                   body: "The Servicemembers Civil Relief Act caps interest on private student loans taken before active duty at 6%. Request this from your private loan servicer with a copy of your orders.",
                 },
               ].map(({ title, body }) => (
-                <div key={title} className="rounded-xl border border-border p-4">
-                  <p className="mb-1 text-sm font-semibold text-foreground">{title}</p>
-                  <p className="text-sm leading-relaxed text-muted-foreground">{body}</p>
+                <div key={title} className="rounded-2xl bg-card ring-1 ring-border p-4">
+                  <p className="mb-1 text-sm font-bold text-navy">{title}</p>
+                  <p className="text-[15px] leading-relaxed text-muted-foreground">{body}</p>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="rounded-xl p-5 text-white" style={{ background: "var(--brand-600)" }}>
-            <p className="mb-1 font-bold">The honest take on student loans</p>
-            <p className="text-sm leading-relaxed text-white/85">
+          <div className="rounded-2xl p-5 text-white bg-navy-deep sm:p-6">
+            <p className="mb-1 font-bold text-brass">The honest take on student loans</p>
+            <p className="text-[15px] leading-relaxed text-[#c9d2e0]">
               Student loans are manageable. They&apos;re not fun, and they&apos;re not
               free money — but they&apos;re also not the end of the world. The
               people who struggle most are the ones who ignore them or make
@@ -912,23 +794,23 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
     case "sl-2":
       return (
         <div>
-          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+          <p className="mb-3 text-xs font-bold tracking-[0.14em] text-[#7a5a22] uppercase">
             Student Loans · Lesson 2
           </p>
-          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="mb-8 text-3xl leading-[1.1] font-extrabold tracking-[-0.03em] text-navy sm:text-4xl">
             Pay It Off As Fast As You Can
           </h1>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             Income-driven repayment is a safety net — not a strategy.
             Stretching your loans out for 20 to 30 years means paying interest for 20 to 30 years. The goal should always be to eliminate student
             debt as fast as your life realistically allows. Here&apos;s how to
             think about it.
           </p>
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-3 font-semibold text-foreground">What interest does to your balance over time</p>
-            <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-3 font-bold text-navy">What interest does to your balance over time</p>
+            <p className="mb-4 text-[15px] leading-relaxed text-muted-foreground">
               If you borrowed $40,000 at 6.5% interest and only made minimum
               payments on a standard 10-year plan, here&apos;s what it looks like:
             </p>
@@ -941,7 +823,7 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
               ].map(({ label, value }) => (
                 <div key={label} className="flex items-center justify-between border-b border-border pb-2 last:border-0 last:pb-0 text-sm">
                   <p className="text-muted-foreground">{label}</p>
-                  <p className="font-semibold text-foreground">{value}</p>
+                  <p className="font-bold text-navy">{value}</p>
                 </div>
               ))}
             </div>
@@ -952,8 +834,8 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
 
           <PayoffAccelerator />
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-4 font-semibold text-foreground">How to attack it faster</p>
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-4 font-bold text-navy">How to attack it faster</p>
             <div className="flex flex-col gap-3">
               {[
                 {
@@ -974,26 +856,26 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
                 },
               ].map(({ title, body }, i) => (
                 <div key={i} className="flex gap-4">
-                  <div className="flex size-7 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white" style={{ background: "var(--brand-600)" }}>
+                  <div className="flex size-7 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white bg-navy">
                     {i + 1}
                   </div>
                   <div>
-                    <p className="mb-1 text-sm font-semibold text-foreground">{title}</p>
-                    <p className="text-sm leading-relaxed text-muted-foreground">{body}</p>
+                    <p className="mb-1 text-sm font-bold text-navy">{title}</p>
+                    <p className="text-[15px] leading-relaxed text-muted-foreground">{body}</p>
                   </div>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-2 font-semibold text-foreground">Should you invest or pay off loans first?</p>
-            <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-2 font-bold text-navy">Should you invest or pay off loans first?</p>
+            <p className="mb-3 text-[15px] leading-relaxed text-muted-foreground">
               If your employer offers a 401(k) match — contribute enough to
               get the full match first, always. That&apos;s a 50–100% instant
               return. Nothing beats it.
             </p>
-            <p className="text-sm leading-relaxed text-muted-foreground">
+            <p className="text-[15px] leading-relaxed text-muted-foreground">
               After that, if your loan interest rate is below 6%, you could
               make a case for investing the rest since markets average 7–10%
               long term. Above 6–7%, pay the loans down aggressively. The
@@ -1002,9 +884,9 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             </p>
           </div>
 
-          <div className="rounded-xl p-5 text-white" style={{ background: "var(--brand-600)" }}>
-            <p className="mb-1 font-bold">The mindset that actually works</p>
-            <p className="text-sm leading-relaxed text-white/85">
+          <div className="rounded-2xl p-5 text-white bg-navy-deep sm:p-6">
+            <p className="mb-1 font-bold text-brass">The mindset that actually works</p>
+            <p className="text-[15px] leading-relaxed text-[#c9d2e0]">
               Get the degree, get the job, live like you&apos;re still broke for
               a few years, and hit those loans hard. The people who pay off
               $50,000 in student debt in 3–4 years aren&apos;t making six figures
@@ -1085,10 +967,10 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
     default:
       return (
         <div>
-          <h1 className="mb-6 text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="mb-6 text-3xl leading-[1.1] font-extrabold tracking-[-0.03em] text-navy sm:text-4xl">
             Coming Soon
           </h1>
-          <p className="text-base leading-relaxed text-muted-foreground">
+          <p className="text-[17px] leading-[1.75] text-[#3b4658]">
             This lesson is still being written. Check back soon.
           </p>
         </div>
