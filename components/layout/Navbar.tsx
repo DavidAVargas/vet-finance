@@ -1,13 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { useUser, UserButton } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Lock, Menu, X } from "lucide-react";
+import { LayoutDashboard, Lock, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/layout/Logo";
 import { cn } from "@/lib/utils";
+import { AccountButton } from "@/components/layout/AccountButton";
 
 const FOUNDER_EMAIL = "david.vargas024@gmail.com";
 
@@ -65,10 +66,20 @@ export function Navbar() {
           <div className="flex items-center gap-2">
             {isLoaded && user ? (
               <>
+                {isFounder && (
+                  <Link
+                    href="/admin"
+                    aria-current={isActive("/admin") ? "page" : undefined}
+                    className="hidden items-center gap-1.5 rounded-full px-4 py-2 text-[15px] font-semibold text-navy hover:text-[#2e5a9a] md:inline-flex"
+                  >
+                    <LayoutDashboard className="size-4 text-brass-deep" aria-hidden="true" />
+                    Admin
+                  </Link>
+                )}
                 <Button size="lg" className="hidden rounded-full px-5 md:inline-flex" asChild>
                   <Link href={ctaHref}>Go to courses</Link>
                 </Button>
-                <UserButton />
+                <AccountButton />
               </>
             ) : (
               <>
@@ -115,6 +126,16 @@ export function Navbar() {
                 {link.label}
               </Link>
             ))}
+            {isFounder && (
+              <Link
+                href="/admin"
+                className="flex items-center gap-2 rounded-lg px-3 py-3 text-base font-semibold text-navy hover:bg-secondary"
+                onClick={() => setOpen(false)}
+              >
+                <LayoutDashboard className="size-4 text-brass-deep" aria-hidden="true" />
+                Admin
+              </Link>
+            )}
             {user ? (
               <Button size="lg" className="mt-3 w-full rounded-full" asChild>
                 <Link href={ctaHref} onClick={() => setOpen(false)}>Go to courses</Link>

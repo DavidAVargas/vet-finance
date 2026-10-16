@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useUser, UserButton } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 import { ArrowRight, Check, ChevronLeft, CircleCheck, Info, Lock, Quote, RotateCcw } from "lucide-react";
 import { LogoMark } from "@/components/layout/Logo";
 import { HysaEarnings } from "@/components/lesson-visuals/playbook/HysaEarnings";
@@ -18,6 +18,7 @@ import {
   type Question,
 } from "@/lib/playbook/plan";
 import { cn } from "@/lib/utils";
+import { AccountButton } from "@/components/layout/AccountButton";
 
 const FOUNDER_EMAIL = "david.vargas024@gmail.com";
 
@@ -375,7 +376,7 @@ export default function PlaybookPage() {
             <LogoMark className="hidden h-6 w-5 sm:block" />
             <p className="truncate font-bold text-navy">David&apos;s Playbook</p>
           </div>
-          <UserButton />
+          <AccountButton />
         </div>
       </header>
 

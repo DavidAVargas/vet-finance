@@ -2,13 +2,14 @@
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import Link from "next/link";
-import { useUser, UserButton } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 import { ArrowRight, CheckCircle2, ChevronLeft, ChevronRight, Circle, ListTree, Lock, X } from "lucide-react";
 import { SkipLink } from "@/components/layout/SkipLink";
 import { LogoMark } from "@/components/layout/Logo";
 import { Button } from "@/components/ui/button";
 import { courseCatalog } from "@/lib/course-catalog";
 import { cn } from "@/lib/utils";
+import { AccountButton } from "@/components/layout/AccountButton";
 
 const FOUNDER_EMAIL = "david.vargas024@gmail.com";
 
@@ -205,7 +206,7 @@ export function CourseShell({ courseId, title, sections, renderLesson }: Props) 
               <ListTree className="size-4" aria-hidden="true" />
               Contents
             </button>
-            <UserButton />
+            <AccountButton />
           </div>
         </div>
       </header>

@@ -1,10 +1,11 @@
 "use client";
 
 import { useEffect, useState, useOptimistic, startTransition } from "react";
-import { useUser, UserButton } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 import { ArrowUp, ChevronLeft, Loader2, Send } from "lucide-react";
 import Link from "next/link";
 import { SkipLink } from "@/components/layout/SkipLink";
+import { AccountButton } from "@/components/layout/AccountButton";
 
 type Post = {
   id: string;
@@ -138,7 +139,7 @@ export default function FeedbackPage() {
           <ChevronLeft className="size-4" />
           Back to courses
         </Link>
-        <UserButton />
+        <AccountButton />
       </header>
 
       <main

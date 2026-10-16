@@ -2,13 +2,14 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { useUser, UserButton } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 import { ArrowRight, CheckCircle2, Compass, Lock, MessageSquare } from "lucide-react";
 import { SkipLink } from "@/components/layout/SkipLink";
 import { Logo } from "@/components/layout/Logo";
 import { Button } from "@/components/ui/button";
 import { courseCatalog, courseMeta, PLAYBOOK_GUIDE_COUNT, type CatalogCourse } from "@/lib/course-catalog";
 import { cn } from "@/lib/utils";
+import { AccountButton } from "@/components/layout/AccountButton";
 
 const FOUNDER_EMAIL = "david.vargas024@gmail.com";
 
@@ -156,7 +157,7 @@ export default function CoursesPage() {
                 ),
               )}
             </div>
-            <UserButton />
+            <AccountButton />
           </div>
         </div>
       </header>
