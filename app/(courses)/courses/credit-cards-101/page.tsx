@@ -1,8 +1,7 @@
 "use client";
 
 import { CourseShell } from "@/components/courses/CourseShell";
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import { QuizBlock } from "@/components/courses/QuizBlock";
 import { BillingCycle } from "@/components/lesson-visuals/credit-cards-101/BillingCycle";
 import { AnnualFeeMath } from "@/components/lesson-visuals/credit-cards-101/AnnualFeeMath";
 import { MinimumPaymentTrap } from "@/components/lesson-visuals/credit-cards-101/MinimumPaymentTrap";
@@ -61,140 +60,6 @@ const SECTIONS = [
   },
 ];
 
-// ─── Quiz component ──────────────────────────────────────────────────────────
-
-interface QuizQuestion {
-  question: string;
-  options: string[];
-  correct: number;
-  explanation: string;
-}
-
-function QuizBlock({ sectionLabel, questions, onPass }: {
-  sectionLabel: string;
-  questions: QuizQuestion[];
-  onPass?: () => void;
-}) {
-  const [selected, setSelected] = useState<Record<number, number>>({});
-  const [submitted, setSubmitted] = useState(false);
-  const [passed, setPassed] = useState(false);
-
-  const allAnswered = questions.every((_, i) => selected[i] !== undefined);
-  const score = questions.filter((q, i) => selected[i] === q.correct).length;
-  const passThreshold = Math.ceil(questions.length * (2 / 3));
-
-  const handleSubmit = () => {
-    const didPass = score >= passThreshold;
-    setSubmitted(true);
-    setPassed(didPass);
-    if (didPass) onPass?.();
-  };
-
-  const handleRetry = () => {
-    setSelected({});
-    setSubmitted(false);
-    setPassed(false);
-  };
-
-  return (
-    <div>
-      <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-        {sectionLabel} · Quiz
-      </p>
-      <h1 className="mb-2 text-3xl font-bold tracking-tight text-foreground">
-        Knowledge Check
-      </h1>
-      <p className="mb-8 text-base text-muted-foreground">
-        Answer all questions to unlock the next section. You need {passThreshold} out of {questions.length} to pass.
-      </p>
-
-      <div className="flex flex-col gap-8">
-        {questions.map((q, qi) => {
-          const isCorrect = submitted && selected[qi] === q.correct;
-
-          return (
-            <div key={qi}>
-              <p className="mb-3 font-semibold text-foreground">
-                <span className="mr-2 font-mono text-xs text-muted-foreground/60">{qi + 1}.</span>
-                {q.question}
-              </p>
-              <div className="flex flex-col gap-2">
-                {q.options.map((opt, oi) => {
-                  const isSelected = selected[qi] === oi;
-                  const isCorrectOption = submitted && oi === q.correct;
-                  const isWrongSelected = submitted && isSelected && oi !== q.correct;
-
-                  return (
-                    <button
-                      key={oi}
-                      disabled={submitted}
-                      onClick={() => !submitted && setSelected((prev) => ({ ...prev, [qi]: oi }))}
-                      aria-pressed={isSelected}
-                      className={`flex items-center gap-3 rounded-lg border px-4 py-3 text-left text-sm transition-colors ${
-                        isCorrectOption
-                          ? "border-green-500 bg-green-500/10 text-foreground"
-                          : isWrongSelected
-                          ? "border-red-400 bg-red-400/10 text-foreground"
-                          : isSelected
-                          ? "border-foreground bg-muted text-foreground"
-                          : "border-border text-muted-foreground hover:border-foreground/40 hover:text-foreground"
-                      } ${submitted ? "cursor-default" : "cursor-pointer"}`}
-                    >
-                      <span className={`flex size-5 shrink-0 items-center justify-center rounded-full border text-xs font-medium ${
-                        isCorrectOption
-                          ? "border-green-500 bg-green-500 text-white"
-                          : isWrongSelected
-                          ? "border-red-400 bg-red-400 text-white"
-                          : isSelected
-                          ? "border-foreground bg-foreground text-background"
-                          : "border-border"
-                      }`}>
-                        {isCorrectOption ? "✓" : isWrongSelected ? "✗" : String.fromCharCode(65 + oi)}
-                      </span>
-                      {opt}
-                    </button>
-                  );
-                })}
-              </div>
-              {submitted && (
-                <p className={`mt-3 rounded-lg px-3 py-2 text-sm ${isCorrect ? "bg-green-500/10 text-green-700 dark:text-green-400" : "bg-muted text-muted-foreground"}`}>
-                  {q.explanation}
-                </p>
-              )}
-            </div>
-          );
-        })}
-      </div>
-
-      {submitted ? (
-        <div className={`mt-8 rounded-xl border p-5 text-center ${passed ? "border-green-500 bg-green-500/10" : "border-border bg-muted/30"}`}>
-          {passed ? (
-            <>
-              <p className="text-lg font-bold text-foreground">You passed! {score}/{questions.length} correct.</p>
-              <p className="mt-1 text-sm text-muted-foreground">The next section is now unlocked.</p>
-            </>
-          ) : (
-            <>
-              <p className="text-lg font-bold text-foreground">{score}/{questions.length} correct — not quite.</p>
-              <p className="mt-1 mb-4 text-sm text-muted-foreground">Review the lessons above and try again.</p>
-              <Button size="sm" variant="outline" onClick={handleRetry}>Try Again</Button>
-            </>
-          )}
-        </div>
-      ) : (
-        <Button
-          className="mt-8"
-          disabled={!allAnswered}
-          onClick={handleSubmit}
-          style={allAnswered ? { background: "var(--brand-600)", color: "white" } : {}}
-        >
-          Submit Answers
-        </Button>
-      )}
-    </div>
-  );
-}
-
 // ─── Lesson content ───────────────────────────────────────────────────────────
 
 function LessonContent({
@@ -208,14 +73,14 @@ function LessonContent({
     case "mcs-1":
       return (
         <div>
-          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+          <p className="mb-3 text-xs font-bold tracking-[0.14em] text-[#7a5a22] uppercase">
             My Credit Card Story · Lesson 1
           </p>
-          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="mb-8 text-3xl leading-[1.1] font-extrabold tracking-[-0.03em] text-navy sm:text-4xl">
             How I Got Started
           </h1>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             My first credit card wasn&apos;t something I planned. I was at the mall
             and they did what they always do — offered me a discount if I
             signed up for their store card. I didn&apos;t know anything about credit
@@ -223,7 +88,7 @@ function LessonContent({
             and that was it. That store card was my first piece of credit.
           </p>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             The lucky part was my mom. She always told me to be careful with
             credit cards — don&apos;t spend what you don&apos;t have, don&apos;t max it out.
             I didn&apos;t fully understand why at the time, but I listened. I never
@@ -231,7 +96,7 @@ function LessonContent({
             quietly started building my credit without me even realizing it.
           </p>
 
-          <p className="mb-8 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-8 text-[17px] leading-[1.75] text-[#3b4658]">
             I actually think I had that store card before I even had a bank
             account. I&apos;m not 100% sure, but I remember opening my bank account
             sometime around then and waiting a bit. Then I walked into my bank
@@ -240,9 +105,9 @@ function LessonContent({
             all I had for a few years.
           </p>
 
-          <div className="mb-8 rounded-xl border-l-2 bg-muted/40 p-5" style={{ borderColor: "var(--brand-600)" }}>
-            <p className="mb-1 text-sm font-semibold text-foreground">The store card: was it a good move?</p>
-            <p className="text-sm leading-relaxed text-muted-foreground">
+          <div className="mb-8 rounded-r-2xl border-l-4 border-brass bg-surface p-5 sm:p-6">
+            <p className="mb-1 text-sm font-bold text-navy">The store card: was it a good move?</p>
+            <p className="text-[15px] leading-relaxed text-muted-foreground">
               Honestly? I got lucky. The card I got happens to be accepted
               basically everywhere across the US so it&apos;s still useful to me
               today. But I wouldn&apos;t recommend a store card to most people unless
@@ -253,7 +118,7 @@ function LessonContent({
             </p>
           </div>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             The most important thing I did without knowing it was choosing
             cards with no annual fee. That mattered more than I realized at
             the time. A no-annual-fee card costs you nothing to keep open
@@ -261,7 +126,7 @@ function LessonContent({
             have to think about whether it&apos;s worth keeping.
           </p>
 
-          <p className="text-base leading-relaxed text-muted-foreground">
+          <p className="text-[17px] leading-[1.75] text-[#3b4658]">
             That&apos;s how it started. Not some big plan. A mall discount, a
             mom&apos;s advice, and two simple cards. In the next lesson I&apos;ll tell
             you what happened after — including what I did wrong.
@@ -272,14 +137,14 @@ function LessonContent({
     case "mcs-2":
       return (
         <div>
-          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+          <p className="mb-3 text-xs font-bold tracking-[0.14em] text-[#7a5a22] uppercase">
             My Credit Card Story · Lesson 2
           </p>
-          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="mb-8 text-3xl leading-[1.1] font-extrabold tracking-[-0.03em] text-navy sm:text-4xl">
             What I Learned the Hard Way
           </h1>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             A few years into having those two cards, I applied for another
             one. This time I got approved for a $5,000 limit on the first
             application — which at a young age felt like a big deal. Looking
@@ -288,7 +153,7 @@ function LessonContent({
             lenders saw that.
           </p>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             But I still didn&apos;t really know what I was doing with credit cards.
             I&apos;d use the card here and there, pay it off, never came close to
             the full limit. Just having that credit history quietly working for
@@ -297,7 +162,7 @@ function LessonContent({
             all worked.
           </p>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             Then life happened. Like most people, there were times I thought
             I had more room than I did. Used the card expecting money that
             didn&apos;t come. Missed a payment here and there. And eventually —
@@ -308,8 +173,8 @@ function LessonContent({
             in the background and started taking it seriously.
           </p>
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-2 font-semibold text-foreground">What I&apos;d tell someone just starting out</p>
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-2 font-bold text-navy">What I&apos;d tell someone just starting out</p>
             <div className="flex flex-col gap-3">
               {[
                 "Your first card should have no annual fee — always. Not 'free for the first year.' Free forever. Get the hang of things before you start paying for premium cards.",
@@ -318,16 +183,16 @@ function LessonContent({
                 "Store cards are fine if you actually shop there. But don't get one just for a one-time discount. Think about whether you'll still be going there in 5 years.",
               ].map((tip, i) => (
                 <div key={i} className="flex items-start gap-3">
-                  <span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full text-[10px] font-bold text-white" style={{ background: "var(--brand-600)" }}>
+                  <span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full text-[10px] font-bold text-white bg-navy">
                     {i + 1}
                   </span>
-                  <p className="text-sm leading-relaxed text-muted-foreground">{tip}</p>
+                  <p className="text-[15px] leading-relaxed text-muted-foreground">{tip}</p>
                 </div>
               ))}
             </div>
           </div>
 
-          <p className="text-base leading-relaxed text-muted-foreground">
+          <p className="text-[17px] leading-[1.75] text-[#3b4658]">
             The point of this course isn&apos;t to scare you away from credit
             cards. It&apos;s the opposite — a credit card used the right way is one
             of the most powerful financial tools you have. It builds your
@@ -341,14 +206,14 @@ function LessonContent({
     case "ccw-1":
       return (
         <div>
-          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+          <p className="mb-3 text-xs font-bold tracking-[0.14em] text-[#7a5a22] uppercase">
             How Credit Cards Work · Lesson 1
           </p>
-          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="mb-8 text-3xl leading-[1.1] font-extrabold tracking-[-0.03em] text-navy sm:text-4xl">
             What a Credit Card Actually Is
           </h1>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             A credit card is borrowed money. That&apos;s it. The bank is letting you
             spend their money with the expectation that you&apos;ll pay it back.
             The difference between a credit card and a loan is that if you pay
@@ -356,14 +221,14 @@ function LessonContent({
             borrowing. Zero. That&apos;s the opportunity most people miss.
           </p>
 
-          <p className="mb-8 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-8 text-[17px] leading-[1.75] text-[#3b4658]">
             Used correctly, a credit card is the only financial product where
             someone lets you borrow money for free, build your credit score,
             and earn rewards on top of it. But that only works if you
             understand how the cycle actually works.
           </p>
 
-          <p className="mb-4 text-base font-semibold text-foreground">How the billing cycle works:</p>
+          <p className="mt-2 mb-4 text-xl font-bold tracking-[-0.01em] text-navy">How the billing cycle works:</p>
           <BillingCycle />
 
           <div className="mb-8 flex flex-col gap-3">
@@ -389,16 +254,15 @@ function LessonContent({
                 body: "Any balance left after the due date starts accruing interest at your APR. This is where the card stops working for you and starts working against you.",
               },
             ].map(({ step, title, body }) => (
-              <div key={step} className="flex gap-4 rounded-xl border border-border p-4">
+              <div key={step} className="flex gap-4 rounded-2xl bg-card ring-1 ring-border p-4">
                 <div
-                  className="flex size-7 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white"
-                  style={{ background: "var(--brand-600)" }}
+                  className="flex size-7 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white bg-navy"
                 >
                   {step}
                 </div>
                 <div>
-                  <p className="mb-1 text-sm font-semibold text-foreground">{title}</p>
-                  <p className="text-sm leading-relaxed text-muted-foreground">{body}</p>
+                  <p className="mb-1 text-sm font-bold text-navy">{title}</p>
+                  <p className="text-[15px] leading-relaxed text-muted-foreground">{body}</p>
                 </div>
               </div>
             ))}
@@ -406,15 +270,15 @@ function LessonContent({
 
           {/* CC vs Debit side-by-side */}
           <div className="mb-8">
-            <p className="mb-4 font-semibold text-foreground">Credit card vs. debit card</p>
-            <div className="overflow-hidden rounded-xl border border-border">
+            <p className="mb-4 font-bold text-navy">Credit card vs. debit card</p>
+            <div className="overflow-hidden rounded-2xl bg-card ring-1 ring-border">
               {/* Column headers */}
               <div className="grid grid-cols-[1.1fr_1fr_1fr]">
-                <div className="border-b border-r border-border bg-muted/40 p-3" />
-                <div className="border-b border-r border-border p-3 text-center" style={{ background: "var(--brand-600)" }}>
+                <div className="border-b border-r border-border bg-surface p-3" />
+                <div className="border-b border-r border-border p-3 text-center bg-navy">
                   <p className="text-xs font-bold uppercase tracking-wider text-white">Credit Card</p>
                 </div>
-                <div className="border-b border-border bg-muted/40 p-3 text-center">
+                <div className="border-b border-border bg-surface p-3 text-center">
                   <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Debit Card</p>
                 </div>
               </div>
@@ -443,16 +307,16 @@ function LessonContent({
                 },
               ].map(({ label, cc, dc }, i) => (
                 <div key={label} className={`grid grid-cols-[1.1fr_1fr_1fr] ${i < 3 ? "border-b border-border" : ""}`}>
-                  <div className="border-r border-border bg-muted/20 p-3">
-                    <p className="text-xs font-semibold text-foreground">{label}</p>
+                  <div className="border-r border-border bg-surface p-3">
+                    <p className="text-xs font-bold text-navy">{label}</p>
                   </div>
-                  <div className="border-r border-border p-3" style={{ background: "color-mix(in srgb, var(--brand-600) 6%, transparent)" }}>
-                    <p className={`text-xs leading-relaxed ${cc.good ? "text-green-600 dark:text-green-400 font-medium" : "text-red-500 dark:text-red-400"}`}>
+                  <div className="border-r border-border bg-secondary/60 p-3">
+                    <p className={`text-xs leading-relaxed ${cc.good ? "text-green-600 font-medium" : "text-red-500"}`}>
                       {cc.text}
                     </p>
                   </div>
-                  <div className="bg-muted/10 p-3">
-                    <p className={`text-xs leading-relaxed ${dc.good ? "text-green-600 dark:text-green-400 font-medium" : "text-red-500 dark:text-red-400"}`}>
+                  <div className="p-3">
+                    <p className={`text-xs leading-relaxed ${dc.good ? "text-green-600 font-medium" : "text-red-500"}`}>
                       {dc.text}
                     </p>
                   </div>
@@ -464,9 +328,9 @@ function LessonContent({
             </p>
           </div>
 
-          <div className="rounded-xl p-5 text-white" style={{ background: "var(--brand-600)" }}>
-            <p className="mb-1 font-bold">The rule that makes all of this work</p>
-            <p className="text-sm leading-relaxed text-white/85">
+          <div className="rounded-2xl p-5 text-white bg-navy-deep sm:p-6">
+            <p className="mb-1 font-bold text-brass">The rule that makes all of this work</p>
+            <p className="text-[15px] leading-relaxed text-[#c9d2e0]">
               Use your credit card like a debit card. Only spend money that&apos;s
               already sitting in your bank account. If you wouldn&apos;t buy it with
               cash, don&apos;t put it on the card. This one rule makes the grace
@@ -480,14 +344,14 @@ function LessonContent({
     case "ccw-2":
       return (
         <div>
-          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+          <p className="mb-3 text-xs font-bold tracking-[0.14em] text-[#7a5a22] uppercase">
             How Credit Cards Work · Lesson 2
           </p>
-          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="mb-8 text-3xl leading-[1.1] font-extrabold tracking-[-0.03em] text-navy sm:text-4xl">
             Annual Fees — When They&apos;re Worth It
           </h1>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             An annual fee is what some credit cards charge you once a year
             just to keep the card open. It can range from $95 to $895. Most
             people hear &ldquo;annual fee&rdquo; and think it sounds like a bad deal. But
@@ -496,36 +360,36 @@ function LessonContent({
             is just money wasted.
           </p>
 
-          <p className="mb-8 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-8 text-[17px] leading-[1.75] text-[#3b4658]">
             Knowing the difference is what separates someone who uses credit
             cards well from someone who just pays for the privilege of having one.
           </p>
 
           <div className="mb-8 flex flex-col gap-4">
-            <div className="rounded-xl border border-border p-5">
+            <div className="rounded-2xl bg-card ring-1 ring-border p-5">
               <div className="mb-3 flex items-center justify-between">
-                <p className="font-bold text-foreground">No annual fee cards</p>
+                <p className="font-bold text-navy">No annual fee cards</p>
                 <span className="rounded-full bg-green-500/10 px-2.5 py-0.5 text-xs font-medium text-green-600">Best to start</span>
               </div>
-              <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
+              <p className="mb-3 text-[15px] leading-relaxed text-muted-foreground">
                 These cards cost you nothing to keep open. That makes them
                 perfect for your first cards — and for keeping long term to
                 help your credit age. Even if you stop using a no-fee card,
                 you can leave it open forever without losing anything. The
                 age of that account keeps working for your score.
               </p>
-              <p className="text-sm leading-relaxed text-muted-foreground">
+              <p className="text-[15px] leading-relaxed text-muted-foreground">
                 Most starter cards, student cards, and basic cash back cards
                 fall into this category. This is where everyone should begin.
               </p>
             </div>
 
-            <div className="rounded-xl border border-border p-5">
+            <div className="rounded-2xl bg-card ring-1 ring-border p-5">
               <div className="mb-3 flex items-center justify-between">
-                <p className="font-bold text-foreground">Annual fee cards</p>
-                <span className="rounded-full bg-muted px-2.5 py-0.5 text-xs font-medium text-muted-foreground">Once you know what you&apos;re doing</span>
+                <p className="font-bold text-navy">Annual fee cards</p>
+                <span className="rounded-full bg-secondary px-2.5 py-0.5 text-xs font-semibold text-navy">Once you know what you&apos;re doing</span>
               </div>
-              <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
+              <p className="mb-3 text-[15px] leading-relaxed text-muted-foreground">
                 These cards charge you yearly but give back more than they take
                 — through travel credits, points multipliers, lounge access,
                 or statement credits. The math has to work in your favor. If
@@ -537,9 +401,9 @@ function LessonContent({
                   { card: "Chase Sapphire Reserve", fee: "$795/yr", value: "$300 travel credit + lounge access + 4x points on flights and hotels booked directly and 3x on dining — worth it if you travel regularly" },
                   { card: "Amex Platinum", fee: "$895/yr", value: "$3,500+ in credits and perks (Amex's own estimate) if you use every benefit — lounge access, airline, hotel, dining, and more" },
                 ].map(({ card, fee, value }) => (
-                  <div key={card} className="rounded-lg bg-muted/40 p-3">
+                  <div key={card} className="rounded-xl bg-surface p-3">
                     <div className="mb-1 flex items-center justify-between">
-                      <p className="text-sm font-semibold text-foreground">{card}</p>
+                      <p className="text-sm font-bold text-navy">{card}</p>
                       <span className="text-xs text-muted-foreground">{fee}</span>
                     </div>
                     <p className="text-xs leading-relaxed text-muted-foreground">{value}</p>
@@ -549,15 +413,15 @@ function LessonContent({
             </div>
           </div>
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-3 font-bold text-foreground">Match the card to your lifestyle — not the hype</p>
-            <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-3 font-bold text-navy">Match the card to your lifestyle — not the hype</p>
+            <p className="mb-4 text-[15px] leading-relaxed text-muted-foreground">
               The dollar math only tells half the story. A $895 annual fee card
               might technically offer $3,500 in credits and perks — but if half those
               credits are for things you&apos;d never buy anyway, you&apos;re not getting
               $3,500 back. You&apos;re getting whatever you actually use.
             </p>
-            <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
+            <p className="mb-4 text-[15px] leading-relaxed text-muted-foreground">
               Take the Amex Platinum. It&apos;s often called the ultimate luxury card
               — and it can be, if you travel constantly, shop at certain stores,
               and use every single perk. But a lot of those credits are for
@@ -565,7 +429,7 @@ function LessonContent({
               fits your life, you&apos;re paying $895 for a card that doesn&apos;t really
               serve you.
             </p>
-            <p className="text-sm leading-relaxed text-muted-foreground">
+            <p className="text-[15px] leading-relaxed text-muted-foreground">
               The Chase Sapphire Reserve at $795/yr has a simpler value prop:
               $300 back on travel, lounge access, and strong points on dining
               and travel. If you travel even a few times a year and eat out
@@ -573,8 +437,8 @@ function LessonContent({
               lifestyles than the Platinum does — and why someone might have
               the Reserve but skip the Platinum entirely.
             </p>
-            <div className="mt-4 rounded-lg bg-muted/40 p-3">
-              <p className="text-xs font-semibold text-foreground">The rule:</p>
+            <div className="mt-4 rounded-xl bg-surface p-3">
+              <p className="text-xs font-bold text-navy">The rule:</p>
               <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
                 Before getting any annual fee card, list out every benefit and
                 ask yourself: would I actually use this? Add up only the ones
@@ -587,8 +451,8 @@ function LessonContent({
           <AnnualFeeMath />
 
           <div className="mb-8 rounded-xl border border-red-500/20 bg-red-500/5 p-5">
-            <p className="mb-2 font-semibold text-foreground">Watch out for the first-year trap</p>
-            <p className="text-sm leading-relaxed text-muted-foreground">
+            <p className="mb-2 font-bold text-navy">Watch out for the first-year trap</p>
+            <p className="text-[15px] leading-relaxed text-muted-foreground">
               Some cards advertise no annual fee for the first year, then start
               charging $90 or more in year two. If you&apos;re just starting out,
               avoid these. You don&apos;t want to be thinking about whether a card
@@ -597,7 +461,7 @@ function LessonContent({
             </p>
           </div>
 
-          <p className="text-base leading-relaxed text-muted-foreground">
+          <p className="text-[17px] leading-[1.75] text-[#3b4658]">
             The goal with any credit card — annual fee or not — is for the
             card to pay you more than you pay for it. No-fee cards do that
             through rewards alone. Premium cards do it through bigger rewards
@@ -611,21 +475,21 @@ function LessonContent({
     case "ccw-3":
       return (
         <div>
-          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+          <p className="mb-3 text-xs font-bold tracking-[0.14em] text-[#7a5a22] uppercase">
             How Credit Cards Work · Lesson 3
           </p>
-          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="mb-8 text-3xl leading-[1.1] font-extrabold tracking-[-0.03em] text-navy sm:text-4xl">
             APR and Interest
           </h1>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             APR stands for Annual Percentage Rate. It&apos;s the interest rate the
             card charges on any balance you carry past your due date. Right now
             the average credit card APR is somewhere between 20% and 28%.
             That&apos;s high. Higher than almost any other type of loan you can get.
           </p>
 
-          <p className="mb-8 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-8 text-[17px] leading-[1.75] text-[#3b4658]">
             But here&apos;s the thing — if you pay your balance in full every month,
             your APR is completely irrelevant. Zero. It doesn&apos;t matter if it&apos;s
             29%. You&apos;ll never pay a single dollar in interest. The grace period
@@ -633,8 +497,8 @@ function LessonContent({
             carry a balance.
           </p>
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-4 font-semibold text-foreground">What carrying a balance actually costs you</p>
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-4 font-bold text-navy">What carrying a balance actually costs you</p>
             <div className="flex flex-col gap-3">
               {[
                 { balance: "$500", apr: "24%", monthly: "~$10/mo", yearly: "~$120/yr" },
@@ -643,7 +507,7 @@ function LessonContent({
                 { balance: "$5,000", apr: "24%", monthly: "~$100/mo", yearly: "~$1,200/yr" },
               ].map(({ balance, apr, monthly, yearly }) => (
                 <div key={balance} className="grid grid-cols-4 items-center gap-2 border-b border-border pb-2 last:border-0 last:pb-0 text-sm">
-                  <p className="font-semibold text-foreground">{balance}</p>
+                  <p className="font-bold text-navy">{balance}</p>
                   <p className="text-center text-muted-foreground">{apr} APR</p>
                   <p className="text-center text-muted-foreground">{monthly}</p>
                   <p className="text-right font-medium text-red-500">{yearly}</p>
@@ -653,9 +517,9 @@ function LessonContent({
             <p className="mt-3 text-xs text-muted-foreground">That&apos;s money gone — on top of what you already spent.</p>
           </div>
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-2 font-semibold text-foreground">The minimum payment trap</p>
-            <p className="text-sm leading-relaxed text-muted-foreground">
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-2 font-bold text-navy">The minimum payment trap</p>
+            <p className="text-[15px] leading-relaxed text-muted-foreground">
               Credit card companies set minimum payments low on purpose. If you
               have a $5,000 balance at 24% and only pay the minimum every month, it
               can take close to 20 years to pay it off — and you&apos;ll pay nearly
@@ -667,9 +531,9 @@ function LessonContent({
 
           <MinimumPaymentTrap />
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-2 font-semibold text-foreground">What about 0% APR offers?</p>
-            <p className="text-sm leading-relaxed text-muted-foreground">
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-2 font-bold text-navy">What about 0% APR offers?</p>
+            <p className="text-[15px] leading-relaxed text-muted-foreground">
               Some cards offer 0% intro APR for 12 to 21 months on new
               purchases or balance transfers. This can be useful if you have
               an existing high-interest balance you want to move over and pay
@@ -678,7 +542,7 @@ function LessonContent({
             </p>
           </div>
 
-          <p className="text-base leading-relaxed text-muted-foreground">
+          <p className="text-[17px] leading-[1.75] text-[#3b4658]">
             The people who use credit cards well don&apos;t think about APR because
             it never applies to them. They pay in full every month, earn
             rewards on every purchase, and the card costs them nothing. That&apos;s
@@ -731,14 +595,14 @@ function LessonContent({
     case "pop-1":
       return (
         <div>
-          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+          <p className="mb-3 text-xs font-bold tracking-[0.14em] text-[#7a5a22] uppercase">
             The Power of Points · Lesson 1
           </p>
-          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="mb-8 text-3xl leading-[1.1] font-extrabold tracking-[-0.03em] text-navy sm:text-4xl">
             Why Points Beat Cash
           </h1>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             Cash back is simple. You spend $100, you get $1.50 back. Every
             time, no thinking required. And for a lot of people, that&apos;s exactly
             why they stick with it. But if you&apos;re willing to learn one extra
@@ -746,7 +610,7 @@ function LessonContent({
             $1.50 — on the exact same purchase.
           </p>
 
-          <p className="mb-8 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-8 text-[17px] leading-[1.75] text-[#3b4658]">
             The reason most people don&apos;t know this is because the default way
             to redeem points is terrible. Banks want you to use points through
             their travel portal or for gift cards at 1 cent each. That&apos;s the
@@ -756,22 +620,20 @@ function LessonContent({
 
           <PointsValue />
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-4 font-semibold text-foreground">What 100,000 points is actually worth</p>
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-4 font-bold text-navy">What 100,000 points is actually worth</p>
             <div className="flex flex-col gap-3">
               {[
                 { method: "Cash back", value: "$1,000", note: "1 cent per point — always", highlight: false },
                 { method: "Travel portal redemption", value: "~$1,000–$2,000", note: "Usually 1 cent per point; up to 2 cents on select bookings", highlight: false },
                 { method: "Transfer to airline partner", value: "$3,000–$8,000+", note: "3–8+ cents per point on business/first class flights", highlight: true },
               ].map(({ method, value, note, highlight }) => (
-                <div key={method} className={`flex items-center justify-between rounded-lg p-3 ${highlight ? "border border-border text-foreground" : "bg-muted/30"}`}
-                  style={highlight ? { background: "color-mix(in srgb, var(--brand-600) 8%, transparent)" } : {}}>
+                <div key={method} className={`flex items-center justify-between rounded-xl p-3 ${highlight ? "bg-secondary ring-1 ring-navy/20" : "bg-surface"}`}>
                   <div>
-                    <p className="text-sm font-semibold text-foreground">{method}</p>
+                    <p className="text-sm font-bold text-navy">{method}</p>
                     <p className="text-xs text-muted-foreground">{note}</p>
                   </div>
-                  <p className={`text-sm font-bold ${highlight ? "" : "text-muted-foreground"}`}
-                    style={highlight ? { color: "var(--brand-600)" } : {}}>
+                  <p className={`text-sm font-bold ${highlight ? "text-navy" : "text-muted-foreground"}`}>
                     {value}
                   </p>
                 </div>
@@ -780,7 +642,7 @@ function LessonContent({
             <p className="mt-3 text-xs text-muted-foreground">Same 100,000 points. Very different outcomes depending on how you use them.</p>
           </div>
 
-          <p className="mb-6 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-6 text-[17px] leading-[1.75] text-[#3b4658]">
             The cards that earn transferable points are the ones worth paying
             attention to. These aren&apos;t points locked to one airline — they&apos;re
             flexible currencies you can send to dozens of partners depending
@@ -793,17 +655,17 @@ function LessonContent({
               { program: "Amex Membership Rewards", partners: "Delta, Air France, Hilton, Marriott, and more", cards: "Amex Platinum, Amex Gold, Green Card" },
               { program: "Capital One Miles", partners: "Turkish Airlines, Air Canada, Wyndham, and more", cards: "Venture X, Venture, VentureOne" },
             ].map(({ program, partners, cards }) => (
-              <div key={program} className="rounded-xl border border-border p-4">
-                <p className="mb-1 font-semibold text-foreground">{program}</p>
-                <p className="mb-1 text-xs text-muted-foreground"><span className="font-medium text-foreground">Partners:</span> {partners}</p>
-                <p className="text-xs text-muted-foreground"><span className="font-medium text-foreground">Earned with:</span> {cards}</p>
+              <div key={program} className="rounded-2xl bg-card ring-1 ring-border p-4">
+                <p className="mb-1 font-bold text-navy">{program}</p>
+                <p className="mb-1 text-xs text-muted-foreground"><span className="font-semibold text-navy">Partners:</span> {partners}</p>
+                <p className="text-xs text-muted-foreground"><span className="font-semibold text-navy">Earned with:</span> {cards}</p>
               </div>
             ))}
           </div>
 
-          <div className="rounded-xl p-5 text-white" style={{ background: "var(--brand-600)" }}>
-            <p className="mb-1 font-bold">The bottom line</p>
-            <p className="text-sm leading-relaxed text-white/85">
+          <div className="rounded-2xl p-5 text-white bg-navy-deep sm:p-6">
+            <p className="mb-1 font-bold text-brass">The bottom line</p>
+            <p className="text-[15px] leading-relaxed text-[#c9d2e0]">
               Cash back is a guaranteed 1–2%. Points are 1–2% if you use them
               the lazy way, and 5–10%+ if you learn the right redemptions.
               You don&apos;t need to be an expert. You just need to know two or
@@ -816,14 +678,14 @@ function LessonContent({
     case "pop-2":
       return (
         <div>
-          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+          <p className="mb-3 text-xs font-bold tracking-[0.14em] text-[#7a5a22] uppercase">
             The Power of Points · Lesson 2
           </p>
-          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="mb-8 text-3xl leading-[1.1] font-extrabold tracking-[-0.03em] text-navy sm:text-4xl">
             How to Actually Use Your Points
           </h1>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             Most people earn points for years and never use them well. Not
             because they&apos;re not smart — but because nobody ever explained
             how the system actually works. There are two ways to redeem
@@ -831,18 +693,18 @@ function LessonContent({
           </p>
 
           <div className="mb-8 flex flex-col gap-4">
-            <div className="rounded-xl border border-border p-5">
+            <div className="rounded-2xl bg-card ring-1 ring-border p-5">
               <div className="mb-3 flex items-center justify-between">
-                <p className="font-bold text-foreground">Way 1 — Travel portal</p>
-                <span className="rounded-full bg-muted px-2.5 py-0.5 text-xs font-medium text-muted-foreground">Easy, lower value</span>
+                <p className="font-bold text-navy">Way 1 — Travel portal</p>
+                <span className="rounded-full bg-secondary px-2.5 py-0.5 text-xs font-semibold text-navy">Easy, lower value</span>
               </div>
-              <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
+              <p className="mb-3 text-[15px] leading-relaxed text-muted-foreground">
                 Every major points program has a travel portal — basically
                 their own version of Expedia. You search for flights or
                 hotels, book directly, and use points to pay. Simple. No
                 transfers, no partners to learn.
               </p>
-              <p className="text-sm leading-relaxed text-muted-foreground">
+              <p className="text-[15px] leading-relaxed text-muted-foreground">
                 The catch: you usually get about 1 cent per point this way (sometimes up to 2 on select bookings).
                 It&apos;s decent — better than cash or gift cards — but you&apos;re
                 leaving a lot on the table. Think of this as the floor, not
@@ -850,19 +712,19 @@ function LessonContent({
               </p>
             </div>
 
-            <div className="rounded-xl border border-border p-5">
+            <div className="rounded-2xl bg-card ring-1 ring-border p-5">
               <div className="mb-3 flex items-center justify-between">
-                <p className="font-bold text-foreground">Way 2 — Transfer to partners</p>
+                <p className="font-bold text-navy">Way 2 — Transfer to partners</p>
                 <span className="rounded-full bg-green-500/10 px-2.5 py-0.5 text-xs font-medium text-green-600">Where the real value is</span>
               </div>
-              <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
+              <p className="mb-3 text-[15px] leading-relaxed text-muted-foreground">
                 Instead of booking through the portal, you transfer your
                 points to an airline or hotel loyalty program — usually 1:1.
                 Then you use those miles or points to book directly through
                 the airline or hotel. This is where you can get 3 to 10+
                 cents per point.
               </p>
-              <p className="text-sm leading-relaxed text-muted-foreground">
+              <p className="text-[15px] leading-relaxed text-muted-foreground">
                 The learning curve is higher, but once you understand even
                 one or two transfer partners, you unlock a completely
                 different level of travel.
@@ -870,9 +732,9 @@ function LessonContent({
             </div>
           </div>
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-4 font-semibold text-foreground">Real example — Chase to Hyatt</p>
-            <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-4 font-bold text-navy">Real example — Chase to Hyatt</p>
+            <p className="mb-4 text-[15px] leading-relaxed text-muted-foreground">
               Hyatt is one of the best transfer partners in the game. A
               standard room at a high-end Hyatt hotel might cost $400–$600
               a night in cash. The same room in points? Sometimes 15,000–25,000
@@ -888,7 +750,7 @@ function LessonContent({
               ].map(({ label, value }) => (
                 <div key={label} className="flex items-center justify-between border-b border-border pb-2 last:border-0 last:pb-0 text-sm">
                   <p className="text-muted-foreground">{label}</p>
-                  <p className="font-semibold text-foreground">{value}</p>
+                  <p className="font-bold text-navy">{value}</p>
                 </div>
               ))}
             </div>
@@ -896,9 +758,9 @@ function LessonContent({
 
           <TwoWaysToRedeem />
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-3 font-semibold text-foreground">Two sweet spots to start with</p>
-            <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-3 font-bold text-navy">Two sweet spots to start with</p>
+            <p className="mb-4 text-[15px] leading-relaxed text-muted-foreground">
               You don&apos;t need to learn every partner. Start with one or two
               and go from there.
             </p>
@@ -914,9 +776,9 @@ function LessonContent({
                 },
               ].map(({ title, why }) => (
                 <div key={title} className="flex gap-3">
-                  <div className="mt-0.5 size-2 shrink-0 rounded-full" style={{ background: "var(--brand-600)", marginTop: "6px" }} />
+                  <div className="mt-1.5 size-2 shrink-0 rounded-full bg-brass" />
                   <div>
-                    <p className="text-sm font-semibold text-foreground">{title}</p>
+                    <p className="text-sm font-bold text-navy">{title}</p>
                     <p className="text-sm text-muted-foreground">{why}</p>
                   </div>
                 </div>
@@ -924,7 +786,7 @@ function LessonContent({
             </div>
           </div>
 
-          <p className="text-base leading-relaxed text-muted-foreground">
+          <p className="text-[17px] leading-[1.75] text-[#3b4658]">
             The key is to start simple. Pick one upcoming trip, research
             what points it would take, and book it that way. Once you do it
             once, the whole system clicks. You&apos;ll never look at points the
@@ -936,14 +798,14 @@ function LessonContent({
     case "pop-3":
       return (
         <div>
-          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+          <p className="mb-3 text-xs font-bold tracking-[0.14em] text-[#7a5a22] uppercase">
             The Power of Points · Lesson 3
           </p>
-          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="mb-8 text-3xl leading-[1.1] font-extrabold tracking-[-0.03em] text-navy sm:text-4xl">
             Keeping Track
           </h1>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             Once you have more than one card, keeping track of your points
             becomes important. Points sitting in accounts you forget about
             can expire. Balances you don&apos;t check don&apos;t earn you anything.
@@ -951,24 +813,24 @@ function LessonContent({
             rewards on purchases you&apos;re already making.
           </p>
 
-          <p className="mb-8 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-8 text-[17px] leading-[1.75] text-[#3b4658]">
             The good news: you don&apos;t need a spreadsheet or a complicated
             system. There are tools built specifically for this.
           </p>
 
-          <div className="mb-8 rounded-xl border border-border p-5">
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
             <div className="mb-3 flex items-center justify-between">
-              <p className="font-bold text-foreground">Max Rewards</p>
+              <p className="font-bold text-navy">Max Rewards</p>
               <span className="rounded-full bg-green-500/10 px-2.5 py-0.5 text-xs font-medium text-green-600">Recommended</span>
             </div>
-            <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
+            <p className="mb-3 text-[15px] leading-relaxed text-muted-foreground">
               Max Rewards is a free app that connects to all your credit card
               accounts and shows you your total points balance across every
               program in one place. It also tells you which card to use for
               each purchase to maximize your rewards — so you&apos;re never
               leaving points on the table.
             </p>
-            <p className="text-sm leading-relaxed text-muted-foreground">
+            <p className="text-[15px] leading-relaxed text-muted-foreground">
               It also tracks your card benefits and reminds you of credits
               you haven&apos;t used yet. If you have a card with a $300 travel
               credit and you forget to use it before the year resets, that&apos;s
@@ -977,7 +839,7 @@ function LessonContent({
           </div>
 
           <div className="mb-8 flex flex-col gap-3">
-            <p className="font-semibold text-foreground">Other things worth tracking</p>
+            <p className="font-bold text-navy">Other things worth tracking</p>
             {[
               {
                 title: "Point expiration",
@@ -992,16 +854,16 @@ function LessonContent({
                 body: "Some cards give 3x–5x points on specific categories like dining, travel, or groceries. Knowing which card earns the most in each category — and actually using that card for those purchases — is the easiest way to earn more without spending more.",
               },
             ].map(({ title, body }) => (
-              <div key={title} className="rounded-xl border border-border p-4">
-                <p className="mb-1 text-sm font-semibold text-foreground">{title}</p>
-                <p className="text-sm leading-relaxed text-muted-foreground">{body}</p>
+              <div key={title} className="rounded-2xl bg-card ring-1 ring-border p-4">
+                <p className="mb-1 text-sm font-bold text-navy">{title}</p>
+                <p className="text-[15px] leading-relaxed text-muted-foreground">{body}</p>
               </div>
             ))}
           </div>
 
-          <div className="rounded-xl p-5 text-white" style={{ background: "var(--brand-600)" }}>
-            <p className="mb-1 font-bold">Keep it simple</p>
-            <p className="text-sm leading-relaxed text-white/85">
+          <div className="rounded-2xl p-5 text-white bg-navy-deep sm:p-6">
+            <p className="mb-1 font-bold text-brass">Keep it simple</p>
+            <p className="text-[15px] leading-relaxed text-[#c9d2e0]">
               Download Max Rewards, link your cards, and check it once a
               month. That&apos;s it. You don&apos;t need to obsess over every point —
               just make sure you&apos;re using the right card for each purchase
@@ -1075,14 +937,14 @@ function LessonContent({
     case "bcs-1":
       return (
         <div>
-          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+          <p className="mb-3 text-xs font-bold tracking-[0.14em] text-[#7a5a22] uppercase">
             Building Your Card Stack · Lesson 1
           </p>
-          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="mb-8 text-3xl leading-[1.1] font-extrabold tracking-[-0.03em] text-navy sm:text-4xl">
             Why You Want 5+ Cards Eventually
           </h1>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             When most people hear &ldquo;5 credit cards,&rdquo; they think that sounds
             irresponsible. But the people who understand credit know that
             having more cards — managed correctly — actually makes your
@@ -1090,7 +952,7 @@ function LessonContent({
             more. It&apos;s about building the right structure over time.
           </p>
 
-          <p className="mb-8 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-8 text-[17px] leading-[1.75] text-[#3b4658]">
             The key word is eventually. You don&apos;t open 5 cards at once. You
             build your stack slowly — one or two cards a year — so each one
             adds to your history, your available credit, and your rewards
@@ -1120,11 +982,11 @@ function LessonContent({
                 icon: "🔒",
               },
             ].map(({ title, body, icon }) => (
-              <div key={title} className="flex gap-4 rounded-xl border border-border p-4">
+              <div key={title} className="flex gap-4 rounded-2xl bg-card ring-1 ring-border p-4">
                 <span className="text-xl">{icon}</span>
                 <div>
-                  <p className="mb-1 text-sm font-semibold text-foreground">{title}</p>
-                  <p className="text-sm leading-relaxed text-muted-foreground">{body}</p>
+                  <p className="mb-1 text-sm font-bold text-navy">{title}</p>
+                  <p className="text-[15px] leading-relaxed text-muted-foreground">{body}</p>
                 </div>
               </div>
             ))}
@@ -1132,15 +994,15 @@ function LessonContent({
 
           <StackUtilization />
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-3 font-semibold text-foreground">What about hard inquiries?</p>
-            <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-3 font-bold text-navy">What about hard inquiries?</p>
+            <p className="mb-3 text-[15px] leading-relaxed text-muted-foreground">
               Every time you apply for a new card, it triggers a hard inquiry
               which can drop your score by a few points temporarily. That&apos;s
               real — but it&apos;s also short-lived. Hard inquiries fall off after
               2 years and the score impact fades within a few months.
             </p>
-            <p className="text-sm leading-relaxed text-muted-foreground">
+            <p className="text-[15px] leading-relaxed text-muted-foreground">
               The long-term benefit of lower utilization and more credit
               history almost always outweighs the short-term dip from a
               hard pull. The key is spacing out applications — don&apos;t open
@@ -1148,9 +1010,9 @@ function LessonContent({
             </p>
           </div>
 
-          <div className="rounded-xl p-5 text-white" style={{ background: "var(--brand-600)" }}>
-            <p className="mb-1 font-bold">The timeline that works</p>
-            <p className="text-sm leading-relaxed text-white/85">
+          <div className="rounded-2xl p-5 text-white bg-navy-deep sm:p-6">
+            <p className="mb-1 font-bold text-brass">The timeline that works</p>
+            <p className="text-[15px] leading-relaxed text-[#c9d2e0]">
               Start with 1–2 no-fee cards to build your history. After 6–12
               months, add a rewards card. Keep going one card at a time, once
               or twice a year. By year 3–5 you&apos;ll have a solid stack, strong
@@ -1164,14 +1026,14 @@ function LessonContent({
     case "bcs-2":
       return (
         <div>
-          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+          <p className="mb-3 text-xs font-bold tracking-[0.14em] text-[#7a5a22] uppercase">
             Building Your Card Stack · Lesson 2
           </p>
-          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="mb-8 text-3xl leading-[1.1] font-extrabold tracking-[-0.03em] text-navy sm:text-4xl">
             A Card for Everything
           </h1>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             Once you have a few cards, the next step is using the right one
             for the right purchase. Not every card earns the same on every
             category. Putting your dining spend on a card that earns 4x
@@ -1179,7 +1041,7 @@ function LessonContent({
             the exact same meal.
           </p>
 
-          <p className="mb-8 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-8 text-[17px] leading-[1.75] text-[#3b4658]">
             The goal is to build a stack where every dollar you spend is going
             on the card that earns the most for that category. This is called
             optimizing your spend — and it&apos;s one of the fastest ways to rack
@@ -1187,7 +1049,7 @@ function LessonContent({
           </p>
 
           <div className="mb-8 flex flex-col gap-3">
-            <p className="font-semibold text-foreground">What a solid stack looks like</p>
+            <p className="font-bold text-navy">What a solid stack looks like</p>
             {[
               { category: "Dining & Groceries", card: "Amex Gold", rate: "4x points", why: "Best earning rate in these two categories — period." },
               { category: "Travel & Hotels", card: "Chase Sapphire Reserve", rate: "4x points", why: "On flights and hotels booked directly. Plus a $300 travel credit and lounge access." },
@@ -1195,13 +1057,13 @@ function LessonContent({
               { category: "Gas", card: "Costco Anywhere Visa / Citi Custom Cash", rate: "4–5%", why: "Gas-specific cards earn significantly more than general cards at the pump." },
               { category: "Hotels (Hyatt)", card: "World of Hyatt Card", rate: "4x at Hyatt", why: "If you stay at Hyatt, earning points directly speeds up free night redemptions." },
             ].map(({ category, card, rate, why }) => (
-              <div key={category} className="rounded-xl border border-border p-4">
+              <div key={category} className="rounded-2xl bg-card ring-1 ring-border p-4">
                 <div className="mb-2 flex items-start justify-between gap-2">
                   <div>
                     <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{category}</p>
-                    <p className="mt-0.5 font-semibold text-foreground">{card}</p>
+                    <p className="mt-0.5 font-bold text-navy">{card}</p>
                   </div>
-                  <span className="shrink-0 rounded-full px-2.5 py-0.5 text-xs font-bold text-white" style={{ background: "var(--brand-600)" }}>{rate}</span>
+                  <span className="shrink-0 rounded-full px-2.5 py-0.5 text-xs font-bold text-white bg-navy">{rate}</span>
                 </div>
                 <p className="text-sm text-muted-foreground">{why}</p>
               </div>
@@ -1210,9 +1072,9 @@ function LessonContent({
 
           <CardForEverything />
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-2 font-semibold text-foreground">Let the app do the thinking</p>
-            <p className="text-sm leading-relaxed text-muted-foreground">
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-2 font-bold text-navy">Let the app do the thinking</p>
+            <p className="text-[15px] leading-relaxed text-muted-foreground">
               You don&apos;t need to memorize which card earns what. Max Rewards
               looks at your card stack and tells you — in real time — which
               card to pull out for each purchase. Tap the category, it shows
@@ -1220,7 +1082,7 @@ function LessonContent({
             </p>
           </div>
 
-          <p className="text-base leading-relaxed text-muted-foreground">
+          <p className="text-[17px] leading-[1.75] text-[#3b4658]">
             You don&apos;t need all of these cards right now. The point is to
             understand the concept — every dollar should work as hard as
             possible. As you add cards over time, fill in the gaps in your
@@ -1233,14 +1095,14 @@ function LessonContent({
     case "bcs-3":
       return (
         <div>
-          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+          <p className="mb-3 text-xs font-bold tracking-[0.14em] text-[#7a5a22] uppercase">
             Building Your Card Stack · Lesson 3
           </p>
-          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="mb-8 text-3xl leading-[1.1] font-extrabold tracking-[-0.03em] text-navy sm:text-4xl">
             Military Benefits
           </h1>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             If you&apos;re active duty military, you have access to credit card
             benefits that most civilians never get. Two federal laws —
             SCRA and MLA — protect you. And several major card issuers go
@@ -1250,12 +1112,12 @@ function LessonContent({
           </p>
 
           <div className="mb-8 flex flex-col gap-4">
-            <div className="rounded-xl border border-border p-5">
+            <div className="rounded-2xl bg-card ring-1 ring-border p-5">
               <div className="mb-1 flex items-center justify-between">
-                <p className="font-bold text-foreground">SCRA — Servicemembers Civil Relief Act</p>
+                <p className="font-bold text-navy">SCRA — Servicemembers Civil Relief Act</p>
               </div>
               <p className="mb-2 text-xs text-muted-foreground">Applies to debt you had before active duty</p>
-              <p className="text-sm leading-relaxed text-muted-foreground">
+              <p className="text-[15px] leading-relaxed text-muted-foreground">
                 If you had credit card debt before you went on active duty,
                 SCRA caps the interest rate on that debt at 6% — no matter
                 what your original APR was. If your card was charging 24%,
@@ -1264,12 +1126,12 @@ function LessonContent({
               </p>
             </div>
 
-            <div className="rounded-xl border border-border p-5">
+            <div className="rounded-2xl bg-card ring-1 ring-border p-5">
               <div className="mb-1 flex items-center justify-between">
-                <p className="font-bold text-foreground">MLA — Military Lending Act</p>
+                <p className="font-bold text-navy">MLA — Military Lending Act</p>
               </div>
               <p className="mb-2 text-xs text-muted-foreground">Applies to new credit taken out while on active duty</p>
-              <p className="text-sm leading-relaxed text-muted-foreground">
+              <p className="text-[15px] leading-relaxed text-muted-foreground">
                 The MLA caps the Military Annual Percentage Rate (MAPR) at
                 36% on new consumer credit — including credit cards — for
                 active duty members and their dependents. It also prohibits
@@ -1279,8 +1141,8 @@ function LessonContent({
             </div>
           </div>
 
-          <p className="mb-4 font-semibold text-foreground">Annual fee waivers — the big one</p>
-          <p className="mb-5 text-sm leading-relaxed text-muted-foreground">
+          <p className="mb-4 font-bold text-navy">Annual fee waivers — the big one</p>
+          <p className="mb-5 text-[15px] leading-relaxed text-muted-foreground">
             Several major issuers waive annual fees for active duty
             servicemembers under SCRA and their own policies. This is
             massive — it means you can hold premium cards that would cost
@@ -1314,17 +1176,16 @@ function LessonContent({
                 highlight: false,
               },
             ].map(({ issuer, benefit, detail, highlight }) => (
-              <div key={issuer} className={`rounded-xl border p-4 ${highlight ? "border-border" : "border-border"}`}
-                style={highlight ? { borderColor: "color-mix(in srgb, var(--brand-600) 25%, transparent)" } : {}}>
+              <div key={issuer} className={`rounded-2xl bg-card p-4 ring-1 ${highlight ? "ring-navy/40" : "ring-border"}`}>
                 <div className="mb-1 flex items-start justify-between gap-2">
-                  <p className="font-semibold text-foreground">{issuer}</p>
+                  <p className="font-bold text-navy">{issuer}</p>
                   {highlight && (
-                    <span className="shrink-0 rounded-full px-2 py-0.5 text-[10px] font-bold text-white" style={{ background: "var(--brand-600)" }}>
+                    <span className="shrink-0 rounded-full px-2 py-0.5 text-[10px] font-bold text-white bg-navy">
                       Best benefit
                     </span>
                   )}
                 </div>
-                <p className="mb-1 text-sm font-medium text-foreground">{benefit}</p>
+                <p className="mb-1 text-sm font-semibold text-navy">{benefit}</p>
                 <p className="text-xs leading-relaxed text-muted-foreground">{detail}</p>
               </div>
             ))}
@@ -1332,9 +1193,9 @@ function LessonContent({
 
           <FeeWaivers />
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-2 font-semibold text-foreground">Navy Federal & USAA</p>
-            <p className="text-sm leading-relaxed text-muted-foreground">
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-2 font-bold text-navy">Navy Federal & USAA</p>
+            <p className="text-[15px] leading-relaxed text-muted-foreground">
               Both Navy Federal Credit Union and USAA exist specifically to
               serve military members and their families. They offer strong
               cards, competitive rates, and member-friendly policies. If you
@@ -1343,9 +1204,9 @@ function LessonContent({
             </p>
           </div>
 
-          <div className="rounded-xl p-5 text-white" style={{ background: "var(--brand-600)" }}>
-            <p className="mb-1 font-bold">Don&apos;t leave this on the table</p>
-            <p className="text-sm leading-relaxed text-white/85">
+          <div className="rounded-2xl p-5 text-white bg-navy-deep sm:p-6">
+            <p className="mb-1 font-bold text-brass">Don&apos;t leave this on the table</p>
+            <p className="text-[15px] leading-relaxed text-[#c9d2e0]">
               If you&apos;re active duty, call your card issuers and ask about
               SCRA benefits. You usually have to request them — they won&apos;t
               always apply automatically. This could eliminate hundreds of
@@ -1425,10 +1286,10 @@ function LessonContent({
     default:
       return (
         <div>
-          <h1 className="mb-6 text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="mb-6 text-3xl leading-[1.1] font-extrabold tracking-[-0.03em] text-navy sm:text-4xl">
             Coming Soon
           </h1>
-          <p className="text-base leading-relaxed text-muted-foreground">
+          <p className="text-[17px] leading-[1.75] text-[#3b4658]">
             This lesson is still being written. Check back soon.
           </p>
         </div>
