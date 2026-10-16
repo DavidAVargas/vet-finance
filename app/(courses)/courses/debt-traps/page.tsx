@@ -541,8 +541,9 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
           </p>
 
           <p className="mb-8 text-base leading-relaxed text-muted-foreground">
-            Medical debt is the number one cause of personal bankruptcy in
-            America. Not because the care is always that expensive — but
+            Medical bills are one of the most common reasons Americans fall
+            behind on debt, and for some families they lead all the way to
+            bankruptcy. Not because the care is always that expensive — but
             because most people don&apos;t know they have options.
           </p>
 
@@ -860,7 +861,7 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
           <div className="mb-8 rounded-xl border border-border p-5">
             <p className="mb-3 font-semibold text-foreground">Income-driven repayment — your safety net</p>
             <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
-              If your federal loan payments feel unmanageable, income-driven repayment (IDR) sets your monthly payment based on your income instead of how much you owe. The rules changed in 2025: loans taken out after July 1, 2026 use the new Repayment Assistance Plan (RAP), with payments of 1–10% of your income (at least $10 a month). Older loans can still use Income-Based Repayment (IBR), and the SAVE plan is being phased out. Check studentaid.gov to see which plan fits your loans.
+              If your federal loan payments feel unmanageable, income-driven repayment (IDR) sets your monthly payment based on your income instead of how much you owe. The rules changed in 2025: loans taken out after July 1, 2026 use the new Repayment Assistance Plan (RAP), with payments of 1–10% of your income (at least $10 a month). Older loans can still use Income-Based Repayment (IBR), and the SAVE plan has ended. If you were on SAVE, your servicer will ask you to pick a new plan; if you don&apos;t, you&apos;ll be moved to a standard plan. Check studentaid.gov to see which plan fits your loans.
             </p>
             <p className="text-sm leading-relaxed text-muted-foreground">
               After 20–25 years on IBR, or 30 years on RAP, any remaining balance is forgiven. It&apos;s not the fastest way out — but it
@@ -1042,7 +1043,7 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
                 "Automatically deducts payments from your paycheck",
               ],
               correct: 1,
-              explanation: "IDR plans cap payments at 5–10% of discretionary income. If you're earning $40k/year, your payment could be $50–$100/month even on a large balance. After 20–25 years, the remaining balance is forgiven.",
+              explanation: "IDR plans set your payment by income, not by how much you owe. On the new RAP plan, someone earning $45,000 a year pays 4% of their income (about $150 a month, minus $50 for each dependent), even on a large balance. Whatever is left is forgiven after 20–25 years on IBR or 30 years on RAP.",
             },
             {
               question: "As an active duty servicemember deployed to a combat zone, what happens to your federal student loan interest?",
