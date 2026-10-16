@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useState, useOptimistic, startTransition } from "react";
-import { useUser } from "@clerk/nextjs";
-import { ArrowUp, ChevronLeft, Loader2, Send } from "lucide-react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
+import { ArrowUp, ChevronLeft, Loader2, MessageSquare, Send } from "lucide-react";
 import { SkipLink } from "@/components/layout/SkipLink";
+import { Logo } from "@/components/layout/Logo";
 import { AccountButton } from "@/components/layout/AccountButton";
+import { cn } from "@/lib/utils";
 
 type Post = {
   id: string;
@@ -18,37 +19,13 @@ type Post = {
 };
 
 const CATEGORIES = [
-  {
-    value: "general",
-    label: "General",
-    color: "bg-muted text-muted-foreground",
-  },
-  {
-    value: "feature",
-    label: "Feature idea",
-    color: "bg-blue-500/10 text-blue-600 dark:text-blue-400",
-  },
-  {
-    value: "bug",
-    label: "Bug",
-    color: "bg-red-500/10 text-red-600 dark:text-red-400",
-  },
-  {
-    value: "content",
-    label: "Content",
-    color: "bg-amber-500/10 text-amber-600 dark:text-amber-400",
-  },
+  { value: "general", label: "General", color: "bg-secondary text-navy" },
+  { value: "feature", label: "Feature idea", color: "bg-blue-500/10 text-blue-700" },
+  { value: "bug", label: "Bug", color: "bg-red-500/10 text-red-700" },
+  { value: "content", label: "Content", color: "bg-amber-500/15 text-amber-800" },
 ];
 
-function categoryStyle(value: string) {
-  return (
-    CATEGORIES.find((c) => c.value === value)?.color ??
-    "bg-muted text-muted-foreground"
-  );
-}
-function categoryLabel(value: string) {
-  return CATEGORIES.find((c) => c.value === value)?.label ?? value;
-}
+const categoryOf = (value: string) => CATEGORIES.find((c) => c.value === value) ?? CATEGORIES[0];
 
 function timeAgo(dateStr: string) {
   const diff = Date.now() - new Date(dateStr).getTime();
@@ -61,18 +38,19 @@ function timeAgo(dateStr: string) {
 }
 
 export default function FeedbackPage() {
-  const { user } = useUser();
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
   const [content, setContent] = useState("");
   const [category, setCategory] = useState("general");
   const [submitting, setSubmitting] = useState(false);
+  const [postError, setPostError] = useState("");
+  const [justPosted, setJustPosted] = useState(false);
   const [filter, setFilter] = useState("all");
   const [sort, setSort] = useState<"top" | "new">("top");
 
   useEffect(() => {
     fetch("/api/feedback")
-      .then((r) => r.json())
+      .then((r) => (r.ok ? r.json() : []))
       .then((data) => {
         setPosts(data);
         setLoading(false);
@@ -84,6 +62,7 @@ export default function FeedbackPage() {
     e.preventDefault();
     if (!content.trim() || submitting) return;
     setSubmitting(true);
+    setPostError("");
 
     const res = await fetch("/api/feedback", {
       method: "POST",
@@ -95,6 +74,10 @@ export default function FeedbackPage() {
       const newPost = await res.json();
       setPosts((prev) => [newPost, ...prev]);
       setContent("");
+      setJustPosted(true);
+      setTimeout(() => setJustPosted(false), 3000);
+    } else {
+      setPostError("That didn't go through. Try again in a moment.");
     }
     setSubmitting(false);
   };
@@ -103,143 +86,130 @@ export default function FeedbackPage() {
     setPosts((prev) =>
       prev.map((p) =>
         p.id === postId
-          ? {
-              ...p,
-              upvotedByMe: !p.upvotedByMe,
-              upvoteCount: p.upvotedByMe
-                ? p.upvoteCount - 1
-                : p.upvoteCount + 1,
-            }
+          ? { ...p, upvotedByMe: !p.upvotedByMe, upvoteCount: p.upvotedByMe ? p.upvoteCount - 1 : p.upvoteCount + 1 }
           : p,
       ),
     );
-
     await fetch(`/api/feedback/${postId}/upvote`, { method: "POST" });
   };
 
-  const filtered = (
-    filter === "all" ? posts : posts.filter((p) => p.category === filter)
-  )
+  const filtered = (filter === "all" ? posts : posts.filter((p) => p.category === filter))
     .slice()
     .sort((a, b) =>
       sort === "new"
         ? b.createdAt.localeCompare(a.createdAt)
-        : b.upvoteCount - a.upvoteCount ||
-          b.createdAt.localeCompare(a.createdAt),
+        : b.upvoteCount - a.upvoteCount || b.createdAt.localeCompare(a.createdAt),
     );
 
+  const tabs = [{ value: "all", label: "All" }, ...CATEGORIES];
+
   return (
-    <div className="bg-background flex min-h-[100dvh] flex-col">
+    <div className="flex min-h-[100dvh] flex-col bg-surface">
       <SkipLink targetId="main-content" />
-      <header className="border-border flex h-14 items-center justify-between border-b px-6">
-        <Link
-          href="/courses"
-          className="text-muted-foreground hover:text-foreground flex items-center gap-2 text-sm font-medium transition-colors"
-        >
-          <ChevronLeft className="size-4" />
-          Back to courses
-        </Link>
-        <AccountButton />
+
+      {/* Top bar */}
+      <header className="border-b border-border bg-card">
+        <div className="mx-auto flex h-[4.5rem] max-w-site items-center justify-between gap-4 px-4 sm:px-6">
+          <Link href="/" aria-label="Vet Finance home" className="rounded-md">
+            <Logo />
+          </Link>
+          <div className="flex items-center gap-3">
+            <Link
+              href="/courses"
+              className="flex items-center gap-1 rounded-full border border-border bg-card px-3.5 py-2 text-sm font-medium text-navy transition-colors hover:bg-secondary"
+            >
+              <ChevronLeft className="size-4" aria-hidden="true" />
+              My courses
+            </Link>
+            <AccountButton />
+          </div>
+        </div>
       </header>
 
-      <main
-        id="main-content"
-        tabIndex={-1}
-        className="flex-1 px-6 py-10 outline-none"
-      >
-        <div className="mx-auto max-w-2xl">
-          {/* Header */}
-          <div className="mb-8">
-            <p className="text-muted-foreground mb-1 text-sm">Beta feedback</p>
-            <h1 className="text-foreground text-2xl font-bold tracking-tight">
+      <main id="main-content" tabIndex={-1} className="flex-1 outline-none">
+        {/* Intro */}
+        <section className="border-b border-border bg-card">
+          <div className="mx-auto max-w-2xl px-4 py-12 sm:px-6 lg:py-14">
+            <p className="text-sm font-semibold tracking-[0.14em] text-[#7a5a22] uppercase">Beta feedback</p>
+            <h1 className="mt-3 text-4xl font-extrabold tracking-[-0.03em] text-navy sm:text-[2.75rem]">
               What do you think?
             </h1>
-            <p className="text-muted-foreground mt-1.5 text-sm">
-              Your feedback shapes what gets built next. Upvote what others said
-              if you feel the same.
+            <p className="mt-3 text-[17px] leading-relaxed text-[#3b4658]">
+              Your feedback shapes what gets built next. Tell us what&apos;s working, what&apos;s not, and upvote
+              the ideas you agree with.
             </p>
           </div>
+        </section>
 
+        <div className="mx-auto max-w-2xl px-4 py-10 sm:px-6">
           {/* Post form */}
-          <div className="border-border bg-background mb-8 rounded-xl border p-5">
-            <label
-              htmlFor="feedback-content"
-              className="text-foreground mb-3 block text-sm font-medium"
-            >
+          <form onSubmit={handleSubmit} className="rounded-2xl bg-card p-5 ring-1 ring-border sm:p-6">
+            <label htmlFor="feedback-content" className="block font-bold text-navy">
               Share your feedback
             </label>
-            <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-              <textarea
-                id="feedback-content"
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
-                placeholder="What's working, what's not, or what you wish existed..."
-                rows={3}
-                className="border-border bg-muted/30 text-foreground placeholder:text-muted-foreground/50 focus:border-foreground focus:ring-ring w-full resize-none rounded-xl border px-4 py-3 text-sm transition-colors outline-none focus:ring-2"
-              />
-              <div className="flex items-center justify-between gap-3">
-                <div className="flex flex-wrap gap-2">
-                  {CATEGORIES.map((c) => (
-                    <button
-                      key={c.value}
-                      type="button"
-                      onClick={() => setCategory(c.value)}
-                      aria-pressed={category === c.value}
-                      className={`rounded-full px-2.5 py-1 text-xs font-medium transition-all ${
-                        category === c.value
-                          ? c.color + " ring-1 ring-current/20"
-                          : "bg-muted text-muted-foreground hover:text-foreground"
-                      }`}
-                    >
-                      {c.label}
-                    </button>
-                  ))}
-                </div>
-                <button
-                  type="submit"
-                  disabled={!content.trim() || submitting}
-                  className="flex shrink-0 items-center gap-1.5 rounded-xl px-4 py-2 text-sm font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-40"
-                  style={{ background: "var(--brand-600)" }}
-                >
-                  {submitting ? (
-                    <Loader2 className="size-3.5 animate-spin" />
-                  ) : (
-                    <Send className="size-3.5" />
-                  )}
-                  Post
-                </button>
+            <textarea
+              id="feedback-content"
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              placeholder="What's working, what's not, or what you wish existed…"
+              rows={4}
+              className="mt-3 w-full resize-none rounded-xl border border-input bg-surface px-4 py-3 text-[15px] text-navy transition-colors outline-none placeholder:text-muted-foreground focus:border-navy focus:bg-card focus:ring-2 focus:ring-ring"
+            />
+            <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
+              <div role="group" aria-label="Category" className="flex flex-wrap gap-2">
+                {CATEGORIES.map((c) => (
+                  <button
+                    key={c.value}
+                    type="button"
+                    onClick={() => setCategory(c.value)}
+                    aria-pressed={category === c.value}
+                    className={cn(
+                      "rounded-full px-3 py-1.5 text-xs font-semibold transition-colors",
+                      category === c.value ? "bg-navy text-white" : "bg-secondary text-navy hover:bg-secondary/70",
+                    )}
+                  >
+                    {c.label}
+                  </button>
+                ))}
               </div>
-            </form>
-          </div>
+              <button
+                type="submit"
+                disabled={!content.trim() || submitting}
+                className="flex h-11 shrink-0 items-center gap-2 rounded-full bg-navy px-6 text-sm font-semibold text-white transition-colors hover:bg-navy/90 disabled:opacity-40"
+              >
+                {submitting ? (
+                  <Loader2 className="size-4 animate-spin" aria-hidden="true" />
+                ) : (
+                  <Send className="size-4" aria-hidden="true" />
+                )}
+                Post
+              </button>
+            </div>
+            <p aria-live="polite" className="text-sm">
+              {postError && <span className="mt-3 block font-medium text-[#b42318]">{postError}</span>}
+              {justPosted && <span className="mt-3 block font-medium text-emerald-700">Thanks. Your feedback is posted.</span>}
+            </p>
+          </form>
 
-          {/* Filter tabs + sort */}
-          <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
-            <div className="flex items-center gap-2 overflow-x-auto pb-1">
-              {(
-                [{ value: "all", label: "All" }, ...CATEGORIES] as {
-                  value: string;
-                  label: string;
-                }[]
-              ).map((c) => (
+          {/* Filters + sort */}
+          <div className="mt-10 mb-5 flex flex-wrap items-center justify-between gap-3">
+            <div className="flex flex-wrap items-center gap-1.5">
+              {tabs.map((c) => (
                 <button
                   key={c.value}
+                  type="button"
                   onClick={() => setFilter(c.value)}
                   aria-pressed={filter === c.value}
-                  className={`shrink-0 rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
-                    filter === c.value
-                      ? "bg-foreground text-background"
-                      : "bg-muted text-muted-foreground hover:text-foreground"
-                  }`}
+                  className={cn(
+                    "shrink-0 rounded-full px-3 py-1.5 text-sm font-semibold transition-colors sm:px-3.5",
+                    filter === c.value ? "bg-navy text-white" : "text-navy hover:bg-secondary",
+                  )}
                 >
                   {c.label}
                 </button>
               ))}
             </div>
-            <div
-              role="group"
-              aria-label="Sort feedback"
-              className="bg-muted flex shrink-0 rounded-full p-0.5 text-xs font-medium"
-            >
+            <div role="group" aria-label="Sort feedback" className="flex shrink-0 rounded-full bg-card p-1 text-sm font-semibold ring-1 ring-border">
               {(
                 [
                   ["top", "Top"],
@@ -251,11 +221,10 @@ export default function FeedbackPage() {
                   type="button"
                   onClick={() => setSort(value)}
                   aria-pressed={sort === value}
-                  className={`rounded-full px-3 py-1 transition-colors ${
-                    sort === value
-                      ? "bg-background text-foreground shadow-sm"
-                      : "text-muted-foreground hover:text-foreground"
-                  }`}
+                  className={cn(
+                    "rounded-full px-3.5 py-1 transition-colors",
+                    sort === value ? "bg-secondary text-navy" : "text-muted-foreground hover:text-navy",
+                  )}
                 >
                   {label}
                 </button>
@@ -266,61 +235,45 @@ export default function FeedbackPage() {
           {/* Posts */}
           {loading ? (
             <div className="flex items-center justify-center py-16">
-              <Loader2 className="text-muted-foreground size-5 animate-spin" />
+              <Loader2 className="size-5 animate-spin text-muted-foreground" aria-label="Loading feedback" />
             </div>
           ) : filtered.length === 0 ? (
-            <div className="text-muted-foreground py-16 text-center text-sm">
-              No feedback yet — be the first to share.
+            <div className="rounded-2xl border border-dashed border-border py-14 text-center">
+              <MessageSquare className="mx-auto size-6 text-muted-foreground" aria-hidden="true" />
+              <p className="mt-3 font-semibold text-navy">Nothing here yet</p>
+              <p className="mt-1 text-sm text-muted-foreground">Be the first to share what you think.</p>
             </div>
           ) : (
-            <div className="flex flex-col gap-3">
-              {filtered.map((post) => (
-                <div
-                  key={post.id}
-                  className="border-border bg-background flex gap-4 rounded-xl border p-5"
-                >
-                  {/* Upvote */}
-                  <button
-                    onClick={() => handleUpvote(post.id)}
-                    aria-pressed={post.upvotedByMe}
-                    aria-label={`Upvote, ${post.upvoteCount} vote${post.upvoteCount === 1 ? "" : "s"}`}
-                    className={`flex shrink-0 flex-col items-center gap-0.5 rounded-lg p-2 text-xs font-semibold transition-colors ${
-                      post.upvotedByMe
-                        ? "text-white"
-                        : "text-muted-foreground hover:text-foreground"
-                    }`}
-                    style={
-                      post.upvotedByMe
-                        ? { background: "var(--brand-600)" }
-                        : undefined
-                    }
-                  >
-                    <ArrowUp className="size-3.5" />
-                    {post.upvoteCount}
-                  </button>
-
-                  {/* Content */}
-                  <div className="min-w-0 flex-1">
-                    <div className="mb-1.5 flex flex-wrap items-center gap-2">
-                      <span className="text-foreground text-sm font-medium">
-                        {post.authorName}
-                      </span>
-                      <span
-                        className={`rounded-full px-2 py-0.5 text-[11px] font-medium ${categoryStyle(post.category)}`}
-                      >
-                        {categoryLabel(post.category)}
-                      </span>
-                      <span className="text-muted-foreground text-xs">
-                        {timeAgo(post.createdAt)}
-                      </span>
+            <ul className="flex flex-col gap-3">
+              {filtered.map((post) => {
+                const cat = categoryOf(post.category);
+                return (
+                  <li key={post.id} className="flex gap-4 rounded-2xl bg-card p-5 ring-1 ring-border">
+                    <button
+                      type="button"
+                      onClick={() => handleUpvote(post.id)}
+                      aria-pressed={post.upvotedByMe}
+                      aria-label={`Upvote, ${post.upvoteCount} vote${post.upvoteCount === 1 ? "" : "s"}`}
+                      className={cn(
+                        "flex h-14 w-12 shrink-0 flex-col items-center justify-center gap-0.5 rounded-xl text-sm font-bold transition-colors",
+                        post.upvotedByMe ? "bg-navy text-white" : "bg-secondary text-navy hover:bg-secondary/70",
+                      )}
+                    >
+                      <ArrowUp className={cn("size-4", post.upvotedByMe && "text-brass")} aria-hidden="true" />
+                      {post.upvoteCount}
+                    </button>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                        <span className="font-semibold text-navy">{post.authorName}</span>
+                        <span className={cn("rounded-full px-2 py-0.5 text-[11px] font-semibold", cat.color)}>{cat.label}</span>
+                        <span className="text-xs text-muted-foreground">{timeAgo(post.createdAt)}</span>
+                      </div>
+                      <p className="mt-1.5 text-[15px] leading-relaxed whitespace-pre-line text-[#3b4658]">{post.content}</p>
                     </div>
-                    <p className="text-muted-foreground text-sm leading-relaxed">
-                      {post.content}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
+                  </li>
+                );
+              })}
+            </ul>
           )}
         </div>
       </main>
