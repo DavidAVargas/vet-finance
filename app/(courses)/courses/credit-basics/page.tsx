@@ -1,8 +1,7 @@
 "use client";
 
 import { CourseShell } from "@/components/courses/CourseShell";
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import { QuizBlock } from "@/components/courses/QuizBlock";
 import { CreditDoors } from "@/components/lesson-visuals/credit-basics/CreditDoors";
 import { BadCreditCycle } from "@/components/lesson-visuals/credit-basics/BadCreditCycle";
 import { SameThingDifferentPrice } from "@/components/lesson-visuals/credit-basics/SameThingDifferentPrice";
@@ -75,142 +74,6 @@ const SECTIONS = [
   },
 ];
 
-// ─── Quiz component ──────────────────────────────────────────────────────────
-
-interface QuizQuestion {
-  question: string;
-  options: string[];
-  correct: number;
-  explanation: string;
-}
-
-function QuizBlock({ sectionLabel, questions, onPass }: {
-  sectionLabel: string;
-  questions: QuizQuestion[];
-  onPass?: () => void;
-}) {
-  const [selected, setSelected] = useState<Record<number, number>>({});
-  const [submitted, setSubmitted] = useState(false);
-  const [passed, setPassed] = useState(false);
-
-  const allAnswered = questions.every((_, i) => selected[i] !== undefined);
-  const score = questions.filter((q, i) => selected[i] === q.correct).length;
-  const passThreshold = Math.ceil(questions.length * (2 / 3));
-
-  const handleSubmit = () => {
-    const didPass = score >= passThreshold;
-    setSubmitted(true);
-    setPassed(didPass);
-    if (didPass) onPass?.();
-  };
-
-  const handleRetry = () => {
-    setSelected({});
-    setSubmitted(false);
-    setPassed(false);
-  };
-
-  return (
-    <div>
-      <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-        {sectionLabel} · Quiz
-      </p>
-      <h1 className="mb-2 text-3xl font-bold tracking-tight text-foreground">
-        Knowledge Check
-      </h1>
-      <p className="mb-8 text-base text-muted-foreground">
-        Answer all questions to unlock the next section. You need {passThreshold} out of {questions.length} to pass.
-      </p>
-
-      <div className="flex flex-col gap-8">
-        {questions.map((q, qi) => {
-          const isAnswered = selected[qi] !== undefined;
-          const isCorrect = submitted && selected[qi] === q.correct;
-          const isWrong = submitted && isAnswered && selected[qi] !== q.correct;
-
-          return (
-            <div key={qi}>
-              <p className="mb-3 font-semibold text-foreground">
-                <span className="mr-2 font-mono text-xs text-muted-foreground/60">{qi + 1}.</span>
-                {q.question}
-              </p>
-              <div className="flex flex-col gap-2">
-                {q.options.map((opt, oi) => {
-                  const isSelected = selected[qi] === oi;
-                  const isCorrectOption = submitted && oi === q.correct;
-                  const isWrongSelected = submitted && isSelected && oi !== q.correct;
-
-                  return (
-                    <button
-                      key={oi}
-                      disabled={submitted}
-                      onClick={() => !submitted && setSelected((prev) => ({ ...prev, [qi]: oi }))}
-                      aria-pressed={isSelected}
-                      className={`flex items-center gap-3 rounded-lg border px-4 py-3 text-left text-sm transition-colors ${
-                        isCorrectOption
-                          ? "border-green-500 bg-green-500/10 text-foreground"
-                          : isWrongSelected
-                          ? "border-red-400 bg-red-400/10 text-foreground"
-                          : isSelected
-                          ? "border-foreground bg-muted text-foreground"
-                          : "border-border text-muted-foreground hover:border-foreground/40 hover:text-foreground"
-                      } ${submitted ? "cursor-default" : "cursor-pointer"}`}
-                    >
-                      <span className={`flex size-5 shrink-0 items-center justify-center rounded-full border text-xs font-medium ${
-                        isCorrectOption
-                          ? "border-green-500 bg-green-500 text-white"
-                          : isWrongSelected
-                          ? "border-red-400 bg-red-400 text-white"
-                          : isSelected
-                          ? "border-foreground bg-foreground text-background"
-                          : "border-border"
-                      }`}>
-                        {isCorrectOption ? "✓" : isWrongSelected ? "✗" : String.fromCharCode(65 + oi)}
-                      </span>
-                      {opt}
-                    </button>
-                  );
-                })}
-              </div>
-              {submitted && (
-                <p className={`mt-3 rounded-lg px-3 py-2 text-sm ${isCorrect ? "bg-green-500/10 text-green-700 dark:text-green-400" : "bg-muted text-muted-foreground"}`}>
-                  {q.explanation}
-                </p>
-              )}
-            </div>
-          );
-        })}
-      </div>
-
-      {/* Result */}
-      {submitted ? (
-        <div className={`mt-8 rounded-xl border p-5 text-center ${passed ? "border-green-500 bg-green-500/10" : "border-border bg-muted/30"}`}>
-          {passed ? (
-            <>
-              <p className="text-lg font-bold text-foreground">You passed! {score}/{questions.length} correct.</p>
-              <p className="mt-1 text-sm text-muted-foreground">The next section is now unlocked.</p>
-            </>
-          ) : (
-            <>
-              <p className="text-lg font-bold text-foreground">{score}/{questions.length} correct — not quite.</p>
-              <p className="mt-1 mb-4 text-sm text-muted-foreground">Review the lessons above and try again.</p>
-              <Button size="sm" variant="outline" onClick={handleRetry}>Try Again</Button>
-            </>
-          )}
-        </div>
-      ) : (
-        <Button
-          className="mt-8"
-          disabled={!allAnswered}
-          onClick={handleSubmit}
-        >
-          Submit Answers
-        </Button>
-      )}
-    </div>
-  );
-}
-
 // ─── Lesson content ──────────────────────────────────────────────────────────
 
 function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?: () => void }) {
@@ -218,24 +81,24 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
     case "my-story-1":
       return (
         <div>
-          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+          <p className="mb-3 text-xs font-bold tracking-[0.14em] text-[#7a5a22] uppercase">
             My Story · Lesson 1
           </p>
-          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="mb-8 text-3xl leading-[1.1] font-extrabold tracking-[-0.03em] text-navy sm:text-4xl">
             Why I Built This
           </h1>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             After learning about credit, I honestly can&apos;t stop talking about it.
           </p>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             When I meet new people, one of the first things I ask is what kind
             of credit cards they have. I know, a little personal. But you&apos;d
             be surprised how many people actually answer.
           </p>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             And it gets me every time. Most people say they don&apos;t have a credit
             card at all. I&apos;m talking about people from their early 20s to all the way
             to their late 40s. Or they&apos;ll say they only have one. Some even say
@@ -246,7 +109,7 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             difference has meant in my own life.
           </p>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             It feels like knowing a secret that could actually help someone and
             just keeping it to yourself. So I started doing something about it.
             I began trying to help the people I met who seemed like they needed
@@ -259,7 +122,7 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             coworkers. And I&apos;m genuinely proud of that.
           </p>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             The issue was I kept having to repeat myself. Every new person, same
             conversation from the start. It started getting a little tedious. I
             thought about putting it all into a Google Slides presentation so I
@@ -267,11 +130,11 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             and do this properly.
           </p>
 
-          <p className="mb-5 text-base font-medium leading-relaxed text-foreground">
+          <p className="mb-5 text-lg leading-relaxed font-semibold text-navy">
             And that&apos;s when I started thinking bigger.
           </p>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             I started thinking about veterans. People who gave everything for
             this country and somehow end up without a home. I&apos;m not 100% sure
             of every reason that happens, but I have a strong feeling that
@@ -281,19 +144,19 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             can feel impossible. And nobody really teaches you how.
           </p>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             There&apos;s no shortage of information out there. YouTube, Google,
             podcasts. It&apos;s everywhere. But it&apos;s scattered, overwhelming, and
             most of it isn&apos;t built for someone starting from zero.
           </p>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             That&apos;s why this platform is free specifically for veterans. They
             gave everything for us and they deserve real help. None of them
             should be homeless. I think most people would agree with that.
           </p>
 
-          <p className="text-base leading-relaxed text-muted-foreground">
+          <p className="text-[17px] leading-[1.75] text-[#3b4658]">
             This isn&apos;t going to happen overnight. It takes work. But
             you&apos;re already here, and that&apos;s the first step.
           </p>
@@ -303,14 +166,14 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
     case "my-story-2":
       return (
         <div>
-          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+          <p className="mb-3 text-xs font-bold tracking-[0.14em] text-[#7a5a22] uppercase">
             My Story · Lesson 2
           </p>
-          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="mb-8 text-3xl leading-[1.1] font-extrabold tracking-[-0.03em] text-navy sm:text-4xl">
             Where I Was With Credit
           </h1>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             Just like most people, I had one credit card for years. A Chase bank
             card and a store credit card from a mall. And just like most people,
             I was scared to use them. I&apos;d use them here and there and pay them
@@ -318,17 +181,16 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             pretended they didn&apos;t exist.
           </p>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             Then one year things got rough. My mom got into a car accident.
             Thank God she was okay, but her car wasn&apos;t. She needed it to get
             to work, so I did what I had to do.
           </p>
 
           <div
-            className="mb-6 rounded-r-lg bg-muted/40 p-5"
-            style={{ borderLeft: "2px solid var(--brand-600)" }}
+            className="mb-6 rounded-r-2xl border-l-4 border-brass bg-surface p-5"
           >
-            <p className="italic leading-relaxed text-muted-foreground">
+            <p className="text-[17px] leading-[1.75] text-navy italic">
               I put $8,000 on my credit cards to help fix her car. My
               Apple Card was maxed out at $5,000 and my Chase card was maxed
               out at $3,000. Both completely maxed. And I had no idea what I
@@ -336,14 +198,14 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             </p>
           </div>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             I tried doing the right thing. I paid what I could every month. But
             I didn&apos;t understand how interest worked. No matter what I paid, it
             felt like the balance barely moved. The interest kept canceling out
             whatever I was putting in. It was like running on a treadmill.
           </p>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             My credit score dropped. The lowest I remember seeing it was 530.
             Before all of this I was around 630, which I always knew wasn&apos;t
             amazing but felt okay. Seeing 530 was different. I knew that if I
@@ -352,7 +214,7 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             started actually learning.
           </p>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             I didn&apos;t let it go to collections. Instead I worked two full-time
             jobs, 80 hours a week, every week, for almost a year. And I was
             doing this completely alone. I was living in a different state, far
@@ -363,7 +225,7 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             second job. There was no other option.
           </p>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             It was really hard. But it was worth every bit of it. I had one
             goal the entire time and I kept my eyes on it: the Chase Sapphire
             Reserve. I always wanted to travel, and I knew it was one of the
@@ -372,7 +234,7 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             fix my credit to ever have a shot at getting approved.
           </p>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             Once I paid everything off, I waited about three months and applied.
             I got approved. For those who don&apos;t know it, the Chase Sapphire
             Reserve is Chase&apos;s top-tier card. It&apos;s a travel card but really
@@ -382,7 +244,7 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             into all of that in the Credit Cards 101 course.
           </p>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             Getting to where I am now took about two to three years of real
             effort. Reading books, listening to podcasts, learning by actually
             doing it. I&apos;m not saying I know everything. But I can tell you that
@@ -391,7 +253,7 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             permanent.
           </p>
 
-          <p className="text-base leading-relaxed text-muted-foreground">
+          <p className="text-[17px] leading-[1.75] text-[#3b4658]">
             If I can do it, you can do it. It just takes some effort. And it
             helps a lot to have a goal, something you actually want, so you can
             keep your eyes on the prize when it gets hard. We&apos;ll talk more
@@ -403,25 +265,25 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
     case "my-story-3":
       return (
         <div>
-          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+          <p className="mb-3 text-xs font-bold tracking-[0.14em] text-[#7a5a22] uppercase">
             My Story · Lesson 3
           </p>
-          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="mb-8 text-3xl leading-[1.1] font-extrabold tracking-[-0.03em] text-navy sm:text-4xl">
             What This Course Will Do For You
           </h1>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             Let me be clear about something before we go any further.
           </p>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             This course is not going to fix your situation overnight. You
             already know that from my story. It doesn&apos;t work that way. It
             takes time, it takes effort, and it takes actually doing the work.
             But I can tell you from experience that it is worth every bit of it.
           </p>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             Everyone&apos;s situation is different. Hopefully you&apos;re not sitting on
             $50K or more in debt, but even if you are, I can at least give you
             a blueprint, a direction, somewhere to start. For those of you
@@ -431,7 +293,7 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             confident about.
           </p>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             The goal is to help you understand how credit works, why it matters,
             and how credit cards can work for you instead of against you. This
             stuff touches more of your life than most people realize. Rent
@@ -441,7 +303,7 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             life looks on the other side.
           </p>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             I&apos;m writing this in 2026. A lot of people are saying the economy is
             rough right now and they&apos;re not wrong. But honestly, because of what
             I know and how I move now, especially with how I use my credit cards,
@@ -453,7 +315,7 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             hit, it wouldn&apos;t go that low again. That&apos;s what I want for you.
           </p>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             No fluff. No filler. Just exactly what you need to know to get
             started and build from there. If you want to go harder after this,
             dig deeper, read more, learn more on your own, I encourage that.
@@ -462,7 +324,7 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             get into it, you won&apos;t want to stop.
           </p>
 
-          <p className="text-base font-medium leading-relaxed text-foreground">
+          <p className="text-lg leading-relaxed font-semibold text-navy">
             Alright. Let&apos;s get into it.
           </p>
         </div>
@@ -471,40 +333,39 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
     case "wcm-1":
       return (
         <div>
-          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+          <p className="mb-3 text-xs font-bold tracking-[0.14em] text-[#7a5a22] uppercase">
             Why Credit Matters · Lesson 1
           </p>
-          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="mb-8 text-3xl leading-[1.1] font-extrabold tracking-[-0.03em] text-navy sm:text-4xl">
             What Credit Unlocks
           </h1>
 
           <CreditDoors />
 
           <div
-            className="mb-8 rounded-r-lg bg-muted/40 p-5"
-            style={{ borderLeft: "2px solid var(--brand-600)" }}
+            className="mb-8 rounded-r-2xl border-l-4 border-brass bg-surface p-5"
           >
-            <p className="text-base font-medium leading-relaxed text-foreground">
+            <p className="text-lg leading-relaxed font-semibold text-navy">
               &ldquo;It&apos;s better to be broke and have good credit than to have
               $1 million in cash and bad credit.&rdquo;
             </p>
           </div>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             That might sound extreme, but think about it. Cash runs out. A
             credit score stays with you and gives you access to other
             people&apos;s money at low rates. Good credit is a tool that keeps
             working. Bad credit is a wall that follows you everywhere you go.
           </p>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             Most people think of credit as something you only need when you
             want a credit card. That&apos;s not even close to the full picture.
             Your credit score shows up in almost every major financial decision
             you&apos;ll ever make.
           </p>
 
-          <p className="mb-3 text-base font-semibold text-foreground">Here&apos;s what credit actually unlocks:</p>
+          <p className="mb-3 text-lg font-bold text-navy">Here&apos;s what credit actually unlocks:</p>
 
           <div className="mb-6 flex flex-col gap-4">
             {[
@@ -515,14 +376,14 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
               { title: "Some jobs", body: "Employers in finance, government, and security sometimes run credit checks as part of their hiring process. It doesn't happen everywhere, but it happens." },
               { title: "The best credit cards", body: "The cards with the best rewards, travel benefits, and perks require good credit to get approved. Building your credit is literally the price of admission." },
             ].map(({ title, body }) => (
-              <div key={title} className="rounded-lg border border-border bg-muted/20 p-4">
-                <p className="mb-1 font-semibold text-foreground">{title}</p>
-                <p className="text-sm leading-relaxed text-muted-foreground">{body}</p>
+              <div key={title} className="rounded-xl bg-surface ring-1 ring-border p-4">
+                <p className="mb-1 font-bold text-navy">{title}</p>
+                <p className="text-[15px] leading-relaxed text-muted-foreground">{body}</p>
               </div>
             ))}
           </div>
 
-          <p className="text-base leading-relaxed text-muted-foreground">
+          <p className="text-[17px] leading-[1.75] text-[#3b4658]">
             The pattern is always the same. Good credit opens doors. Bad credit
             either closes them or makes you pay more to get through them. The
             sooner you take this seriously, the better every single one of these
@@ -534,24 +395,24 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
     case "wcm-2":
       return (
         <div>
-          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+          <p className="mb-3 text-xs font-bold tracking-[0.14em] text-[#7a5a22] uppercase">
             Why Credit Matters · Lesson 2
           </p>
-          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="mb-8 text-3xl leading-[1.1] font-extrabold tracking-[-0.03em] text-navy sm:text-4xl">
             The Cost of Bad Credit
           </h1>
 
           <BadCreditCycle />
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             Bad credit doesn&apos;t just mean you get denied sometimes. It means
             you pay more for everything, usually for years. Most people don&apos;t
             realize how much it&apos;s actually costing them because the extra
             money comes out slowly in monthly payments, not all at once.
           </p>
 
-          <p className="mb-3 text-base font-semibold text-foreground">Higher interest rates on everything</p>
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-3 text-lg font-bold text-navy">Higher interest rates on everything</p>
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             Every loan you take out, car, home, personal, comes with an
             interest rate. That rate is determined almost entirely by your
             credit score. A lower score means a higher rate. A higher rate
@@ -559,8 +420,8 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             entire life of the loan.
           </p>
 
-          <p className="mb-3 text-base font-semibold text-foreground">Bigger security deposits</p>
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-3 text-lg font-bold text-navy">Bigger security deposits</p>
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             Landlords who accept applicants with lower credit scores usually
             require two to three months of rent upfront as a deposit. If
             rent is $1,500 a month, that&apos;s $3,000 to $4,500 you need in
@@ -568,8 +429,8 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             That&apos;s money most people don&apos;t have sitting around.
           </p>
 
-          <p className="mb-3 text-base font-semibold text-foreground">Predatory lending</p>
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-3 text-lg font-bold text-navy">Predatory lending</p>
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             This is the dangerous one. When people with bad credit get
             desperate and can&apos;t get approved for a normal loan, they turn to
             payday loans and title loans. These come with interest rates of
@@ -578,8 +439,8 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             a solution. It makes everything worse.
           </p>
 
-          <p className="mb-3 text-base font-semibold text-foreground">The real trap</p>
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-3 text-lg font-bold text-navy">The real trap</p>
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             Here&apos;s what makes bad credit so hard to escape. People with bad
             credit pay more for the same things. That extra money is gone
             every month before they can save anything. Because they can&apos;t
@@ -588,7 +449,7 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             It&apos;s a cycle, and it&apos;s designed to be hard to break out of.
           </p>
 
-          <p className="text-base leading-relaxed text-muted-foreground">
+          <p className="text-[17px] leading-[1.75] text-[#3b4658]">
             Understanding this is why the work is worth it. Every point you
             add to your credit score is money back in your pocket, not just
             once, but every month for years. That adds up to a number that
@@ -600,29 +461,29 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
     case "wcm-3":
       return (
         <div>
-          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+          <p className="mb-3 text-xs font-bold tracking-[0.14em] text-[#7a5a22] uppercase">
             Why Credit Matters · Lesson 3
           </p>
-          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="mb-8 text-3xl leading-[1.1] font-extrabold tracking-[-0.03em] text-navy sm:text-4xl">
             How Much Good Credit Saves You
           </h1>
 
           <SameThingDifferentPrice />
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             Let&apos;s talk real numbers. This is where it stops being abstract
             and starts being the kind of thing you can&apos;t unsee.
           </p>
 
-          <p className="mb-4 text-base font-semibold text-foreground">Buying a home — $300,000 mortgage, 30 years</p>
-          <div className="mb-6 overflow-x-auto rounded-xl border border-border">
+          <p className="mt-2 mb-4 text-xl font-bold tracking-[-0.01em] text-navy">Buying a home — $300,000 mortgage, 30 years</p>
+          <div className="mb-6 overflow-x-auto rounded-2xl bg-card ring-1 ring-border">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-border bg-muted/50">
-                  <th className="px-4 py-3 text-left font-semibold text-foreground">Credit Score</th>
-                  <th className="px-4 py-3 text-left font-semibold text-foreground">Rate</th>
-                  <th className="px-4 py-3 text-left font-semibold text-foreground">Monthly Payment</th>
-                  <th className="px-4 py-3 text-left font-semibold text-foreground">Total Paid</th>
+                <tr className="border-b border-border bg-surface">
+                  <th className="px-4 py-3 text-left font-bold text-navy">Credit Score</th>
+                  <th className="px-4 py-3 text-left font-bold text-navy">Rate</th>
+                  <th className="px-4 py-3 text-left font-bold text-navy">Monthly Payment</th>
+                  <th className="px-4 py-3 text-left font-bold text-navy">Total Paid</th>
                 </tr>
               </thead>
               <tbody>
@@ -630,30 +491,30 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
                   <td className="px-4 py-3 font-medium text-green-600">750+</td>
                   <td className="px-4 py-3 text-muted-foreground">~6.5%</td>
                   <td className="px-4 py-3 text-muted-foreground">~$1,896</td>
-                  <td className="px-4 py-3 font-medium text-foreground">~$682,000</td>
+                  <td className="px-4 py-3 font-semibold text-navy">~$682,000</td>
                 </tr>
                 <tr>
                   <td className="px-4 py-3 font-medium text-red-500">580</td>
                   <td className="px-4 py-3 text-muted-foreground">~9.5%</td>
                   <td className="px-4 py-3 text-muted-foreground">~$2,522</td>
-                  <td className="px-4 py-3 font-medium text-foreground">~$908,000</td>
+                  <td className="px-4 py-3 font-semibold text-navy">~$908,000</td>
                 </tr>
               </tbody>
             </table>
           </div>
-          <p className="mb-8 rounded-lg bg-muted/40 px-4 py-3 text-sm font-medium text-foreground">
+          <p className="mb-8 rounded-xl bg-secondary px-4 py-3 text-[15px] font-medium text-navy">
             That&apos;s a $226,000 difference on the exact same house. Not a bigger house. Not a better neighborhood. The same house.
           </p>
 
-          <p className="mb-4 text-base font-semibold text-foreground">Buying a car — $30,000 loan, 5 years</p>
-          <div className="mb-6 overflow-x-auto rounded-xl border border-border">
+          <p className="mt-2 mb-4 text-xl font-bold tracking-[-0.01em] text-navy">Buying a car — $30,000 loan, 5 years</p>
+          <div className="mb-6 overflow-x-auto rounded-2xl bg-card ring-1 ring-border">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-border bg-muted/50">
-                  <th className="px-4 py-3 text-left font-semibold text-foreground">Credit Score</th>
-                  <th className="px-4 py-3 text-left font-semibold text-foreground">Rate</th>
-                  <th className="px-4 py-3 text-left font-semibold text-foreground">Monthly Payment</th>
-                  <th className="px-4 py-3 text-left font-semibold text-foreground">Total Interest</th>
+                <tr className="border-b border-border bg-surface">
+                  <th className="px-4 py-3 text-left font-bold text-navy">Credit Score</th>
+                  <th className="px-4 py-3 text-left font-bold text-navy">Rate</th>
+                  <th className="px-4 py-3 text-left font-bold text-navy">Monthly Payment</th>
+                  <th className="px-4 py-3 text-left font-bold text-navy">Total Interest</th>
                 </tr>
               </thead>
               <tbody>
@@ -661,35 +522,35 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
                   <td className="px-4 py-3 font-medium text-green-600">750+</td>
                   <td className="px-4 py-3 text-muted-foreground">~5%</td>
                   <td className="px-4 py-3 text-muted-foreground">~$566</td>
-                  <td className="px-4 py-3 font-medium text-foreground">~$3,968</td>
+                  <td className="px-4 py-3 font-semibold text-navy">~$3,968</td>
                 </tr>
                 <tr>
                   <td className="px-4 py-3 font-medium text-red-500">580</td>
                   <td className="px-4 py-3 text-muted-foreground">~15%</td>
                   <td className="px-4 py-3 text-muted-foreground">~$714</td>
-                  <td className="px-4 py-3 font-medium text-foreground">~$12,848</td>
+                  <td className="px-4 py-3 font-semibold text-navy">~$12,848</td>
                 </tr>
               </tbody>
             </table>
           </div>
-          <p className="mb-8 rounded-lg bg-muted/40 px-4 py-3 text-sm font-medium text-foreground">
+          <p className="mb-8 rounded-xl bg-secondary px-4 py-3 text-[15px] font-medium text-navy">
             About $9,000 more in interest on the same car. That&apos;s a vacation. That&apos;s an emergency fund. That&apos;s money gone.
           </p>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             Add those up across a lifetime and good credit saves you well into
             the hundreds of thousands of dollars. That&apos;s not an exaggeration.
             That&apos;s just math.
           </p>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             And this doesn&apos;t even count the credit card rewards, the travel
             benefits, the annual fee waivers for military members, or the
             simple fact that having good credit means you never have to take a
             bad deal because you had no other option. You always have leverage.
           </p>
 
-          <p className="text-base leading-relaxed text-muted-foreground">
+          <p className="text-[17px] leading-[1.75] text-[#3b4658]">
             Now you know why this matters. In the next section we&apos;re going to
             get into exactly how credit works so you understand what actually
             moves your score and what doesn&apos;t.
@@ -765,14 +626,14 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
     case "hcw-1":
       return (
         <div>
-          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+          <p className="mb-3 text-xs font-bold tracking-[0.14em] text-[#7a5a22] uppercase">
             How Credit Works · Lesson 1
           </p>
-          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="mb-8 text-3xl leading-[1.1] font-extrabold tracking-[-0.03em] text-navy sm:text-4xl">
             What Is Credit?
           </h1>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             At its core, credit is a trust system. When you borrow money —
             whether it&apos;s on a credit card, a car loan, or a mortgage — the
             lender is betting that you&apos;ll pay them back. Your credit score is
@@ -781,7 +642,7 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             trust you, and the better the deals they offer you.
           </p>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             The scale runs from 300 to 850. Nobody starts with a perfect score
             and nobody starts at zero. Most people with no credit history at
             all simply don&apos;t have a score yet, which is its own challenge but
@@ -790,8 +651,8 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
 
           <ScoreScale />
 
-          <p className="mb-4 text-base font-semibold text-foreground">Here&apos;s how the tiers break down:</p>
-          <div className="mb-8 overflow-hidden rounded-xl border border-border">
+          <p className="mt-2 mb-4 text-xl font-bold tracking-[-0.01em] text-navy">Here&apos;s how the tiers break down:</p>
+          <div className="mb-8 overflow-hidden rounded-2xl bg-card ring-1 ring-border">
             {[
               { range: "800 – 850", label: "Exceptional", color: "text-green-600", desc: "Best rates on everything. Lenders compete for you." },
               { range: "740 – 799", label: "Very Good", color: "text-green-500", desc: "Close to the best rates. This is the real target." },
@@ -807,7 +668,7 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             ))}
           </div>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             One thing worth knowing: there are two main scoring models. FICO
             is the one most lenders actually use when you apply for a loan or
             credit card. VantageScore is what Credit Karma shows you. They&apos;re
@@ -816,7 +677,7 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             more in the Tracking Your Credit section.
           </p>
 
-          <p className="text-base leading-relaxed text-muted-foreground">
+          <p className="text-[17px] leading-[1.75] text-[#3b4658]">
             For now, the target is 740 and above. That&apos;s where the best rates
             start and where you want to be. Everything in this section explains
             exactly what gets you there.
@@ -827,14 +688,14 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
     case "hcw-2":
       return (
         <div>
-          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+          <p className="mb-3 text-xs font-bold tracking-[0.14em] text-[#7a5a22] uppercase">
             How Credit Works · Lesson 2
           </p>
-          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="mb-8 text-3xl leading-[1.1] font-extrabold tracking-[-0.03em] text-navy sm:text-4xl">
             The 5 Factors of Your Score
           </h1>
 
-          <p className="mb-8 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-8 text-[17px] leading-[1.75] text-[#3b4658]">
             Your credit score isn&apos;t random. It&apos;s calculated from five specific
             factors, each with a different weight. Once you know what they are
             and how much each one counts, you can make decisions that actually
@@ -876,23 +737,23 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
                 body: "Having different types of credit — credit cards, a car loan, a student loan — shows lenders you can handle various kinds of debt. It's the least impactful factor so don't go taking out loans just to improve your mix. But it does matter when everything else is equal.",
               },
             ].map(({ number, factor, weight, body }) => (
-              <div key={number} className="rounded-xl border border-border p-5">
+              <div key={number} className="rounded-2xl bg-card ring-1 ring-border p-5">
                 <div className="mb-3 flex items-center gap-3">
                   <span className="font-mono text-xs text-muted-foreground/50">{number}</span>
-                  <span className="font-semibold text-foreground">{factor}</span>
-                  <span className="ml-auto rounded-full px-2.5 py-0.5 text-xs font-semibold text-white" style={{ background: "var(--brand-600)" }}>
+                  <span className="font-bold text-navy">{factor}</span>
+                  <span className="ml-auto rounded-full px-2.5 py-0.5 text-xs font-semibold text-white bg-navy">
                     {weight}
                   </span>
                 </div>
-                <p className="text-sm leading-relaxed text-muted-foreground">{body}</p>
+                <p className="text-[15px] leading-relaxed text-muted-foreground">{body}</p>
               </div>
             ))}
           </div>
 
           <div className="mt-2 flex flex-col gap-4">
-            <div className="rounded-xl border-2 border-border p-5" style={{ borderColor: "var(--brand-600)" }}>
-              <p className="mb-2 font-bold text-foreground">Rule #1 — Use your credit card like a debit card</p>
-              <p className="text-sm leading-relaxed text-muted-foreground">
+            <div className="rounded-2xl border-2 border-navy p-5">
+              <p className="mb-2 font-bold text-navy">Rule #1 — Use your credit card like a debit card</p>
+              <p className="text-[15px] leading-relaxed text-muted-foreground">
                 Never spend money you don&apos;t already have. If you were going to
                 buy it anyway and the money is sitting in your account, put it
                 on the card — then pay it off. That&apos;s it. You&apos;ll never miss a
@@ -901,9 +762,9 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
               </p>
             </div>
 
-            <div className="rounded-xl border border-border p-5">
-              <p className="mb-2 font-bold text-foreground">Always pay on time — at minimum, the minimum</p>
-              <p className="text-sm leading-relaxed text-muted-foreground">
+            <div className="rounded-2xl bg-card ring-1 ring-border p-5">
+              <p className="mb-2 font-bold text-navy">Always pay on time — at minimum, the minimum</p>
+              <p className="text-[15px] leading-relaxed text-muted-foreground">
                 Pay the full balance every month if you can. If you can&apos;t, pay
                 the statement minimum without fail. That keeps your payment
                 history clean and avoids late fees. Never let a due date pass
@@ -912,9 +773,9 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
               </p>
             </div>
 
-            <div className="rounded-xl border border-border p-5">
-              <p className="mb-2 font-bold text-foreground">Most people start with a $1,000 limit — $300 is already 30%</p>
-              <p className="text-sm leading-relaxed text-muted-foreground">
+            <div className="rounded-2xl bg-card ring-1 ring-border p-5">
+              <p className="mb-2 font-bold text-navy">Most people start with a $1,000 limit — $300 is already 30%</p>
+              <p className="text-[15px] leading-relaxed text-muted-foreground">
                 When you&apos;re starting out, your limit is probably $1,000. That
                 means $300 in charges puts you right at 30% utilization. Pay it
                 in full every month, or keep your balance under $300 at all
@@ -929,14 +790,14 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
     case "hcw-3":
       return (
         <div>
-          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+          <p className="mb-3 text-xs font-bold tracking-[0.14em] text-[#7a5a22] uppercase">
             How Credit Works · Lesson 3
           </p>
-          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="mb-8 text-3xl leading-[1.1] font-extrabold tracking-[-0.03em] text-navy sm:text-4xl">
             What Hurts Your Score
           </h1>
 
-          <p className="mb-8 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-8 text-[17px] leading-[1.75] text-[#3b4658]">
             Most credit damage is avoidable once you know what causes it. Some
             of these are obvious, some are counterintuitive. All of them are
             worth knowing before you make a move.
@@ -975,9 +836,9 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
                 body: "Not having any credit isn't the same as bad credit but lenders see a blank file and have nothing to work with. You can't get approved for much without any history. The solution is starting with a secured card or a credit-builder loan — we'll cover that in a later section.",
               },
             ].map(({ title, severity, body }) => (
-              <div key={title} className="rounded-xl border border-border p-5">
+              <div key={title} className="rounded-2xl bg-card ring-1 ring-border p-5">
                 <div className="mb-2 flex items-center justify-between gap-3">
-                  <p className="font-semibold text-foreground">{title}</p>
+                  <p className="font-bold text-navy">{title}</p>
                   <span className={`shrink-0 rounded-full px-2.5 py-0.5 text-[11px] font-medium ${
                     severity === "High impact"
                       ? "bg-red-500/10 text-red-500"
@@ -986,12 +847,12 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
                     {severity}
                   </span>
                 </div>
-                <p className="text-sm leading-relaxed text-muted-foreground">{body}</p>
+                <p className="text-[15px] leading-relaxed text-muted-foreground">{body}</p>
               </div>
             ))}
           </div>
 
-          <p className="text-base leading-relaxed text-muted-foreground">
+          <p className="text-[17px] leading-[1.75] text-[#3b4658]">
             The good news is none of this is permanent. Every negative mark
             fades over time and your habits going forward matter more than
             what happened in the past. A 530 can become a 750. It just takes
@@ -1068,28 +929,28 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
     case "tyc-1":
       return (
         <div>
-          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+          <p className="mb-3 text-xs font-bold tracking-[0.14em] text-[#7a5a22] uppercase">
             Tracking Your Credit · Lesson 1
           </p>
-          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="mb-8 text-3xl leading-[1.1] font-extrabold tracking-[-0.03em] text-navy sm:text-4xl">
             Credit Karma — Useful but Not Perfect
           </h1>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             Credit Karma is the tool I use and the one I recommend starting
             with. It&apos;s free, it doesn&apos;t hurt your credit to check it, and it
             gives you a real-time look at where you stand. If you don&apos;t have an
             account, go create one right now. It takes five minutes.
           </p>
 
-          <p className="mb-8 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-8 text-[17px] leading-[1.75] text-[#3b4658]">
             Once you&apos;re in, you&apos;ll see your score — but there&apos;s one important
             thing to understand before you put too much weight on that number.
           </p>
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-2 font-semibold text-foreground">Credit Karma shows VantageScore — not FICO</p>
-            <p className="text-sm leading-relaxed text-muted-foreground">
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-2 font-bold text-navy">Credit Karma shows VantageScore — not FICO</p>
+            <p className="text-[15px] leading-relaxed text-muted-foreground">
               Most lenders use FICO when you actually apply for credit. Credit
               Karma uses VantageScore, which is a different model calculated
               differently. Your Credit Karma score and your bank&apos;s FICO score
@@ -1099,7 +960,7 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             </p>
           </div>
 
-          <p className="mb-4 text-base font-semibold text-foreground">The 6 factors Credit Karma breaks down for you:</p>
+          <p className="mt-2 mb-4 text-xl font-bold tracking-[-0.01em] text-navy">The 6 factors Credit Karma breaks down for you:</p>
           <div className="mb-8 flex flex-col gap-3">
             {[
               {
@@ -1127,16 +988,16 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
                 body: "The number of credit accounts you have open and your overall credit mix — cards, loans, auto, etc. Having a variety of account types over time helps, but this is the least impactful of the six.",
               },
             ].map(({ label, body }) => (
-              <div key={label} className="rounded-xl border border-border p-4">
-                <p className="mb-1 text-sm font-semibold text-foreground">{label}</p>
-                <p className="text-sm leading-relaxed text-muted-foreground">{body}</p>
+              <div key={label} className="rounded-2xl bg-card ring-1 ring-border p-4">
+                <p className="mb-1 text-sm font-bold text-navy">{label}</p>
+                <p className="text-[15px] leading-relaxed text-muted-foreground">{body}</p>
               </div>
             ))}
           </div>
 
-          <div className="mb-8 rounded-xl p-5" style={{ background: "var(--brand-600)", opacity: 0.92 }}>
+          <div className="mb-8 rounded-2xl p-5 bg-navy-deep sm:p-6">
             <p className="mb-1 font-semibold text-white">The habit: check it once a month</p>
-            <p className="text-sm leading-relaxed text-white">
+            <p className="text-[15px] leading-relaxed text-[#c9d2e0]">
               Checking your own credit is a soft pull — it never hurts your
               score. Set a reminder to check Credit Karma once a month. You&apos;re
               not obsessing over the number; you&apos;re making sure nothing changed
@@ -1152,30 +1013,30 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
     case "tyc-2":
       return (
         <div>
-          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+          <p className="mb-3 text-xs font-bold tracking-[0.14em] text-[#7a5a22] uppercase">
             Tracking Your Credit · Lesson 2
           </p>
-          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="mb-8 text-3xl leading-[1.1] font-extrabold tracking-[-0.03em] text-navy sm:text-4xl">
             The 3 Bureaus: Equifax, TransUnion & Experian
           </h1>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             There are three major credit bureaus in the US — Equifax,
             TransUnion, and Experian. They&apos;re separate companies that each
             collect and maintain their own credit files on you. Think of them
             as three independent scorekeepers tracking the same game.
           </p>
 
-          <p className="mb-8 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-8 text-[17px] leading-[1.75] text-[#3b4658]">
             Your score can be slightly different across all three. That&apos;s
             normal, and here&apos;s why.
           </p>
 
           <ThreeBureaus />
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-2 font-semibold text-foreground">Not every lender reports to all three</p>
-            <p className="text-sm leading-relaxed text-muted-foreground">
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-2 font-bold text-navy">Not every lender reports to all three</p>
+            <p className="text-[15px] leading-relaxed text-muted-foreground">
               When you open a credit card or take out a loan, that creditor
               chooses which bureau(s) they report your activity to. Some report
               to all three. Some only report to one or two. That means one
@@ -1199,24 +1060,23 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
                 note: "Not shown on Credit Karma. Often the bureau mortgage lenders pull when you apply for a home loan. Worth checking separately.",
               },
             ].map(({ bureau, note }) => (
-              <div key={bureau} className="flex items-start gap-4 rounded-xl border border-border p-4">
+              <div key={bureau} className="flex items-start gap-4 rounded-2xl bg-card ring-1 ring-border p-4">
                 <div
-                  className="flex size-9 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white"
-                  style={{ background: "var(--brand-600)" }}
+                  className="flex size-9 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white bg-navy"
                 >
                   {bureau[0]}
                 </div>
                 <div>
-                  <p className="mb-0.5 font-semibold text-foreground">{bureau}</p>
-                  <p className="text-sm leading-relaxed text-muted-foreground">{note}</p>
+                  <p className="mb-0.5 font-bold text-navy">{bureau}</p>
+                  <p className="text-[15px] leading-relaxed text-muted-foreground">{note}</p>
                 </div>
               </div>
             ))}
           </div>
 
-          <div className="rounded-xl border border-border p-5">
-            <p className="mb-2 font-semibold text-foreground">Applying for a mortgage? They pull all three.</p>
-            <p className="text-sm leading-relaxed text-muted-foreground">
+          <div className="rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-2 font-bold text-navy">Applying for a mortgage? They pull all three.</p>
+            <p className="text-[15px] leading-relaxed text-muted-foreground">
               Mortgage lenders typically pull your score from all three bureaus
               and use your middle score — not the highest, not the lowest. So
               if your scores are 710, 725, and 740, they use 725. That&apos;s
@@ -1230,20 +1090,20 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
     case "tyc-3":
       return (
         <div>
-          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+          <p className="mb-3 text-xs font-bold tracking-[0.14em] text-[#7a5a22] uppercase">
             Tracking Your Credit · Lesson 3
           </p>
-          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="mb-8 text-3xl leading-[1.1] font-extrabold tracking-[-0.03em] text-navy sm:text-4xl">
             The Two Rules That Move Your Score
           </h1>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             We covered the 5 factors in How Credit Works. This is where we
             slow down on the two that matter most — the ones you can actually
             control right now — and make sure they&apos;re clear before moving on.
           </p>
 
-          <p className="mb-8 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-8 text-[17px] leading-[1.75] text-[#3b4658]">
             65% of your score comes down to just two things: whether you pay
             on time, and how much of your credit limit you&apos;re using.
             Everything else is important, but these two will either build your
@@ -1252,19 +1112,19 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
 
           <TwoRules />
 
-          <div className="mb-5 rounded-xl border border-border p-6">
+          <div className="mb-5 rounded-2xl bg-card ring-1 ring-border p-6">
             <div className="mb-4 flex items-center gap-3">
-              <span className="rounded-full px-3 py-1 text-sm font-bold text-white" style={{ background: "var(--brand-600)" }}>35%</span>
-              <p className="text-lg font-bold text-foreground">Rule #1 — Pay on time, every time</p>
+              <span className="rounded-full px-3 py-1 text-sm font-bold text-white bg-navy">35%</span>
+              <p className="text-lg font-bold text-navy">Rule #1 — Pay on time, every time</p>
             </div>
-            <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
+            <p className="mb-4 text-[15px] leading-relaxed text-muted-foreground">
               Payment history is the single biggest factor in your score. One
               missed payment — even one — can drop a good score by 50 to 100
               points and stays on your report for seven years. It doesn&apos;t
               matter if the balance was $20 or $2,000. The late payment itself
               is what does the damage.
             </p>
-            <p className="text-sm leading-relaxed text-muted-foreground">
+            <p className="text-[15px] leading-relaxed text-muted-foreground">
               The simplest fix: set up autopay for at least the minimum payment
               on every card and loan you have. Not the full balance if you
               can&apos;t swing it — just the minimum. That&apos;s all it takes to keep
@@ -1272,25 +1132,25 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             </p>
           </div>
 
-          <div className="mb-8 rounded-xl border border-border p-6">
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-6">
             <div className="mb-4 flex items-center gap-3">
-              <span className="rounded-full px-3 py-1 text-sm font-bold text-white" style={{ background: "var(--brand-600)" }}>30%</span>
-              <p className="text-lg font-bold text-foreground">Rule #2 — Stay under 30%</p>
+              <span className="rounded-full px-3 py-1 text-sm font-bold text-white bg-navy">30%</span>
+              <p className="text-lg font-bold text-navy">Rule #2 — Stay under 30%</p>
             </div>
-            <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
+            <p className="mb-4 text-[15px] leading-relaxed text-muted-foreground">
               Credit utilization is how much of your available credit you&apos;re
               using. If your total credit limit across all your cards is
               $10,000 and you have $3,000 in balances, you&apos;re at 30%. That&apos;s
               the maximum you want to be carrying if you care about your score.
               Ideally you want to be under 10%.
             </p>
-            <p className="mb-5 text-sm leading-relaxed text-muted-foreground">
+            <p className="mb-5 text-[15px] leading-relaxed text-muted-foreground">
               This is the one that trips people up most. You can pay on time
               every single month and still tank your score if your cards are
               maxed out. The balance matters just as much as the payment.
             </p>
 
-            <div className="rounded-lg border border-border bg-muted/30 p-4">
+            <div className="rounded-xl bg-surface ring-1 ring-border p-4">
               <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Quick example</p>
               <div className="flex flex-col gap-2">
                 {[
@@ -1301,7 +1161,7 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
                 ].map(({ limit, balance, util, status, color }) => (
                   <div key={util} className="flex items-center justify-between gap-2 text-sm">
                     <span className="text-muted-foreground">{limit} limit · {balance} balance</span>
-                    <span className="font-mono font-semibold text-foreground">{util}</span>
+                    <span className="font-mono font-bold text-navy">{util}</span>
                     <span className={`text-right text-xs ${color}`}>{status}</span>
                   </div>
                 ))}
@@ -1309,7 +1169,7 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             </div>
           </div>
 
-          <p className="text-base leading-relaxed text-muted-foreground">
+          <p className="text-[17px] leading-[1.75] text-[#3b4658]">
             When you open Credit Karma and look at your score breakdown, these
             are the two numbers to watch first. If payment history is marked
             poor or utilization is above 30%, that&apos;s your starting point.
@@ -1321,21 +1181,21 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
     case "tyc-4":
       return (
         <div>
-          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+          <p className="mb-3 text-xs font-bold tracking-[0.14em] text-[#7a5a22] uppercase">
             Tracking Your Credit · Lesson 4
           </p>
-          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="mb-8 text-3xl leading-[1.1] font-extrabold tracking-[-0.03em] text-navy sm:text-4xl">
             Your Credit Report — and How to Pull It Free
           </h1>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             Your credit score is the number. Your credit report is the full
             story behind that number — every account you&apos;ve ever opened, every
             payment you&apos;ve made or missed, every time someone pulled your
             credit, and any negative marks that are on file.
           </p>
 
-          <p className="mb-8 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-8 text-[17px] leading-[1.75] text-[#3b4658]">
             Think of it this way: the report is your entire credit history
             written out. The score is just a number that summarizes it. Credit
             Karma gives you your score and a view of your accounts, but pulling
@@ -1343,17 +1203,17 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             look at it at least a few times a year.
           </p>
 
-          <div className="mb-8 rounded-xl border-2 p-6 text-center" style={{ borderColor: "var(--brand-600)" }}>
-            <p className="mb-1 text-xs font-semibold uppercase tracking-widest" style={{ color: "var(--brand-600)" }}>The only official free report site</p>
-            <p className="mb-3 text-xl font-bold text-foreground">annualcreditreport.com</p>
-            <p className="mx-auto max-w-sm text-sm leading-relaxed text-muted-foreground">
+          <div className="mb-8 rounded-2xl border-2 border-navy bg-surface p-6 text-center">
+            <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-[#7a5a22]">The only official free report site</p>
+            <p className="mb-3 text-xl font-bold text-navy">annualcreditreport.com</p>
+            <p className="mx-auto max-w-sm text-[15px] leading-relaxed text-muted-foreground">
               Federally authorized. Free reports from all three bureaus —
               Equifax, TransUnion, and Experian. You can pull them weekly at
               no cost. Not monthly, not annually — weekly. Use it.
             </p>
           </div>
 
-          <p className="mb-4 text-base font-semibold text-foreground">When you pull your report, look for these:</p>
+          <p className="mt-2 mb-4 text-xl font-bold tracking-[-0.01em] text-navy">When you pull your report, look for these:</p>
           <div className="mb-8 flex flex-col gap-3">
             {[
               {
@@ -1373,16 +1233,16 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
                 why: "Wrong addresses or misspelled names can indicate mixed files — where another person's credit history got attached to yours.",
               },
             ].map(({ item, why }) => (
-              <div key={item} className="rounded-xl border border-border p-4">
-                <p className="mb-1 text-sm font-semibold text-foreground">{item}</p>
-                <p className="text-sm leading-relaxed text-muted-foreground">{why}</p>
+              <div key={item} className="rounded-2xl bg-card ring-1 ring-border p-4">
+                <p className="mb-1 text-sm font-bold text-navy">{item}</p>
+                <p className="text-[15px] leading-relaxed text-muted-foreground">{why}</p>
               </div>
             ))}
           </div>
 
-          <div className="rounded-xl border border-border p-5">
-            <p className="mb-2 font-semibold text-foreground">Found an error? You can dispute it for free.</p>
-            <p className="text-sm leading-relaxed text-muted-foreground">
+          <div className="rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-2 font-bold text-navy">Found an error? You can dispute it for free.</p>
+            <p className="text-[15px] leading-relaxed text-muted-foreground">
               Each bureau has an online dispute process. You submit the error,
               they investigate, and if it&apos;s wrong it gets removed. Removing one
               incorrect late payment or a collection that isn&apos;t yours can push
@@ -1461,14 +1321,14 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
     case "pyc-1":
       return (
         <div>
-          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+          <p className="mb-3 text-xs font-bold tracking-[0.14em] text-[#7a5a22] uppercase">
             Protecting Your Credit · Lesson 1
           </p>
-          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="mb-8 text-3xl leading-[1.1] font-extrabold tracking-[-0.03em] text-navy sm:text-4xl">
             Freeze Your Credit — Do This Now
           </h1>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             A credit freeze is the single most effective thing you can do to
             protect yourself. It locks your credit file so that no lender can
             pull your credit and no new account can be opened in your name —
@@ -1477,7 +1337,7 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             minutes to set up.
           </p>
 
-          <p className="mb-8 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-8 text-[17px] leading-[1.75] text-[#3b4658]">
             If you haven&apos;t done this yet, stop here and do it before you finish
             this lesson.
           </p>
@@ -1500,25 +1360,24 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
                 note: "Create an account, go to Freeze Center, and select Add a Security Freeze.",
               },
             ].map(({ bureau, url, note }) => (
-              <div key={bureau} className="rounded-xl border border-border p-4">
+              <div key={bureau} className="rounded-2xl bg-card ring-1 ring-border p-4">
                 <div className="mb-1 flex items-center gap-2">
                   <div
-                    className="flex size-7 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white"
-                    style={{ background: "var(--brand-600)" }}
+                    className="flex size-7 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white bg-navy"
                   >
                     {bureau[0]}
                   </div>
-                  <p className="font-semibold text-foreground">{bureau}</p>
+                  <p className="font-bold text-navy">{bureau}</p>
                 </div>
                 <p className="mb-1 font-mono text-xs text-muted-foreground/70">{url}</p>
-                <p className="text-sm leading-relaxed text-muted-foreground">{note}</p>
+                <p className="text-[15px] leading-relaxed text-muted-foreground">{note}</p>
               </div>
             ))}
           </div>
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-2 font-semibold text-foreground">When you want to apply for something, unfreeze first</p>
-            <p className="text-sm leading-relaxed text-muted-foreground">
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-2 font-bold text-navy">When you want to apply for something, unfreeze first</p>
+            <p className="text-[15px] leading-relaxed text-muted-foreground">
               A freeze doesn&apos;t mean your credit is locked forever. When you
               actually want to apply for a card, loan, or apartment, you just
               log in to each bureau and temporarily lift the freeze. Takes a
@@ -1527,9 +1386,9 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             </p>
           </div>
 
-          <div className="mb-8 rounded-xl border border-border p-5">
-            <p className="mb-2 font-semibold text-foreground">Fraud alert — the lighter version</p>
-            <p className="text-sm leading-relaxed text-muted-foreground">
+          <div className="mb-8 rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-2 font-bold text-navy">Fraud alert — the lighter version</p>
+            <p className="text-[15px] leading-relaxed text-muted-foreground">
               If you&apos;re not ready to fully freeze, a fraud alert is a step down.
               It doesn&apos;t block lenders — it just tells them to take extra steps
               to verify your identity before opening anything. Easier to manage
@@ -1546,14 +1405,14 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
     case "pyc-2":
       return (
         <div>
-          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+          <p className="mb-3 text-xs font-bold tracking-[0.14em] text-[#7a5a22] uppercase">
             Protecting Your Credit · Lesson 2
           </p>
-          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="mb-8 text-3xl leading-[1.1] font-extrabold tracking-[-0.03em] text-navy sm:text-4xl">
             Why Good Credit Makes You a Target
           </h1>
 
-          <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-5 text-[17px] leading-[1.75] text-[#3b4658]">
             Here&apos;s the irony nobody tells you — the better your credit gets,
             the more valuable your identity becomes to steal. A scammer with a
             750-score identity can open $15,000 to $20,000 in credit in a
@@ -1561,7 +1420,7 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             They want yours.
           </p>
 
-          <p className="mb-8 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-8 text-[17px] leading-[1.75] text-[#3b4658]">
             This is especially true for military members and veterans. Steady
             income, VA benefits, and the fact that you move frequently and
             sometimes deploy for months at a time makes you a specific target.
@@ -1569,7 +1428,7 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             country and not checking your accounts.
           </p>
 
-          <p className="mb-4 text-base font-semibold text-foreground">How they get to you:</p>
+          <p className="mt-2 mb-4 text-xl font-bold tracking-[-0.01em] text-navy">How they get to you:</p>
           <div className="mb-8 flex flex-col gap-3">
             {[
               {
@@ -1589,14 +1448,14 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
                 body: "You're overseas for 6 months and someone back home opens 3 cards in your name. By the time you get back, they've maxed them out and disappeared. Freezing your credit before you deploy eliminates this.",
               },
             ].map(({ title, body }) => (
-              <div key={title} className="rounded-xl border border-border p-4">
-                <p className="mb-1 text-sm font-semibold text-foreground">{title}</p>
-                <p className="text-sm leading-relaxed text-muted-foreground">{body}</p>
+              <div key={title} className="rounded-2xl bg-card ring-1 ring-border p-4">
+                <p className="mb-1 text-sm font-bold text-navy">{title}</p>
+                <p className="text-[15px] leading-relaxed text-muted-foreground">{body}</p>
               </div>
             ))}
           </div>
 
-          <p className="mb-4 text-base font-semibold text-foreground">Red flags to watch for on Credit Karma:</p>
+          <p className="mt-2 mb-4 text-xl font-bold tracking-[-0.01em] text-navy">Red flags to watch for on Credit Karma:</p>
           <div className="mb-8 flex flex-col gap-2">
             {[
               "A hard inquiry from a lender you've never heard of",
@@ -1612,7 +1471,7 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
             ))}
           </div>
 
-          <p className="text-base leading-relaxed text-muted-foreground">
+          <p className="text-[17px] leading-[1.75] text-[#3b4658]">
             Any one of these is worth investigating immediately. Don&apos;t assume
             it&apos;s a glitch or wait to see what happens. The next lesson covers
             exactly what to do if you think something is wrong.
@@ -1623,14 +1482,14 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
     case "pyc-3":
       return (
         <div>
-          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+          <p className="mb-3 text-xs font-bold tracking-[0.14em] text-[#7a5a22] uppercase">
             Protecting Your Credit · Lesson 3
           </p>
-          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="mb-8 text-3xl leading-[1.1] font-extrabold tracking-[-0.03em] text-navy sm:text-4xl">
             If It Happens to You
           </h1>
 
-          <p className="mb-8 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-8 text-[17px] leading-[1.75] text-[#3b4658]">
             Identity theft feels overwhelming when it hits. The most important
             thing is to move fast and stay organized. Here&apos;s the exact order
             of what to do.
@@ -1664,24 +1523,23 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
                 body: "Save every confirmation number, every email, every letter. If this goes to a dispute process, documentation is everything. Take screenshots, write down the date and time of every call, and get names when you talk to someone.",
               },
             ].map(({ step, title, body }) => (
-              <div key={step} className="flex gap-4 rounded-xl border border-border p-5">
+              <div key={step} className="flex gap-4 rounded-2xl bg-card ring-1 ring-border p-5">
                 <div
-                  className="flex size-8 shrink-0 items-center justify-center rounded-full text-sm font-bold text-white"
-                  style={{ background: "var(--brand-600)" }}
+                  className="flex size-8 shrink-0 items-center justify-center rounded-full text-sm font-bold text-white bg-navy"
                 >
                   {step}
                 </div>
                 <div>
-                  <p className="mb-1 font-semibold text-foreground">{title}</p>
-                  <p className="text-sm leading-relaxed text-muted-foreground">{body}</p>
+                  <p className="mb-1 font-bold text-navy">{title}</p>
+                  <p className="text-[15px] leading-relaxed text-muted-foreground">{body}</p>
                 </div>
               </div>
             ))}
           </div>
 
-          <div className="rounded-xl border border-border p-5">
-            <p className="mb-2 font-semibold text-foreground">What about disputing legitimate errors?</p>
-            <p className="text-sm leading-relaxed text-muted-foreground">
+          <div className="rounded-2xl bg-card ring-1 ring-border p-5">
+            <p className="mb-2 font-bold text-navy">What about disputing legitimate errors?</p>
+            <p className="text-[15px] leading-relaxed text-muted-foreground">
               Not everything wrong on your report is fraud. Sometimes a payment
               gets marked late by mistake, an old debt that should have fallen
               off is still showing, or a balance is reported incorrectly. The
@@ -1697,20 +1555,20 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
     case "pyc-4":
       return (
         <div>
-          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+          <p className="mb-3 text-xs font-bold tracking-[0.14em] text-[#7a5a22] uppercase">
             Protecting Your Credit · Lesson 4
           </p>
-          <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="mb-8 text-3xl leading-[1.1] font-extrabold tracking-[-0.03em] text-navy sm:text-4xl">
             Services & Habits That Keep You Safe
           </h1>
 
-          <p className="mb-8 text-base leading-relaxed text-muted-foreground">
+          <p className="mb-8 text-[17px] leading-[1.75] text-[#3b4658]">
             Freezing your credit is the foundation. These are the extra layers
             — tools and habits that make it significantly harder for anyone to
             get to you in the first place.
           </p>
 
-          <p className="mb-4 text-base font-semibold text-foreground">Services worth knowing about</p>
+          <p className="mt-2 mb-4 text-xl font-bold tracking-[-0.01em] text-navy">Services worth knowing about</p>
           <div className="mb-8 flex flex-col gap-4">
             {[
               {
@@ -1734,17 +1592,17 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
                 what: "All-in-one identity protection services that monitor your SSN, bank accounts, credit, and the dark web — and come with identity theft insurance up to $1 million if something happens. Worth it if you want everything in one place and peace of mind.",
               },
             ].map(({ name, cost, what }) => (
-              <div key={name} className="rounded-xl border border-border p-5">
+              <div key={name} className="rounded-2xl bg-card ring-1 ring-border p-5">
                 <div className="mb-2 flex items-center justify-between">
-                  <p className="font-semibold text-foreground">{name}</p>
+                  <p className="font-bold text-navy">{name}</p>
                   <span className="rounded-full border border-border px-2.5 py-0.5 text-xs text-muted-foreground">{cost}</span>
                 </div>
-                <p className="text-sm leading-relaxed text-muted-foreground">{what}</p>
+                <p className="text-[15px] leading-relaxed text-muted-foreground">{what}</p>
               </div>
             ))}
           </div>
 
-          <p className="mb-4 text-base font-semibold text-foreground">The habits that actually matter</p>
+          <p className="mt-2 mb-4 text-xl font-bold tracking-[-0.01em] text-navy">The habits that actually matter</p>
           <div className="mb-8 flex flex-col gap-3">
             {[
               {
@@ -1772,14 +1630,14 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
                 detail: "Anything with your name, account number, or address gets shredded — not just tossed. Dumpster diving is a real thing.",
               },
             ].map(({ habit, detail }) => (
-              <div key={habit} className="rounded-xl border border-border p-4">
-                <p className="mb-1 text-sm font-semibold text-foreground">{habit}</p>
-                <p className="text-sm leading-relaxed text-muted-foreground">{detail}</p>
+              <div key={habit} className="rounded-2xl bg-card ring-1 ring-border p-4">
+                <p className="mb-1 text-sm font-bold text-navy">{habit}</p>
+                <p className="text-[15px] leading-relaxed text-muted-foreground">{detail}</p>
               </div>
             ))}
           </div>
 
-          <p className="text-base leading-relaxed text-muted-foreground">
+          <p className="text-[17px] leading-[1.75] text-[#3b4658]">
             You don&apos;t have to do all of this at once. Start with the freeze if
             you haven&apos;t, set up transaction alerts today, and add the rest over
             time. Each layer you add makes you a harder target. The goal isn&apos;t
@@ -1857,10 +1715,10 @@ function LessonContent({ lessonId, onQuizPass }: { lessonId: string; onQuizPass?
     default:
       return (
         <div>
-          <h1 className="mb-6 text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="mb-6 text-3xl leading-[1.1] font-extrabold tracking-[-0.03em] text-navy sm:text-4xl">
             Coming Soon
           </h1>
-          <p className="text-base leading-relaxed text-muted-foreground">
+          <p className="text-[17px] leading-[1.75] text-[#3b4658]">
             This lesson is still being written. Check back soon.
           </p>
         </div>
