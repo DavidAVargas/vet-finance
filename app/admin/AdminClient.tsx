@@ -42,11 +42,13 @@ export default function AdminClient({
   membersByCode,
   feedbackCount,
   waitlistCount,
+  siteUrl,
 }: {
   inviteCodes: InviteCode[];
   membersByCode: Record<string, Member[]>;
   feedbackCount: number;
   waitlistCount: number;
+  siteUrl: string;
 }) {
   const [codes, setCodes] = useState(initial);
   const [newCode, setNewCode] = useState("");
@@ -150,7 +152,7 @@ export default function AdminClient({
   };
 
   const copyLink = (code: string) => {
-    navigator.clipboard.writeText(`${window.location.origin}/join/${code}`);
+    navigator.clipboard.writeText(`${siteUrl}/join/${code}`);
     setCopied(`link:${code}`);
     setTimeout(() => setCopied(null), 2000);
   };

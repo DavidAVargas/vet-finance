@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { headers } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 import QRCode from "qrcode";
 import { ChevronLeft } from "lucide-react";
@@ -11,6 +10,7 @@ import { adminAccess } from "@/lib/admin-gate";
 import { isCodeAndCoffee } from "@/lib/invite-code";
 import { checkInvite } from "@/lib/invites";
 import { prisma } from "@/lib/prisma";
+import { siteOrigin } from "@/lib/site-url";
 
 export const metadata: Metadata = { title: "Present invite · Vet Finance", robots: { index: false, follow: false } };
 
@@ -22,10 +22,7 @@ export default async function PresentInvitePage({ params }: { params: Promise<{ 
   const invite = await prisma.inviteCode.findUnique({ where: { id } });
   if (!invite) notFound();
 
-  const h = await headers();
-  const host = h.get("x-forwarded-host") ?? h.get("host") ?? "localhost:3000";
-  const proto = h.get("x-forwarded-proto") ?? (host.startsWith("localhost") ? "http" : "https");
-  const url = `${proto}://${host}/join/${invite.code}`;
+  const url = `${await siteOrigin()}/join/${invite.code}`;
   const qr = await QRCode.toString(url, {
     type: "svg",
     margin: 1,

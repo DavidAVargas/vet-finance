@@ -2,6 +2,7 @@ import { clerkClient } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { adminAccess } from "@/lib/admin-gate";
 import { prisma } from "@/lib/prisma";
+import { siteOrigin } from "@/lib/site-url";
 import AdminClient, { type Member } from "./AdminClient";
 
 export default async function AdminPage() {
@@ -31,5 +32,5 @@ export default async function AdminPage() {
     });
   }
 
-  return <AdminClient inviteCodes={inviteCodes} membersByCode={membersByCode} feedbackCount={feedbackCount} waitlistCount={waitlistCount} />;
+  return <AdminClient inviteCodes={inviteCodes} membersByCode={membersByCode} feedbackCount={feedbackCount} waitlistCount={waitlistCount} siteUrl={await siteOrigin()} />;
 }
